@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第 4 页 | IO buffer</title>
+  <title>第 4 页 | output stream</title>
   <meta name="author" content="yakun.cyk">
   
-  <meta name="description" content="记录技术生活的点点滴滴">
+  <meta name="description" content="主要内容可能关于 web 技术，感慨心得...">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-  <meta property="og:site_name" content="IO buffer"/>
+  <meta property="og:site_name" content="output stream"/>
 
   
     <meta property="og:image" content="undefined"/>
@@ -49,7 +49,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a class="navbar-brand" href="/">IO buffer</a>
+	  <a class="navbar-brand" href="/">output stream</a>
       <div class="collapse navbar-collapse nav-menu">
 		<ul class="nav navbar-nav">
 		  
@@ -85,24 +85,114 @@
 
   <div class="container">
   	<div class="content">
-    	 <div class="page-header">
-  <h1>IO buffer</h1>
-</div>
-
-<div class="row page">
+    	 <div class="row page">
 
 	
 	<div class="col-md-9">
 	
 
 		<div class="slogan">
-      <i class="fa fa-heart"></i>
-      知行合一
+      <!--
+        <i class="fa fa-heart"></i> 
+      -->
+      
 </div>    
 		<div id="top_search"></div>
 		<div class="mypage">
 		
 		<!-- title and entry -->
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-06-28 </div>
+			<div class="article-title"><a href="/2015/06/28/2014-08-10-javascript启示录书摘/" >javascript启示录书摘</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="JavaScript-对象"><a href="#JavaScript-对象" class="headerlink" title="JavaScript 对象"></a>JavaScript 对象</h2><h3 id="JavaScript-构造函数"><a href="#JavaScript-构造函数" class="headerlink" title="JavaScript 构造函数"></a>JavaScript 构造函数</h3><p>如果使用 new 调用某函数，该函数则担任一个特殊的角色，将函数的 this 值设置为正在构建的新对象。并且构造函数还默认返回这个新构建的对象（即 this）。这个返回的新对象认为是构建该对象的构造函数的实例。</p>
+<h3 id="typeof-操作符"><a href="#typeof-操作符" class="headerlink" title="typeof 操作符"></a>typeof 操作符</h3><p>typeof 操作符用于返回正在使用值的类型。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNull = <span class="literal">null</span>;         <span class="comment">// typeof myNull : object</span></div><div class="line"><span class="keyword">var</span> myUndefined = <span class="literal">null</span>;    <span class="comment">// undefined</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'str'</span>;           <span class="comment">// string</span></div><div class="line"><span class="keyword">var</span> str = <span class="built_in">String</span>(<span class="string">'str'</span>);   <span class="comment">// string, 没有 new，不会返回对象</span></div><div class="line"><span class="keyword">var</span> num = <span class="number">1</span>;               <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> num = <span class="built_in">Number</span>(<span class="string">'1'</span>);     <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> bol = <span class="literal">true</span>;            <span class="comment">// boolean</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> num = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="string">'1'</span>); <span class="comment">// object, new</span></div><div class="line"><span class="keyword">var</span> str = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'a'</span>); <span class="comment">// object, new</span></div></pre></td></tr></table></figure></p>
+<h3 id="contructor属性"><a href="#contructor属性" class="headerlink" title="contructor属性"></a>contructor属性</h3><p>碰到用 new 操作符实例化出来的对象，typeof 就无能为力了。这时，可以用 constructor 属性。</p>
+<table>
+<thead>
+<tr>
+<th>obj</th>
+<th>obj.constructor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>obj = new Number(‘21’);</td>
+<td>Number</td>
+</tr>
+<tr>
+<td>obj = 1;</td>
+<td>Number</td>
+</tr>
+<tr>
+<td>obj = new String(‘abc’);</td>
+<td>String</td>
+</tr>
+<tr>
+<td>obj = ‘abc’</td>
+<td>String</td>
+</tr>
+<tr>
+<td>obj = true;</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>obj = new Object();</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>obj = {};</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>obj = new Array();</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>obj = new Function();</td>
+<td>Function</td>
+</tr>
+<tr>
+<td>obj = function(){ }; //字面量方式</td>
+<td>Function</td>
+</tr>
+</tbody>
+</table>
+<h3 id="instanceof-操作符"><a href="#instanceof-操作符" class="headerlink" title="instanceof 操作符"></a>instanceof 操作符</h3><p>instanceof 操作符可以验证指定对象是否是某个构造函数的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">instanceObj <span class="keyword">instanceof</span> ConstructorFunction</div></pre></td></tr></table></figure></p>
+<p>任何对象 instanceof Object 总是返回 true。</p>
+<p><code>instanceof 只适用于 new 构造函数创建返回的复杂对象和实例</code></p>
+<h2 id="对象与属性"><a href="#对象与属性" class="headerlink" title="对象与属性"></a>对象与属性</h2><h3 id="删除对象属性"><a href="#删除对象属性" class="headerlink" title="删除对象属性"></a>删除对象属性</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = &#123; <span class="attr">bar</span>: <span class="string">'bar'</span> &#125;;</div><div class="line"><span class="keyword">delete</span> foo.bar;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'bar'</span> <span class="keyword">in</span> foo); <span class="comment">// false,in 操作符不仅不仅能检查对象自身的属性而且能检查通过原型链继承过来的属性</span></div></pre></td></tr></table></figure>
+<p>##head 对象</p>
+<h3 id="什么是-head-对象"><a href="#什么是-head-对象" class="headerlink" title="什么是 head 对象"></a>什么是 head 对象</h3><p>JavaScript 代码本身必须包含在对象内部。比如，在 Web 浏览器环境中编写 JavaScript 代码时，JavaScript 被包含在 window 对象内，并在其内部执行。这个 window 对象被认为实 “head” 对象。</p>
+<p>head 对象是由 JavaScript 在幕后创建，用于封装用户自定义代码，并容纳 JavaScript 预定义的原生代码。在编写 Javascript 代码时，它将被编写在 head 对象的上下文中。</p>
+<h3 id="head-对象内的全局函数"><a href="#head-对象内的全局函数" class="headerlink" title="head 对象内的全局函数"></a>head 对象内的全局函数</h3><ul>
+<li>decodeURL()</li>
+<li>decodeURLComponent()</li>
+<li>encodeURI()</li>
+<li>encodeURIComponent()</li>
+<li>eval()</li>
+<li>isFinite()</li>
+<li>isNaN()</li>
+<li>parseFloat()</li>
+<li>parseInt()</li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2015/06/28/2014-08-10-javascript启示录书摘/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
 		
 			
 	
@@ -494,47 +584,6 @@
 </div>
 
 		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2015-06-22 </div>
-			<div class="article-title"><a href="/2015/06/22/代码质量的分类/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#代码质量的分类</p>
-<p>##代码质量</p>
-<ol>
-<li>Coding style</li>
-<li>JSLint/JSHint</li>
-<li>CSSLint</li>
-<li>Markup Validation Service</li>
-</ol>
-<p>##单元测试</p>
-<ol>
-<li>QUnit/Jasmine</li>
-<li>Mocha/Should/Chai/Expect</li>
-</ol>
-<p>##自动化测试</p>
-<ol>
-<li>WebDriver/Karma Runner/Sahi</li>
-<li>phantomjs</li>
-<li><a href="https://github.com/laurentj/slimerjs" target="_blank" rel="external">https://github.com/laurentj/slimerjs</a></li>
-<li><a href="http://casperjs.org/" target="_blank" rel="external">http://casperjs.org/</a></li>
-</ol>
-
-	
-	</div>
-  <a type="button" href="/2015/06/22/代码质量的分类/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
 
 		</div>
 
@@ -608,8 +657,6 @@
 		
 			<li><a href="/categories/tool/">tool<span>3</span></a></li>
 		
-			<li><a href="/categories/感悟/">感悟<span>1</span></a></li>
-		
 		</ul>
 	</div>
 
@@ -619,45 +666,45 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
 		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
-		
-			<li><a href="/tags/document/">document<span>1</span></a></li>
-		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
-		
-			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
 		
 			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
 		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
-		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
-		
 			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>2</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+		
+			<li><a href="/tags/document/">document<span>1</span></a></li>
 		
 			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
 		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
 		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
 		
-			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
+			<li><a href="/tags/build/">build<span>2</span></a></li>
 		
-			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+		
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
+		
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
+		
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+		
+			<li><a href="/tags/library/">library<span>3</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>38</span></a></li>
@@ -673,6 +720,10 @@
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2017/01/02/新的一年-2017/" ><i class="fa fa-file-o"></i>新的一年, 2017</a>
+      </li>
+    
+      <li>
         <a href="/2015/10/27/what_is_true/" ><i class="fa fa-file-o"></i>实际情况是什么样的</a>
       </li>
     
@@ -686,10 +737,6 @@
     
       <li>
         <a href="/2015/10/23/怎么写出好代码/" ><i class="fa fa-file-o"></i>怎么写出好代码</a>
-      </li>
-    
-      <li>
-        <a href="/2015/10/23/node-stream/" ><i class="fa fa-file-o"></i>node stream</a>
       </li>
     
   </ul>

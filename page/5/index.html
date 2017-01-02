@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第 5 页 | IO buffer</title>
+  <title>第 5 页 | output stream</title>
   <meta name="author" content="yakun.cyk">
   
-  <meta name="description" content="记录技术生活的点点滴滴">
+  <meta name="description" content="主要内容可能关于 web 技术，感慨心得...">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-  <meta property="og:site_name" content="IO buffer"/>
+  <meta property="og:site_name" content="output stream"/>
 
   
     <meta property="og:image" content="undefined"/>
@@ -49,7 +49,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a class="navbar-brand" href="/">IO buffer</a>
+	  <a class="navbar-brand" href="/">output stream</a>
       <div class="collapse navbar-collapse nav-menu">
 		<ul class="nav navbar-nav">
 		  
@@ -85,24 +85,63 @@
 
   <div class="container">
   	<div class="content">
-    	 <div class="page-header">
-  <h1>IO buffer</h1>
-</div>
-
-<div class="row page">
+    	 <div class="row page">
 
 	
 	<div class="col-md-9">
 	
 
 		<div class="slogan">
-      <i class="fa fa-heart"></i>
-      知行合一
+      <!--
+        <i class="fa fa-heart"></i> 
+      -->
+      
 </div>    
 		<div id="top_search"></div>
 		<div class="mypage">
 		
 		<!-- title and entry -->
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-06-22 </div>
+			<div class="article-title"><a href="/2015/06/22/代码质量的分类/" ></a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>#代码质量的分类</p>
+<p>##代码质量</p>
+<ol>
+<li>Coding style</li>
+<li>JSLint/JSHint</li>
+<li>CSSLint</li>
+<li>Markup Validation Service</li>
+</ol>
+<p>##单元测试</p>
+<ol>
+<li>QUnit/Jasmine</li>
+<li>Mocha/Should/Chai/Expect</li>
+</ol>
+<p>##自动化测试</p>
+<ol>
+<li>WebDriver/Karma Runner/Sahi</li>
+<li>phantomjs</li>
+<li><a href="https://github.com/laurentj/slimerjs" target="_blank" rel="external">https://github.com/laurentj/slimerjs</a></li>
+<li><a href="http://casperjs.org/" target="_blank" rel="external">http://casperjs.org/</a></li>
+</ol>
+
+	
+	</div>
+  <a type="button" href="/2015/06/22/代码质量的分类/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
 		
 			
 	
@@ -628,82 +667,6 @@
 </div>
 
 		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2015-05-25 </div>
-			<div class="article-title"><a href="/2015/05/25/css书写规范/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>css 编写习惯</p>
-<ol>
-<li><p>分区, 看过视觉稿之后，我们可以得出该视觉稿有9个独立区块，所以我们描写结构的css文件中的区块样式定义最多为9块</p>
-</li>
-<li><p>抽象, 考虑哪些局部分类的样式是基本相似的, 可以抽出来复用. </p>
-<ul>
-<li><p>比如字体, 颜色做成复用的样式, 所以在分区的基础上再加一个定义块, 用于编写复用的样式; </p>
-</li>
-<li><p>比如使用 css sprite 图时, 不应每使用一次图片就引用一次, 而是应该定义一个工公用的样式.</p>
-</li>
-<li><p>把定义背景的代码也放在一处, 便于维护</p>
-</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p>css文件中定义样式区块的数量 = 页面最多区块数 + 公共区块 + 背景图区块 </p>
-</blockquote>
-<ul>
-<li><p>IE6下如果背景图在各处定义，那么它将导致背景图多次被请求，加大服务器开销</p>
-</li>
-<li><p>构思 css 文件中的代码结构</p>
-</li>
-</ul>
-<blockquote>
-<p>css代码结构先后循序为：背景图定义、公用定义、各个页面区块定义，两个代码区块之间请用回车键换行隔开</p>
-</blockquote>
-<pre><code>/* 背景图 */
-.part-a .background,
-.part-b .background,
-.part-c .background{background:url(&quot;http://www.aissa.me/fuck/you/once.png&quot;) no-repeat;}
-
-/* 公用 */
-.link:link,
-.link:visited{color:#06c; text-decoration:none;}
-.link:hover{color:#ff7300; text-decoration:underline;}
-.margin-top-8px{margin-top:8px;}
-
-/* 区块一 */
-.part-a{width:400px; height:300px;}
-.part-a .background{background-position:-50px -100px; width:100px; height:150px;}
-.part-a .class-a{width:100px; height:100px;}
-......
-
-/* 区块二 */
-.part-b{width:400px; height:300px;}
-.part-b .background{background-position:-50px -100px; width:100px; height:150px;}
-.part-b .class-a{width:100px; height:100px;}
-......
-
-/* 区块三 */
-.part-c{width:400px; height:300px;}
-.part-c .background{background-position:-50px -100px; width:100px; height:150px;}
-.part-c .class-a{width:100px; height:100px;}
-......
-</code></pre>
-	
-	</div>
-  <a type="button" href="/2015/05/25/css书写规范/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
 
 		</div>
 
@@ -777,8 +740,6 @@
 		
 			<li><a href="/categories/tool/">tool<span>3</span></a></li>
 		
-			<li><a href="/categories/感悟/">感悟<span>1</span></a></li>
-		
 		</ul>
 	</div>
 
@@ -788,45 +749,45 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
-		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
-		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
-		
-			<li><a href="/tags/随想/">随想<span>1</span></a></li>
-		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
 		
 			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
 		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
 		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
-		
-			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
 		
 			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
 		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
 		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
 		
-			<li><a href="/tags/document/">document<span>1</span></a></li>
+			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
 		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/http/">http<span>2</span></a></li>
 		
 			<li><a href="/tags/default/">default<span>1</span></a></li>
 		
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+		
 			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+		
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+		
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/document/">document<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>38</span></a></li>
@@ -842,6 +803,10 @@
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2017/01/02/新的一年-2017/" ><i class="fa fa-file-o"></i>新的一年, 2017</a>
+      </li>
+    
+      <li>
         <a href="/2015/10/27/what_is_true/" ><i class="fa fa-file-o"></i>实际情况是什么样的</a>
       </li>
     
@@ -855,10 +820,6 @@
     
       <li>
         <a href="/2015/10/23/怎么写出好代码/" ><i class="fa fa-file-o"></i>怎么写出好代码</a>
-      </li>
-    
-      <li>
-        <a href="/2015/10/23/node-stream/" ><i class="fa fa-file-o"></i>node stream</a>
       </li>
     
   </ul>

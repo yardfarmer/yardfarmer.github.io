@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第 9 页 | IO buffer</title>
+  <title>第 9 页 | output stream</title>
   <meta name="author" content="yakun.cyk">
   
-  <meta name="description" content="记录技术生活的点点滴滴">
+  <meta name="description" content="主要内容可能关于 web 技术，感慨心得...">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-  <meta property="og:site_name" content="IO buffer"/>
+  <meta property="og:site_name" content="output stream"/>
 
   
     <meta property="og:image" content="undefined"/>
@@ -49,7 +49,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-	  <a class="navbar-brand" href="/">IO buffer</a>
+	  <a class="navbar-brand" href="/">output stream</a>
       <div class="collapse navbar-collapse nav-menu">
 		<ul class="nav navbar-nav">
 		  
@@ -85,24 +85,89 @@
 
   <div class="container">
   	<div class="content">
-    	 <div class="page-header">
-  <h1>IO buffer</h1>
-</div>
-
-<div class="row page">
+    	 <div class="row page">
 
 	
 	<div class="col-md-9">
 	
 
 		<div class="slogan">
-      <i class="fa fa-heart"></i>
-      知行合一
+      <!--
+        <i class="fa fa-heart"></i> 
+      -->
+      
 </div>    
 		<div id="top_search"></div>
 		<div class="mypage">
 		
 		<!-- title and entry -->
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-ajax_deferred_promise/" >ajax</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最本质的 ajax 其实是这样的：</p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/Lnbvv/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+<p>jQuery 出现后，在发出Ajax请求时，jQuery会帮我们确定取得数据的最佳方式。可用的方式包括标准的XMLHttpRequest对象、ms的ActiveX对象XMLHTTP 或 script 标签。</p>
+<p>由于不同请求使用的数据传输方式可能不一样，那我们就需要一个公共的接口与这些通信交互。为此，jqXHR对象提供了这种接口在 XMLHttpRequest对象可用的情况下，封装该对象的行为；在XMLHttpRequest对象不可用的情况下，则尽可能模拟它。这个对象提供给我们的属性和方法包括：</p>
+<ul>
+<li>包含返回数据的 .responseText或.responseXML；</li>
+<li>包含状态码和状态描述的 .status和.statusText；</li>
+<li>操作与请求一起发送的HTTP头部的.setRequestHeader()；</li>
+<li>提早中断通信的.abort()</li>
+</ul>
+<p>jQuery的所有 Ajax 方法都会返回jqXHR对象，只要把这个对象保存起来，随后就可以方便地使用这些属性和方法。</p>
+<p>乍一看，调用.done()和.fail()与之前的写法相比并没有明显的好处。可是，这两个承诺方法的确是有好处的。第一，可以多次调用这两个方法，根据需要添加多个处理程序。</p>
+<p>第二，如果把调用$.ajax()的结果保存在一个变量中，那么就可以考虑代码的可读性，在后面再添加处理程序。</p>
+<p>第三，如果在添加处理程序的时候Ajax操作已经完成，就会立即调用该处理程序。</p>
+<p>第四，我们最好采用与jQuery库中其他代码一致的语法，这带来的好处不言而喻。</p>
+<hr>
+<h2 id="Promise-对象和Deferred-对象"><a href="#Promise-对象和Deferred-对象" class="headerlink" title="Promise 对象和Deferred 对象"></a>Promise 对象和Deferred 对象</h2><pre><code>// jQuery 1.4 
+// &quot;马上就要&quot;
+$.get(&apos;/mydata&apos;, {
+    success: onSuccess,
+    failure: onFailure,
+    always: onAlways
+});
+
+// jQuery 1.5
+// 分期交付
+var promise = $.get(&apos;/mydata&apos;);
+    promise.done(onSuccess);
+    promise.fail(onFailure);
+    promise.always(onAlways);
+</code></pre><p>jQuery 1.5 改变了 Ajax 那种“马上就要”的态度。我们喜爱的所有 Ajax 函数（$.ajax、$.get 及$.post）现在都会返回Promise（承诺）对象。</p>
+<p>Promise 对象代表一项有两种可能结果（成功或失败）的任务，它还持有多个回调，出现不同结果时会分别触发相应的回调。</p>
+<p>进度通知的存在并没有改变每个Promise 对象的最终状态为已执行或<br>已拒绝这一事实。（否则，Promise 对象将永远保持挂起状态。）但为<br>什么要这样呢？为什么不让Promise 对象随时变化成任意的状态，而<br>偏偏只有这两种状态呢？</p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/826p0n62/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/zpnpzga2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/toLdwsjv/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/1qmmro5o/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/bfdpnnen/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-10-31-ajax_deferred_promise/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
 		
 			
 	
@@ -298,47 +363,6 @@ $(document).ready(function() {
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2014-10-23 </div>
-			<div class="article-title"><a href="/2014/10/23/2014-10-23-看待不完美/" >不完美</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="不完美"><a href="#不完美" class="headerlink" title="不完美"></a>不完美</h1><p>黄金是不完美的，</p>
-<p>钻石是不完美的，</p>
-<p>它们都不纯。</p>
-<p>手机不是完美的，</p>
-<p>平板不是完美的，</p>
-<p>他们太小了，他们没有键盘。</p>
-<p>书本是不完美的，太沉，没法搜索，</p>
-<p>pdf 也是不完美的，看它们的设备太少。</p>
-<p>vim 是不完美的，小问题太多。</p>
-<p>我，我自己也是不完美的，</p>
-<p>对！</p>
-<p>通通不完美！</p>
-<p>然而，什么东西又是完美的呢？</p>
-<p>眼睛里放的总是不完美，那么天空是暗淡的，</p>
-<p>可我要的又是什么呢？</p>
-<p>我要的就是使用我身边不完美的东西，</p>
-<p>去创造出属于我的同样不完美的完美。</p>
-<blockquote>
-<p>2014年10月23日 跑步归来有感</p>
-</blockquote>
-
-	
-	</div>
-  <a type="button" href="/2014/10/23/2014-10-23-看待不完美/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-10-23 </div>
 			<div class="article-title"><a href="/2014/10/23/2014-10-31-regexp/" >regexp_reference</a></div>						
 		</h3>
 	
@@ -456,6 +480,47 @@ $(document).ready(function() {
 	
 	<!-- display as entry -->	
 		<h3 class="title">
+			<div class="date"> 2014-10-23 </div>
+			<div class="article-title"><a href="/2014/10/23/2014-10-23-看待不完美/" >不完美</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="不完美"><a href="#不完美" class="headerlink" title="不完美"></a>不完美</h1><p>黄金是不完美的，</p>
+<p>钻石是不完美的，</p>
+<p>它们都不纯。</p>
+<p>手机不是完美的，</p>
+<p>平板不是完美的，</p>
+<p>他们太小了，他们没有键盘。</p>
+<p>书本是不完美的，太沉，没法搜索，</p>
+<p>pdf 也是不完美的，看它们的设备太少。</p>
+<p>vim 是不完美的，小问题太多。</p>
+<p>我，我自己也是不完美的，</p>
+<p>对！</p>
+<p>通通不完美！</p>
+<p>然而，什么东西又是完美的呢？</p>
+<p>眼睛里放的总是不完美，那么天空是暗淡的，</p>
+<p>可我要的又是什么呢？</p>
+<p>我要的就是使用我身边不完美的东西，</p>
+<p>去创造出属于我的同样不完美的完美。</p>
+<blockquote>
+<p>2014年10月23日 跑步归来有感</p>
+</blockquote>
+
+	
+	</div>
+  <a type="button" href="/2014/10/23/2014-10-23-看待不完美/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
 			<div class="date"> 2014-10-22 </div>
 			<div class="article-title"><a href="/2014/10/22/2014-10-22-基本视觉格式化/" >基本视觉格式化</a></div>						
 		</h3>
@@ -540,37 +605,6 @@ $(document).ready(function() {
 </div>
 
 		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-10-03 </div>
-			<div class="article-title"><a href="/2014/10/03/2014-10-03-shadowdom-draft/" >Shadow trees</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h2 id="Shadow-trees"><a href="#Shadow-trees" class="headerlink" title="Shadow trees"></a>Shadow trees</h2><p>w3c 中关于 Shadow tress 是这样说的：</p>
-<ol>
-<li>文档树是根节点为文档(document)的节点树. (A document tree is a node tree [DOM] whose root node is a document.)</li>
-<li>任何元素都能拥有一个按顺序排列的关联0到多个节点树的列表.(Any element can have an associated ordered list of zero or more node trees.)</li>
-<li>该元素作为此节点树的宿主，如果这个节点树在该元素的节点树列表中.(An element hosts a node tree if the node tree is a member of this associated list.)</li>
-<li>shadow host就一个元素 hosts 一个或多个节点树.(A shadow host is an element that hosts one or more node trees.)</li>
-<li>shadow root 是一个 shadow tree 的根节点。</li>
-<li>如果某个shadow host, hosts 了多个 shadow tree， 最近添加的成为 younger，越早越 older。</li>
-</ol>
-<p>参考<br><a href="http://w3c.github.io/webcomponents/spec/shadow/#shadow-trees" target="_blank" rel="external">http://w3c.github.io/webcomponents/spec/shadow/#shadow-trees</a></p>
-
-	
-	</div>
-  <a type="button" href="/2014/10/03/2014-10-03-shadowdom-draft/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
 
 		</div>
 
@@ -644,8 +678,6 @@ $(document).ready(function() {
 		
 			<li><a href="/categories/tool/">tool<span>3</span></a></li>
 		
-			<li><a href="/categories/感悟/">感悟<span>1</span></a></li>
-		
 		</ul>
 	</div>
 
@@ -655,45 +687,45 @@ $(document).ready(function() {
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
-		
 			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
-		
-			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
-		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
 		
 			<li><a href="/tags/html/">html<span>2</span></a></li>
 		
-			<li><a href="/tags/css/">css<span>7</span></a></li>
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
 		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
-		
-			<li><a href="/tags/framework/">framework<span>1</span></a></li>
-		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
-		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
 		
 			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
 		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+			<li><a href="/tags/think/">think<span>1</span></a></li>
 		
-			<li><a href="/tags/随想/">随想<span>1</span></a></li>
+			<li><a href="/tags/module/">module<span>2</span></a></li>
 		
 			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
 		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
 		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
 		
-			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
 		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>2</span></a></li>
+		
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+			<li><a href="/tags/default/">default<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>38</span></a></li>
@@ -709,6 +741,10 @@ $(document).ready(function() {
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2017/01/02/新的一年-2017/" ><i class="fa fa-file-o"></i>新的一年, 2017</a>
+      </li>
+    
+      <li>
         <a href="/2015/10/27/what_is_true/" ><i class="fa fa-file-o"></i>实际情况是什么样的</a>
       </li>
     
@@ -722,10 +758,6 @@ $(document).ready(function() {
     
       <li>
         <a href="/2015/10/23/怎么写出好代码/" ><i class="fa fa-file-o"></i>怎么写出好代码</a>
-      </li>
-    
-      <li>
-        <a href="/2015/10/23/node-stream/" ><i class="fa fa-file-o"></i>node stream</a>
       </li>
     
   </ul>
