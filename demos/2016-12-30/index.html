@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    ul {
+      list-style: none;
+    }
+    .swiper {
+      height: 300px;
+      width: 3000px;
+      height: 234px;
+    }
+    .swiper li {
+      float: left;
+      height: 234px;
+      overflow: hidden;
+      transition: all 0.5s ease-out;
+    }
+    img {
+      width: 375px;
+    }
+  </style>
+</head>
+<body>
+  <ul class="swiper">
+    <li>
+      <img src="./1459770836701.jpg" alt="">
+    </li>
+    <li>
+      <img src="./1459771117932.jpg" alt="">
+    </li>
+    <li>
+      <img src="./71021e17gw1f5vi912104g20ay095x6p.gif" alt="">
+    </li>
+    <li>
+      <img src="./9d9f02f5949ff38e02dffd284b76f1dd.jpg" alt="">
+    </li>
+  </ul>
+  <script>
+    var swiperSelector = '.swiper'
+    var swiperDOM = document.querySelector(swiperSelector)
+    var liList = document.querySelectorAll('li')
+    var fullWidth = liList[0].clientWidth * liList.length + 'px'
+
+    // 设置布局宽度
+    swiperDOM.style.width = fullWidth
+
+    var startX
+    var endX
+
+    swiperDOM.addEventListener('touchstart', function(e) {
+      var touch = e.touches[0]
+
+      console.log('start', touch)
+           
+      startX = touch.screenX
+    })
+    swiperDOM.addEventListener('touchend', function(e) {
+      var touch = e.changedTouches[0]
+      
+      console.log('end', touch)
+      endX = touch.screenX
+      console.log('移动了', endX - startX)
+    })
+    swiperDOM.addEventListener('touchmove', function(...a) {
+      console.log('move', a)
+    })
+  </script>
+</body>
+</html>
