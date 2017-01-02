@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> </h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="#!/usr/bin/evn">#!/usr/bin/evn</h1><blockquote>
+<p>脚本语言的第一行，目的就是指出，你想要你的这个文件中的代码用什么可执行程序去运行它</p>
+</blockquote>
+<ol>
+<li>#!/usr/bin/python 是告诉操作系统执行这个脚本的时候，调用 <code>/usr/bin</code> 下的python解释器；</li>
+</ol>
+<ol>
+<li><p>#!/usr/bin/env python这种用法是为了防止操作系统用户没有将python装在默认的 <code>/usr/bin</code>路径里。当系统看到这一行的时候，首先会到env设置里查找python的安装路径，再调用对应路径下的解释器程序完成操作。</p>
+</li>
+<li><p>#!/usr/bin/python 相当于写死了python路径;</p>
+</li>
+<li><p>#!/usr/bin/env python 会去环境设置寻找python目录,推荐这种写法</p>
+</li>
+</ol>
+<p><code>/usr/bin/evn</code> 是脚本, 执行后输出:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="setting">TERM_PROGRAM=<span class="value">iTerm.app</span></span></span><br><span class="line"><span class="setting">SHELL=<span class="value">/bin/bash</span></span></span><br><span class="line"><span class="setting">TERM=<span class="value">xterm-<span class="number">256</span>color</span></span></span><br><span class="line"><span class="setting">CLICOLOR=<span class="value"><span class="number">1</span></span></span></span><br><span class="line"><span class="setting">TMPDIR=<span class="value">/var/folders/zn/b4xqz3bx74jb_ntcdpqk3v_c0000gn/T/</span></span></span><br><span class="line"><span class="setting">Apple_PubSub_Socket_Render=<span class="value">/private/tmp/com.apple.launchd.nrRP4C3qd1/Render</span></span></span><br><span class="line"><span class="setting">USER=<span class="value">yakuncyk</span></span></span><br><span class="line"><span class="setting">SSH_AUTH_SOCK=<span class="value">/private/tmp/com.apple.launchd.ResNTqSfuD/Listeners</span></span></span><br><span class="line"><span class="setting">__CF_USER_TEXT_ENCODING=<span class="value"><span class="number">0</span>x1F5:<span class="number">0</span>x19:<span class="number">0</span>x34</span></span></span><br><span class="line"><span class="setting">PATH=<span class="value">/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</span></span></span><br><span class="line"><span class="setting">PWD=<span class="value">/Users/yakuncyk</span></span></span><br><span class="line"><span class="setting">LANG=<span class="value">zh_CN.UTF-<span class="number">8</span></span></span></span><br><span class="line"><span class="setting">ITERM_PROFILE=<span class="value">Default</span></span></span><br><span class="line"><span class="setting">XPC_FLAGS=<span class="value"><span class="number">0</span>x0</span></span></span><br><span class="line"><span class="setting">XPC_SERVICE_NAME=<span class="value"><span class="number">0</span></span></span></span><br><span class="line"><span class="setting">SHLVL=<span class="value"><span class="number">1</span></span></span></span><br><span class="line"><span class="setting">HOME=<span class="value">/Users/yakuncyk</span></span></span><br><span class="line"><span class="setting">ITERM_SESSION_ID=<span class="value">w0t0p0</span></span></span><br><span class="line"><span class="setting">LOGNAME=<span class="value">yakuncyk</span></span></span><br><span class="line"><span class="setting">_=<span class="value">/usr/bin/env</span></span></span><br></pre></td></tr></table></figure>	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2015/07/31/2013-12-29-利用git快速部署远程服务器/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2015/07/31/了解neat/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2015-07-31 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2015 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>WebSocket | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="WebSocket"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+	
+		<div class="page-header">		
+			<h1> WebSocket</h1>
+		</div>		
+	
+
+
+
+<div class="row page">
+	<!-- cols -->
+	
+	<div class="col-md-12">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>HTTP协议是一种无状态协议，服务器端本身不具有识别客户端的能力，必须借助外部机制，比如session和cookie，才能与特定客户端保持对话。这多多少少带来一些不便，尤其在服务器端与客户端需要持续交换数据的场合（比如网络聊天），更是如此。为了解决这个问题，HTML5提出了浏览器的<a href="http://dev.w3.org/html5/websockets/" target="_blank" rel="external">WebSocket API</a>。</p>
+<p>WebSocket的主要作用是，允许服务器端与客户端进行全双工（full-duplex）的通信。举例来说，HTTP协议有点像发电子邮件，发出后必须等待对方回信；WebSocket则是像打电话，服务器端和客户端可以同时向对方发送数据，它们之间存着一条持续打开的数据通道。</p>
+<p>WebSocket协议完全可以取代Ajax方法，用来向服务器端发送文本和二进制数据，而且还没有“同域限制”。</p>
+<p>WebSocket不使用HTTP协议，而是使用自己的协议。浏览器发出的WebSocket请求类似于下面的样子：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">GET</span> <span class="string">/</span> HTTP/1.1</div><div class="line"><span class="attribute">Connection</span>: Upgrade</div><div class="line"><span class="attribute">Upgrade</span>: websocket</div><div class="line"><span class="attribute">Host</span>: example.com</div><div class="line"><span class="attribute">Origin</span>: null</div><div class="line"><span class="attribute">Sec-WebSocket-Key</span>: sN9cRrP/n9NdMgdcy2VJFQ==</div><div class="line"><span class="attribute">Sec-WebSocket-Version</span>: 13</div></pre></td></tr></table></figure>
+<p>上面的头信息显示，有一个HTTP头是Upgrade。HTTP1.1协议规定，Upgrade头信息表示将通信协议从HTTP/1.1转向该项所指定的协议。“Connection: Upgrade”就表示浏览器通知服务器，如果可以，就升级到webSocket协议。Origin用于验证浏览器域名是否在服务器许可的范围内。Sec-WebSocket-Key则是用于握手协议的密钥，是base64编码的16字节随机字符串。</p>
+<p>服务器端的WebSocket回应则是</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">HTTP/1.1 <span class="number">101</span> Switching Protocols</div><div class="line"><span class="attribute">Connection</span>: Upgrade</div><div class="line"><span class="attribute">Upgrade</span>: websocket</div><div class="line"><span class="attribute">Sec-WebSocket-Accept</span>: fFBooB7FAkLlXgRSz0BT3v4hq5s=</div><div class="line"><span class="attribute">Sec-WebSocket-Origin</span>: null</div><div class="line"><span class="attribute">Sec-WebSocket-Location</span>: ws://example.com/</div></pre></td></tr></table></figure>
+<p>服务器端同样用“Connection: Upgrade”通知浏览器，需要改变协议。Sec-WebSocket-Accept是服务器在浏览器提供的Sec-WebSocket-Key字符串后面，添加“258EAFA5-E914-47DA-95CA-C5AB0DC85B11” 字符串，然后再取sha-1的hash值。浏览器将对这个值进行验证，以证明确实是目标服务器回应了webSocket请求。Sec-WebSocket-Location表示进行通信的WebSocket网址。</p>
+<blockquote>
+<p>请注意，WebSocket协议用ws表示。此外，还有wss协议，表示加密的WebSocket协议，对应HTTPs协议。</p>
+</blockquote>
+<p>完成握手以后，WebSocket协议就在TCP协议之上，开始传送数据。</p>
+<p>WebSocket协议需要服务器支持，目前比较流行的实现是基于node.js的<a href="http://socket.io/" target="_blank" rel="external">socket.io</a>，更多的实现可参阅<a href="http://en.wikipedia.org/wiki/WebSocket#Server_side" target="_blank" rel="external">Wikipedia</a>。至于浏览器端，目前主流浏览器都支持WebSocket协议（包括IE 10+），仅有的例外是手机端的Opera Mini和Android Browser。</p>
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>浏览器端对WebSocket协议的处理，无非就是三件事：</p>
+<ul>
+<li>建立连接和断开连接</li>
+<li>发送数据和接收数据</li>
+<li>处理错误</li>
+</ul>
+<h3 id="建立连接和断开连接"><a href="#建立连接和断开连接" class="headerlink" title="建立连接和断开连接"></a>建立连接和断开连接</h3><p>首先，客户端要检查浏览器是否支持WebSocket，使用的方法是查看window对象是否具有WebSocket属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="built_in">window</span>.WebSocket != <span class="literal">undefined</span>) &#123;</div><div class="line">	<span class="comment">// WebSocket代码</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后，开始与服务器建立连接（这里假定服务器就是本机的1740端口，需要使用ws协议）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="built_in">window</span>.WebSocket != <span class="literal">undefined</span>) &#123;</div><div class="line">	<span class="keyword">var</span> connection = <span class="keyword">new</span> WebSocket(<span class="string">'ws://localhost:1740'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>建立连接以后的WebSocket实例对象（即上面代码中的connection），有一个readyState属性，表示目前的状态，可以取4个值：</p>
+<ul>
+<li><strong>0</strong>： 正在连接</li>
+<li><strong>1</strong>： 连接成功</li>
+<li><strong>2</strong>： 正在关闭</li>
+<li><strong>3</strong>： 连接关闭</li>
+</ul>
+<p>握手协议成功以后，readyState就从0变为1，并触发open事件，这时就可以向服务器发送信息了。我们可以指定open事件的回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">connection.onopen = wsOpen;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">wsOpen</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">'Connected to: '</span> + event.currentTarget.URL);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>关闭WebSocket连接，会触发close事件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">connection.onclose = wsClose;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">wsClose</span> (<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"Closed"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">connection.close();</div></pre></td></tr></table></figure>
+<h3 id="发送数据和接收数据"><a href="#发送数据和接收数据" class="headerlink" title="发送数据和接收数据"></a>发送数据和接收数据</h3><p>连接建立后，客户端通过send方法向服务器端发送数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">connection.send(message);</div></pre></td></tr></table></figure>
+<p>除了发送字符串，也可以使用 Blob 或 ArrayBuffer 对象发送二进制数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 使用ArrayBuffer发送canvas图像数据</span></div><div class="line"><span class="keyword">var</span> img = canvas_context.getImageData(<span class="number">0</span>, <span class="number">0</span>, <span class="number">400</span>, <span class="number">320</span>);</div><div class="line"><span class="keyword">var</span> binary = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(img.data.length);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; img.data.length; i++) &#123;</div><div class="line">	binary[i] = img.data[i];</div><div class="line">&#125;</div><div class="line">connection.send(binary.buffer);</div><div class="line"></div><div class="line"><span class="comment">// 使用Blob发送文件</span></div><div class="line"><span class="keyword">var</span> file = <span class="built_in">document</span>.querySelector(<span class="string">'input[type="file"]'</span>).files[<span class="number">0</span>];</div><div class="line">connection.send(file);</div></pre></td></tr></table></figure>
+<p>客户端收到服务器发送的数据，会触发message事件。可以通过定义message事件的回调函数，来处理服务端返回的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">connection.onmessage = wsMessage;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">wsMessage</span> (<span class="params">event</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(event.data);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码的回调函数wsMessage的参数为事件对象event，该对象的data属性包含了服务器返回的数据。</p>
+<p>如果接收的是二进制数据，需要将连接对象的格式设为blob或arraybuffer。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">connection.binaryType = <span class="string">'arraybuffer'</span>;</div><div class="line"></div><div class="line">connection.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(e.data.byteLength); <span class="comment">// ArrayBuffer对象有byteLength属性</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="处理错误"><a href="#处理错误" class="headerlink" title="处理错误"></a>处理错误</h3><p>如果出现错误，浏览器会触发WebSocket实例对象的error事件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">connection.onerror = wsError;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">wsError</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"Error: "</span> + event.data);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><p>服务器端需要单独部署处理WebSocket的代码。下面用node.js搭建一个服务器环境。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;&#125;);</div></pre></td></tr></table></figure>
+<p>假设监听1740端口。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">server.listen(<span class="number">1740</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log((<span class="keyword">new</span> <span class="built_in">Date</span>()) + <span class="string">' Server is listening on port 1740'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>接着启动WebSocket服务器。这需要加载websocket库，如果没有安装，可以先使用npm命令安装。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> WebSocketServer = <span class="built_in">require</span>(<span class="string">'websocket'</span>).server;</div><div class="line"><span class="keyword">var</span> wsServer = <span class="keyword">new</span> WebSocketServer(&#123;</div><div class="line">    <span class="attr">httpServer</span>: server</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>WebSocket服务器建立request事件的回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> connection;</div><div class="line"></div><div class="line">wsServer.on(<span class="string">'request'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req</span>)</span>&#123;</div><div class="line">    connection = req.accept(<span class="string">'echo-protocol'</span>, req.origin);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码的回调函数接受一个参数req，表示request请求对象。然后，在回调函数内部，建立WebSocket连接connection。接着，就要对connection的message事件指定回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">wsServer.on(<span class="string">'request'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">r</span>)</span>&#123;</div><div class="line">    connection = req.accept(<span class="string">'echo-protocol'</span>, req.origin);</div><div class="line"></div><div class="line">	connection.on(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">message</span>) </span>&#123;</div><div class="line">		<span class="keyword">var</span> msgString = message.utf8Data;</div><div class="line">		connection.sendUTF(msgString);</div><div class="line">	&#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>最后，监听用户的disconnect事件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">connection.on(<span class="string">'close'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">reasonCode, description</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(connection.remoteAddress + <span class="string">' disconnected.'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="Socket-io简介"><a href="#Socket-io简介" class="headerlink" title="Socket.io简介"></a>Socket.io简介</h2><p><a href="http://socket.io/" target="_blank" rel="external">Socket.io</a>是目前最流行的WebSocket实现，包括服务器和客户端两个部分。它不仅简化了接口，使得操作更容易，而且对于那些不支持WebSocket的浏览器，会自动降为Ajax连接，最大限度地保证了兼容性。</p>
+<p>第一步，在服务器端的项目根目录下，安装socket.io模块。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">npm install socket.io</div></pre></td></tr></table></figure>
+<p>第二步，在根目录下建立app.js，并写入以下代码（假定使用了Express框架）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> app = <span class="built_in">require</span>(<span class="string">'express'</span>)();</div><div class="line"><span class="keyword">var</span> server = <span class="built_in">require</span>(<span class="string">'http'</span>).createServer(app);</div><div class="line"><span class="keyword">var</span> io = <span class="built_in">require</span>(<span class="string">'socket.io'</span>).listen(server);</div><div class="line"></div><div class="line">server.listen(<span class="number">80</span>);</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">  res.sendfile(__dirname + <span class="string">'/index.html'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码表示，先建立并运行HTTP服务器。Socket.io的运行建立在HTTP服务器之上。</p>
+<p>第三步，将Socket.io插入客户端网页。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/socket.io/socket.io.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后，在客户端脚本中，建立WebSocket连接。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> socket = io.connect(<span class="string">'http://localhost'</span>);</div></pre></td></tr></table></figure>
+<p>由于本例假定WebSocket主机与客户端是同一台机器，所以connect方法的参数是<code>http://localhost</code>。接着，指定news事件（即服务器端发送news）的回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">socket.on(<span class="string">'news'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>)</span>&#123;</div><div class="line">   <span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>最后，用emit方法向服务器端发送信号，触发服务器端的anotherNews事件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">socket.emit(<span class="string">'anotherNews'</span>);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>请注意，emit方法可以取代Ajax请求，而on方法指定的回调函数，也等同于Ajax的回调函数。</p>
+</blockquote>
+<p>第四步，在服务器端的app.js，加入以下代码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">io.sockets.on(<span class="string">'connection'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">socket</span>) </span>&#123;</div><div class="line">  socket.emit(<span class="string">'news'</span>, &#123; <span class="attr">hello</span>: <span class="string">'world'</span> &#125;);</div><div class="line">  socket.on(<span class="string">'anotherNews'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码的io.sockets.on方法指定connection事件（WebSocket连接建立）的回调函数。在回调函数中，用emit方法向客户端发送数据，触发客户端的news事件。然后，再用on方法指定服务器端anotherNews事件的回调函数。</p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2014/01/01/2014-11-10-客户端库管理工具-brower/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2013/12/26/2013-12-26-angular入门/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+	</div> <!-- col-md-9/col-md-12 -->
+		
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

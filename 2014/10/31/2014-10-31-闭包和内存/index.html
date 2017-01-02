@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>为什么闭包会引起内存泄露 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="为什么闭包会引起内存泄露"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> 为什么闭包会引起内存泄露</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>JavaScript使用一种称为垃圾收集的技术来管理分配给它的内存。这与C这样的底层语言不同，C要求使用多少借多少，用完再释放回去。其他语言，比如 Objective-C，实现了一个引用计数系统来辅助完成这些工作，我们能够了解到有多少个程序块使用了一个特定的内存段，因而可以在不需要时清除这些内存段。</p>
+<p>JavaScript是一种高级语言，它一般是通过后台来维护这种计数系统。</p>
+<p>当JavaScript代码生成一个新的内存驻留项时（比如一个对象或函数），系统就会为这个项留出一块内存空间。因为这个对象可能会被传递给很多函数，并且会被指定给很多变量，所以很多代码都会指向这个对象的内存空间。JavaScript会跟踪这些指针，当最后一个指针废弃不用时，这个对象占用的内存会被释放。</p>
+<pre><code>A ---------&gt; B ------------&gt; C
+</code></pre><p>例如对象A有一个属性指向B，而B也有一个属性指向C。即使当前作用域中只有对象A有效，但由于指针的关系所有3个对象都必须保留在内存中。当离开A的当前作用域时（例如代码执行到声明A的函数的末尾处），垃圾收集器就可以释放A占用的内存。此时，由于没有什么指向B，因此B可以释放，最后，C也可以释放。</p>
+<p>然而，当对象间的引用关系变得复杂时，处理起来也会更加困难。</p>
+<pre><code>A ---------&gt; B ------------&gt; C
+             ^、_ _ _ _ _ _ _|
+</code></pre><p>这里，我们又为对象C添加了一个引用B的属性。在这种情况下，当A释放时，仍然有来自C的指针指向B。这种引用循环需要由JavaScript进行特殊的处理，但必须考虑到整个循环与作用域中的其他变量已经处于隔离状态。</p>
+<p>从这里我们可以看到，闭包问题的本质是作用域的问题，我平时写的闭包大多出现在：</p>
+<h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>闭包可能会导致在不经意间创建循环引用。因为函数是必须保存在内存中的对象，所以位于函数执行上下文中的所有变量也需要保存在内存中：</p>
+<pre><code>function outerFn() {
+    var outerVar = {};
+    function innerFn() {
+        console.log(outerVar);
+    }
+    outerVar.fn = innerFn;
+    return innerFn;
+};
+</code></pre><p>这里创建了一个名为 outerVar 的对象，该对象在内部函数innerFn()中被引用。然后，为 outerVar 创建了一个指向 innerFn()的属性，之后返回了innerFn()。这样就在 innerFn() 上创建了一个引用outerVar的闭包，而outerVar又引用了innerFn()。</p>
+<p>这会导致变量在内存中存在的时间比想象得长，而且又不容易被发现。这还不算完，还有可能会出现比这种情况更隐蔽的引用循环：</p>
+<pre><code>function outerFn() {
+    var outerVar = {};
+    function innerFn() {
+        console.log(&apos;hello&apos;);
+    }
+    outerVar.fn = innerFn;
+    return innerFn;
+};
+</code></pre><p>这里我们修改了innerFn()，不再招惹 outerVar。但是，这样做仍然没有断开循环引用。<br>即使innerFn()不再勾引 outerVar，outerVar 也仍然位于innerFn()的封闭环境中。由于闭包的原因，位于 outerFn()中的所有变量都隐含地被 innerFn()所引用。我们再想一想，在 java 中的内部类不也是类似当前情况吗，内部类能够‘看’外部的 this。此时此刻，正如彼时彼刻，竟如此相像。因此，闭包会使意外地创建这些引用循环变得易如反掌。</p>
+<h3 id="DOM与JavaScript的循环"><a href="#DOM与JavaScript的循环" class="headerlink" title="DOM与JavaScript的循环"></a>DOM与JavaScript的循环</h3><p>虽然我很早就知道闭包，也在调试内存问题时在 chrome F12 里的 profile 是里看到 <code>closure reference</code>,但是并不清除这个问题的根源。因为上述情况通常不是什么问题，JavaScript能够检测到这些情况并在它们孤立时将其清除。</p>
+<p>最近看到关于这个问题的解释：在旧版本IE中存在一种难以处理的循环引用问题。</p>
+<blockquote>
+<p>当一个循环中同时包含DOM元素和常规JavaScript对象时，IE无法释放任何一个对象——因为这两类对象是由不同的内存管理程序负责管理的。</p>
+</blockquote>
+<p>除非关闭浏览器，否则这种循环在IE中永远得不到释放。为此，随着时间的推移，这可能会导致大量内存被无效地占用。</p>
+<p>导致这种循环的一个常见原因是简单的事件处理:</p>
+<pre><code>$(document).ready(function() {
+    var button = document.getElementById(&apos;button-1&apos;);
+        button.onclick = function() {
+            console.log(&apos;hello&apos;);
+            return false;
+        };
+});
+</code></pre><p>当指定单击事件处理程序时，就创建了一个在其封闭的环境中包含button变量的闭包。而且，现在的button也包含一个指向闭包（onclick属性自身）的引用。这样，就导致了在IE中即使离开当前页面也不会释放这个循环。<br>为了释放内存，就需要断开循环引用，例如关闭窗口,删除onclick属性。另外，也可以像下面这样重写代码来</p>
+<p>避免这种闭包：</p>
+<pre><code>function hello() {
+    console.log(&apos;hello&apos;);
+    return false;
+}
+
+$(document).ready(function() {
+    var button = document.getElementById(&apos;button-1&apos;);
+    button.onclick = hello;
+});
+</code></pre><p>因为hello()函数不再包含  button，引用就成了单向的（从button到hello）,不存的循环，所以就不会造成内存泄漏了。</p>
+<p>用jQuery化解引用循环</p>
+<p>下面，我们通过常规的jQuery结构来编写同样的代码：</p>
+<pre><code>$(document).ready(function() {
+    var $button = $(&apos;#button-1&apos;);
+        $button.click(function(event) {
+            event.preventDefault();
+            console.log(&apos;hello&apos;);
+        });
+});
+</code></pre><p>即使此时仍然会创建一个闭包，并且也会导致同前面一样的循环，但这里的代码却不会使 <code>IE</code> 发生内存泄漏。由于jQuery考虑到了内存泄漏的潜在危害，所以它会手动释放自己指定的所有事件处理程序。只要坚持使用jQuery的事件绑定方法，就无需为这种特定的常见原因导致的内存泄<br>漏而担心。</p>
+<p>但是，这并不意味着我们完全脱离了险境。当对DOM元素进行其他操作时，仍然要处处留心。只要是将JavaScript对象指定给DOM元素，就可能在旧版本IE中导致内存泄漏。jQuery只是有助于减少发生这种情况的可能性。</p>
+<p>有鉴于此，jQuery为我们提供了另一个避免这种泄漏的工具。用.data()方法，将信息附加到DOM元素。由于这里的数据并非直接保存在扩展属性中（jQuery使用一个内部对象并通过它创建的ID来保存这里所说的数<br>据），因此永远也不会构成引用循环，从而有效回避了内存泄漏问题。</p>
+<p>下面附上 jQuery 源码的相关说法：</p>
+<pre><code>// We have to handle DOM nodes and JS objects differently        
+   because IE6-7
+
+// can&apos;t GC object references properly across the DOM-JS boundary
+
+// Only DOM nodes need the global jQuery cache; JS object data is
+
+// attached directly to the object so GC can occur automatically
+</code></pre>	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2014/10/31/2014-10-31-linux_user_manage/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2014/10/31/2014-08-20-jquery-event-on/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2014-10-31 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

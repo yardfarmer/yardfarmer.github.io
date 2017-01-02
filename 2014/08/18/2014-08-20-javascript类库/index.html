@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript 中的类 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript 中的类"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> javascript 中的类</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>对于静态的类来说，JavaScript 对象直接量就已经够用了，但使用继承和实例来创建经典的类往往更有帮助。</p>
+<blockquote>
+<p>JavaScript 是基于原型的编程语言，并没有包含内置类的实现。</p>
+</blockquote>
+<p>但通过JavaScript 可以轻易地模拟出经典的类。</p>
+<p>JavaScript 中有构造函数和 new 运算符。<strong>构造函数用来给实例对象初始化属性和值</strong>。任何JavaScript 函数都可以用做构造函数，构造函数必须使用 new 运算符作为前缀来创建新的实例。</p>
+<p>new 运算符改变了函数的执行上下文，同时改变了return 语句的行为。</p>
+<p>当使用 new 关键字来调用构造函数时，执行上下文从全局对象（window）变成一个空的上下文<code>{}</code>，这个上下文代表了新生成的实例。因此，this 关键字指向当前创建的实例。如果构造函数没有返回值，那么这个新生成的实例就作为默认的返回值。如果指定了返回值，这个新实例就白白浪费了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Person = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</div><div class="line"><span class="keyword">this</span>.name = name;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// 实例化一个Person</span></div><div class="line"><span class="keyword">var</span> alice = <span class="keyword">new</span> Person(<span class="string">'zhang'</span>); </div><div class="line"></div><div class="line"><span class="keyword">if</span> .. 这样</div><div class="line"></div><div class="line">Person(<span class="string">'ben dan'</span>); <span class="comment">//=&gt; undefined</span></div></pre></td></tr></table></figure>
+<p>上面这个例子说明了 new 与不 new 的区别。这个函数只会返回undefined，并且执行上下文是window（全局）对象，无意间创建了一个全局变量name。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Class build my Own class</div><div class="line"> * Created by cyk on 14-8-19.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">    "use strict"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// in current line, 'this' is : Class &#123;&#125; 对象实例</span></div><div class="line">    <span class="comment">// in the finally, as we have a return value ,so the Class &#123;&#125; is unused.</span></div><div class="line"></div><div class="line">    <span class="comment">// 这样的做法每次都会产生一个'新的' klass 字面量方法</span></div><div class="line">    <span class="keyword">var</span> klass = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="comment">// this 均是上下文中新生成的实例</span></div><div class="line">        <span class="keyword">this</span>.init.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    klass.prototype.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line"></div><div class="line">    <span class="comment">// 定义 prototype 的别名</span></div><div class="line">    klass.fn = klass.prototype;</div><div class="line"></div><div class="line">    <span class="comment">// 定义类的别名</span></div><div class="line">    klass.fn.parent = klass;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 给类添加属性</span></div><div class="line">    klass.extend  = <span class="function"><span class="keyword">function</span> (<span class="params"> obj </span>) </span>&#123;</div><div class="line">        <span class="comment">// 可选的回调方法 extended</span></div><div class="line">        <span class="keyword">var</span> extended = obj.extended;</div><div class="line"></div><div class="line">        <span class="keyword">for</span>( <span class="keyword">var</span> i <span class="keyword">in</span> obj ) &#123;</div><div class="line">            klass[i] = obj[i];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (extended) extended(klass);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="comment">// 给实例添加属性</span></div><div class="line">    klass.include = <span class="function"><span class="keyword">function</span> (<span class="params"> obj </span>) </span>&#123;</div><div class="line">        <span class="comment">// 可选的回调方法</span></div><div class="line">        <span class="keyword">var</span> included = obj.included;</div><div class="line">        <span class="keyword">for</span>( <span class="keyword">var</span> i <span class="keyword">in</span> obj )&#123;</div><div class="line">            klass.fn[i] = obj[i];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (included) included(klass);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">     * 这里的实现支持extended 和included 回调。</div><div class="line">     * 将属性传入对象后就会触发这两回调函数</div><div class="line">     */</div><div class="line"></div><div class="line">    <span class="keyword">return</span> klass;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> ORMModule = &#123;</div><div class="line"></div><div class="line">   <span class="attr">save</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">       "use strict"</span>;</div><div class="line">       <span class="comment">// 共享的函数</span></div><div class="line">   &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> Person = <span class="keyword">new</span> Class();</div><div class="line"></div><div class="line"><span class="comment">// 虽然和上一行代码一样,但是获得的值却是新 new 出来的,</span></div><div class="line"><span class="comment">// 所有 Asset 和 Person 指向的都是 Class 的不同变量,只是变量内容相似罢了</span></div><div class="line"><span class="keyword">var</span> Asset  = <span class="keyword">new</span> Class();</div><div class="line"></div><div class="line"><span class="comment">// 所以 Person 和 Asset 现在指向的并非同一个变量</span></div><div class="line"></div><div class="line">Person.include(ORMModule);</div><div class="line"></div><div class="line">Asset.include(ORMModule);</div><div class="line"></div><div class="line">Person.include(&#123;</div><div class="line">    <span class="attr">find</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// person is : Class instance,</span></div><div class="line"><span class="comment">// klass &#123;init: function, parent: function, save: function, find: function&#125;</span></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person();</div><div class="line"></div><div class="line"><span class="keyword">var</span> asset = <span class="keyword">new</span> Asset();</div><div class="line"></div><div class="line"></div><div class="line">person.find(); <span class="comment">// klass</span></div><div class="line"></div><div class="line">asset.find();  <span class="comment">// undefined is not a function</span></div></pre></td></tr></table></figure>
+<hr>
+<p>先到这里，下集不见不看。</p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2014/08/20/2014-08-20-vim&gist/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2014/08/02/2014-08-02-shell读取配置文件/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2014-08-18 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

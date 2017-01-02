@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>利用github的api显示当前文章的历史记录 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="利用github的api显示当前文章的历史记录"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> 利用github的api显示当前文章的历史记录</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>利用github放blog也有一段时间了，一直想做一个小功能，就是展示某个文章的历史纪录，简单来说就是<code>git log 某个文章</code></p>
+<h2 id="两种思路"><a href="#两种思路" class="headerlink" title="两种思路"></a>两种思路</h2><ul>
+<li>写一个jekyll的插件</li>
+<li>js利用github的api</li>
+</ul>
+<h3 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h3><p>由于github上的jekyll生成网站时是不允许使用的自定义插件的，这个思路暂时忽略。事实上，可以在本地生成静态网站，然后上传到github上，直接使用<code>gh-pages</code>分支来展示，因为不太想重新建一个repo，这个思路暂时忽略吧。</p>
+<h3 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h3><p>利用github的<a href="http://developer.github.com/v3/repos/commits/" target="_blank" rel="external">commits api</a>，比如一个文章的commits可以用下面的请求获取, 指定<code>path</code>参数就可以获取特定文件的提交纪录。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$.getJSON(<span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path=_posts%2F2013-07-29-lion%E4%B8%8B%E7%9A%84safari6%E5%AF%B9%E7%BA%AF%E6%95%B0%E5%AD%97%E4%BD%BF%E7%94%A8toString%E6%8A%A5%E9%94%99.md'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;)</div></pre></td></tr></table></figure>
+<p>返回的数据格式是一个数组，在每个文章页面加上下面一个id为history的div，然后通过下面的js渲染出对应html，展示效果见每个文章的下方</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取脚本函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadJs</span>(<span class="params">src, callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> doc = <span class="built_in">document</span>;</div><div class="line">    <span class="keyword">var</span> head = doc.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>];</div><div class="line">    <span class="keyword">var</span> script = doc.createElement(<span class="string">'script'</span>);</div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line"></div><div class="line">    script.onreadystatechange = script.onload = script.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(script.readyState)) &#123;</div><div class="line">            callback();</div><div class="line">            script.onload = script.onerror = script.onreadystatechange = <span class="literal">null</span>;</div><div class="line">            script = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    script.src = src;</div><div class="line">    script.async = <span class="literal">true</span>;</div><div class="line"></div><div class="line">    head.insertBefore(script, head.firstChild);</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadJs(<span class="string">'/js/jquery-1.7.2.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    loadJs(<span class="string">'/js/md5.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//取到文章的路径，追加到请求地址上</span></div><div class="line">        <span class="comment">//可以通过&#123;&#123;page.path&#125;&#125;来取到</span></div><div class="line">        <span class="keyword">var</span> articlePath =<span class="string">'&#123;&#123;page.path&#125;&#125;'</span></div><div class="line">        <span class="keyword">var</span> api = <span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path='</span></div><div class="line">        <span class="keyword">var</span> tmpl = <span class="string">'&lt;div class="article"&gt;\</span></div><div class="line">                        &lt;span class="datetime"&gt;&#123;date&#125;&lt;/span&gt;\</div><div class="line">                        &lt;span&gt;\</div><div class="line">                            &lt;image src="&#123;src&#125;" title="&#123;author&#125;"&gt;\</div><div class="line">                            &#123;message&#125;\</div><div class="line">                        &lt;/span&gt;\</div><div class="line">                    &lt;/div&gt;'</div><div class="line">            <span class="keyword">var</span> gravstarurl = <span class="string">'https://1.gravatar.com/avatar/&#123;md5hash&#125;?s=16'</span>; </div><div class="line">            $.getJSON(api + articlePath,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">                <span class="keyword">if</span>( data.length == <span class="number">0</span> )&#123;</div><div class="line">                    $(<span class="string">'#history'</span>).html(<span class="string">'暂无历史纪录 :)'</span>);</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">var</span> history = <span class="string">''</span>;</div><div class="line">            $.each(data, <span class="function"><span class="keyword">function</span>(<span class="params">i, v</span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> avatar = gravstarurl.replace(<span class="string">'&#123;md5hash&#125;'</span>, md5(v.commit.author.email));</div><div class="line">                history += tmpl.replace(<span class="string">'&#123;src&#125;'</span>, avatar)</div><div class="line">                               .replace(<span class="string">'&#123;date&#125;'</span>, v.commit.author.date.replace(<span class="regexp">/T.*Z/</span>,<span class="string">''</span>))</div><div class="line">                               .replace(<span class="string">'&#123;message&#125;'</span>, v.commit.message);</div><div class="line">                &#125;);</div><div class="line"></div><div class="line">            $(<span class="string">'#history'</span>).html(history);</div><div class="line">        &#125;)</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>详细的文件可以查看<a href="https://github.com/jserme/jserme.github.io/blob/master/_layouts/post.html#L41" target="_blank" rel="external">这里</a></p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2015/06/28/2013-08-21-karma下测试异步载入的js文件/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2015/06/28/2012-08-03-XMLHttpRequest发送put,delete请求/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2015-06-28 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/git/">git<span>5</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

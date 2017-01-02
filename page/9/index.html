@@ -1,0 +1,806 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 9 页 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header">
+  <h1>IO buffer</h1>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
+      <i class="fa fa-heart"></i>
+      知行合一
+</div>    
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-linux_user_manage/" >linux 用户管理</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>创建一个用户 foo 这个用户只能在/home/foo 上面增加删除文件， foo 不能在其他目录加减文件</p>
+<pre><code>useradd -d /home/foo  -m foo
+[root@] # passwd jc
+
+chown foo -R /home/foo
+</code></pre><p>Linux 系统是一个多用户多任务的分时操作系统，用户在登录时键入正确的用户名和口令后，就能够进入系统和自己的主目录。</p>
+<p>用户账号的管理工作主要涉及到用户账号的添加、修改和删除。<br>添加用户账号就是在系统中创建一个新账号，然后为新账号分配用户号、用户组、主目录和登录Shell等资源。刚添加的账号是被锁定的，无法使用。</p>
+<h2 id="添加新的用户账号"><a href="#添加新的用户账号" class="headerlink" title="添加新的用户账号"></a>添加新的用户账号</h2><p>使用useradd命令，其语法如下：</p>
+<p>代码:<br>useradd 选项 用户名</p>
+<p>-c comment 指定一段注释性描述。<br>-d 目录 指定用户主目录，如果此目录不存在，则同时使用 ==-m ==选项，可以创建主目录。<br>-g 用户组 指定用户所属的用户组。<br>-G 用户组，用户组 指定用户所属的附加组。<br>-s Shell文件 指定用户的登录Shell。<br>-u 用户号 指定用户的用户号，如果同时有-o选项，则可以重复使用其他用户的标识号。</p>
+<pre><code># useradd –d /usr /sam -m sam
+</code></pre><p>此命令创建了一个用户sam，其中-d和-m选项用来为登录名sam产生一个主目录/usr/sam（/usr为默认的用户主目录所在的父目录）。</p>
+<pre><code># useradd -s /bin/sh  -g group –G adm,root gem
+</code></pre><p>此命令新建了一个用户gem，该用户的登录Shell是/bin/sh，它属于group用户组，同时又属于adm和root用户组，其中group用户组是其主组。</p>
+<h2 id="删除帐号"><a href="#删除帐号" class="headerlink" title="删除帐号"></a>删除帐号</h2><p>如果一个用户的账号不再使用，可以从系统中删除。删除用户账号就是要将/etc/passwd等系统文件中的该用户记录删除，必要时还删除用户的主目录。删除一个已有的用户账号使用userdel命令，其格式如下：</p>
+<p>代码:<br>userdel 选项 用户名</p>
+<p>常用的选项是-r，它的作用是把用户的主目录一起删除。</p>
+<p>代码:</p>
+<pre><code># userdel sam
+</code></pre><p>此命令删除用户sam在系统文件中（主要是/etc/passwd, /etc/shadow, /etc/group等）的记录，同时删除用户的主目录。</p>
+<h2 id="修改帐号"><a href="#修改帐号" class="headerlink" title="修改帐号"></a>修改帐号</h2><p>修改用户账号就是根据实际情况更改用户的有关属性，如用户号、主目录、用户组、登录Shell等。</p>
+<pre><code>usermod 选项 用户名
+</code></pre><p>常用的选项包括-c, -d, -m, -g, -G, -s, -u以及-o等，这些选项的意义与useradd命令中的选项一样，可以为用户指定新的资源值。另外，有些系统可以使用如下选项：</p>
+<p>-l 新用户名</p>
+<pre><code>#usermod -l urchin(新用户名称)  test(原来用户名称) 
+</code></pre><p>这个选项指定一个新的账号，即将原来的用户名改为新的用户名。</p>
+<pre><code># usermod -s /bin/ksh -d /home/z –g developer sam
+</code></pre><p>此命令将用户sam的登录Shell修改为ksh，主目录改为/home/z，用户组改为developer。</p>
+<h2 id="用户口令的管理"><a href="#用户口令的管理" class="headerlink" title="用户口令的管理"></a>用户口令的管理</h2><p>用户管理的一项重要内容是用户口令的管理。用户账号刚创建时没有口令，但是被系统锁定，无法使用，必须为其指定口令后才可以使用，即使是指定空口令。<br>指定和修改用户口令的Shell命令是passwd。超级用户可以为自己和其他用户指定口令，普通用户只能用它修改自己的口令。</p>
+<pre><code>passwd 选项 用户名
+</code></pre><p>-l 锁定口令，即禁用账号。<br>-u 口令解锁。<br>-d 使账号无口令。<br>-f 强迫用户下次登录时修改口令。<br>如果默认用户名，则修改当前用户的口令。</p>
+<p>假设当前用户是sam，则下面的命令修改该用户自己的口令：</p>
+<pre><code>$ passwd
+Old password:******
+New password:*******
+Re-enter new password:*******
+</code></pre><p>如果是超级用户，可以用下列形式指定任何用户的口令：</p>
+<pre><code># passwd sam
+New password:*******
+Re-enter new password:*******
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-10-31-linux_user_manage/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-闭包和内存/" >为什么闭包会引起内存泄露</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>JavaScript使用一种称为垃圾收集的技术来管理分配给它的内存。这与C这样的底层语言不同，C要求使用多少借多少，用完再释放回去。其他语言，比如 Objective-C，实现了一个引用计数系统来辅助完成这些工作，我们能够了解到有多少个程序块使用了一个特定的内存段，因而可以在不需要时清除这些内存段。</p>
+<p>JavaScript是一种高级语言，它一般是通过后台来维护这种计数系统。</p>
+<p>当JavaScript代码生成一个新的内存驻留项时（比如一个对象或函数），系统就会为这个项留出一块内存空间。因为这个对象可能会被传递给很多函数，并且会被指定给很多变量，所以很多代码都会指向这个对象的内存空间。JavaScript会跟踪这些指针，当最后一个指针废弃不用时，这个对象占用的内存会被释放。</p>
+<pre><code>A ---------&gt; B ------------&gt; C
+</code></pre><p>例如对象A有一个属性指向B，而B也有一个属性指向C。即使当前作用域中只有对象A有效，但由于指针的关系所有3个对象都必须保留在内存中。当离开A的当前作用域时（例如代码执行到声明A的函数的末尾处），垃圾收集器就可以释放A占用的内存。此时，由于没有什么指向B，因此B可以释放，最后，C也可以释放。</p>
+<p>然而，当对象间的引用关系变得复杂时，处理起来也会更加困难。</p>
+<pre><code>A ---------&gt; B ------------&gt; C
+             ^、_ _ _ _ _ _ _|
+</code></pre><p>这里，我们又为对象C添加了一个引用B的属性。在这种情况下，当A释放时，仍然有来自C的指针指向B。这种引用循环需要由JavaScript进行特殊的处理，但必须考虑到整个循环与作用域中的其他变量已经处于隔离状态。</p>
+<p>从这里我们可以看到，闭包问题的本质是作用域的问题，我平时写的闭包大多出现在：</p>
+<h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>闭包可能会导致在不经意间创建循环引用。因为函数是必须保存在内存中的对象，所以位于函数执行上下文中的所有变量也需要保存在内存中：</p>
+<pre><code>function outerFn() {
+    var outerVar = {};
+    function innerFn() {
+        console.log(outerVar);
+    }
+    outerVar.fn = innerFn;
+    return innerFn;
+};
+</code></pre><p>这里创建了一个名为 outerVar 的对象，该对象在内部函数innerFn()中被引用。然后，为 outerVar 创建了一个指向 innerFn()的属性，之后返回了innerFn()。这样就在 innerFn() 上创建了一个引用outerVar的闭包，而outerVar又引用了innerFn()。</p>
+<p>这会导致变量在内存中存在的时间比想象得长，而且又不容易被发现。这还不算完，还有可能会出现比这种情况更隐蔽的引用循环：</p>
+<pre><code>function outerFn() {
+    var outerVar = {};
+    function innerFn() {
+        console.log(&apos;hello&apos;);
+    }
+    outerVar.fn = innerFn;
+    return innerFn;
+};
+</code></pre><p>这里我们修改了innerFn()，不再招惹 outerVar。但是，这样做仍然没有断开循环引用。<br>即使innerFn()不再勾引 outerVar，outerVar 也仍然位于innerFn()的封闭环境中。由于闭包的原因，位于 outerFn()中的所有变量都隐含地被 innerFn()所引用。我们再想一想，在 java 中的内部类不也是类似当前情况吗，内部类能够‘看’外部的 this。此时此刻，正如彼时彼刻，竟如此相像。因此，闭包会使意外地创建这些引用循环变得易如反掌。</p>
+<h3 id="DOM与JavaScript的循环"><a href="#DOM与JavaScript的循环" class="headerlink" title="DOM与JavaScript的循环"></a>DOM与JavaScript的循环</h3><p>虽然我很早就知道闭包，也在调试内存问题时在 chrome F12 里的 profile 是里看到 <code>closure reference</code>,但是并不清除这个问题的根源。因为上述情况通常不是什么问题，JavaScript能够检测到这些情况并在它们孤立时将其清除。</p>
+<p>最近看到关于这个问题的解释：在旧版本IE中存在一种难以处理的循环引用问题。</p>
+<blockquote>
+<p>当一个循环中同时包含DOM元素和常规JavaScript对象时，IE无法释放任何一个对象——因为这两类对象是由不同的内存管理程序负责管理的。</p>
+</blockquote>
+<p>除非关闭浏览器，否则这种循环在IE中永远得不到释放。为此，随着时间的推移，这可能会导致大量内存被无效地占用。</p>
+<p>导致这种循环的一个常见原因是简单的事件处理:</p>
+<pre><code>$(document).ready(function() {
+    var button = document.getElementById(&apos;button-1&apos;);
+        button.onclick = function() {
+            console.log(&apos;hello&apos;);
+            return false;
+        };
+});
+</code></pre><p>当指定单击事件处理程序时，就创建了一个在其封闭的环境中包含button变量的闭包。而且，现在的button也包含一个指向闭包（onclick属性自身）的引用。这样，就导致了在IE中即使离开当前页面也不会释放这个循环。<br>为了释放内存，就需要断开循环引用，例如关闭窗口,删除onclick属性。另外，也可以像下面这样重写代码来</p>
+<p>避免这种闭包：</p>
+<pre><code>function hello() {
+    console.log(&apos;hello&apos;);
+    return false;
+}
+
+$(document).ready(function() {
+    var button = document.getElementById(&apos;button-1&apos;);
+    button.onclick = hello;
+});
+</code></pre><p>因为hello()函数不再包含  button，引用就成了单向的（从button到hello）,不存的循环，所以就不会造成内存泄漏了。</p>
+<p>用jQuery化解引用循环</p>
+<p>下面，我们通过常规的jQuery结构来编写同样的代码：</p>
+<pre><code>$(document).ready(function() {
+    var $button = $(&apos;#button-1&apos;);
+        $button.click(function(event) {
+            event.preventDefault();
+            console.log(&apos;hello&apos;);
+        });
+});
+</code></pre><p>即使此时仍然会创建一个闭包，并且也会导致同前面一样的循环，但这里的代码却不会使 <code>IE</code> 发生内存泄漏。由于jQuery考虑到了内存泄漏的潜在危害，所以它会手动释放自己指定的所有事件处理程序。只要坚持使用jQuery的事件绑定方法，就无需为这种特定的常见原因导致的内存泄<br>漏而担心。</p>
+<p>但是，这并不意味着我们完全脱离了险境。当对DOM元素进行其他操作时，仍然要处处留心。只要是将JavaScript对象指定给DOM元素，就可能在旧版本IE中导致内存泄漏。jQuery只是有助于减少发生这种情况的可能性。</p>
+<p>有鉴于此，jQuery为我们提供了另一个避免这种泄漏的工具。用.data()方法，将信息附加到DOM元素。由于这里的数据并非直接保存在扩展属性中（jQuery使用一个内部对象并通过它创建的ID来保存这里所说的数<br>据），因此永远也不会构成引用循环，从而有效回避了内存泄漏问题。</p>
+<p>下面附上 jQuery 源码的相关说法：</p>
+<pre><code>// We have to handle DOM nodes and JS objects differently        
+   because IE6-7
+
+// can&apos;t GC object references properly across the DOM-JS boundary
+
+// Only DOM nodes need the global jQuery cache; JS object data is
+
+// attached directly to the object so GC can occur automatically
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-10-31-闭包和内存/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-08-20-jquery-event-on/" >jQuery-event-on</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p><strong>.on()</strong></p>
+<p><strong>.on(event,[,selector][,data],handler)</strong></p>
+<p>重点在于这里有个 selector，这个 selector 是对前面选择器的一个细化，选择的是前面选择器的子元素。</p>
+<p> 好方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> option = <span class="string">"loading"</span>;</div><div class="line"><span class="keyword">var</span> a = <span class="keyword">typeof</span> option == <span class="string">"object"</span> &amp;&amp; option;</div><div class="line"><span class="keyword">var</span> b = <span class="literal">true</span> &amp;&amp; option;  <span class="comment">// return "loading"</span></div><div class="line"><span class="keyword">var</span> c = <span class="literal">false</span> &amp;&amp; option; <span class="comment">// return false;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>Selector context is implemented with the .find() method;<br>therefore:</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">   $( <span class="string">"li.item-ii"</span> ).find( <span class="string">"li"</span> ) </div><div class="line"><span class="comment">// is equivalent to </span></div><div class="line">   $( <span class="string">"li"</span>, <span class="string">"li.item-ii"</span> ).</div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-08-20-jquery-event-on/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-23 </div>
+			<div class="article-title"><a href="/2014/10/23/2014-10-23-看待不完美/" >不完美</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="不完美"><a href="#不完美" class="headerlink" title="不完美"></a>不完美</h1><p>黄金是不完美的，</p>
+<p>钻石是不完美的，</p>
+<p>它们都不纯。</p>
+<p>手机不是完美的，</p>
+<p>平板不是完美的，</p>
+<p>他们太小了，他们没有键盘。</p>
+<p>书本是不完美的，太沉，没法搜索，</p>
+<p>pdf 也是不完美的，看它们的设备太少。</p>
+<p>vim 是不完美的，小问题太多。</p>
+<p>我，我自己也是不完美的，</p>
+<p>对！</p>
+<p>通通不完美！</p>
+<p>然而，什么东西又是完美的呢？</p>
+<p>眼睛里放的总是不完美，那么天空是暗淡的，</p>
+<p>可我要的又是什么呢？</p>
+<p>我要的就是使用我身边不完美的东西，</p>
+<p>去创造出属于我的同样不完美的完美。</p>
+<blockquote>
+<p>2014年10月23日 跑步归来有感</p>
+</blockquote>
+
+	
+	</div>
+  <a type="button" href="/2014/10/23/2014-10-23-看待不完美/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-23 </div>
+			<div class="article-title"><a href="/2014/10/23/2014-10-31-regexp/" >regexp_reference</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="基础符号"><a href="#基础符号" class="headerlink" title="基础符号"></a>基础符号</h2><p>字符串字面值（string literal），来匹配目标字符串的。所谓字符串字面值，就是字面上看到的值.</p>
+<h2 id="使用符号"><a href="#使用符号" class="headerlink" title="使用符号"></a>使用符号</h2><pre><code>？ 表示    可选
++  一个或多个    
+*  0或多
+|  选择，or
+\  转义
+</code></pre><p>匹配数字: \d ,要匹配非数字字符，可使用包含以下大写字母 D 的简写式：\D。</p>
+<pre><code>\D 匹配非数字，同时包括空格（含回车换行）和标点。
+
+\D 与\w 的区别是
+
+\D 会匹配空格、标点符号（引号、连字符、反斜杠、方括号）等字符，而\w 却不会.
+</code></pre><p><strong>\w 匹配 数字，字母和下划线</strong></p>
+<pre><code>\W 匹配 空格，标点 和 非字母，非数字
+</code></pre><p><strong>\D 和 \W 的共同点是：都可以匹配空格和标点</strong></p>
+<pre><code>\s 空白符，空白不是空格，匹配 换行 和 空格,它会匹配：
+</code></pre><ol>
+<li>空格</li>
+<li>制表符（\t）</li>
+<li>换行符（\n）</li>
+<li><p>回车符（\r）</p>
+<p>与</p>
+</li>
+</ol>
+<p>[ \t\n\r] </p>
+<p>表示相同。</p>
+<p>. 点号 可以 <strong>排除行结束符之外的所有字符</strong></p>
+<pre><code>[\w\W] 与 .* 的区别  
+
+[\w\W] 用了互补的集合，来表示“任意字符”，这里和.（点）的概念差不多，但.（点）在默认的情况下是不支持换行符的，用[\w\W]就可以匹配任意的字符，也包括换行符；
+</code></pre><p>匹配单词的边界 \b</p>
+<p>简写式\b匹配单词边界，不消耗任何字符；<br>可以用在从多个单词中查找指定单词，特点是单词周围是空格，所以如果<br>配置文章中的单词用这个 \bxyz\b, 可以免去 axyz 这种巧合，单独的匹配<br>单词 xyz。</p>
+<p> .+ 可以用于计算行数，简单至极！<br>原因是点号通常不会匹配折行符，例如换行符（U+000A）或回车符（U+000D） </p>
+<p>sed 是Unix 流编辑器，它支持用正则表达式转换文本。</p>
+<h2 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h2><blockquote>
+<p>断言标记边界，但是并不耗用字符.</p>
+</blockquote>
+<p>字符并不会返回到结果中。断言也被称做零宽度断言（zero-widthassertion）。零宽度断言不匹配字符，而是匹配字符串中的位置。</p>
+<p>其中的一些，比如^ 和$，也叫做锚位符（anchor）<br>^ 会匹配行或者字符串的起始<strong>位置</strong>。</p>
+<pre><code>.^$*+?|(){}[]\-
+</code></pre><p>这15 个元字符在正则表达式中有特殊含义，用来编写匹配模式。</p>
+<p>如果你在RegExr 上方的文本框中尝试匹配这些字符，则不会看到任何结果.</p>
+<p>因为RegExr 会认为这是个正则表达式而不是字符串字面值。现在试一下<br>\Q$\E</p>
+<p>它将匹配$，因为\Q 和\E 之间的任意字符都会被解释为普通字符。</p>
+<h2 id="捕获分组和向后引用"><a href="#捕获分组和向后引用" class="headerlink" title="捕获分组和向后引用"></a>捕获分组和向后引用</h2><p>当一个模式的全部或者部分内容由一对括号分组时，它就对内容进行<br>捕获并临时存储于内存中。</p>
+<h2 id="量词"><a href="#量词" class="headerlink" title="量词"></a>量词</h2><h3 id="贪心、懒惰、占有"><a href="#贪心、懒惰、占有" class="headerlink" title="贪心、懒惰、占有"></a>贪心、懒惰、占有</h3><p>量词自身是贪心的。贪心的量词会首先匹配整个字符串。尝试匹配时，它会选定尽<br>可能多的内容，也就是整个输入。</p>
+<blockquote>
+<p>量词首次尝试匹配整个字符串，如果失败则回退一个字符后再次尝试。这个过程叫做回溯（backtracking）。</p>
+</blockquote>
+<p>它会每次回退一个字符，直到找到匹配的内容或者没有字符可尝试为止。</p>
+<p>懒惰（有时也说勉强）的量词则使用另一种策略。</p>
+<p>它从目标的起始位置开始尝试寻找匹配，每次检查字符串的一个字符，寻找它要匹配的内容,最后，它会尝试匹配整个字符串。</p>
+<p>比如 在  666666 在匹配 6{2,6}， 既可以2个6 就能匹配，也可以6个6才匹配，懒惰就去用两个6去匹配，贪心就去母串中匹配直到6个6.</p>
+<p>要使一个量词成为懒惰的，必须在普通量词后添加一个问号（?）。它每次只“吃”一点。</p>
+<blockquote>
+<p>环视是一种非捕获分组，它根据某个模式之前或之后的内容匹配其他模式。环视也<br>称为零宽度断言。</p>
+</blockquote>
+<h3 id="正前瞻"><a href="#正前瞻" class="headerlink" title="正前瞻"></a>正前瞻</h3><p>a(?=b) 匹配:</p>
+<p>c<strong>a</strong>bd   </p>
+<p>只有匹配模式的第一部是被标亮的，环视模式不会标亮。用于前面匹配的要求（帮助把关），但是不会作为匹配。</p>
+<h3 id="反前瞻"><a href="#反前瞻" class="headerlink" title="反前瞻"></a>反前瞻</h3><p>反前瞻是对正前瞻的取反操作。这意味着要匹配某个模式时，需要在它后面找不到<br>含有给定前瞻模式的内容。</p>
+<p>a(?!b) 匹配:</p>
+<p><strong>a</strong>ab</p>
+<p>sd<strong>a</strong>vdabd</p>
+<p>必须满足匹配部分要匹配，但不要匹配括号里的内容。</p>
+<h3 id="正后顾-正后顾不适用于-javascript"><a href="#正后顾-正后顾不适用于-javascript" class="headerlink" title="正后顾(正后顾不适用于 javascript)"></a>正后顾(正后顾不适用于 javascript)</h3><p>(?&lt;=a)b</p>
+<p>a<strong>b</strong>c</p>
+<p>aa<strong>b</strong>d</p>
+<h3 id="反后顾-反后顾不适用于-javascript"><a href="#反后顾-反后顾不适用于-javascript" class="headerlink" title="反后顾(反后顾不适用于 javascript)"></a>反后顾(反后顾不适用于 javascript)</h3><p>(?&lt;!a)b</p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/23/2014-10-31-regexp/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-23 </div>
+			<div class="article-title"><a href="/2014/10/23/2014-10-23-swing/" >隐形的翅膀</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>每一次都在徘徊孤单中坚强</p>
+<p>每一次就算受伤害也不闪泪光</p>
+<p>不去想他们拥有美丽的太阳</p>
+<p>带我飞，给我希望</p>
+<p>我终于翱翔，穿过云朵不害怕</p>
+<p>我看见每天的夕阳都会由变化</p>
+<p>我终于看到， 所有梦想都开花</p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/23/2014-10-23-swing/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-22 </div>
+			<div class="article-title"><a href="/2014/10/22/2014-10-22-基本视觉格式化/" >基本视觉格式化</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="css基本视觉格式化"><a href="#css基本视觉格式化" class="headerlink" title="css基本视觉格式化"></a>css基本视觉格式化</h1><h2 id="containing-block"><a href="#containing-block" class="headerlink" title="containing block"></a>containing block</h2><p>每个元素都相对于其包含块摆放；也就是说,包含块是一个元素的“<strong>布局上下文</strong>”。</p>
+<pre><code>&lt;div&gt;
+    &lt;p&gt;
+    &lt;/P&gt;
+&lt;/div&gt;
+</code></pre><p> p 的包含块就是 div，div 的包含块就是 body。</p>
+<blockquote>
+<p>想想浏览器怎么把一个元素“画”出来，至少要知道定位和尺寸。定位有三种normal flow, floats和 absolute，无论属于哪种首先要找所在的containing block(我翻译为容器块)，相当于一个大箱子里摆很多小盒子，小盒子怎么摆取决于大箱子。</p>
+</blockquote>
+<p>怎么确定一个元素的containing block，由position属性确定:</p>
+<ol>
+<li>根元素所在的 containing block 被称为 initial containing block，在我们常用的浏览器环境下，指的是原点与 canvas 重合，大小和 viewport 相同的矩形；</li>
+<li>static(默认的)/relative：简单说就是它的父元素的内容框（除 margin, border, padding 外的区域))</li>
+<li>absolute: 则是先找到其祖先元素中最近的 position 属性非 static 的元素.</li>
+<li>fixed: 它的 containing block一律为根元素(html/body)，根元素也是initial containing block(viewport).</li>
+</ol>
+<p>一般来说，盒子本身就为其子孙建立了 containing block，用来计算内部盒子的位置、大小，而对内部的盒子，具体采用哪个 containing block 来计算，需要分情况来讨论：</p>
+<h2 id="block-formatting-context-BFC"><a href="#block-formatting-context-BFC" class="headerlink" title="block formatting context(BFC)"></a>block formatting context(BFC)</h2><p>block formatting context(块级格式化上下文)是一种布局特性，还是往箱子里放东西，bfc可以理解为打了”隔板”把一组小盒子分离开。</p>
+<p>在这种布局方式下，盒子们自所在的 containing block 顶部起一个接一个垂直排列，水平方向上撑满整个宽度 (除非内部的盒子自己内部建立了新的 BFC)。</p>
+<h2 id="block-level-box"><a href="#block-level-box" class="headerlink" title="block-level box"></a>block-level box</h2><p>一个 block-level element (‘display’ 属性值为 ‘block’, ‘list-item’ 或是 ‘table’) 会生成一个 block-level box，这样的盒子会参与到 block-formatting context (一种布局的方式) 中。</p>
+<p>“block-level box一定会产生block formatting context”是错误的，block-level box须通过设置如overflow不为visible(IE6/7无效，可以设zoom)、float不为none等等来创建block formatting context。</p>
+<p>触发了bfc的block level box，没有margin callapse的问题，并且边缘不会和float box的边缘重叠，利用它可以清浮动。</p>
+<p>页面上任何一个元素都可以看成box，box 分 block-level，inline-level 和 匿名(anonymous box)的。</p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/22/2014-10-22-基本视觉格式化/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-20 </div>
+			<div class="article-title"><a href="/2014/10/20/2014-10-20-css-layout/" >css-layout</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="浅谈-css-布局标准"><a href="#浅谈-css-布局标准" class="headerlink" title="浅谈 css 布局标准"></a>浅谈 css 布局标准</h1><p>第一版 CSS1 诞生于96年12月，它是为了辅助 HTML 的展现效果而整出来的。<br>第二版 CSS2 诞生于98年5月。随后发布修订版css2.1,</p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/20/2014-10-20-css-layout/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-04 </div>
+			<div class="article-title"><a href="/2014/10/04/2014-10-03-custom_element_draft/" >custom_element_draft</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="custom-element"><a href="#custom-element" class="headerlink" title="custom element"></a>custom element</h2><p>参考<br><a href="http://w3c.github.io/webcomponents/spec/custom/" target="_blank" rel="external">http://w3c.github.io/webcomponents/spec/custom/</a></p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/04/2014-10-03-custom_element_draft/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-03 </div>
+			<div class="article-title"><a href="/2014/10/03/2014-10-03-shadowdom-draft/" >Shadow trees</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="Shadow-trees"><a href="#Shadow-trees" class="headerlink" title="Shadow trees"></a>Shadow trees</h2><p>w3c 中关于 Shadow tress 是这样说的：</p>
+<ol>
+<li>文档树是根节点为文档(document)的节点树. (A document tree is a node tree [DOM] whose root node is a document.)</li>
+<li>任何元素都能拥有一个按顺序排列的关联0到多个节点树的列表.(Any element can have an associated ordered list of zero or more node trees.)</li>
+<li>该元素作为此节点树的宿主，如果这个节点树在该元素的节点树列表中.(An element hosts a node tree if the node tree is a member of this associated list.)</li>
+<li>shadow host就一个元素 hosts 一个或多个节点树.(A shadow host is an element that hosts one or more node trees.)</li>
+<li>shadow root 是一个 shadow tree 的根节点。</li>
+<li>如果某个shadow host, hosts 了多个 shadow tree， 最近添加的成为 younger，越早越 older。</li>
+</ol>
+<p>参考<br><a href="http://w3c.github.io/webcomponents/spec/shadow/#shadow-trees" target="_blank" rel="external">http://w3c.github.io/webcomponents/spec/shadow/#shadow-trees</a></p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/03/2014-10-03-shadowdom-draft/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+<ul class="pagination">
+	 
+		
+    	<li class="prev"><a href="/page/8/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i> 上一页</a></li>
+  		
+
+        <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+
+		
+		   <li class="next"> <a href="/page/10/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a> </li>          
+        
+	
+</ul>
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div class="form-group has-success has-feedback" id="site_search">
+    <form class="site-search-form">
+        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
+    </form>
+  </div>  
+
+
+		
+			
+	<div class="widget">
+		<h4>分类</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/categories/Sports/Baseball/">Baseball<span>2</span></a></li>
+		
+			<li><a href="/categories/Sports/">Sports<span>2</span></a></li>
+		
+			<li><a href="/categories/bom/">bom<span>1</span></a></li>
+		
+			<li><a href="/categories/collection/">collection<span>1</span></a></li>
+		
+			<li><a href="/categories/css/">css<span>1</span></a></li>
+		
+			<li><a href="/categories/http/">http<span>1</span></a></li>
+		
+			<li><a href="/categories/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/categories/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/categories/jquery/">jquery<span>1</span></a></li>
+		
+			<li><a href="/categories/library/">library<span>2</span></a></li>
+		
+			<li><a href="/categories/note/">note<span>1</span></a></li>
+		
+			<li><a href="/categories/note-vim/">note vim<span>2</span></a></li>
+		
+			<li><a href="/categories/tool/">tool<span>3</span></a></li>
+		
+			<li><a href="/categories/感悟/">感悟<span>1</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>标签云</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
+		
+			<li><a href="/tags/linux/">linux<span>6</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+		
+			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/随想/">随想<span>1</span></a></li>
+		
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/http/">http<span>2</span></a></li>
+		
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
+		
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+		
+		   <li><a href="/tags">...<span>38</span></a></li>
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>最新文章</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2015/10/27/what_is_true/" ><i class="fa fa-file-o"></i>实际情况是什么样的</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/软件设计原则/" ><i class="fa fa-file-o"></i>软件设计原则</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/测试工具-Mock-的使用-资料整理中/" ><i class="fa fa-file-o"></i>测试工具 Mock 的使用(资料整理中)</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/怎么写出好代码/" ><i class="fa fa-file-o"></i>怎么写出好代码</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/node-stream/" ><i class="fa fa-file-o"></i>node stream</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>链接</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/chenyakun" title="My Github repository." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

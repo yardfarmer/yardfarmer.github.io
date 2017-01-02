@@ -1,0 +1,330 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git学习总结 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Git学习总结"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> Git学习总结</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>##Git的一些基本概念</p>
+<ul>
+<li><p>设置自己的用户名和邮箱</p>
+  <figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config –<span class="keyword">global</span> <span class="keyword">user</span>.name <span class="string">"Your Name"</span></div><div class="line">git config –<span class="keyword">global</span> <span class="keyword">user</span>.email <span class="string">"you@example.com"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>修改到提交之间有一个缓存区</p>
+<ul>
+<li>提交到缓存区 <code>git add .</code> 当前所有修改提交到缓存区，也可以单独指定</li>
+<li><code>git diff --cached</code> 查看缓存区和本地仓库里的差异</li>
+<li><code>git diff HEAD</code>  查看已缓存和当前的区别</li>
+<li><code>git diff</code> 查看当前未缓存的和本地仓库里的区别</li>
+<li><code>git diff --stat</code> 显示摘要</li>
+</ul>
+</li>
+<li><p>撤销缓存区里的一个更改，例如hello.rb     <code>git reset HEAD -- hello.rb</code></p>
+</li>
+<li><code>git rm file</code> 将file从文件缓存区、本地目录中移除</li>
+<li><code>git rm file --cached</code> 只从缓存区移除，保存本地目录中的</li>
+</ul>
+<p>##分支操作</p>
+<ul>
+<li><code>git branch</code> 列出可用的分支</li>
+<li><code>git branch jser.me</code> 创建jser.me分支</li>
+<li><code>git checkout -b jser.me</code> 检查jser.me分支是否存在，不存在就创建，并且切换过去 </li>
+<li><code>git branch -d jser.me</code> 删除分支jser.me</li>
+<li><code>git merge</code> 其它分支合并到当前分支</li>
+<li><code>git checkout -b gh-pages origin/gh-pages</code> 检出并且设置当前分支为远程分支gh-pages </li>
+</ul>
+<p>##Log查看</p>
+<ul>
+<li><code>git log --oneline</code> 紧凑查看</li>
+<li><code>git log --graph</code> 图形显示</li>
+<li><code>git log erlang ^master</code> 查看只在erlang分支里的修改</li>
+<li><code>git log --grep</code> 正则取一个log</li>
+<li><code>git shortlog master</code> 生成一个简报</li>
+</ul>
+<p>##里程碑</p>
+<ul>
+<li><code>git tag -a v1.0</code> 打上v1.0</li>
+</ul>
+<p>##恢复删除的文件</p>
+<ul>
+<li><code>git checkout commitid -- pathfile</code></li>
+</ul>
+<p>##与人分享</p>
+<ul>
+<li><code>git remote</code> 列出远端的别名</li>
+<li><code>git remote add remotename remotepath</code> 以remotename命名remotepath</li>
+<li><code>git remote rm remotename</code> 删除别名为remotename的远程仓库</li>
+<li><code>git fetch</code> 只下载</li>
+<li><code>git pull</code> 下载并更新</li>
+<li><code>git push remotename branch</code> 推送本地分支branch到远程仓库remotename的branch分支</li>
+</ul>
+<p>##一些原则<br>新功能尽可能的开分支，但是定期合到master上来，不要把某一个分支长时间的开发<br>使用git-flow</p>
+<h2 id="Git的几个关键知识点"><a href="#Git的几个关键知识点" class="headerlink" title="Git的几个关键知识点"></a>Git的几个关键知识点</h2><ul>
+<li>有三种状态：<ul>
+<li>暂存 staged</li>
+<li>修改 modify</li>
+<li>已经提交</li>
+</ul>
+</li>
+<li>git status <ul>
+<li>前面状态有两列，头一列是暂存区的改动情况，如果你commit，它会提交，第二列是当前共工作区的状态，它是不会被提交的 </li>
+</ul>
+</li>
+</ul>
+<h2 id="冲突之后的解决"><a href="#冲突之后的解决" class="headerlink" title="冲突之后的解决"></a>冲突之后的解决</h2><p>找到冲突的地方，手工解决，然后<code>git add filename; git commite</code></p>
+<h2 id="只合并特定的分支特定文件"><a href="#只合并特定的分支特定文件" class="headerlink" title="只合并特定的分支特定文件"></a>只合并特定的分支特定文件</h2><ul>
+<li>使用命令 <code>git cherry-pick #commitid</code></li>
+<li>checkout方法 <code>git checkout branch -- filename</code></li>
+</ul>
+<h2 id="查看和远程分支的对比"><a href="#查看和远程分支的对比" class="headerlink" title="查看和远程分支的对比"></a>查看和远程分支的对比</h2><ul>
+<li>先把远程分支搞到本地 <code>git fetch origin master:temp</code>， 从远程的origin仓库的master分支下载到本地并新建一个分支temp</li>
+<li>比较分支 <code>git diff temp</code></li>
+<li>合并特定的文件，参考上面的</li>
+<li>删除无用的分支 <code>git branch -d temp</code></li>
+</ul>
+<h2 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h2><ul>
+<li>只显示有对比的文件 <code>git diff 608e120 4abe32e --name-only</code></li>
+<li>配合搞成压缩文件 <code>git diff 608e120 4abe32e --name-only | xargs zip update.zip</code></li>
+<li>如果不是查看每个文件的详细差别，而是统计一下有哪些文件被改动，有多少行被改 动，就可以使用‘–stat’ 参数。</li>
+<li>diff指定的文件 </li>
+</ul>
+<h2 id="查看今天的更改"><a href="#查看今天的更改" class="headerlink" title="查看今天的更改"></a>查看今天的更改</h2><ul>
+<li><code>git log --since=1.days</code></li>
+</ul>
+<h2 id="子模块"><a href="#子模块" class="headerlink" title="子模块"></a>子模块</h2><ul>
+<li>git submodule init  新拉下来的库，初始化所有的子模块</li>
+<li>git submodule add submodule-git-url  local-name  给当前库添加一个子模块，路径为submodule-git-url,<br>文件夹名为local-name，一般我们把local-name和子模块的名字保持一致</li>
+<li>git submodule foreach some-git-command 遍历子模块，并执行some-git-command，比如批量更新所有的子模块<code>git submodule foreach git pull origin master</code></li>
+</ul>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2014/08/01/2014-08-04-linux-air-command/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2014/04/22/2014-04-22-前端工程师需要掌握的linux基础命令/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2014-06-20 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/git/">git<span>5</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

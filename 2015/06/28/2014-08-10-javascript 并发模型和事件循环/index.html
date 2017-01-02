@@ -1,0 +1,283 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript并发模型和事件循环(Event Loop) | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript并发模型和事件循环(Event Loop)"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> javascript并发模型和事件循环(Event Loop)</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>JavaScript的”并发模型”是基于事件循环的.这个并发模型有别与Java的多线程,javascript的并发是单线程的.<br>Javascript 中有个重要一块，Event Loop，能把单线程的 JavaScript 使出 多线程的感觉。</p>
+<blockquote>
+<p>“Event Loop是一个程序结构，用于等待和发送消息和事件。（a programming construct that waits for and dispatches events or messages in a program.）”</p>
+</blockquote>
+<p>简单的说，就是在程序中（不一定是浏览器）中跑两个线程，一个负责程序本身的运行，作为主线程； 另一个负责主线程与其他线程的的通信，被称为“Event Loop 线程” 。  每当遇到异步的 setTimeOut ，setInterval 这些异步任务，交给 EventLoop 线程，然后自己往后运行，等到主线程运行完后，再去 Event Loop 线程拿结果。</p>
+<p>这种模型人称 “asynchronous” 或 “non-blocking” 模行。 </p>
+<p>我简单的画了一个 javascript 的执行图,我们通过图,逐步分析.<br><a href="http://www.cnblogs.com/yakun/p/3802725.html" target="_blank" rel="external">原图见我的博客</a></p>
+<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>函数调用时所用的执行环境栈<br>当js方法被调用时,会进入一个执行环境(execution context),如果有另外一个方法被调用了(或者自身递归调用),会新建一个新的执行环境,并且代码的执行会进入到这个新的执行环境.函数调用返回的时候重新回到原来的执行环境. 由此,代码执行的过程便形成了一个执行环境栈,江湖人称 “stack”;</p>
+<h2 id="执行环境-上下文"><a href="#执行环境-上下文" class="headerlink" title="执行环境(上下文)"></a>执行环境(上下文)</h2><p>execution context 是一个由ECMA定义的抽象的概念,所有的javascript代码都是在 execution context 执行环境中执行的.执行环境即执行上下文是一种对象，代码在执行上下文环境中执行。可以通过 this 关键字访问执行上下文，this 是对当前执行环境对象的引用。 一般情况下，</p>
+<blockquote>
+<p>如果代码不存在一个用户自定义的对象或函数中， 那么它将处于全局上下文环境。</p>
+</blockquote>
+<p>全局执行环境是最外层的一个执行环境.在Web浏览器中,全局执行环境认为是window对象.因此所有全局变量和函数都是作为window对象的属性和方法创建的.</p>
+<p>全局的代码(inline中执行的代码,通常包括js文件,html页面,加载的)在全局执行环境中执行.每个方法调用都有一个与之关联的执行环境.</p>
+<p>某个执行环境中的所有代码执行完毕后,该执行环境被销毁,保存在其中的所有变量和函数定义也随之销毁. 全局执行环境直到页面关闭时才被销毁.</p>
+<p>每个函数都有自己的执行环境,当执行流进入一个函数时,Javascript 创建一个新的执行上下文，并进入该函的执行上下文。函数的执行环境就会被推入环境栈中. 而在函数执行之后,栈将其环境栈弹出,把控制权返回给之前的执行环境.Javascript 中的执行流正是由这个方便的机制的控制着.</p>
+<p>当代码在一个执行环境中执行时,会创建变量对象的一个作用域链(scope chain).<br>作用域链的用途,确保当前执行环境能有序(不明白就接着看)的访问所能获取的变量和函数.</p>
+<p>作用域链的前端,始终都是当前执行的代码所在的执行环境的变量对象.</p>
+<p>即当前作用域没有,外层作用域兜着.</p>
+<p>执行环境被创建时会有次序的进行一些工作.</p>
+<ol>
+<li><p>首先,在方法的执行环境中,Activation 活动对象被创建.活动对象另有一套实现机制.可以认为是对象,但又很特殊,没有prototype,不能在代码中直接引用到.</p>
+</li>
+<li><p>下一步,在方法调用创建执行环境的时候,会创建 argument 对象(类数组对象,含有传进来的参数,length,callee),活动对象中会有一个”argument”同名属性来引用这个argument对象.</p>
+</li>
+<li><p>再下一步,执行环境会被指定一个作用域.作用域由承载对象的列表(或链)组成.当代码在一个执行环境中执行,会创建变量对象的一个作用域链(scope chain).作用域链的前端,始终都是当前执行的代码所在执行环境的变量对象(和上面提到的 Activation 活动对象是一个对象). 如果这个环境是函数(javascript 环境只有函数和全局环境这两种), 则将其活动对象作为变量对象使用,活动对象在最开始时只包含一个arguments对象.</p>
+</li>
+</ol>
+<p>作用域链中下一个变量对象来自当前代码的外层环境.以此类推,直到到达最外层的全局执行环境,这样便构成了一条从底到上的作用域链.全局执行环境的变量对象始终都是作用域链的最后一个对象.<br>标示符解析是沿着作用域链一级一级的搜索标示符的过程.搜索过程始终都是从作用域链的最前端开始,然后主逐级向后回溯. </p>
+<h4 id="当进入执行环境"><a href="#当进入执行环境" class="headerlink" title="当进入执行环境"></a>当进入执行环境</h4><p>当进入执行环境(代码即将但仍未执行时),变量对象也就是活动对象已经包含了以下这些属性:</p>
+<ol>
+<li>函数的所有形参,由名称和对应值组成变量对象的属性.</li>
+<li>执行环境所在函数内部的所有子函数声明,由名称和对应值(函数对象 function object)组成变量对象的属性.如果变量对象内已存在同名属性,那么会被替换所有的变量声明.</li>
+<li>由名称和对应值(undefined)组成变量对象的属性,如果变量名称跟已经声明的形式参数或函数相同，则变量声明不会干扰已经存在的这类属性.</li>
+</ol>
+<p>需要说明的是,每个执行环境都有this,this的值取决于调用者和所执行代码的类型,this值是在进入执行环境时就已经确定的. 取值与执行环境相关联,并且在执行环境运行期间是不能被修改的.</p>
+<blockquote>
+<p>this 执行上下文中的一个属性. </p>
+</blockquote>
+<p> 在全局代码中,this始终是全局对象本身.</p>
+<p>在通常的函数调用中,this是由函数的调用者提供的,即被调用函数的父执行环境提供的.this值取决于函数调用的方式.</p>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆是一个对象互联的网络。用数学术语说就是“图”。图由节点及其之间的边构成。节点和边都是可被标记的：节点（对象）用对象构造器的名称标记，边则由属性名称标记。<br>从一个对象到另一个的边序列被叫做路径（path）。通常我们只对那些不重复经过同一节点两次的简单路径（simple path）感兴趣。<br>我们把垃圾收集器根节点到某个指定对象的路径叫做retaining path。如果不存在这样的路径，则该对象被称作无法达到的（unreachable），应在垃圾收集过程中被处置。</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>在web浏览器中,当事件发生时如果该事件有相应的监听器,则该消息会被及时的加进消息队列,如果没有监听器,该事件会被丢失.<br>javascript运行时伴随一个待处理的消息(也就是任务)队列,每个消息都关联了相关的处理函数,当函数的执行栈为空时,即当前没有正在执行的函数,那么,队列会从中挑出一个去处理.处理过程包括调用相关的函数(不用担心处理函数的作用域问题,因为在javascript中,作用域是词法化作用域,是方法在定义的时候已经确定的,与调用无关.作用域链创建早于方法调用,得益于此,我们方能使用闭包),处理完成后,如果栈为空,则再次尝试从队列中挑选可处理的事件或任务. 从中可以很容易窥探到 setInterval,setTimeout 是怎么进行异步执行的了.<br>这,就是事件循环,event loop.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析,javascript是不存在并发的,单线程何谈并发? 这只是说说了<em>非阻塞</em>.</p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2015/06/28/2014-08-10-javascript启示录书摘/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2015/06/28/2014-08-07-改键/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2015-06-28 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

@@ -1,0 +1,1115 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 10 页 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header">
+  <h1>IO buffer</h1>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
+      <i class="fa fa-heart"></i>
+      知行合一
+</div>    
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-01 </div>
+			<div class="article-title"><a href="/2014/10/01/2014-11-10-客户端库管理工具-spm/" >spm：客户端库管理工具</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<blockquote>
+<p>spm is a powerful and integrated static package manager designed for browser-side solutions including JavaScript, CSS and template.</p>
+</blockquote>
+<p>spm 中的组件都是以 CommonJs 的组织方式, 并且可以通过 seajs 加载运行.</p>
+<p>spm基于node.js，所以安装之前，必须先确保已安装node.js。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install spm -g</div></pre></td></tr></table></figure>
+<p>下面的命令可以更新或卸载 spm。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo npm update -g spm</div><div class="line">sudo npm uninstall -global spm</div></pre></td></tr></table></figure>
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="库的安装"><a href="#库的安装" class="headerlink" title="库的安装"></a>库的安装</h3><p>初始化 package</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir example</div><div class="line"><span class="built_in">cd</span> example</div><div class="line">spm init</div></pre></td></tr></table></figure>
+<p>spm install命令用于安装某个库，需要指明库的名字。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spm install backbone</div></pre></td></tr></table></figure>
+<p>Package Commands:</p>
+<pre><code>init           initialize a package
+login          login your account
+install        install a package
+publish        publish a package
+unpublish      unpublish a package
+tree           show dependencies tree
+info           information of a package
+search         search packages
+test           test a package
+doc            documentation manager
+build          build package
+completion     output completion bash script
+</code></pre><p>与 bower 不同的是， spm 增加了 <code>doc</code>，’build’ 功能, 通过 <code>build</code> 用于将编写的 CommonJS 模块编译后兼容多种的加载方式.</p>
+<p>build 同时能解决相对依赖和绝对依赖的问题。</p>
+<p>###spm build</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">-O [dir]  输出目录,默认为: dist</div><div class="line">-o [file] 输出文件名</div><div class="line"></div><div class="line"><span class="comment"># include 在 spm3.x 已经不再推荐</span></div><div class="line">--include [include]: 指定打包策略</div><div class="line">	- relative 打包相对依赖</div><div class="line">	- all 打包所有依赖</div><div class="line">	- standalone, 打包所有依赖并且自运行(不需要加载器, 比如在浏览器下直接放在 header 下)</div><div class="line"></div><div class="line">--standalone 不需要加载器,等同于 --include -standalone</div><div class="line">--sea 编译成 seajs 用的文件, 等同于老式的 --include[relative/all]</div></pre></td></tr></table></figure>
+<p>###package.json<br><code>spm</code> 使用和 <code>npm</code> 基本一致的 <code>package.json</code> 来描述组件.</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    ...</div><div class="line"></div><div class="line">    <span class="string">"spm"</span>: &#123;</div><div class="line">        <span class="string">"main"</span>: <span class="string">"calendar.js"</span>,</div><div class="line">        <span class="string">"dependencies"</span>: &#123;&#125;,</div><div class="line">        <span class="string">"devDependencies"</span>: &#123;&#125;,</div><div class="line">        <span class="string">"tests"</span>: <span class="string">"tests/*-spec.js"</span>,</div><div class="line">        <span class="string">"ignore"</span>: [</div><div class="line">            <span class="string">"dist"</span>,</div><div class="line">            <span class="string">"_site"</span></div><div class="line">        ],</div><div class="line">        <span class="string">"buildArgs"</span>: <span class="string">"--ignore jquery"</span></div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> dest</td>
+<td>输出目录, 默认为 dist</td>
+</tr>
+<tr>
+<td> include</td>
+<td>指定打包策略, 可选 –sea/–standalone 等方式</td>
+</tr>
+<tr>
+<td> ignore</td>
+<td>指定不进行 transport 的依赖</td>
+</tr>
+<tr>
+<td> skip</td>
+<td>指定不进行分析的依赖</td>
+</tr>
+<tr>
+<td> idleaing</td>
+<td>模块名前缀,默认为 /</td>
+</tr>
+<tr>
+<td> withDeps</td>
+<td>同时打包所有依赖, 默认为 false</td>
+</tr>
+</tbody>
+</table>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="http://spmjs.io/documentation/spm-commands" target="_blank" rel="external">spm.io</a></p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/01/2014-11-10-客户端库管理工具-spm/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-09-02 </div>
+			<div class="article-title"><a href="/2014/09/02/2014-09-02-modernizr/" >了解 Modernizr</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>为了渐进增强和特性检测，Modernizr 出场.</p>
+<p>首先，从modernizr.com下载这个库。下载的时候，可以选择所需要的模块。然后，将它插入HTML页面的头部，放在head标签之中。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">class</span>=<span class="string">"no-js"</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/modernizr.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="CSS的新增class"><a href="#CSS的新增class" class="headerlink" title="CSS的新增class"></a>CSS的新增class</h2><p>使用Modernizr以后，首先会把html元素的class替换掉。以chrome浏览器为例，新增的class大概是下面的样子。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">class</span>=<span class="string">"js no-touch postmessage history multiplebgs boxshadow opacity cssanimations csscolumns cssgradients csstransforms csstransitions fontface localstorage sessionstorage svg inlinesvg blobbuilder blob bloburls download formdata"</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>IE 7则是这样：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">class</span>=<span class="string">"js no-touch postmessage no-history no-multiplebgs no-boxshadow no-opacity no-cssanimations no-csscolumns no-cssgradients no-csstransforms no-csstransitions fontface localstorage sessionstorage no-svg no-inlinesvg wf-loading no-blobbuilder no-blob no-bloburls no-download no-formdata"</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后，就可以针对不同的CSS class，指定不同的样式。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="selector-class">.button</span> &#123;</div><div class="line">   <span class="attribute">background</span>: <span class="number">#000</span>;</div><div class="line">   <span class="attribute">opacity</span>: <span class="number">0.75</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.no-opacity</span> <span class="selector-class">.button</span> &#123;</div><div class="line">   <span class="attribute">background</span>: <span class="number">#444</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="JavaScript侦测"><a href="#JavaScript侦测" class="headerlink" title="JavaScript侦测"></a>JavaScript侦测</h2><p>除了提供新增的CSS class，Modernizr还提供JavaScript方法，用来侦测浏览器是否支持某个功能。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Modernizr.cssgradients; <span class="comment">//True in Chrome, False in IE7</span></div><div class="line"></div><div class="line">Modernizr.fontface; <span class="comment">//True in Chrome, True in IE7</span></div><div class="line"></div><div class="line">Modernizr.geolocation; <span class="comment">//True in Chrome, False in IE7</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> (Modernizr.canvas)&#123;</div><div class="line">	<span class="comment">// 支持canvas</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">   <span class="comment">// 不支持canvas</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (Modernizr.touch)&#123;</div><div class="line">	<span class="comment">// 支持触摸屏</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">   <span class="comment">// 不支持触摸屏</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="加载器"><a href="#加载器" class="headerlink" title="加载器"></a>加载器</h2><p>Modernizr允许根据Javascript侦测的不同结果，加载不同的脚本文件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Modernizr.load(&#123;</div><div class="line">  <span class="attr">test</span> :        Modernizr.localstorage,</div><div class="line">  <span class="attr">yep</span>  :        <span class="string">'localStorage.js'</span>,</div><div class="line">  <span class="attr">nope</span> :        <span class="string">'alt-storageSystem.js'</span>,</div><div class="line">  <span class="attr">complete</span> :    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; enableStorgeSaveUI();&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>Modernizr.load方法用来加载脚本。它的属性如下：</p>
+<ul>
+<li>test：用来测试浏览器是否支持某个属性。</li>
+<li>yep：如果浏览器支持该属性，加载的脚本。</li>
+<li>nope：如果浏览器不支持该属性，加载的脚本。</li>
+<li>complete：加载完成后，运行的JavaScript代码。</li>
+</ul>
+<p>可以指定在支持某个功能的情况，所要加载的JavaScript脚本和CSS样式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Modernizr.load(&#123;</div><div class="line">  <span class="attr">test</span> : Modernizr.touch,</div><div class="line">  <span class="attr">yep</span> :  [<span class="string">'js/touch.js'</span>, <span class="string">'css/touchStyles.css'</span>]</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li>Chris Griffith, <a href="http://www.adobe.com/devnet/html5/articles/up-and-running-with-modernizr.html" target="_blank" rel="external">Up and running with Modernizr</a></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2014/09/02/2014-09-02-modernizr/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-08-20 </div>
+			<div class="article-title"><a href="/2014/08/20/2014-08-20-vim&gist/" >让Vim 如虎添翼</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>用 IntelliJ 的时觉得 <code>create gist</code> 很好用，查了下，发现 vim 下也有这个插件，于是马上配置上。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<li><p><a href="http://www.vim.org/scripts/script.php?script_id=2423" target="_blank" rel="external">下载 Gist.vim </a></p>
+</li>
+<li><p>解压后进入目录，拷贝文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cp plugin/gist.vim    ~/.vim/plugin</div><div class="line">    cp <span class="built_in">autoload</span>/gist.vim  ~/.vim/<span class="built_in">autoload</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>如果你的 vim 没有安装 <code>webapi-vim</code> 还要把这个也安装上<br><a href="http://www.vim.org/scripts/script.php?script_id=4019" target="_blank" rel="external">下载 webapi</a><br>拷贝文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp -R <span class="built_in">autoload</span>/webapi  ~/.vim/<span class="built_in">autoload</span>/webapi</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置 github 用户名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git config --global github.user &lt;username&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>重启vim<br>输入命令，会提示输入 github 的密码，确认后会把当前整个文档内容发送到 gist。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:Gist</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:Gist</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/chenyakun/gist-vim" target="_blank" rel="external">这里有详细使用方法</a></p>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rm -rf ~/.vim/plugin/gist.vim</div><div class="line">   rm -rf ~/.vim/<span class="built_in">autoload</span>/gist.vim</div><div class="line">   rm -rf ~/.gist-vim</div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2014/08/20/2014-08-20-vim&gist/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-08-18 </div>
+			<div class="article-title"><a href="/2014/08/18/2014-08-20-javascript类库/" >javascript 中的类</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>对于静态的类来说，JavaScript 对象直接量就已经够用了，但使用继承和实例来创建经典的类往往更有帮助。</p>
+<blockquote>
+<p>JavaScript 是基于原型的编程语言，并没有包含内置类的实现。</p>
+</blockquote>
+<p>但通过JavaScript 可以轻易地模拟出经典的类。</p>
+<p>JavaScript 中有构造函数和 new 运算符。<strong>构造函数用来给实例对象初始化属性和值</strong>。任何JavaScript 函数都可以用做构造函数，构造函数必须使用 new 运算符作为前缀来创建新的实例。</p>
+<p>new 运算符改变了函数的执行上下文，同时改变了return 语句的行为。</p>
+<p>当使用 new 关键字来调用构造函数时，执行上下文从全局对象（window）变成一个空的上下文<code>{}</code>，这个上下文代表了新生成的实例。因此，this 关键字指向当前创建的实例。如果构造函数没有返回值，那么这个新生成的实例就作为默认的返回值。如果指定了返回值，这个新实例就白白浪费了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Person = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</div><div class="line"><span class="keyword">this</span>.name = name;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// 实例化一个Person</span></div><div class="line"><span class="keyword">var</span> alice = <span class="keyword">new</span> Person(<span class="string">'zhang'</span>); </div><div class="line"></div><div class="line"><span class="keyword">if</span> .. 这样</div><div class="line"></div><div class="line">Person(<span class="string">'ben dan'</span>); <span class="comment">//=&gt; undefined</span></div></pre></td></tr></table></figure>
+<p>上面这个例子说明了 new 与不 new 的区别。这个函数只会返回undefined，并且执行上下文是window（全局）对象，无意间创建了一个全局变量name。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Class build my Own class</div><div class="line"> * Created by cyk on 14-8-19.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">    "use strict"</span>;</div><div class="line"></div><div class="line">    <span class="comment">// in current line, 'this' is : Class &#123;&#125; 对象实例</span></div><div class="line">    <span class="comment">// in the finally, as we have a return value ,so the Class &#123;&#125; is unused.</span></div><div class="line"></div><div class="line">    <span class="comment">// 这样的做法每次都会产生一个'新的' klass 字面量方法</span></div><div class="line">    <span class="keyword">var</span> klass = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="comment">// this 均是上下文中新生成的实例</span></div><div class="line">        <span class="keyword">this</span>.init.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    klass.prototype.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line"></div><div class="line">    <span class="comment">// 定义 prototype 的别名</span></div><div class="line">    klass.fn = klass.prototype;</div><div class="line"></div><div class="line">    <span class="comment">// 定义类的别名</span></div><div class="line">    klass.fn.parent = klass;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 给类添加属性</span></div><div class="line">    klass.extend  = <span class="function"><span class="keyword">function</span> (<span class="params"> obj </span>) </span>&#123;</div><div class="line">        <span class="comment">// 可选的回调方法 extended</span></div><div class="line">        <span class="keyword">var</span> extended = obj.extended;</div><div class="line"></div><div class="line">        <span class="keyword">for</span>( <span class="keyword">var</span> i <span class="keyword">in</span> obj ) &#123;</div><div class="line">            klass[i] = obj[i];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (extended) extended(klass);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="comment">// 给实例添加属性</span></div><div class="line">    klass.include = <span class="function"><span class="keyword">function</span> (<span class="params"> obj </span>) </span>&#123;</div><div class="line">        <span class="comment">// 可选的回调方法</span></div><div class="line">        <span class="keyword">var</span> included = obj.included;</div><div class="line">        <span class="keyword">for</span>( <span class="keyword">var</span> i <span class="keyword">in</span> obj )&#123;</div><div class="line">            klass.fn[i] = obj[i];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (included) included(klass);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">     * 这里的实现支持extended 和included 回调。</div><div class="line">     * 将属性传入对象后就会触发这两回调函数</div><div class="line">     */</div><div class="line"></div><div class="line">    <span class="keyword">return</span> klass;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> ORMModule = &#123;</div><div class="line"></div><div class="line">   <span class="attr">save</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">       "use strict"</span>;</div><div class="line">       <span class="comment">// 共享的函数</span></div><div class="line">   &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> Person = <span class="keyword">new</span> Class();</div><div class="line"></div><div class="line"><span class="comment">// 虽然和上一行代码一样,但是获得的值却是新 new 出来的,</span></div><div class="line"><span class="comment">// 所有 Asset 和 Person 指向的都是 Class 的不同变量,只是变量内容相似罢了</span></div><div class="line"><span class="keyword">var</span> Asset  = <span class="keyword">new</span> Class();</div><div class="line"></div><div class="line"><span class="comment">// 所以 Person 和 Asset 现在指向的并非同一个变量</span></div><div class="line"></div><div class="line">Person.include(ORMModule);</div><div class="line"></div><div class="line">Asset.include(ORMModule);</div><div class="line"></div><div class="line">Person.include(&#123;</div><div class="line">    <span class="attr">find</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// person is : Class instance,</span></div><div class="line"><span class="comment">// klass &#123;init: function, parent: function, save: function, find: function&#125;</span></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person();</div><div class="line"></div><div class="line"><span class="keyword">var</span> asset = <span class="keyword">new</span> Asset();</div><div class="line"></div><div class="line"></div><div class="line">person.find(); <span class="comment">// klass</span></div><div class="line"></div><div class="line">asset.find();  <span class="comment">// undefined is not a function</span></div></pre></td></tr></table></figure>
+<hr>
+<p>先到这里，下集不见不看。</p>
+
+	
+	</div>
+  <a type="button" href="/2014/08/18/2014-08-20-javascript类库/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-08-02 </div>
+			<div class="article-title"><a href="/2014/08/02/2014-08-02-shell读取配置文件/" >shell读取配置文件</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最近鼓捣双机热备,写了些shell脚本</p>
+<h2 id="适用配置文件"><a href="#适用配置文件" class="headerlink" title="适用配置文件"></a>适用配置文件</h2><p>以 ifbeat 为例,linux的标准的配置文件中等号两遍不能存在括号, <em>空格</em> 或特殊符号可以用转衣服 ‘ \’</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">beat</span>=<span class="literal">true</span></div><div class="line"><span class="attr">primary</span>=<span class="literal">true</span></div><div class="line"><span class="attr">vip</span>=<span class="number">12.22</span>.<span class="number">192.146</span></div></pre></td></tr></table></figure>
+<h2 id="shell中读取配置文件"><a href="#shell中读取配置文件" class="headerlink" title="shell中读取配置文件"></a>shell中读取配置文件</h2><p>source 命令会读取配置文件,然后将配置文件中等号左面的key列作为变量读入内存中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> cofingfile</div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="variable">$beat</span>      // <span class="literal">true</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$primary</span>   // <span class="literal">true</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$vip</span>       // 12.22.192.146</div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2014/08/02/2014-08-02-shell读取配置文件/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-08-02 </div>
+			<div class="article-title"><a href="/2014/08/02/2014-08-02-linux安装oracle11g记录/" >Linux 安装 oracle11g 记录</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="准备oracle安装文件"><a href="#准备oracle安装文件" class="headerlink" title="准备oracle安装文件"></a>准备oracle安装文件</h2><p> Oracle11gR2包含两个文件linux_11gR2_database_1of2.zip和linux_11gR2_database_2of2.zip，将这两个文件通过SSH上传到/usr /local/oracle中。<br>解压安装文件到当前目录</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@localhost root]<span class="selector-id">#cd</span> /usr/local/oracle</div><div class="line"></div><div class="line">[root@localhost oracle]<span class="selector-id">#unzip</span> linux_11gR2_database_1of2<span class="selector-class">.zip</span></div><div class="line"></div><div class="line">[root@localhost oracle]<span class="selector-id">#unzip</span> linux_11gR2_database_2of2.zip</div></pre></td></tr></table></figure>
+<p>执行以上命令后，将会在/usr/local/oracle/下面产生名为database的目录，这就是oracle安装程序的目录。</p>
+<h2 id="准备oracle的安装目标目录"><a href="#准备oracle的安装目标目录" class="headerlink" title="准备oracle的安装目标目录"></a>准备oracle的安装目标目录</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost oracle]<span class="selector-id">#mkdir</span> –<span class="selector-tag">p</span> /opt/oracle</div></pre></td></tr></table></figure>
+<p>安装目标目录是用户想将oracle安装到哪个位置的目录，本次我们将oracle安装到/opt/oracle目录中，以下为目录创建命令。</p>
+<h2 id="创建oracle相关用户和用户组"><a href="#创建oracle相关用户和用户组" class="headerlink" title="创建oracle相关用户和用户组"></a>创建oracle相关用户和用户组</h2><p>oracle不能在root帐户下进行安装，所以需要为oracle的安装专门创建一个用户，同时需要创建dba和oinstall的用户组。</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root<span class="symbol">@localhost</span> oracle]<span class="meta">#groupadd dba</span></div><div class="line">[root<span class="symbol">@localhost</span> oracle]<span class="meta">#groupadd oinstall</span></div></pre></td></tr></table></figure>
+<p>以下命令将创建dba和oinstall用户组：<br>以下命令将创建oracle用户，并设置密码</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[root@localhost oracle]<span class="comment">#useradd -g oinstall -G dba oracle</span></div><div class="line"></div><div class="line">[root@localhost oracle]<span class="comment">#passwd oracle</span></div><div class="line"></div><div class="line">Changing password <span class="keyword">for</span> user oracle.</div><div class="line"></div><div class="line">New UNIX password: [在此键入密码]</div><div class="line"></div><div class="line">BAD PASSWORD: <span class="literal">it</span> <span class="keyword">is</span> based <span class="literal">on</span> a dictionary word</div><div class="line"></div><div class="line">Retype <span class="keyword">new</span> UNIX password: [在此再次键入密码]</div><div class="line"></div><div class="line">passwd: all authentication tokens updated successfully.</div></pre></td></tr></table></figure>
+<p>以下命令将oracle安装目录（/opt/oracle）赋予oracle用户oinstall用户组</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-attr">[root@localhost oracle]</span><span class="selector-id">#chown</span> –<span class="selector-tag">R</span> <span class="selector-tag">oracle</span><span class="selector-pseudo">:oinstall</span> /<span class="selector-tag">opt</span>/<span class="selector-tag">oracle</span></div></pre></td></tr></table></figure>
+<h2 id="检查安装ORACLE依赖的RPM软件包"><a href="#检查安装ORACLE依赖的RPM软件包" class="headerlink" title="检查安装ORACLE依赖的RPM软件包"></a>检查安装ORACLE依赖的RPM软件包</h2><p>oracle的安装所依赖的软件包，有一部分linux是没有安装的。这需要将这些尚未安装的软件包先安装后才能正常安装oracle。这些未安装的软件包在linux安装光盘上可以取到，我</p>
+<p>们直接在linux的光盘上对这些软件包进行安装（也可将所需的软件包直接复制到linux本地磁盘中），首先我们需要挂载linux光盘，使用以下命令：</p>
+<p>[root@localhost oracle]#mkdir /mnt/cdrom</p>
+<p>[root@localhost oracle]#mount /dev/cdrom /mnt/cdrom<br>安装所缺少的软件包，此处只安装本linux系统所缺少的软件包。如oracle安装过程中，对软件包进行检查时，发现仍有所需软件包未安装时，可根据显示未安装软件包的名字，再次对所缺少的软件包进行安装。以下为安装命令：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="selector-attr">[root@localhost oracle]</span>#</div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">kernel-headers-2</span><span class="selector-class">.6</span><span class="selector-class">.18-164</span><span class="selector-class">.el5</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">glibc-headers-2</span><span class="selector-class">.5-42</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">glibc-devel-2</span><span class="selector-class">.5-42</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">libgomp-4</span><span class="selector-class">.4</span><span class="selector-class">.0-6</span><span class="selector-class">.el5</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">sysstat-7</span><span class="selector-class">.0</span><span class="selector-class">.2-3</span><span class="selector-class">.el5</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">libaio-devel-0</span><span class="selector-class">.3</span><span class="selector-class">.106-3</span><span class="selector-class">.2</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">libstdc</span>++<span class="selector-tag">-devel-4</span><span class="selector-class">.1</span><span class="selector-class">.2-46</span><span class="selector-class">.el5</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">unixODBC-2</span><span class="selector-class">.2</span><span class="selector-class">.11-7</span><span class="selector-class">.1</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">unixODBC-devel-2</span><span class="selector-class">.2</span><span class="selector-class">.11-7</span><span class="selector-class">.1</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">gcc-4</span><span class="selector-class">.1</span><span class="selector-class">.2-46</span><span class="selector-class">.el5</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">gcc-c</span>++<span class="selector-tag">-4</span><span class="selector-class">.1</span><span class="selector-class">.2-46</span><span class="selector-class">.el5</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div><div class="line"></div><div class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">elfutils-libelf-devel-0</span><span class="selector-class">.137-3</span><span class="selector-class">.el5</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span> <span class="selector-tag">elfutils-libelf-devel-static-0</span><span class="selector-class">.137-3</span><span class="selector-class">.el5</span><span class="selector-class">.i386</span><span class="selector-class">.rpm</span></div></pre></td></tr></table></figure>
+<p>软件包安装完成后，</p>
+<h2 id="设置linux内核参数"><a href="#设置linux内核参数" class="headerlink" title="设置linux内核参数"></a>设置linux内核参数</h2><p>打开修改/etc/sysctl.conf，在最后加入以下内容</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="stylus"></span></div><div class="line"><span class="selector-id">#kernel</span><span class="selector-class">.shmall</span> = <span class="number">2097152</span></div><div class="line"></div><div class="line"><span class="selector-id">#kernel</span><span class="selector-class">.shmmax</span> = <span class="number">2147483648</span></div><div class="line"></div><div class="line">kernel<span class="selector-class">.shmmni</span> = <span class="number">4096</span></div><div class="line"></div><div class="line">kernel<span class="selector-class">.sem</span> = <span class="number">250</span> <span class="number">32000</span> <span class="number">100</span> <span class="number">128</span></div><div class="line"></div><div class="line">net<span class="selector-class">.core</span><span class="selector-class">.rmem_default</span> = <span class="number">4194304</span></div><div class="line"></div><div class="line">net<span class="selector-class">.core</span><span class="selector-class">.rmem_max</span> = <span class="number">4194304</span></div><div class="line"></div><div class="line">net<span class="selector-class">.core</span><span class="selector-class">.wmem_default</span> = <span class="number">262144</span></div><div class="line"></div><div class="line">fs<span class="selector-class">.file-max</span> = <span class="number">6815744</span></div><div class="line"></div><div class="line">net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_local_port_range</span> = <span class="number">9000</span> <span class="number">65500</span></div><div class="line"></div><div class="line">net<span class="selector-class">.core</span><span class="selector-class">.wmem_max</span> = <span class="number">1048576</span></div><div class="line"></div><div class="line">fs<span class="selector-class">.aio-max-nr</span> = <span class="number">1048576</span></div></pre></td></tr></table></figure>
+<h2 id="修改-etc-security-limits-conf"><a href="#修改-etc-security-limits-conf" class="headerlink" title="修改 /etc/security/limits.conf"></a>修改 /etc/security/limits.conf</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">修改 /etc/security/limits.conf,加入内容</div><div class="line"></div><div class="line">oracle soft nproc <span class="number">2047</span></div><div class="line"></div><div class="line">oracle hard nproc <span class="number">16384</span></div><div class="line"></div><div class="line">oracle soft nofile <span class="number">1024</span></div><div class="line"></div><div class="line">oracle hard nofile <span class="number">65536</span></div></pre></td></tr></table></figure>
+<h2 id="修改系统环境变量-etc-profile"><a href="#修改系统环境变量-etc-profile" class="headerlink" title="修改系统环境变量/etc/profile"></a>修改系统环境变量<code>/etc/profile</code></h2><p>修改环境变量<code>/etc/profile</code>，加入以下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> [ <span class="variable">$USER</span> = <span class="string">"oracle"</span> ]; <span class="keyword">then</span></div><div class="line"></div><div class="line">	<span class="keyword">if</span> [ <span class="variable">$SHELL</span> = <span class="string">"/bin/ksh"</span> ]; <span class="keyword">then</span></div><div class="line"></div><div class="line">		<span class="built_in">ulimit</span> -p 16384</div><div class="line"></div><div class="line">		<span class="built_in">ulimit</span> -n 65536</div><div class="line"></div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="built_in">ulimit</span> -u 16384 -n 65536</div><div class="line">	<span class="keyword">fi</span></div><div class="line"><span class="keyword">fi</span></div></pre></td></tr></table></figure>
+<h2 id="设置ORACLE环境变量"><a href="#设置ORACLE环境变量" class="headerlink" title="设置ORACLE环境变量"></a>设置ORACLE环境变量</h2><p>修改oracle用户主目录（/home/oracle）的的环境变量配置文件<code>~/.bash_profile</code>。使用以下命令</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root<span class="symbol">@localhost</span> oracle]<span class="meta">#vi /home/oracle/.bash_profile</span></div></pre></td></tr></table></figure>
+<p>往配置文件中加入以下内容</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">export ORACLE_SID=orcl （注意这个值要和下面创建的数据库实例名称相同）</div><div class="line"></div><div class="line">export ORACLE_BASE=<span class="regexp">/opt/oracle</span><span class="regexp">/app</span></div><div class="line"></div><div class="line">export ORACLE_HOME=$ORACLE_BASE/product<span class="regexp">/11.2.0/dbhome</span>_1</div><div class="line"></div><div class="line">export PATH=$<span class="symbol">PATH:</span>$HOME/<span class="symbol">bin:</span>$ORACLE_HOME/bin</div><div class="line"></div><div class="line">export LD_LIBRARY_PATH=$ORACLE_HOME/<span class="class"><span class="keyword">lib</span>:/<span class="title">usr</span>/<span class="title">lib</span></span></div></pre></td></tr></table></figure>
+<h2 id="开始安装过程"><a href="#开始安装过程" class="headerlink" title="开始安装过程"></a>开始安装过程</h2><p>以上步骤设置完成后，建议重新启动系统，使所有设置生效。现在使用oracle用户登录，并转到ORACLE安装程序目录。以下的每一个步骤都oracle安装过程的一个步骤（每一个步骤对应一个安装界面）。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@localhost <span class="keyword">oracle] </span><span class="comment"># su oracle</span></div><div class="line"></div><div class="line">[<span class="keyword">oracle@localhost </span><span class="keyword">oracle] </span><span class="comment">#cd /usr/local/oracle/database</span></div></pre></td></tr></table></figure>
+<p>运行安装命令</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[oracle<span class="symbol">@localhost</span> database] <span class="meta">#./runInstaller</span></div></pre></td></tr></table></figure>
+<p>有桌面类和服务器类两个选项，此处选择<em>服务器类(server)</em>。</p>
+<p><em>可以选择只安装数据库软件, 即不创建通常的数据库实例和数据库文件</em></p>
+<p>如果只是安装了数据库软件,<strong>安装结束后</strong>可以再</p>
+<p>配置监听</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ORACLE_HOME</span><span class="regexp">/bin/</span>netca</div></pre></td></tr></table></figure>
+<p>安装实例或数据库</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ORACLE_HOME</span><span class="regexp">/bin/</span>dbca</div></pre></td></tr></table></figure>
+<p>完成以上操作时，建议重新启动一次，避免某些设置未生效。重启后使用oracle用户登录，打开终端，键入以下命令运行以下命令<br>启动监听：</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root<span class="symbol">@localhost</span> oracle]$lsnrctl start</div></pre></td></tr></table></figure>
+<p>启动数据库和实例：</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root<span class="symbol">@localhost</span> oracle]$sqlplus /nolog</div><div class="line">[root<span class="symbol">@localhost</span> oracle]$conn /as sysdba</div></pre></td></tr></table></figure>
+<p>进入sqlplus后，执行启动数据库命令，以下命令将创建、安装并打开ORACLE实例。此时，数据库系统处于正常工作状态，可以接受用户请求。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SQL&gt;startup</div></pre></td></tr></table></figure>
+<p>关闭用</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SQL&gt;<span class="built_in">shutdown</span> immediate</div></pre></td></tr></table></figure>
+<h2 id="额外说明"><a href="#额外说明" class="headerlink" title="额外说明"></a>额外说明</h2><p>验证监听</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>tnsping sid/serviceName</div></pre></td></tr></table></figure>
+<h2 id="监听的配置"><a href="#监听的配置" class="headerlink" title="监听的配置"></a>监听的配置</h2><p>下回再写.</p>
+
+	
+	</div>
+  <a type="button" href="/2014/08/02/2014-08-02-linux安装oracle11g记录/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-08-01 </div>
+			<div class="article-title"><a href="/2014/08/01/2014-07-31-linux修改hostname/" >linux修改hostname</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最近鼓捣Oracle，记录些技巧</p>
+<h2 id="修改hostname"><a href="#修改hostname" class="headerlink" title="修改hostname"></a>修改hostname</h2><figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="vala"><span class="meta"># vim /ect/hosts              </span></span></div><div class="line"><span class="meta"># vim /etc/sysconfig/network  修改hostname</span></div><div class="line"><span class="meta"># service network restart     重启网络服务</span></div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2014/08/01/2014-07-31-linux修改hostname/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-08-01 </div>
+			<div class="article-title"><a href="/2014/08/01/2014-08-04-linux-air-command/" >linux常用工具</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>使用时</p>
+<blockquote>
+<p>如空气般必须，如呼吸般自然</p>
+</blockquote>
+<h2 id="文件链接"><a href="#文件链接" class="headerlink" title="文件链接"></a>文件链接</h2><p>链接文件可以节省磁盘空间，修改链接文件，等于修改原文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ln <span class="_">-s</span> /path/realfile /linkto/path/linkfile</div><div class="line"><span class="_">-s</span> 表示创建的是符号链接</div></pre></td></tr></table></figure>
+<h2 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">zip -r myfile.zip ./*</div><div class="line">-r: 递归压缩</div><div class="line"></div><div class="line">zip <span class="_">-d</span> myfile smart.txt</div><div class="line">删除掉压缩文件中的 smart.txt</div><div class="line"></div><div class="line">zip -m myfile.zip ./add.txt</div><div class="line">向压缩文件中 myfile.zip 添加(插入) add.txt 文件</div></pre></td></tr></table></figure>
+<h2 id="unzip"><a href="#unzip" class="headerlink" title="unzip"></a>unzip</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">unzip -o <span class="_">-d</span> /home/sunny myfile.zip</div><div class="line">-o: 直接覆盖不提示</div><div class="line"><span class="_">-d</span>: 指明将文件解压到哪</div></pre></td></tr></table></figure>
+<h2 id="管道输出到文件"><a href="#管道输出到文件" class="headerlink" title="管道输出到文件"></a>管道输出到文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ls /ect/hosts &gt; filename</div><div class="line">追加到文件</div><div class="line">ls /etc/hosts &gt;&gt; filename</div></pre></td></tr></table></figure>
+<h2 id="env"><a href="#env" class="headerlink" title="env"></a>env</h2><blockquote>
+<p> env executes utility after modifying the environment as specified on the command line.  The option name=value<br>     specifies an environmental variable, name, with a value of value.  The option `-i’ causes env to completely ignore<br>     the environment it inherits.</p>
+</blockquote>
+<p> If no utility is specified, env prints out the names and values of the variables in the environment, with one name=value pair per line.</p>
+<p>如果使用参数 i, 设定环境为制定的环境,排除其他默认参数的影响<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">env -i [<span class="keyword">name</span>=<span class="keyword">value</span>] java -jar xx</div></pre></td></tr></table></figure></p>
+
+	
+	</div>
+  <a type="button" href="/2014/08/01/2014-08-04-linux-air-command/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-06-20 </div>
+			<div class="article-title"><a href="/2014/06/20/2014-06-20-Git学习总结/" >Git学习总结</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>##Git的一些基本概念</p>
+<ul>
+<li><p>设置自己的用户名和邮箱</p>
+  <figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config –<span class="keyword">global</span> <span class="keyword">user</span>.name <span class="string">"Your Name"</span></div><div class="line">git config –<span class="keyword">global</span> <span class="keyword">user</span>.email <span class="string">"you@example.com"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>修改到提交之间有一个缓存区</p>
+<ul>
+<li>提交到缓存区 <code>git add .</code> 当前所有修改提交到缓存区，也可以单独指定</li>
+<li><code>git diff --cached</code> 查看缓存区和本地仓库里的差异</li>
+<li><code>git diff HEAD</code>  查看已缓存和当前的区别</li>
+<li><code>git diff</code> 查看当前未缓存的和本地仓库里的区别</li>
+<li><code>git diff --stat</code> 显示摘要</li>
+</ul>
+</li>
+<li><p>撤销缓存区里的一个更改，例如hello.rb     <code>git reset HEAD -- hello.rb</code></p>
+</li>
+<li><code>git rm file</code> 将file从文件缓存区、本地目录中移除</li>
+<li><code>git rm file --cached</code> 只从缓存区移除，保存本地目录中的</li>
+</ul>
+<p>##分支操作</p>
+<ul>
+<li><code>git branch</code> 列出可用的分支</li>
+<li><code>git branch jser.me</code> 创建jser.me分支</li>
+<li><code>git checkout -b jser.me</code> 检查jser.me分支是否存在，不存在就创建，并且切换过去 </li>
+<li><code>git branch -d jser.me</code> 删除分支jser.me</li>
+<li><code>git merge</code> 其它分支合并到当前分支</li>
+<li><code>git checkout -b gh-pages origin/gh-pages</code> 检出并且设置当前分支为远程分支gh-pages </li>
+</ul>
+<p>##Log查看</p>
+<ul>
+<li><code>git log --oneline</code> 紧凑查看</li>
+<li><code>git log --graph</code> 图形显示</li>
+<li><code>git log erlang ^master</code> 查看只在erlang分支里的修改</li>
+<li><code>git log --grep</code> 正则取一个log</li>
+<li><code>git shortlog master</code> 生成一个简报</li>
+</ul>
+<p>##里程碑</p>
+<ul>
+<li><code>git tag -a v1.0</code> 打上v1.0</li>
+</ul>
+<p>##恢复删除的文件</p>
+<ul>
+<li><code>git checkout commitid -- pathfile</code></li>
+</ul>
+<p>##与人分享</p>
+<ul>
+<li><code>git remote</code> 列出远端的别名</li>
+<li><code>git remote add remotename remotepath</code> 以remotename命名remotepath</li>
+<li><code>git remote rm remotename</code> 删除别名为remotename的远程仓库</li>
+<li><code>git fetch</code> 只下载</li>
+<li><code>git pull</code> 下载并更新</li>
+<li><code>git push remotename branch</code> 推送本地分支branch到远程仓库remotename的branch分支</li>
+</ul>
+<p>##一些原则<br>新功能尽可能的开分支，但是定期合到master上来，不要把某一个分支长时间的开发<br>使用git-flow</p>
+<h2 id="Git的几个关键知识点"><a href="#Git的几个关键知识点" class="headerlink" title="Git的几个关键知识点"></a>Git的几个关键知识点</h2><ul>
+<li>有三种状态：<ul>
+<li>暂存 staged</li>
+<li>修改 modify</li>
+<li>已经提交</li>
+</ul>
+</li>
+<li>git status <ul>
+<li>前面状态有两列，头一列是暂存区的改动情况，如果你commit，它会提交，第二列是当前共工作区的状态，它是不会被提交的 </li>
+</ul>
+</li>
+</ul>
+<h2 id="冲突之后的解决"><a href="#冲突之后的解决" class="headerlink" title="冲突之后的解决"></a>冲突之后的解决</h2><p>找到冲突的地方，手工解决，然后<code>git add filename; git commite</code></p>
+<h2 id="只合并特定的分支特定文件"><a href="#只合并特定的分支特定文件" class="headerlink" title="只合并特定的分支特定文件"></a>只合并特定的分支特定文件</h2><ul>
+<li>使用命令 <code>git cherry-pick #commitid</code></li>
+<li>checkout方法 <code>git checkout branch -- filename</code></li>
+</ul>
+<h2 id="查看和远程分支的对比"><a href="#查看和远程分支的对比" class="headerlink" title="查看和远程分支的对比"></a>查看和远程分支的对比</h2><ul>
+<li>先把远程分支搞到本地 <code>git fetch origin master:temp</code>， 从远程的origin仓库的master分支下载到本地并新建一个分支temp</li>
+<li>比较分支 <code>git diff temp</code></li>
+<li>合并特定的文件，参考上面的</li>
+<li>删除无用的分支 <code>git branch -d temp</code></li>
+</ul>
+<h2 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h2><ul>
+<li>只显示有对比的文件 <code>git diff 608e120 4abe32e --name-only</code></li>
+<li>配合搞成压缩文件 <code>git diff 608e120 4abe32e --name-only | xargs zip update.zip</code></li>
+<li>如果不是查看每个文件的详细差别，而是统计一下有哪些文件被改动，有多少行被改 动，就可以使用‘–stat’ 参数。</li>
+<li>diff指定的文件 </li>
+</ul>
+<h2 id="查看今天的更改"><a href="#查看今天的更改" class="headerlink" title="查看今天的更改"></a>查看今天的更改</h2><ul>
+<li><code>git log --since=1.days</code></li>
+</ul>
+<h2 id="子模块"><a href="#子模块" class="headerlink" title="子模块"></a>子模块</h2><ul>
+<li>git submodule init  新拉下来的库，初始化所有的子模块</li>
+<li>git submodule add submodule-git-url  local-name  给当前库添加一个子模块，路径为submodule-git-url,<br>文件夹名为local-name，一般我们把local-name和子模块的名字保持一致</li>
+<li>git submodule foreach some-git-command 遍历子模块，并执行some-git-command，比如批量更新所有的子模块<code>git submodule foreach git pull origin master</code></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2014/06/20/2014-06-20-Git学习总结/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-04-22 </div>
+			<div class="article-title"><a href="/2014/04/22/2014-04-22-前端工程师需要掌握的linux基础命令/" >前端工程师需要掌握的linux基础命令</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最近做服务器的热备，整理了些<code>李纳斯</code>工具的适用方法。</p>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><ul>
+<li>sleep 500 暂停</li>
+<li>ctrl + z 暂停</li>
+<li>progress &amp; 后台运行</li>
+<li>jobs\bg\fg 查看后台任务</li>
+<li>file 查看文件类型</li>
+<li>cd - 上一个工作目录</li>
+<li>pwd 查看当前工作目录</li>
+<li>touch 创建文件或者更新文件创建时间</li>
+<li>rm -i 交互式删除</li>
+</ul>
+<h3 id="时间相关"><a href="#时间相关" class="headerlink" title="时间相关"></a>时间相关</h3><ul>
+<li>date 查看时间</li>
+<li>date +%Y–%m–%d 格式化显示</li>
+<li>date -s “20:20:16” 修改时间</li>
+<li>hwclock 查看硬件时钟</li>
+<li>cal 查看日历</li>
+<li>uptime 查看系统运行时间</li>
+</ul>
+<h3 id="输出查看"><a href="#输出查看" class="headerlink" title="输出查看"></a>输出查看</h3><ul>
+<li>echo  输出指定的字符到标准输出</li>
+<li>cat   输出指定文件到标准输出</li>
+<li>head -n 指定行数</li>
+<li>tail<ul>
+<li>-n 显示行数</li>
+<li>-f 实时更新</li>
+</ul>
+</li>
+<li>more 只能向下翻页</li>
+<li>less 上下翻页</li>
+</ul>
+<h3 id="查看硬件信息"><a href="#查看硬件信息" class="headerlink" title="查看硬件信息"></a>查看硬件信息</h3><ul>
+<li>lspci -v 查看pci设备</li>
+<li>lsusb -v 查看use设备</li>
+<li>lsmod 查看加载的驱动</li>
+</ul>
+<h3 id="关机重启"><a href="#关机重启" class="headerlink" title="关机重启"></a>关机重启</h3><ul>
+<li>shutdown -h 关机</li>
+<li>shutdown -h +10 10分钟后关机</li>
+<li>shutdown -r 重启</li>
+<li>shutdown -r now 现在重启</li>
+<li>shutdown -h 20:30 20点30分关机</li>
+<li>poweroff 关机</li>
+<li>reboot 重启</li>
+</ul>
+<h3 id="归档、压缩"><a href="#归档、压缩" class="headerlink" title="归档、压缩"></a>归档、压缩</h3><ul>
+<li>zip xxx.zip myfile</li>
+<li><p>unzip xxx.zip</p>
+</li>
+<li><p>tar -xvf out.tar </p>
+</li>
+<li>tar -cvf out.tar myfile</li>
+<li>tar -zcvf out.tar.gz myfile</li>
+</ul>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><ul>
+<li>locate keyword 在数据库里查找</li>
+<li><p>updatedb 更新数据库</p>
+</li>
+<li><p>find . -name “<em>aa</em>“ 查找文件名带aa的文件</p>
+</li>
+<li>find / -name *.conf 查找conf目录</li>
+<li>find / -perm 777 查找文件模式为777的</li>
+<li>find / -type d  查找文件夹</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find . -name <span class="string">"*a*"</span> -exec cat &#123;&#125; \;</div></pre></td></tr></table></figure>
+<p>查找名字里带a的文件，并且cat出来，注意后面的{} \;是必须的，且中间必须有空格</p>
+<ul>
+<li>查找条件</li>
+<li>-name</li>
+<li>-perm</li>
+<li>-user</li>
+<li>-group</li>
+<li>-ctime</li>
+<li>-type</li>
+<li>-size</li>
+</ul>
+<h2 id="常见目录及功能"><a href="#常见目录及功能" class="headerlink" title="常见目录及功能"></a>常见目录及功能</h2><ul>
+<li>/opt 目录安装大型软件</li>
+<li>/proc 系统实时信息，虚拟目录</li>
+<li>/sbin 超级用户才能执行的命令</li>
+<li>/usr 一般的软件安装</li>
+<li>/var 经常变化的信息</li>
+</ul>
+<h2 id="BASH"><a href="#BASH" class="headerlink" title="BASH"></a>BASH</h2><ul>
+<li>!! 重复执行前一个命令</li>
+<li>!字符 重复前一个命令以『字符』开头的命令</li>
+<li>!num 按历史纪录重复执行</li>
+<li>!?ea 重复执行之前包含ea的命令</li>
+<li><p>!-n  重复执行n个命令之前的那个命令</p>
+</li>
+<li><p>ctrl + r 在历史命令中搜索</p>
+</li>
+<li><p>esc . 按个esc然后再按一下. 使用上一个命令的参数</p>
+</li>
+<li><p>? 匹配任意一个字符</p>
+</li>
+<li><ul>
+<li>任意一个字符</li>
+</ul>
+</li>
+<li>[0-9] 数字</li>
+<li>[abc] 任意字符</li>
+<li>[^abc] 除列表以外的字符</li>
+</ul>
+<h2 id="VIM"><a href="#VIM" class="headerlink" title="VIM"></a>VIM</h2><p><code>:sh</code> 到BASH环境中</p>
+<p><code>ctrl+d</code> 回到VIM</p>
+<h2 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h2><ul>
+<li>fdisk -l 列出硬盘信息</li>
+<li><p>fdisk /dev/sdb  进行交互式分区</p>
+<ul>
+<li>m 帮助</li>
+</ul>
+</li>
+<li><p>partprobe 更新一下分区表</p>
+</li>
+</ul>
+<p>分区机制有MBR和GPT两种<br>MBR 使用BIOS引导方式的PC设备，目前不支持2T以上，支持分区数量有限</p>
+<p>分区表只有256字节信息</p>
+<p>MBR最多只能创建4个主分区，主分区可以直接使用， 更多分区使用扩展分区和逻辑分区</p>
+<p>一个扩展分区会占用一个主分区位置，扩展分区不能直接用</p>
+<p>基于扩展分区创建逻辑分区</p>
+<p>最多支持63个IDE分区，15个SCSI分区</p>
+<p>GPT EFFI引导方式</p>
+<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><p>操作系统通过文件系统管理文件及数据，磁盘或者分区需要创建文件系统后才能被操作系统使用</p>
+<ul>
+<li>mke2fs 创建文件系统</li>
+<li><p>mke2fs -t ext4 /dev/sda3  创建文件系统类型</p>
+<ul>
+<li>-b 文件块大小,4k</li>
+<li>-c 建立的时候检查坏损块</li>
+<li>-L 建立卷标</li>
+<li>-j 建立文件系统日志</li>
+</ul>
+</li>
+<li><p>dumpe2fs 查看分区的文件系统信息</p>
+</li>
+<li><p>fsck 检查并且修复损坏的文件系统</p>
+</li>
+</ul>
+<p>带有日志的文件系统有较强的恢复性</p>
+<p>##　挂载分区</p>
+<ul>
+<li>mount /dev/sdb1 /mnt/ 挂载到指定的位置</li>
+<li>mount 查看已经挂载的分区</li>
+<li>lsof 查看哪些文件被使用，被谁打开</li>
+<li>fuser -m /dev/sdb1 被谁使用</li>
+</ul>
+<p>配置/etc/fstab 自动挂载</p>
+<h2 id="帮助信息"><a href="#帮助信息" class="headerlink" title="帮助信息"></a>帮助信息</h2><ul>
+<li>ls –help</li>
+<li>ls -h</li>
+<li>man ls</li>
+<li>man -k 关键字查找命令</li>
+<li>info 更详细</li>
+</ul>
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>root 用户 0</p>
+<p>系统用户 1-499</p>
+<p>普通用户 500以上</p>
+<h3 id="相关文件"><a href="#相关文件" class="headerlink" title="相关文件"></a>相关文件</h3><ul>
+<li>/etc/passwd 密码 </li>
+<li>/etc/shadow 用户密码</li>
+<li>/etc/group  保存组</li>
+</ul>
+<h3 id="当前用户命令"><a href="#当前用户命令" class="headerlink" title="当前用户命令"></a>当前用户命令</h3><ul>
+<li>whami 当前登录用户</li>
+<li>who 哪些用户</li>
+<li>w 有哪些用户在干什么</li>
+</ul>
+<h3 id="用户操作"><a href="#用户操作" class="headerlink" title="用户操作"></a>用户操作</h3><ul>
+<li>useradd 添加用户</li>
+<li>usermod 修改用户</li>
+<li>userdel 删除用户</li>
+</ul>
+<h3 id="用户组操作"><a href="#用户组操作" class="headerlink" title="用户组操作"></a>用户组操作</h3><ul>
+<li>groupadd 用户组添加 </li>
+<li>groupmod 用户组修改</li>
+<li>groupdel 用户组删除</li>
+</ul>
+<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>限制对特定文件的读、写、执行，每一个文件都有特定的权限<br>进程权限与运行它的用户权限相关</p>
+<p>目录必须有x权限，否则不能查看内容</p>
+<p>UGO: user group other</p>
+<p>每三个一组r w x</p>
+<p>rwxrwxrwx 三个一组</p>
+<h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><ul>
+<li>chown 修改拥有者 </li>
+<li>chgrp 修改所有组</li>
+<li><p>chmod 修改权限</p>
+</li>
+<li><p>u\g\o代表用户、组其它</p>
+</li>
+<li>a代表所有</li>
+<li>+-增加或者删除</li>
+<li>r\w\x 三种权限</li>
+</ul>
+<p>chmod g-x xxxxx 减去xxxxx的用户组执行权限</p>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><p>32bit分为网络部分和主机部分<br>子网掩码用来确定网络部分的位数</p>
+<ul>
+<li>ifconfig -a 查看所有接口</li>
+<li><p>ifconfig eth0 查看特定接口</p>
+</li>
+<li><p>ifup eth0 启用接口</p>
+</li>
+<li><p>ifdown eth0 禁用接口</p>
+</li>
+<li><p>setup 配置网络信息</p>
+</li>
+</ul>
+<h2 id="网络排查相关命令"><a href="#网络排查相关命令" class="headerlink" title="网络排查相关命令"></a>网络排查相关命令</h2><ul>
+<li>host 查看域名对应ip</li>
+<li>dig  查看域名信息</li>
+<li>ip route 查看路由表</li>
+<li>traceroute 查看到达目标地址经过的路由</li>
+<li>mtr 网络质量测试</li>
+</ul>
+<h2 id="管道和重定向"><a href="#管道和重定向" class="headerlink" title="管道和重定向"></a>管道和重定向</h2><ul>
+<li>STDIN  0</li>
+<li>STDOUT 1</li>
+<li>STDERR 2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt; STDOUT 重定向到文件【覆盖】</div><div class="line">&gt;&gt; STDOUT 重定向到文件，追加</div><div class="line">2&gt; STDERR 重定向到文件</div><div class="line">2&gt;&amp;1 STDERR与STDOUT结合</div><div class="line">&lt;  重定向到STDIN</div><div class="line">| 一个命令的STDOUT作为另一个命令的STDIN</div><div class="line">2&gt;/dev/null 把错误重定向到null设备</div></pre></td></tr></table></figure>
+<h2 id="安装删除包"><a href="#安装删除包" class="headerlink" title="安装删除包"></a>安装删除包</h2><ul>
+<li>rpm -i xxx.rpm 安装</li>
+<li>rpm -e xxxx 卸载</li>
+<li>rpm -U xxx 升级</li>
+<li>rpm -ivh <a href="http://xxxx" target="_blank" rel="external">http://xxxx</a>  网络安装</li>
+<li>rpm -qa 安装的列表</li>
+<li>rpm -ql xxx  安装的东西 </li>
+</ul>
+<ul>
+<li>yum search </li>
+<li>yum list (all | installed | updates)</li>
+<li>yum info packagename</li>
+</ul>
+<h2 id="文本处理工具"><a href="#文本处理工具" class="headerlink" title="文本处理工具"></a>文本处理工具</h2><ul>
+<li><p>grep </p>
+<ul>
+<li>-i 忽略大小写</li>
+<li>-n 显示行数</li>
+<li>-v 不带关键字的行</li>
+<li>-Ax 之后的x行</li>
+<li>-Cx 之前之后的x行</li>
+<li>-Bx 之前的x行</li>
+</ul>
+</li>
+<li><p>cut </p>
+<ul>
+<li>-d 切分符号</li>
+<li>-f 显示的列</li>
+<li>-c 基于字符进行切割</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cut <span class="_">-d</span>: <span class="_">-f</span>1 xxx 对xx文件进行</div><div class="line">cut -c2-6 xxx 基于2到6进行切割</div></pre></td></tr></table></figure>
+<ul>
+<li><p>wc </p>
+<ul>
+<li>-l 只计行数</li>
+<li>-w 只讲单词</li>
+<li>-m 字符</li>
+<li>-c 只计字节数</li>
+</ul>
+</li>
+<li><p>sort 排序</p>
+<ul>
+<li>-r 倒序</li>
+<li>-u 删除重复行</li>
+<li>-tc 使用c进行分割为列进行排序</li>
+</ul>
+</li>
+<li><p>uniq 删除重复相邻行</p>
+</li>
+<li><p>diff 比较文件 </p>
+<ul>
+<li>-b 忽略空格数量改变</li>
+<li>-u 生成patch文件</li>
+</ul>
+</li>
+<li><p>aspell 拼写检查</p>
+</li>
+</ul>
+<h2 id="实际例子"><a href="#实际例子" class="headerlink" title="实际例子"></a>实际例子</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">tr <span class="_">-d</span> <span class="string">'apple'</span> &lt; hosts 删除hosts文件里的apple</div><div class="line">tr <span class="string">'a-z'</span><span class="string">'A-Z'</span> &lt; hosts 大小写转换</div><div class="line"></div><div class="line">sed <span class="string">'s/str/newstr/g'</span> hosts 替换hosts中的str</div><div class="line">sed <span class="string">'1,50s/str/newstr/g'</span> hosts 只替换1到50行</div><div class="line">sed <span class="_">-e</span> <span class="string">'s/linux/unix/g'</span> <span class="_">-e</span> <span class="string">'s/xxx/xsdjlfsjdf'</span> hosts  连续处理两个替换</div><div class="line"></div><div class="line">sed <span class="_">-f</span> <span class="built_in">command</span> hosts 把替换的命令放到<span class="built_in">command</span>文件里</div><div class="line"></div><div class="line">ps aux | grep xxx  查看某个进程</div><div class="line"></div><div class="line">lsof -i:portnum 查看端口被哪个进程占用</div><div class="line"></div><div class="line"><span class="built_in">kill</span> -9 pid 杀掉某个进程</div><div class="line"></div><div class="line">killall program 杀掉指定名称的所有进程</div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2014/04/22/2014-04-22-前端工程师需要掌握的linux基础命令/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+<ul class="pagination">
+	 
+		
+    	<li class="prev"><a href="/page/9/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i> 上一页</a></li>
+  		
+
+        <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+
+		
+		   <li class="next"> <a href="/page/11/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a> </li>          
+        
+	
+</ul>
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div class="form-group has-success has-feedback" id="site_search">
+    <form class="site-search-form">
+        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
+    </form>
+  </div>  
+
+
+		
+			
+	<div class="widget">
+		<h4>分类</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/categories/Sports/Baseball/">Baseball<span>2</span></a></li>
+		
+			<li><a href="/categories/Sports/">Sports<span>2</span></a></li>
+		
+			<li><a href="/categories/bom/">bom<span>1</span></a></li>
+		
+			<li><a href="/categories/collection/">collection<span>1</span></a></li>
+		
+			<li><a href="/categories/css/">css<span>1</span></a></li>
+		
+			<li><a href="/categories/http/">http<span>1</span></a></li>
+		
+			<li><a href="/categories/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/categories/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/categories/jquery/">jquery<span>1</span></a></li>
+		
+			<li><a href="/categories/library/">library<span>2</span></a></li>
+		
+			<li><a href="/categories/note/">note<span>1</span></a></li>
+		
+			<li><a href="/categories/note-vim/">note vim<span>2</span></a></li>
+		
+			<li><a href="/categories/tool/">tool<span>3</span></a></li>
+		
+			<li><a href="/categories/感悟/">感悟<span>1</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>标签云</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>2</span></a></li>
+		
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/document/">document<span>1</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+		
+			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+		
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+		
+			<li><a href="/tags/build/">build<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+		
+			<li><a href="/tags/随想/">随想<span>1</span></a></li>
+		
+		
+		   <li><a href="/tags">...<span>38</span></a></li>
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>最新文章</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2015/10/27/what_is_true/" ><i class="fa fa-file-o"></i>实际情况是什么样的</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/软件设计原则/" ><i class="fa fa-file-o"></i>软件设计原则</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/测试工具-Mock-的使用-资料整理中/" ><i class="fa fa-file-o"></i>测试工具 Mock 的使用(资料整理中)</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/怎么写出好代码/" ><i class="fa fa-file-o"></i>怎么写出好代码</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/node-stream/" ><i class="fa fa-file-o"></i>node stream</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>链接</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/chenyakun" title="My Github repository." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

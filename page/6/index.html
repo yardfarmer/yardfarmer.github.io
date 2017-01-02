@@ -1,0 +1,716 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 6 页 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header">
+  <h1>IO buffer</h1>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
+      <i class="fa fa-heart"></i>
+      知行合一
+</div>    
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-03-16 </div>
+			<div class="article-title"><a href="/2015/03/16/2015-02-16-requirejs 与 seajs 的不同/" >requirejs 与 seajs 的不同</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="require"><a href="#require" class="headerlink" title="require"></a>require</h2><p>脚本加载顺序与下面的引用声明顺序有关，与 factory 函数里的 require 次序无关, 与 seajs 不同的是, 虽然使用了 require, 但是下面不声明引用，requier 无效, 感觉这样好鸡肋</p>
+<p>requirejs 中 require 的用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">"require"</span>,<span class="string">"./values"</span>,<span class="string">"./functionOnly"</span>], <span class="function"><span class="keyword">function</span>(<span class="params">require</span>) </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 报错，脚本不再执行, 说明脚本加载了, 但是还没被执行</span></div><div class="line">    <span class="comment">//console.log(1,nameModue.color);</span></div><div class="line"></div><div class="line">    <span class="keyword">var</span> nameModue = <span class="built_in">require</span>(<span class="string">"./functionOnly"</span>);</div><div class="line"></div><div class="line">    <span class="comment">// 脚本的最终加载顺序与 require 顺序无关</span></div><div class="line">    <span class="keyword">var</span> mod = <span class="built_in">require</span>(<span class="string">"./values"</span>);</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>,nameModue,mod);</div><div class="line">    <span class="comment">//console.log(mod);</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>seajs 中用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">require, exports, module</span>) </span>&#123;</div><div class="line"><span class="meta">    'use strict'</span>;</div><div class="line">    <span class="keyword">var</span> mod1 = <span class="built_in">require</span>(<span class="string">'./mod1'</span>),</div><div class="line">        mod2 = <span class="built_in">require</span>(<span class="string">'./mod2'</span>);</div><div class="line"></div><div class="line">    mod1.hello();</div><div class="line">    mod2.hello();</div><div class="line"></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">hello</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'hello main'</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2015/03/16/2015-02-16-requirejs 与 seajs 的不同/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-03-16 </div>
+			<div class="article-title"><a href="/2015/03/16/2015-03-16-懒加载/" >说说 requirejs 与 seajs 的懒加载</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>LazyLoad的优势体现在：仅当资源需要被使用前加载资源。在RequireJS和Sea.js中表现为，在回调函数调用前加载js脚本资源。</p>
+<p>RequireJS 和 Sea.js 在资源加载的时间点都是一样的，所以论“懒”的程度都是一样的。<br>差别仅仅在于加载的脚本什么时候执行。<br>RequireJS的依赖模块在回调函数执行前执行完毕，而Sea.js的依赖模块在回调函数执行require时执行。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li>知乎, <a href="http://www.zhihu.com/question/20342350" target="_blank" rel="external">模块加载</a></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2015/03/16/2015-03-16-懒加载/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-02-22 </div>
+			<div class="article-title"><a href="/2015/02/22/2015-02-22-polymer体验/" >上手 polymer</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>先把代码粘出来。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../polymer-tutorial-master/components/polymer/polymer.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--demo1--&gt;</span></div><div class="line"><span class="comment">&lt;!--如果没有 &lt;script&gt;Polymer()&lt;/script&gt; 不行的--&gt;</span></div><div class="line"><span class="comment">&lt;!--在polymer-elemnet上设置的其他 attribute 将会自动添加到元素实例上。例如：--&gt;</span></div><div class="line"><span class="comment">&lt;!--如果没有 js 构造函数,noscript 是必须的--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"x-element_1"</span> <span class="attr">noscript</span> <span class="attr">a</span>=<span class="string">"1"</span> <span class="attr">b</span>=<span class="string">"2"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">x-element_1</span>&gt;</span><span class="tag">&lt;/<span class="name">x-element_1</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">&lt;!--demo2--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"x-element_2"</span>&gt;</span></div><div class="line">	<span class="comment">&lt;!--可以没有 template--&gt;</span></div><div class="line">	<span class="comment">&lt;!--&lt;template&gt;--&gt;</span></div><div class="line">	<span class="comment">&lt;!--&lt;/template&gt;--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		Polymer(<span class="string">'x-element_2'</span>,&#123;</div><div class="line"></div><div class="line">			<span class="attr">message</span>: <span class="string">"Hello"</span>,</div><div class="line">			get greeting() &#123;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">this</span>.message;</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">getGreet</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">this</span>.message;</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">foo</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"getter"</span>,<span class="keyword">this</span>.greeting);</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"function"</span>,<span class="keyword">this</span>.getGreet());</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">ready</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="keyword">this</span>.foo();</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">x-element_2</span>&gt;</span><span class="tag">&lt;/<span class="name">x-element_2</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">&lt;!--demo3--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"app-globals"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//		(function() &#123;</span></div><div class="line"><span class="comment">//			var firstName = 'John';</span></div><div class="line"><span class="comment">//			var lastName = 'Smith';</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//			Polymer('app-globals', &#123;</span></div><div class="line"><span class="comment">//				ready: function() &#123;</span></div><div class="line"><span class="comment">//					this.firstName = firstName;</span></div><div class="line"><span class="comment">//					this.lastName = lastName;</span></div><div class="line"><span class="comment">//				&#125;</span></div><div class="line"><span class="comment">//			&#125;);</span></div><div class="line"><span class="comment">//		&#125;)();</span></div><div class="line"></div><div class="line"></div><div class="line">	(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">// 可以在外面通过`属性`配置全局变量</span></div><div class="line">		<span class="keyword">var</span> values = &#123;&#125;;</div><div class="line"></div><div class="line">		Polymer(<span class="string">'app-globals'</span>,&#123;</div><div class="line">			<span class="attr">ready</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.attributes.length; ++i) &#123;</div><div class="line">					<span class="keyword">var</span> attr = <span class="keyword">this</span>.attributes[i];</div><div class="line">					<span class="built_in">console</span>.log(<span class="string">'--'</span>,attr.nodeName,attr.value)</div><div class="line">					values[attr.nodeName] = attr.value;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;);</div><div class="line">	&#125;());</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"x-element_3"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">app-globals</span> <span class="attr">id</span>=<span class="string">"globalApp"</span> <span class="attr">firstName2</span>=<span class="string">"Addy"</span> <span class="attr">lastName</span>=<span class="string">"Osmani"</span>&gt;</span><span class="tag">&lt;/<span class="name">app-globals</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"firstname"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"lastname"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		Polymer(<span class="string">'x-element_3'</span>, &#123;</div><div class="line">			<span class="attr">ready</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="keyword">this</span>.globals = <span class="keyword">this</span>.$.globalApp;</div><div class="line">				<span class="built_in">console</span>.dir(<span class="keyword">this</span>.globals.getAttribute(<span class="string">'firstName2'</span>));</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">x-element_3</span>&gt;</span><span class="tag">&lt;/<span class="name">x-element_3</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">&lt;!--demo4--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"x-element_4"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		Polymer(<span class="string">'x-element_4'</span>,&#123;</div><div class="line">			<span class="attr">ready</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">'ready'</span>,<span class="string">'可能还包括图片,样式等外链加载,加载完毕'</span>);</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">created</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">'created'</span>,<span class="string">'一个元素的实例被创建'</span>);</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">attached</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">				<span class="built_in">console</span>.log(<span class="string">'attached'</span>,<span class="string">'当一个元素的实例被插入到DOM中'</span>);</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">domReady</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">'domReady'</span>);</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">detached</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">'detached'</span>,<span class="string">'当实例从DOM中移除'</span>);</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">attributeChanged</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">'attributeChanged'</span>,attrName, <span class="string">'old: '</span> + oldVal, <span class="string">'new:'</span>, newVal);</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">x-element_4</span>&gt;</span><span class="tag">&lt;/<span class="name">x-element_4</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--</span></div><div class="line">	attributes="foo bar baz" 元素实例显示为 undefined,语句表示设置三个元素实例对象,</div><div class="line">	可作为 html标签 x-element_5 的属性使用,默认情况是由标签像实例内部传值, 在设置对象的</div><div class="line">	reflect 可实现对象的property 与 标签attribute值的双向绑定</div><div class="line">--&gt;</div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"x-element_5"</span> <span class="attr">attributes</span>=<span class="string">"foo bar baz"</span> <span class="attr">lorem</span>=<span class="string">"abc"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">template</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>5<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	Polymer(<span class="string">'x-element_5'</span>,&#123;</div><div class="line">		<span class="attr">ready</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);</div><div class="line"></div><div class="line">			<span class="keyword">var</span> e = <span class="built_in">document</span>.querySelector(<span class="string">"x-element_5"</span>);</div><div class="line">			<span class="built_in">console</span>.log(e.foo, e.bar, e.privateMethod);</div><div class="line">			<span class="keyword">this</span>.baz = <span class="string">"changed,double bind"</span></div><div class="line">			<span class="built_in">console</span>.dir(e);</div><div class="line"></div><div class="line">		&#125;,</div><div class="line">		<span class="attr">privateMethod</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">			<span class="comment">// 挂载在 prototype 对象上</span></div><div class="line">		&#125;,</div><div class="line">		<span class="attr">publish</span>:&#123;</div><div class="line">			<span class="attr">foo</span>: <span class="string">'I am foo!'</span>,</div><div class="line">			<span class="attr">bar</span>: &#123;</div><div class="line">				<span class="attr">x</span>: <span class="number">1</span>,</div><div class="line">				<span class="attr">y</span>: <span class="number">2</span>,</div><div class="line">				<span class="attr">z</span>: &#123;</div><div class="line">					<span class="attr">zIndex</span>: <span class="string">"100"</span>,</div><div class="line">					<span class="attr">arr</span>: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div><div class="line">				&#125;</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">baz</span>: &#123;</div><div class="line">				<span class="attr">value</span>: <span class="literal">false</span>,</div><div class="line">				<span class="attr">reflect</span>: <span class="literal">false</span>  <span class="comment">// 双向绑定</span></div><div class="line">			&#125;,</div><div class="line">			<span class="attr">publicMethod</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="comment">// 挂载在元素实例上</span></div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">x-element_5</span> <span class="attr">foo</span>=<span class="string">"I am not foo!"</span>&gt;</span><span class="tag">&lt;/<span class="name">x-element_5</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">x-element_5</span> <span class="attr">foo</span>=<span class="string">"I am a coder"</span> <span class="attr">baz</span>=<span class="string">"true"</span>&gt;</span><span class="tag">&lt;/<span class="name">x-element_5</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">&lt;!--</span></div><div class="line">	demo 6</div><div class="line">	template</div><div class="line">	双向数据绑定 observe</div><div class="line">--&gt;</div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"greeting-tag"</span>&gt;</span></div><div class="line">	<span class="comment">&lt;!-- 最外面的 template 定义了 element 的 shadow DOM --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line"></div><div class="line">			<span class="tag">&lt;<span class="name">span</span>&gt;</span> 这里会根据下面的 input 而变化：&#123;&#123; ngModel &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span>  <span class="attr">value</span>=<span class="string">"&#123;&#123;ngModel&#125;&#125;"</span> <span class="attr">placeholder</span>=<span class="string">"体验双向绑定"</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">			<span class="tag">&lt;<span class="name">template</span> <span class="attr">repeat</span>=<span class="string">"&#123;&#123;s in salutations&#125;&#125;"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">li</span>&gt;</span>&#123;&#123;s.what&#125;&#125;: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123;s.who&#125;&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">button</span> <span class="attr">on-click</span>=<span class="string">"&#123;&#123;updateModel&#125;&#125;"</span>&gt;</span>Update model<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">		Polymer(<span class="string">'greeting-tag'</span>, &#123;</div><div class="line">			<span class="attr">ngModel</span>: <span class="string">''</span>,</div><div class="line"></div><div class="line">			<span class="comment">// 观察者, 数据有变化会触发</span></div><div class="line">			observe: &#123;</div><div class="line">				<span class="attr">ngModel</span>: <span class="string">'onChangeCallback'</span></div><div class="line">			&#125;,</div><div class="line">			<span class="attr">ready</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="comment">// 植入 element 的数据模型 (数组 salutations)</span></div><div class="line">				<span class="keyword">this</span>.salutations = [</div><div class="line">					&#123;<span class="attr">what</span>: <span class="string">'Hello'</span>, <span class="attr">who</span>: <span class="string">'World'</span>&#125;,</div><div class="line">					&#123;<span class="attr">what</span>: <span class="string">'GoodBye'</span>, <span class="attr">who</span>: <span class="string">'DOM APIs'</span>&#125;,</div><div class="line">					&#123;<span class="attr">what</span>: <span class="string">'Hello'</span>, <span class="attr">who</span>: <span class="string">'Declarative'</span>&#125;,</div><div class="line">					&#123;<span class="attr">what</span>: <span class="string">'GoodBye'</span>, <span class="attr">who</span>: <span class="string">'Imperative'</span>&#125;</div><div class="line">				];</div><div class="line">			&#125;,</div><div class="line">			<span class="attr">updateModel</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"><span class="comment">//				console.log();</span></div><div class="line">				<span class="comment">//this.salutations.reverse();</span></div><div class="line">			&#125;,</div><div class="line">			<span class="attr">onChangeCallback</span>: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(a,b);</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">greeting-tag</span>&gt;</span><span class="tag">&lt;/<span class="name">greeting-tag</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">&lt;!--</span></div><div class="line">	demo 7</div><div class="line">	事件触发</div><div class="line">	http://docs.polymerchina.org/docs/polymer/polymer.html#declarative-event-mapping</div><div class="line">--&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"ouch-button"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">button</span> <span class="attr">on-click</span>=<span class="string">"&#123;&#123;onClick&#125;&#125;"</span>&gt;</span>伤自尊<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">		Polymer(<span class="string">'ouch-button'</span>, &#123;</div><div class="line">			onClick: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">				<span class="comment">// fire(inType, inDetail, inToNode)</span></div><div class="line">				<span class="comment">//	触发外部的事件</span></div><div class="line">				<span class="keyword">this</span>.fire(<span class="string">'ouch'</span>, &#123;msg: <span class="string">'又伤自尊了！'</span>&#125;);</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">ouch-button</span>&gt;</span><span class="tag">&lt;/<span class="name">ouch-button</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="built_in">document</span>.querySelector(<span class="string">'ouch-button'</span>).addEventListener(<span class="string">'ouch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(e.type, e.detail.msg); <span class="comment">// "嗷" "又伤自尊了！"</span></div><div class="line">	&#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2015/02/22/2015-02-22-polymer体验/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-02-21 </div>
+			<div class="article-title"><a href="/2015/02/21/2015-02-21-模拟polymer/" >从底层了解 polymer</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h2><p>下面是写的例子， 先占坑，后面补上。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">		<span class="selector-tag">h1</span> &#123;</div><div class="line">			<span class="attribute">color</span>: red;</div><div class="line">		&#125;</div><div class="line">	<span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">	</div><div class="line">	<span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"sdtemplate"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">			<span class="selector-tag">p</span> &#123; <span class="attribute">color</span>: orange; &#125;</div><div class="line">		<span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">p</span>&gt;</span>I'm in Shadow DOM. My markup was stamped from a &amp;lt;template&amp;gt;.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">template</span> <span class="attr">type</span>=<span class="string">"text/x-template"</span> <span class="attr">id</span>=<span class="string">"forCustomElement"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">p</span>&gt;</span> good night !<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"custom-component"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>in host<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"></div><div class="line"><span class="comment">//	demo 1</span></div><div class="line">	<span class="keyword">var</span> host2 = <span class="built_in">document</span>.querySelector(<span class="string">'.custom-component'</span>);</div><div class="line">	<span class="keyword">var</span> root = host2.createShadowRoot();</div><div class="line">	<span class="comment">// :host 指为 root 的宿主元素-&gt; &lt;div class="custom-component"&gt;&lt;/div&gt;</span></div><div class="line">	root.innerHTML = <span class="string">"&lt;style&gt; :host &#123;border:2px solid dodgerblue; width:200px;&#125; div &#123; color: green; &#125;&lt;/style&gt;&lt;div&gt;in shadow tree&lt;/div&gt;"</span>; <span class="comment">// ok</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//	demo 2</span></div><div class="line"><span class="comment">//	root.innerHTML = "&lt;h1 style='color: green'&gt;hello&lt;/h1&gt;"; // ok</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> XFooProto = <span class="built_in">Object</span>.create(HTMLElement.prototype);</div><div class="line"></div><div class="line">	XFooProto.createdCallback = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'created'</span>);</div><div class="line"></div><div class="line">		<span class="keyword">var</span> root = <span class="keyword">this</span>.createShadowRoot();</div><div class="line">		<span class="keyword">var</span> tpl = <span class="built_in">document</span>.querySelector(<span class="string">"#forCustomElement"</span>);</div><div class="line">		<span class="keyword">var</span> cloneNode = tpl.content.cloneNode(<span class="literal">true</span>);</div><div class="line">		root.appendChild(cloneNode);</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	XFooProto.enteredViewCallback = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'enteredView'</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	XFooProto.attributeChangedCallback = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'attribute changed'</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//	XFooProto.createdCallback = function() &#123;</span></div><div class="line"><span class="comment">//		this.innerHTML = "&lt;h1&gt;via js append&lt;/h1&gt;";</span></div><div class="line"><span class="comment">//	&#125;;</span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="comment">// 注册 x-foo 的定义</span></div><div class="line">	<span class="keyword">var</span> XFoo2 = <span class="built_in">document</span>.registerElement(<span class="string">'x-foo-with-markup'</span>, &#123;<span class="attr">prototype</span>: XFooProto&#125;);</div><div class="line">	<span class="comment">// 创建一个 x-foo 实例</span></div><div class="line">	<span class="keyword">var</span> xfoo = <span class="built_in">document</span>.createElement(<span class="string">'x-foo-with-markup'</span>);</div><div class="line">	<span class="comment">// 插入页面</span></div><div class="line">	<span class="built_in">document</span>.body.appendChild(xfoo);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//	xBarPrototype = Object.create(HTMLButtonElement.prototype); // 即使继承了它，也没画出 button</span></div><div class="line">	xBarPrototype = <span class="built_in">Object</span>.create(HTMLElement.prototype, &#123;</div><div class="line">				<span class="attr">createdCallback</span>: &#123;</div><div class="line">					<span class="attr">value</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">						<span class="keyword">var</span> t = <span class="built_in">document</span>.querySelector(<span class="string">'#sdtemplate'</span>);</div><div class="line"><span class="comment">//						var clone = document.importNode(t.content, true);</span></div><div class="line">						<span class="keyword">var</span> clone = t.content.cloneNode(<span class="literal">true</span>); <span class="comment">// deep is true</span></div><div class="line">						<span class="keyword">this</span>.createShadowRoot().appendChild(clone);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;);</div><div class="line"></div><div class="line">	<span class="built_in">document</span>.registerElement(<span class="string">'x-bar'</span>, &#123;</div><div class="line">		<span class="attr">prototype</span>: xBarPrototype</div><div class="line">	&#125;);</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">x-bar</span>&gt;</span><span class="tag">&lt;/<span class="name">x-bar</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>##参考链接<br><a href="http://blog.bingo929.com/custom-elements-html-web-components.html" target="_blank" rel="external">http://blog.bingo929.com/custom-elements-html-web-components.html</a></p>
+
+	
+	</div>
+  <a type="button" href="/2015/02/21/2015-02-21-模拟polymer/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-02-12 </div>
+			<div class="article-title"><a href="/2015/02/12/2015-02-11-d3/" >D3.js 制作图表</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>D3.js 为数据可视化而生，是一个适于生成互动图形的JavaScript函数库,可用于制作图表展示数据，d3完全开源，方便制作完全满足项目业务逻辑的需求，而不受现有图表库的种种限制。</p>
+<h2 id="操作网页元素"><a href="#操作网页元素" class="headerlink" title="操作网页元素"></a>操作网页元素</h2><p>D3提供了一系列操作网页元素的方法，很类似jQuery，也是先选中某个元素（select方法），然后对其进行某种操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> body = d3.select(<span class="string">"body"</span>);</div><div class="line"><span class="keyword">var</span> div = body.append(<span class="string">"div"</span>);</div><div class="line">div.html(<span class="string">"Hello, world!"</span>);</div></pre></td></tr></table></figure>
+<p>select方法用于选中一个元素，而selectAll方法用于选中一组元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> section = d3.selectAll(<span class="string">"section"</span>);</div><div class="line"><span class="keyword">var</span> div = section.append(<span class="string">"div"</span>);</div><div class="line">div.html(<span class="string">"Hello, world!"</span>);</div></pre></td></tr></table></figure>
+<p>d3采用类似 jQuery 的链式操作方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d3.select(<span class="string">"body"</span>)</div><div class="line">    .style(<span class="string">"color"</span>, <span class="string">"black"</span>)</div><div class="line">    .style(<span class="string">"background-color"</span>, <span class="string">"white"</span>);</div></pre></td></tr></table></figure>
+<p>需要注意的是append方法返回一个新对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d3.selectAll(<span class="string">"section"</span>)</div><div class="line">  .attr(<span class="string">"class"</span>, <span class="string">"special"</span>)</div><div class="line">  .append(<span class="string">"div"</span>)</div><div class="line">  .html(<span class="string">"Hello, world!"</span>);</div></pre></td></tr></table></figure>
+<h2 id="生成svg元素"><a href="#生成svg元素" class="headerlink" title="生成svg元素"></a>生成svg元素</h2><p>D3作图需要svg元素，可以用JavaScript代码动态生成。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> v = d3.select(<span class="string">"#graph"</span>)</div><div class="line">            .append(<span class="string">"svg"</span>);</div><div class="line"></div><div class="line">v.attr(<span class="string">"width"</span>, <span class="number">900</span>).attr(<span class="string">"height"</span>, <span class="number">400</span>);</div></pre></td></tr></table></figure>
+<h2 id="生成图形"><a href="#生成图形" class="headerlink" title="生成图形"></a>生成图形</h2><h3 id="选中对象集"><a href="#选中对象集" class="headerlink" title="选中对象集"></a>选中对象集</h3><p>selectAll方法不仅可以选中现有的网页元素，还可以选中当前尚不存在的网页元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d3.select(<span class="string">".chart"</span>)</div><div class="line">  .selectAll(<span class="string">"div"</span>);</div></pre></td></tr></table></figure>
+<p>上面代码表示，selectAll方法选中了.chart元素下面所有现有和将来可能出现的div元素。</p>
+<h3 id="绑定数据"><a href="#绑定数据" class="headerlink" title="绑定数据"></a>绑定数据</h3><p>data方法用于对选中的结果集绑定数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> data = [<span class="number">4</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">42</span>, <span class="number">12</span>];</div><div class="line"></div><div class="line">d3.select(<span class="string">".chart"</span>)</div><div class="line">  .selectAll(<span class="string">"div"</span>)</div><div class="line">  .data(data)</div><div class="line">  .enter().append(<span class="string">"div"</span>)</div><div class="line">  .style(<span class="string">"width"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d * <span class="number">10</span> + <span class="string">"px"</span>; &#125;)</div><div class="line">  .text(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d; &#125;);</div></pre></td></tr></table></figure>
+<p>上面代码中，enter方法和append方法表示由于此时div元素还不存在，必须根据数据的个数将它们创造出来。style方法和text方法的参数是函数，表示函数的运行结果就是设置网页元素的值。</p>
+<p>上面代码的运行结果是生成一个条状图，但是没有对条状图的长度进行控制，下面采用scale.linear方法对数据长度进行设置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> data = [<span class="number">4</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">42</span>, <span class="number">12</span>];</div><div class="line"></div><div class="line"><span class="keyword">var</span> x = d3.scale.linear()</div><div class="line">    .domain([<span class="number">0</span>, d3.max(data)])</div><div class="line">    .range([<span class="number">0</span>, <span class="number">420</span>]);</div><div class="line"></div><div class="line">d3.select(<span class="string">".chart"</span>)</div><div class="line">  .selectAll(<span class="string">"div"</span>)</div><div class="line">  .data(data)</div><div class="line">  .enter().append(<span class="string">"div"</span>)</div><div class="line">  .style(<span class="string">"width"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> x(d) + <span class="string">"px"</span>; &#125;)</div><div class="line">  .text(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d; &#125;);</div></pre></td></tr></table></figure>
+<h2 id="操作SVG图形"><a href="#操作SVG图形" class="headerlink" title="操作SVG图形"></a>操作SVG图形</h2><p>使用SVG图形生成条形图，首先是选中矢量图格式，然后每个数据值生成一个g元素（group），再在每个g元素内部生成一个rect元素和text元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> width = <span class="number">840</span>,</div><div class="line">    barHeight = <span class="number">20</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> x = d3.scale.linear()</div><div class="line">    .domain([<span class="number">0</span>, d3.max(dataArray)])</div><div class="line">    .range([<span class="number">0</span>, width]);</div><div class="line"></div><div class="line"><span class="keyword">var</span> chart = d3.select(<span class="string">".bar-chart-svg"</span>)</div><div class="line">    .attr(<span class="string">"width"</span>, width)</div><div class="line">    .attr(<span class="string">"height"</span>, barHeight * dataArray.length);</div><div class="line"></div><div class="line"><span class="keyword">var</span> bar = chart.selectAll(<span class="string">"g"</span>)</div><div class="line">    .data(dataArray)</div><div class="line">  .enter().append(<span class="string">"g"</span>)</div><div class="line">    .attr(<span class="string">"transform"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d, i</span>) </span>&#123; <span class="keyword">return</span> <span class="string">"translate(0,"</span> + i * barHeight + <span class="string">")"</span>; &#125;);</div><div class="line"></div><div class="line">bar.append(<span class="string">"rect"</span>)</div><div class="line">    .attr(<span class="string">"width"</span>, x)</div><div class="line">    .attr(<span class="string">"height"</span>, barHeight - <span class="number">1</span>);</div><div class="line"></div><div class="line">bar.append(<span class="string">"text"</span>)</div><div class="line">    .attr(<span class="string">"x"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> x(d) - <span class="number">3</span>; &#125;)</div><div class="line">    .attr(<span class="string">"y"</span>, barHeight / <span class="number">2</span>)</div><div class="line">    .attr(<span class="string">"dy"</span>, <span class="string">".35em"</span>)</div><div class="line">    .text(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d; &#125;);</div></pre></td></tr></table></figure>
+<h2 id="加载XML文件"><a href="#加载XML文件" class="headerlink" title="加载XML文件"></a>加载XML文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d3.xml(<span class="string">'example'</span>, <span class="string">'image/svg+xml'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">error, data</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (error) &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'加载SVG文件出错！'</span>, error);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// 处理SVG文件</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li>Dana Silver, <a href="http://danasilver.org/2013/12/31/d3-github-language-stats/" target="_blank" rel="external">The d3.js Bar Chart Tutorials with Github Data</a></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2015/02/12/2015-02-11-d3/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-01-18 </div>
+			<div class="article-title"><a href="/2015/01/18/2015-01-28-seajs/" >seajs 使用记录</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>#require 书写约定</p>
+<p>使用 Sea.js 书写模块代码时，需要遵循一些简单规则。</p>
+<ol>
+<li>正确拼写</li>
+</ol>
+<p>模块 factory 构造方法的第一个参数 必须 命名为 require 。</p>
+<pre><code>// 错误！
+define(function(req) {
+  // ...
+});
+
+// 正确！
+define(function(require) {
+  // ...l
+});
+</code></pre><ol>
+<li>不要修改</li>
+</ol>
+<p>不要重命名 require 函数，或在任何作用域中给 require 重新赋值。</p>
+<pre><code>// 错误 - 重命名 &quot;require&quot;！
+var req = require, mod = req(&quot;./mod&quot;);
+
+// 错误 - 重定义 &quot;require&quot;!
+require = function() {};
+
+// 错误 - 重定义 &quot;require&quot; 为函数参数！
+function F(require) {}
+
+// 错误 - 在内嵌作用域内重定义了 &quot;require&quot;！
+function F() {
+  var require = function() {};
+}
+</code></pre><ol>
+<li>使用直接量</li>
+</ol>
+<p>require 的参数值 必须 是字符串直接量。</p>
+<pre><code>// 错误！
+require(myModule);
+
+// 错误！
+require(&quot;my-&quot; + &quot;module&quot;);
+
+// 错误！
+require(&quot;MY-MODULE&quot;.toLowerCase());
+
+// 正确！
+require(&quot;my-module&quot;);
+</code></pre><p>在书写模块代码时，必须遵循这些规则。其实只要把 require 看做是语法<code>关键字</code>。</p>
+<blockquote>
+<p>之所以必须使用 require， 是因为 seajs 内部采用正则匹配的方式找到 require，然后加载依赖模块。</p>
+</blockquote>
+<h2 id="关于动态依赖"><a href="#关于动态依赖" class="headerlink" title="关于动态依赖"></a>关于动态依赖</h2><p>有时会希望可以使用 require 来进行条件加载：</p>
+<pre><code>if (todayIsWeekend)
+  require(&quot;play&quot;);
+else
+  require(&quot;work&quot;);
+</code></pre><p>但请牢记，从静态分析的角度来看，这个模块同时依赖 play 和 work 两个模块，加载器会把这两个模块文件都下载下来。 <strong>require 不是同步加载，而是异步加载，并且是预加载</strong> 这种情况下，推荐使用 require.async 来进行条件加载。</p>
+
+	
+	</div>
+  <a type="button" href="/2015/01/18/2015-01-28-seajs/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-01-16 </div>
+			<div class="article-title"><a href="/2015/01/16/2015-01-16-hg-remote-push-hook/" >使用hg推送后执行编译</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="hg-hook"><a href="#hg-hook" class="headerlink" title="hg hook"></a>hg hook</h2><p>大多数的版本管理工具都具有<code>钩子</code>功能，这里记录下开发团队内部工具<a href="https://github.com/chenyakun/sluggard" title="github repo" target="_blank" rel="external">sluggard</a>时,遇到的关于<a href="http://www.selenic.com/mercurial/hgrc.5.html#hooks" target="_blank" rel="external">hg hook</a>的使用。</p>
+<p>在被推送端, <code>.hg/hgrc</code>下配置</p>
+<pre><code>[ui]
+username = hg_be_pushed
+verbose = True
+
+[hooks]
+commit = /path/to/commithook
+incoming = /path/to/incominghook    # 每个 commit 执行一次
+changegroup= /path/to/changegroup   # 每次被 push 执行一次
+
+[web]
+push_ssl = No    # 放开ssl限制
+allow_push = *   # 运行推送
+</code></pre><p>需要说明的是，被push端需要开启<strong>web服务</strong>,才能接收<code>push</code></p>
+<pre><code>hg serve -p port
+</code></pre><p>推送端，<code>.hg/hgrc</code>配置如下</p>
+<pre><code>[ui]
+username = hg_to_push
+
+[paths]
+default = http://localhost:8002/       # 用于pulling
+default-push = http://localhost:8002/  # 被推送端的 web 服务地址
+</code></pre><p>当推送遇到错误时，可尝试</p>
+<pre><code>hg push -f
+</code></pre><p>当更新遇到错误时，可尝试</p>
+<pre><code>hg update --check
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2015/01/16/2015-01-16-hg-remote-push-hook/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-01-12 </div>
+			<div class="article-title"><a href="/2015/01/12/2015-03-22-underscore接口理解/" >Underscore.js</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>##简介<br><a href="http://underscorejs.org/" target="_blank" rel="external">Underscore.js</a>是一个灵巧的工具库。它提供了几十种函数式编程的方法，大大方便了JavaScript的编程。MVC框架Backbone.js就将这个库作为自己的工具库。除了可以在浏览器环境使用，Underscore.js还可以用于Node.js。<br>Underscore.js定义了一个下划线（_）对象，函数库的所有方法都属于这个对象。这些方法大致上可以分成：集合（collection）、数组（array）、函数（function）、对象（object）和工具（utility）五大类。 </p>
+<p>##接口示例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span> &gt;</span><span class="tag">&lt;/<span class="name">title</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../underscore-reading.js"</span> &gt;</span><span class="handlebars"><span class="xml"><span class="tag">&lt;/<span class="name">script</span> &gt;</span></span></span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span> &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> &gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"underscore_button"</span>&gt;</span>test button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"throttle_button"</span>&gt;</span>throttle button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"debounce_button"</span>&gt;</span>debounce button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *  [].forEach(function(value, key, list) &#123; &#125;)</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> testData = [<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>];</div><div class="line"></div><div class="line">    _.each(testData, <span class="function"><span class="keyword">function</span>(<span class="params">value, key, list</span>) </span>&#123;</div><div class="line">    <span class="comment">//  console.log(arguments);</span></div><div class="line">    &#125;);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// map 映射, 返回新的数组</span></div><div class="line"></div><div class="line">    <span class="keyword">var</span> eighted = _.map(testData, <span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">      <span class="keyword">return</span> num * <span class="number">8</span>;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'mapped'</span>, eighted, testData);</div><div class="line"></div><div class="line">    <span class="comment">// 数组拷贝</span></div><div class="line">    <span class="keyword">var</span> cpData = testData.slice(<span class="number">0</span>);</div><div class="line">    cpData.pop();</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'copy'</span>, testData, cpData)</div><div class="line"></div><div class="line">    <span class="comment">//_.reduce(list, iteratee(memo, value, key, list), [memo], context);</span></div><div class="line"></div><div class="line">    <span class="keyword">var</span> rst = _.reduce(testData, <span class="function"><span class="keyword">function</span>(<span class="params">memo, value, key, list</span>) </span>&#123;</div><div class="line">       <span class="comment">// console.log(arguments);</span></div><div class="line">        <span class="keyword">return</span> memo + value;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'fib'</span>,rst);</div><div class="line"></div><div class="line">    <span class="comment">// _.find(list, predicate, [context])</span></div><div class="line">    <span class="keyword">var</span> back  = _.find(testData, <span class="function"><span class="keyword">function</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> num &gt; <span class="number">5</span>;</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'back'</span>, back);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> objData = [</div><div class="line">        &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>:<span class="number">2</span>, <span class="attr">c</span>:<span class="number">1</span>&#125;,</div><div class="line">        &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>:<span class="number">2</span>, <span class="attr">c</span>:<span class="number">2</span>&#125;,</div><div class="line">        &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>:<span class="number">2</span>, <span class="attr">c</span>:<span class="number">3</span>&#125;</div><div class="line">    ];</div><div class="line"></div><div class="line">    <span class="keyword">var</span> t = _.where(objData, &#123;<span class="attr">c</span>:<span class="number">1</span>&#125;);</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"where"</span>, t);</div><div class="line"></div><div class="line">    <span class="comment">// 从 `map` 中按名取值, pluck 快而猛的拉，从...中抽拔</span></div><div class="line">    <span class="keyword">var</span> stooges = [&#123;<span class="attr">name</span>: <span class="string">'moe'</span>, <span class="attr">age</span>: <span class="number">40</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">'larry'</span>, <span class="attr">age</span>: <span class="number">50</span>&#125;,</div><div class="line">                   &#123;<span class="attr">name</span>: <span class="string">'curly'</span>, <span class="attr">age</span>: <span class="number">60</span>&#125;];</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"pluck"</span>, _.pluck(stooges, <span class="string">'name'</span>));</div><div class="line"></div><div class="line">    <span class="comment">// 返回除去后 n 位的部分</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"initial,"</span>, _.initial([<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>], <span class="number">2</span>));</div><div class="line"></div><div class="line">    <span class="comment">// 与 initial 相对</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"rest"</span>, _.rest([<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>], <span class="number">2</span>));</div><div class="line"></div><div class="line">    <span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span>(<span class="params">greeting</span>) </span>&#123;<span class="keyword">return</span> greeting + <span class="string">":"</span> + <span class="keyword">this</span>.name &#125;;</div><div class="line">    func = _.bind(func, &#123;<span class="attr">name</span>: <span class="string">'im obj'</span>&#125;, <span class="string">'[this is arguments]'</span>);</div><div class="line">    <span class="comment">// 已经被过河拆桥</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'bind 返回新的 function '</span>, func());</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> buttonView = &#123;</div><div class="line">        <span class="attr">label</span>  : <span class="string">'underscore'</span>,</div><div class="line">        <span class="comment">// 通过 e.target  可以得到目标元素， this 真的是意义不到</span></div><div class="line">        <span class="comment">// be invoked with a fairly useless this.</span></div><div class="line">        onClick: <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'bindAll'</span>, <span class="keyword">this</span>.label, e.target) &#125;,</div><div class="line">        <span class="attr">onHover</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">'hovering: '</span> + <span class="keyword">this</span>.label); &#125;</div><div class="line">    &#125;;</div><div class="line">    _.bindAll(buttonView, <span class="string">'onClick'</span>, <span class="string">'onHover'</span>);</div><div class="line">    <span class="comment">// When the button is clicked, this.label will have the correct value.</span></div><div class="line"></div><div class="line">    underscore_button.addEventListener(<span class="string">'click'</span>, buttonView.onClick, <span class="literal">false</span>);</div><div class="line">    underscore_button.addEventListener(<span class="string">'hover'</span>, buttonView.onHover, <span class="literal">false</span>);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">"partial"</span> ,a ,b)&#125;;</div><div class="line"></div><div class="line">    <span class="comment">// 这个 arguments* 这里的参数在包裹的内部函数的最前面</span></div><div class="line">    <span class="comment">// _.partial(function, *arguments)</span></div><div class="line">    add5 = _.partial(add, <span class="number">5</span>, <span class="number">4</span>); <span class="comment">//</span></div><div class="line">    add5(<span class="number">1</span>,<span class="number">2</span>);</div><div class="line"></div><div class="line">    <span class="comment">// 在递归中会缓存方法的计算结果，达到类似 map 缓存的效果</span></div><div class="line">    <span class="keyword">var</span> fibonacci = _.memoize(<span class="function"><span class="keyword">function</span>(<span class="params">n</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> n &lt; <span class="number">2</span> ? n: fibonacci( n - <span class="number">1</span>) + fibonacci(n - <span class="number">2</span>);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"memoize"</span>, fibonacci(<span class="number">100</span>));</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fibonacci</span>(<span class="params">n</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> n &lt; <span class="number">2</span> ? n: fibonacci( n - <span class="number">1</span>) + fibonacci(n - <span class="number">2</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"fibonacci"</span>, fibonacci(<span class="number">100</span>));</div><div class="line"></div><div class="line">    <span class="keyword">var</span> log = _.bind(<span class="built_in">console</span>.log, <span class="built_in">console</span>);</div><div class="line">    _.delay(log, <span class="number">1000</span>, <span class="string">'delay'</span>,<span class="string">'log latter'</span>);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> throttled = _.throttle(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        log(<span class="string">'throttle'</span>);</div><div class="line">    &#125;, <span class="number">3000</span>);</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">        throttled();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 延时按钮, 处理频繁点击,加上限流阀</span></div><div class="line">    throttle_button.addEventListener(<span class="string">'click'</span>, throttled, <span class="literal">false</span>);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 每次执行间隔指定时间, 在间隔时间内对方法调用不再执行，</span></div><div class="line">    <span class="comment">// 但是会把间隔时间的起点设置为此次对方法调用的时间</span></div><div class="line">    <span class="comment">// 举例来说：下面这个情况， 每个2999 毫秒 单击一次，</span></div><div class="line">    <span class="comment">// 不满足每个3000秒的时间间隔, 故回调不执行</span></div><div class="line">    <span class="comment">// 即使每隔 2999 毫秒店家1000次，也只会在最后一次单击 3000ms 后，</span></div><div class="line">    <span class="comment">// 才能正常执行回调</span></div><div class="line">    <span class="comment">// 所以 debounce 适合用于 resize, 在窗口不再改变后执行就好了, 在</span></div><div class="line">    <span class="comment">// 移动中执行也没有意义</span></div><div class="line">    <span class="comment">// 另外适合输入框取值, 如果输入框一直在 change, 拿到值也没用, 所以在不变化执行就可以了。</span></div><div class="line">    <span class="keyword">var</span> slowClick = _.debounce(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        log(<span class="string">"click"</span>, <span class="string">"_debounce"</span>);</div><div class="line">    &#125;, <span class="number">3000</span>);</div><div class="line"></div><div class="line">    debounce_button.addEventListener(<span class="string">'click'</span>, slowClick, <span class="literal">false</span>);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// after:  在已经被掉了 指定次数 后，才执行</span></div><div class="line">    <span class="comment">// api 示例说适用于 异步处理, 在所有任务都完成时才执行。</span></div><div class="line">    <span class="keyword">var</span> render = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;log(<span class="string">'after'</span>)&#125;;</div><div class="line">    <span class="keyword">var</span> renderJob = _.after(<span class="number">5</span>, render);</div><div class="line">    _.each([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>], <span class="function"><span class="keyword">function</span>(<span class="params">job</span>) </span>&#123;</div><div class="line">        renderJob();</div><div class="line">    &#125;)</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// wrapper 注入/ AOP 切面编程</span></div><div class="line">    <span class="keyword">var</span> hello = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123; <span class="keyword">return</span> <span class="string">"hello: "</span> + name; &#125;;</div><div class="line">    hello = _.wrap(hello, <span class="function"><span class="keyword">function</span>(<span class="params">func</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"before, "</span> + func(<span class="string">"moe"</span>) + <span class="string">", after"</span>;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"wrap"</span>, hello());</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// compose, 组合模式/  像极管道 大管子</span></div><div class="line">    <span class="keyword">var</span> greet    = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123; <span class="keyword">return</span> <span class="string">"hi: "</span> + name; &#125;;</div><div class="line">    <span class="keyword">var</span> exclaim  = <span class="function"><span class="keyword">function</span>(<span class="params">statement</span>)</span>&#123; <span class="keyword">return</span> statement.toUpperCase() + <span class="string">"!"</span>; &#125;;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Caution!</div><div class="line">     * _.compose(f, g, h);</div><div class="line">     * 数据流为  f() &lt;- g() &lt;- h();</div><div class="line">     * f(), g(), and h() produces f(g(h())).</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> welcome = _.compose(log, greet, exclaim);</div><div class="line">    <span class="keyword">var</span> moe = welcome(<span class="string">'moe'</span>);</div><div class="line">    <span class="comment">//log('compose:' ,moe);</span></div><div class="line"></div><div class="line">    <span class="comment">// 对象 extend</span></div><div class="line">    <span class="keyword">var</span> big = _.extend(&#123;<span class="attr">x</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">y</span>: <span class="number">2</span>&#125;);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'extend'</span>, big);</div><div class="line"></div><div class="line">    <span class="comment">// 给对象设置默认参数, 只给设置对象原本不存在的参数</span></div><div class="line">    <span class="keyword">var</span> iceCream = &#123;<span class="attr">flavor</span>: <span class="string">"chocolate"</span>&#125;;</div><div class="line">    _.defaults(iceCream, &#123;<span class="attr">flavor</span>: <span class="string">"vanilla"</span>, <span class="attr">sprinkles</span>: <span class="string">"lots"</span>&#125;);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> tapData = _.chain(testData)</div><div class="line">            .filter(<span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123;</div><div class="line">                <span class="keyword">return</span> num &gt; <span class="number">5</span>;</div><div class="line">            &#125;)</div><div class="line">            .tap(log)</div><div class="line">            <span class="comment">// 多中间数据没有改变</span></div><div class="line">            .tap(<span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'tapped: '</span>, num); <span class="keyword">return</span> num * <span class="number">2</span>; &#125;)</div><div class="line">            .tap(log)</div><div class="line">            .map(<span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123; <span class="keyword">return</span> num * num; &#125;)</div><div class="line">            .value();</div><div class="line">    log(<span class="string">"tapData"</span>, tapData);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 扩展 underscore</span></div><div class="line">    <span class="comment">// underscore 扩展接口, 方便实用</span></div><div class="line">    _.mixin(&#123;</div><div class="line">        <span class="attr">hello</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"mixin: "</span>, <span class="string">"have a good time!"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    _.hello();</div><div class="line">    _(<span class="string">""</span>).hello();</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// &lt;%= someThing %&gt;</span></div><div class="line">    <span class="comment">// 模板的使用</span></div><div class="line">    <span class="keyword">var</span> compiled = _.template(<span class="string">"hello: &lt;%= name %&gt;"</span>);</div><div class="line">    log(compiled(&#123; <span class="attr">name</span>: <span class="string">"moe"</span> &#125;));</div><div class="line"></div><div class="line">    <span class="keyword">var</span> lyrics = [</div><div class="line">        &#123;<span class="attr">line</span>: <span class="number">1</span>, <span class="attr">words</span>: <span class="string">"I'm a lumberjack and I'm okay"</span>&#125;,</div><div class="line">        &#123;<span class="attr">line</span>: <span class="number">2</span>, <span class="attr">words</span>: <span class="string">"I sleep all night and I work all day"</span>&#125;,</div><div class="line">        &#123;<span class="attr">line</span>: <span class="number">3</span>, <span class="attr">words</span>: <span class="string">"He's a lumberjack and he's okay"</span>&#125;,</div><div class="line">        &#123;<span class="attr">line</span>: <span class="number">4</span>, <span class="attr">words</span>: <span class="string">"He sleeps all night and he works all day"</span>&#125;</div><div class="line">    ];</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 我没有任何天分， 我只有梦的天真</span></div><div class="line">    <span class="comment">// 输掉目标， 不能输掉人生</span></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * _.map([1, 2, 3], function(n)&#123; return n * 2; &#125;);</div><div class="line">     * _([1, 2, 3]).map(function(n)&#123; return n * 2; &#125;);</div><div class="line">     * 这其实是 underscore 的两种使用方式，回调式的和链式的</div><div class="line">     *</div><div class="line">     *  Returns a wrapped object.</div><div class="line">     *  Calling methods on this object will continue to return wrapped objects</div><div class="line">     *  until value is called.</div><div class="line">     *</div><div class="line">     *  这里 wrapped object 其实是 类似 jQ 对象的一个包裹后的对象,</div><div class="line">     *  本质就是挂载了 underscore 接口的 prototype</div><div class="line">     *  之所以挂载 prototype 是因为, 为了实现链式操作</div><div class="line">     */</div><div class="line"></div><div class="line">    <span class="keyword">var</span> chainData = _.chain(lyrics);</div><div class="line">    log(<span class="string">"chain, return a wrapped data:"</span>, chainData);</div><div class="line">    log(<span class="string">"chain, back to original data:"</span>, chainData.value());</div><div class="line"></div><div class="line">    <span class="keyword">var</span> d = chainData.map(<span class="function"><span class="keyword">function</span>(<span class="params"> line </span>) </span>&#123; <span class="keyword">return</span> line.words.split(<span class="string">' '</span>); &#125;)</div><div class="line">            .flatten()</div><div class="line">            <span class="comment">// reduce(data, function(memo, value, key , list))</span></div><div class="line">            .reduce(<span class="function"><span class="keyword">function</span>(<span class="params">counts, word</span>) </span>&#123; <span class="comment">// 实际参数为： memo, value, key, list</span></div><div class="line">                <span class="comment">// 通过 log, 可以很清楚的看清 reduce 是怎么回事。</span></div><div class="line">                <span class="comment">// log('inner reduce', counts, word);</span></div><div class="line"></div><div class="line">                counts[word] = (counts[word] || <span class="number">0</span>) + <span class="number">1</span>;</div><div class="line">                <span class="keyword">return</span> counts;</div><div class="line">            &#125;, &#123;&#125;) <span class="comment">// 这里的 `&#123;&#125;` 作为 前面 `iteratee` 回调参数中 memo 的初始值。</span></div><div class="line">            .value();</div><div class="line">    log(<span class="string">'chain compute'</span>, d);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span> &gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span> &gt;</span></div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2015/01/12/2015-03-22-underscore接口理解/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-01-11 </div>
+			<div class="article-title"><a href="/2015/01/11/2015-03-22-web-animations/" >web-animations</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<blockquote>
+<p>Web Animations defines APIs for synchronizing several of the web’s animation models with complex, scriptable animations.</p>
+</blockquote>
+<p>在 Web 平台上有四种技术可实现动画：CSS Transitions, CSS Animations, SVG Animations / SMIL, and requestAnimationFrame().<br>但是 </p>
+<ul>
+<li>CSS Transitions / CSS Animations 表现能力不足,无法并行运行，不能用 script 控制.</li>
+<li>SVG Animations are  有表现力，但是编写复杂， can’t be applied to HTML content.</li>
+<li>requestAnimationFrame() is not a declarative approach, 运行在主线程，主线程忙时，会卡顿</li>
+</ul>
+<p>于是，w3c 搞出了替代品</p>
+<p>Basic usage<br>Here’s a simple example of an animation that scales and changes the opacity of a <div> over 0.5 seconds. The animation alternates producing a pulsing effect.</div></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"pulse"</span> <span class="attr">style</span>=<span class="string">"width:150px;"</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> elem = <span class="built_in">document</span>.querySelector(<span class="string">'.pulse'</span>);</div><div class="line">  <span class="keyword">var</span> player = <span class="built_in">document</span>.timeline.play(<span class="keyword">new</span> Animation(elem, [</div><div class="line">      &#123;<span class="attr">opacity</span>: <span class="string">"0.5"</span>, <span class="attr">transform</span>: <span class="string">"scale(0.5)"</span>&#125;, </div><div class="line">      &#123;<span class="attr">opacity</span>: <span class="string">"1.0"</span>, <span class="attr">transform</span>: <span class="string">"scale(1)"</span>&#125;</div><div class="line">    ],</div><div class="line">    &#123;</div><div class="line">      <span class="attr">direction</span>: <span class="string">"alternate"</span>, <span class="attr">duration</span>: <span class="number">500</span>, <span class="attr">iterations</span>: <span class="literal">Infinity</span></div><div class="line">    &#125;));</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>还未正式发布，浏览器兼容不全，需要<code>刮腻子</code>.</p>
+
+	
+	</div>
+  <a type="button" href="/2015/01/11/2015-03-22-web-animations/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-01-03 </div>
+			<div class="article-title"><a href="/2015/01/03/2015-01-3-polymer/" >polymer的使用</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="结构搭建"><a href="#结构搭建" class="headerlink" title="结构搭建"></a>结构搭建</h2><h3 id="加载引用文件"><a href="#加载引用文件" class="headerlink" title="加载引用文件"></a>加载引用文件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span></span></div><div class="line">  <span class="attr">src</span>=<span class="string">"../components/platform/platform.js"</span>&gt;<span class="handlebars"><span class="xml"></span></span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/font-roboto/roboto.html"</span>&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/core-header-panel/core-header-panel.html"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/core-toolbar/core-toolbar.html"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/paper-tabs/paper-tabs.html"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div></pre></td></tr></table></figure>
+<p>Polymer 使用 HTML imports 来加载 components. HTML imports 提供了依赖关系的管理，保证你的 elements 和它们的依赖都加载好了你再使用它们。</p>
+<h3 id="预防-FOUC"><a href="#预防-FOUC" class="headerlink" title="预防 FOUC"></a>预防 FOUC</h3><p>在 custom elements 更新 之前可能显示错乱。 为了缓解 FOUC 问题, Polymer 提供了一个 polyfill 解决方案，配合 :unresolved 伪类 使用。 对于简单的 app，你可以为 body 添加 unresolved 属性。这将在页面初始化时隐藏页面直到所有的 elements 被更新才显示。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">unresolved</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>polymer-ready 触发前， Polymer 会执行以下的步骤：</p>
+<ul>
+<li>移除 elements 中 [unresolved] 属性</li>
+<li>添加 [resolved] 属性</li>
+<li>在 element 收到第一个  transitionend 时移除 [resolved]</li>
+</ul>
+<h3 id="声明式数据绑定"><a href="#声明式数据绑定" class="headerlink" title="声明式数据绑定"></a>声明式数据绑定</h3><p><code>胡子</code> 方式， mustache(有一款同名的模板引擎mustache.js)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"name-tag"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">    This is <span class="tag">&lt;<span class="name">b</span>&gt;</span>&#123;&#123;owner&#125;&#125;<span class="tag">&lt;/<span class="name">b</span>&gt;</span>'s name-tag element.</div><div class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">    Polymer(<span class="string">'name-tag'</span>, &#123;</div><div class="line">      owner: <span class="string">'Daniel'</span></div><div class="line">    &#125;);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="自动化定位结点"><a href="#自动化定位结点" class="headerlink" title="自动化定位结点"></a>自动化定位结点</h3><p>Polymer 另一个给力的功能是自动化定位结点。一个 component 的 shadow DOM 中标有 id 特性的结点可以被自动引用在该 component 的 this.$ 散列表中。</p>
+<p>注意：通过数据绑定动态创建的结点<em>无法</em>被添加到 this.$ 散列表中。该散列表只包含<em>静态</em>创建的 shadow DOM 结点 (即定义在 element 外部的模板中的结点)。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"x-form"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"nameInput"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    Polymer(<span class="string">'x-form'</span>, &#123;</div><div class="line">      <span class="attr">logNameValue</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.$.nameInput.value);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>为了定位 element 的 shadow DOM 里的其它结点，你可以创建一个带有确定<code>id</code> 的容器 element，然后使用 querySelector 来获取子孙。举个例子，如果你的 element 的模板是下面这个样子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">template</span> <span class="attr">if</span>=<span class="string">"&#123;&#123;some_condition&#125;&#125;"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"inner"</span>&gt;</span></div><div class="line">        该内容通过数据绑定被创建</div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>你可以在容器内这样定位：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">this.$.container.querySelector('#inner');</div></pre></td></tr></table></figure>
+<h3 id="触发自定义事件"><a href="#触发自定义事件" class="headerlink" title="触发自定义事件"></a>触发自定义事件</h3><p>Polymer core 提供了一个便捷的 fire() 方法传递自定义事件。实际上这是一个围绕标准的 node.dispatchEvent(new CustomEvent(…)) 包装出来的。当需要在一个微任务完成之后触发一个事件，请使用其异步的版本：asyncFire()。</p>
+<p>例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span> <span class="attr">href</span>=<span class="string">"bower_components/polymer/polymer.html"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"ouch-button"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">on-click</span>=<span class="string">"&#123;&#123;onClick&#125;&#125;"</span>&gt;</span>GO<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">        Polymer(<span class="string">'ouch-button'</span>, &#123;</div><div class="line">            onClick: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">				<span class="comment">// fire(inType, inDetail, inToNode)</span></div><div class="line">                <span class="keyword">this</span>.fire(<span class="string">'ouch'</span>, &#123;</div><div class="line">                    msg: <span class="string">'hahaha'</span></div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>index.html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"bower_components/platform/platform.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span> <span class="attr">href</span>=<span class="string">"self_event_ref.html"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">ouch-button</span>&gt;</span><span class="tag">&lt;/<span class="name">ouch-button</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'ouch-button'</span>).addEventListener(<span class="string">'ouch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(e.type, e.detail.msg);</div><div class="line">  &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>中文站 <a href="http://docs.polymerchina.org/docs/start/getting-the-code.html" target="_blank" rel="external">polymerchina</a></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2015/01/03/2015-01-3-polymer/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+<ul class="pagination">
+	 
+		
+    	<li class="prev"><a href="/page/5/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i> 上一页</a></li>
+  		
+
+        <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+
+		
+		   <li class="next"> <a href="/page/7/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a> </li>          
+        
+	
+</ul>
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div class="form-group has-success has-feedback" id="site_search">
+    <form class="site-search-form">
+        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
+    </form>
+  </div>  
+
+
+		
+			
+	<div class="widget">
+		<h4>分类</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/categories/Sports/Baseball/">Baseball<span>2</span></a></li>
+		
+			<li><a href="/categories/Sports/">Sports<span>2</span></a></li>
+		
+			<li><a href="/categories/bom/">bom<span>1</span></a></li>
+		
+			<li><a href="/categories/collection/">collection<span>1</span></a></li>
+		
+			<li><a href="/categories/css/">css<span>1</span></a></li>
+		
+			<li><a href="/categories/http/">http<span>1</span></a></li>
+		
+			<li><a href="/categories/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/categories/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/categories/jquery/">jquery<span>1</span></a></li>
+		
+			<li><a href="/categories/library/">library<span>2</span></a></li>
+		
+			<li><a href="/categories/note/">note<span>1</span></a></li>
+		
+			<li><a href="/categories/note-vim/">note vim<span>2</span></a></li>
+		
+			<li><a href="/categories/tool/">tool<span>3</span></a></li>
+		
+			<li><a href="/categories/感悟/">感悟<span>1</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>标签云</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/http/">http<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/document/">document<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+		
+			<li><a href="/tags/随想/">随想<span>1</span></a></li>
+		
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+		
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+		
+		
+		   <li><a href="/tags">...<span>38</span></a></li>
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>最新文章</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2015/10/27/what_is_true/" ><i class="fa fa-file-o"></i>实际情况是什么样的</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/软件设计原则/" ><i class="fa fa-file-o"></i>软件设计原则</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/测试工具-Mock-的使用-资料整理中/" ><i class="fa fa-file-o"></i>测试工具 Mock 的使用(资料整理中)</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/怎么写出好代码/" ><i class="fa fa-file-o"></i>怎么写出好代码</a>
+      </li>
+    
+      <li>
+        <a href="/2015/10/23/node-stream/" ><i class="fa fa-file-o"></i>node stream</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>链接</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/chenyakun" title="My Github repository." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

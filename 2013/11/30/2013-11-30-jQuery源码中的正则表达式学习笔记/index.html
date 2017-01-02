@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>jQuery源码中的正则表达式学习笔记 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="jQuery源码中的正则表达式学习笔记"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> jQuery源码中的正则表达式学习笔记</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>说明这些正则里充斥了大量 (?:) 这样的表达式, 语法规则是这样的: </p>
+<p><code>()</code>代表分组,就是多字符匹配,团结的像一个似的. 分组还有个作用: <code>捕获</code>. 就是说()匹配的内容, 会给个号码然后将其缓存起来, 后面的表达式语句能使用号码引用匹配到的文本(见号如见匹配文本)。 作用上，像oracle里的 <code>with</code> 关键字。</p>
+<p>再说点题外话:关于行结束符</p>
+<ul>
+<li>mac:    \r     回车</li>
+<li>unix:   \n     换行</li>
+<li>window: \r\n   回车换行 </li>
+</ul>
+<p>换行符起源于机械打字机,当打字机的笔尖走到行末时,有两个动作,回车,return到行首,接着\n,换到下一行。</p>
+<p>举例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> quickExpr = <span class="regexp">/^(?:[^#&lt;]*(&lt;[\w\W]+&gt;)[^&gt;]*$|#([\w\-]*)$)/</span></div></pre></td></tr></table></figure>
+<p>分组,外层为第一层分组, 因采用(?:) 匹配但不捕获,没有分组好, 所有最终拿到手的只有两组分组.<br>最外层分组匹配的是选择器selector,可为html标签,或id选择器.  分组 1 匹配标签名,标签内的字符串,不带左右尖括号. 分组2匹配id选择器名,不带#号.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rnotwhite = <span class="regexp">/\S/</span></div></pre></td></tr></table></figure>
+<p>匹配任意非空字符,空格,tab,回车等统统不匹配</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> trimLeft = <span class="regexp">/^\s+/</span></div></pre></td></tr></table></figure>
+<p>Used for trimming whitespace, 匹配以空白符开始的行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> trimRight = <span class="regexp">/\s+$/</span></div></pre></td></tr></table></figure>
+<p>匹配以空白符结尾的行,阿里的笔试题就有这个</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rsingleTag = <span class="regexp">/^&lt;(\w+)\s*\/?&gt;(?:&lt;\/\1&gt;)?$/</span></div></pre></td></tr></table></figure>
+<p>Match a standalone tag<br>\w 匹配数字字母下划线<br>第二个分组匹配不捕获(它调用了第一组的捕获内容)没了分组号,最终只剩第一个分组号,用于匹配标签名,这货匹配一组单独标签,闭合单标签或闭合双标签</p>
+<p>JSON RegExp<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rvalidchars = <span class="regexp">/^[\],:&#123;&#125;\s]*$/</span></div></pre></td></tr></table></figure></p>
+<p>匹配任意多个  ],:{}和空格,干啥使得后面再说</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rvalidescape = <span class="regexp">/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]&#123;4&#125;)/g</span></div></pre></td></tr></table></figure>
+<p>匹配JSON合理的取值<br>“[^”\\n\r]*” 匹配被双引号包着的字符 双引号抱着的内容不能有(双引号,换行符,回车符,转义符)<br>也匹配为 true或false或null的值<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-?\d+(?:\.\d*)?(?:[<span class="string">eE</span>][<span class="symbol">+\-</span>]?\d+)</div></pre></td></tr></table></figure></p>
+<p>可匹配负值,可匹配带小数的,还匹配科学计数法<br>强大!</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rvalidtokens = <span class="regexp">/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g</span></div></pre></td></tr></table></figure>
+<p>匹配  [  或 , [ 或 :[ </p>
+<p>(?:^|:|,) 这货差点让我看走眼,匹配三个 空或:或, ^ 匹配字符串的开始,紧接着就是或,所以它匹配空,这个表达式看起来像 json的左括号</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rvalidbraces = <span class="regexp">/(?:^|:|,)(?:\s*\[)+/g</span></div></pre></td></tr></table></figure>
+<p>Useragent RegExp<br>UserAgent 就是浏览器的标识</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">webkit/ab.c</div><div class="line">var rwebkit = /(webkit)[<span class="string"> \/</span>](<span class="link">[\w.]+</span>)/</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ropera = <span class="regexp">/(opera)(?:.*version)?[ \/]([\w.]+)/</span>,</div><div class="line"><span class="keyword">var</span> rmsie = <span class="regexp">/(msie) ([\w.]+)/</span>,</div><div class="line"></div><div class="line"><span class="string">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:29.0) Gecko/20100101 Firefox/29.0"</span></div><div class="line"><span class="keyword">var</span> rmozilla = <span class="regexp">/(mozilla)(?:.*? rv:([\w.]+))?/</span>,</div><div class="line"></div><div class="line">Matches dashed string <span class="keyword">for</span> camelizing</div><div class="line"><span class="keyword">var</span> rdashAlpha = <span class="regexp">/-([a-z]|[0-9])/ig</span></div></pre></td></tr></table></figure>
+<p>微软前缀<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rmsPrefix = <span class="regexp">/^-ms-/</span>,</div></pre></td></tr></table></figure></p>
+<p>匹配大括号和中括号,中间内容不限<br><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var rbrace = /^(?:<span class="symbol">\&#123;</span>.*<span class="symbol">\&#125;</span>|<span class="symbol">\[</span>.*<span class="symbol">\]</span>)$/</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rmultiDash = <span class="regexp">/([A-Z])/g</span></div></pre></td></tr></table></figure>
+<p>匹配换行,回车,制表符<br><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var rclass = /[<span class="symbol">\n</span><span class="symbol">\t</span><span class="symbol">\r</span>]/g</div></pre></td></tr></table></figure></p>
+<p>匹配空格<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rspace = <span class="regexp">/\s+/</span></div></pre></td></tr></table></figure></p>
+<p>匹配回车<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rreturn = <span class="regexp">/\r/g</span>,</div></pre></td></tr></table></figure></p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">var</span> r<span class="keyword">type</span> = /^(?:button|input)$/i,</div></pre></td></tr></table></figure>
+<p>能被focus的, 即按tab可focus的,涨姿势了<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var rfocusable = /^(?:button|<span class="type">input</span>|<span class="type">object</span>|<span class="type">select</span>|<span class="type">textarea</span>)$/i,</div></pre></td></tr></table></figure></p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">var rclickable</span> = /^a(<span class="meta">?:rea)?</span>$/i,</div></pre></td></tr></table></figure>
+<p>取值为布尔值的<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var rboolean = /^(?:autofocus|<span class="type">autoplay</span>|<span class="type">async</span>|<span class="type">checked</span>|<span class="type">controls</span>|<span class="type">defer</span>|<span class="type">disabled</span>|<span class="type">hidden</span>|<span class="type">loop</span>|<span class="type">multiple</span>|<span class="type">open</span>|<span class="type">readonly</span>|<span class="type">required</span>|<span class="type">scoped</span>|<span class="type">selected</span>)$/i,</div></pre></td></tr></table></figure></p>
+<p>form元素<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var rformElems = /^(?:textarea|<span class="type">input</span>|<span class="type">select</span>)$/i,</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rtypenamespace = <span class="regexp">/^([^\.]*)?(?:\.(.+))?$/</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> rhoverHack = <span class="regexp">/\bhover(\.\S+)?\b/</span>,</div><div class="line"></div><div class="line"><span class="keyword">var</span> rkeyEvent = <span class="regexp">/^key/</span>,</div></pre></td></tr></table></figure>
+<p>点击事件 mouse或contextmenu再无前缀,click可有<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rmouseEvent = <span class="regexp">/^(?:mouse|contextmenu)|click/</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> rfocusMorph = <span class="regexp">/^(?:focusinfocus|focusoutblur)$/</span>,</div><div class="line"></div><div class="line"><span class="keyword">var</span> rquickIs = <span class="regexp">/^(\w*)(?:#([\w\-]+))?(?:\.([\w\-]+))?$/</span>,</div></pre></td></tr></table></figure></p>
+<p>这里是sezzle中的核心<br>大块儿头,分而治之</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">var c = </div><div class="line"></div><div class="line">/(        			(?#分组1)</div><div class="line">	(?:   			</div><div class="line">		  <span class="symbol">\(</span>(?:<span class="symbol">\(</span>[^()]+<span class="symbol">\)</span>(?#分组3)|[^()]+)+<span class="symbol">\)</span>|    (?#分组2,函数式过滤块儿)</div><div class="line">	      <span class="symbol">\[</span>(?:<span class="symbol">\[</span>[^<span class="symbol">\[</span><span class="symbol">\]</span>]*<span class="symbol">\]</span>|['"][^'"]*['"]|[^<span class="symbol">\[</span><span class="symbol">\]</span>'"]+)+<span class="symbol">\]</span>| (?#属性选择块儿)</div><div class="line">	      <span class="symbol">\\</span>.| </div><div class="line">	      [^ &gt;+~,(<span class="symbol">\[</span><span class="symbol">\\</span>]+ </div><div class="line">	)+|</div><div class="line">    [&gt;+~] (?#层级选择块)</div><div class="line"> )   </div><div class="line"></div><div class="line">(<span class="symbol">\s</span>*,<span class="symbol">\s</span>*)?((?:.|<span class="symbol">\r</span>|<span class="symbol">\n</span>)*)   /g,</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">var chunker = /((?:<span class="symbol">\(</span>(?:<span class="symbol">\(</span>[^()]+<span class="symbol">\)</span>|[^()]+)+<span class="symbol">\)</span>|<span class="symbol">\[</span>(?:<span class="symbol">\[</span>[^<span class="symbol">\[</span><span class="symbol">\]</span>]*<span class="symbol">\]</span>|['"][^'"]*['"]|[^<span class="symbol">\[</span><span class="symbol">\]</span>'"]+)+<span class="symbol">\]</span>|<span class="symbol">\\</span>.|[^ &gt;+~,(<span class="symbol">\[</span><span class="symbol">\\</span>]+)+|[&gt;+~])(<span class="symbol">\s</span>*,<span class="symbol">\s</span>*)?((?:.|<span class="symbol">\r</span>|<span class="symbol">\n</span>)*)/g,</div><div class="line"> </div><div class="line">ID: /#((?:[<span class="symbol">\w</span><span class="symbol">\u</span>00c0-<span class="symbol">\u</span>FFFF<span class="symbol">\-</span>]|<span class="symbol">\\</span>.)+)/,</div><div class="line"></div><div class="line">CLASS: /<span class="symbol">\.</span>((?:[<span class="symbol">\w</span><span class="symbol">\u</span>00c0-<span class="symbol">\u</span>FFFF<span class="symbol">\-</span>]|<span class="symbol">\\</span>.)+)/,</div><div class="line">NAME: /<span class="symbol">\[</span>name=['"]*((?:[<span class="symbol">\w</span><span class="symbol">\u</span>00c0-<span class="symbol">\u</span>FFFF<span class="symbol">\-</span>]|<span class="symbol">\\</span>.)+)['"]*<span class="symbol">\]</span>/,</div><div class="line">ATTR: /<span class="symbol">\[</span><span class="symbol">\s</span>*((?:[<span class="symbol">\w</span><span class="symbol">\u</span>00c0-<span class="symbol">\u</span>FFFF<span class="symbol">\-</span>]|<span class="symbol">\\</span>.)+)<span class="symbol">\s</span>*(?:(<span class="symbol">\S</span>?=)<span class="symbol">\s</span>*(?:(['"])(.*?)<span class="symbol">\3</span>|(#?(?:[<span class="symbol">\w</span><span class="symbol">\u</span>00c0-<span class="symbol">\u</span>FFFF<span class="symbol">\-</span>]|<span class="symbol">\\</span>.)*)|)|)<span class="symbol">\s</span>*<span class="symbol">\]</span>/,</div><div class="line">TAG: /^((?:[<span class="symbol">\w</span><span class="symbol">\u</span>00c0-<span class="symbol">\u</span>FFFF<span class="symbol">\*</span><span class="symbol">\-</span>]|<span class="symbol">\\</span>.)+)/,</div><div class="line">CHILD: /:(only|nth|last|first)-child(?:<span class="symbol">\(</span><span class="symbol">\s</span>*(even|odd|(?:[+<span class="symbol">\-</span>]?<span class="symbol">\d</span>+|(?:[+<span class="symbol">\-</span>]?<span class="symbol">\d</span>*)?n<span class="symbol">\s</span>*(?:[+<span class="symbol">\-</span>]<span class="symbol">\s</span>*<span class="symbol">\d</span>+)?))<span class="symbol">\s</span>*<span class="symbol">\)</span>)?/,</div><div class="line">POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:<span class="symbol">\(</span>(<span class="symbol">\d</span>*)<span class="symbol">\)</span>)?(?=[^<span class="symbol">\-</span>]|$)/,</div><div class="line">PSEUDO: /:((?:[<span class="symbol">\w</span><span class="symbol">\u</span>00c0-<span class="symbol">\u</span>FFFF<span class="symbol">\-</span>]|<span class="symbol">\\</span>.)+)(?:<span class="symbol">\(</span>(['"]?)((?:<span class="symbol">\(</span>[^<span class="symbol">\)</span>]+<span class="symbol">\)</span>|[^<span class="symbol">\(</span><span class="symbol">\)</span>]*)+)<span class="symbol">\2</span><span class="symbol">\)</span>)?/</div></pre></td></tr></table></figure>
+<h2 id="类选择器"><a href="#类选择器" class="headerlink" title="类选择器"></a>类选择器</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> match = <span class="regexp">/^(\w+$)|^\.([\w\-]+$)|^#([\w\-]+$)/</span>.exec( query );</div><div class="line"></div><div class="line">				   </div><div class="line"><span class="keyword">var</span> runtil = <span class="regexp">/Until$/</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> rparentsprev = <span class="regexp">/^(?:parents|prevUntil|prevAll)/</span>,</div></pre></td></tr></table></figure>
+<p>Note: This RegExp should be improved, or likely pulled from Sizzle<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rmultiselector = <span class="regexp">/,/</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> isSimple = <span class="regexp">/^.[^:#\[\.,]*$/</span>,</div></pre></td></tr></table></figure></p>
+<p>h5标签全家福<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">var nodeNames</span> = <span class="string">"abbr|article|aside|audio|canvas|datalist|details|figcaption|figure|footer|"</span> +</div><div class="line">				<span class="string">"header|hgroup|mark|meter|nav|output|progress|section|summary|time|video"</span>;</div></pre></td></tr></table></figure></p>
+<p>匹配jQuery的”uuid”<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">var</span> rinlinejQuery = / jQuery\d+=<span class="string">"(?:\d+|null)"</span>/g</div><div class="line"></div><div class="line"><span class="selector-tag">var</span> rleadingWhitespace = /^\s+/</div></pre></td></tr></table></figure></p>
+<p>good: (?!exp)    匹配后面跟的不是exp的位置<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var rxhtmlTag = /&lt;(?!area|<span class="type">br</span>|<span class="type">col</span>|<span class="type">embed</span>|<span class="type">hr</span>|<span class="type">img</span>|<span class="type">input</span>|<span class="type">link</span>|<span class="type">meta</span>|<span class="type">param</span>)(([\w:]+)[^&gt;]*)\/&gt;/ig</div><div class="line"></div><div class="line">var rtagName = /&lt;([\w:]+)/</div><div class="line">var rtbody = /&lt;tbody/i</div><div class="line">var rhtml = /&lt;|<span class="type">&amp;#?\w</span>+;/ // &lt; 或者 &amp;nbsp; &amp;#xxx;</div><div class="line">var rnoInnerhtml = /&lt;(?:script|<span class="type">style</span>)/i</div></pre></td></tr></table></figure></p>
+<p>html代码中不能含有这些标签,加入dom缓存<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rnocache = <span class="regexp">/&lt;(?:script|object|embed|option|style)/i</span>,       </div><div class="line"></div><div class="line">checked=<span class="string">"checked"</span> <span class="keyword">or</span> checked</div><div class="line"><span class="keyword">var</span> rchecked = <span class="regexp">/checked\s*(?:[^=]|=\s*.checked.)/i</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> rscriptType = <span class="regexp">/\/(java|ecma)script/i</span></div><div class="line"><span class="keyword">var</span> rcleanScript = <span class="regexp">/^\s*&lt;!(?:\[CDATA\[|\-\-)/</span></div><div class="line">								  </div><div class="line"><span class="keyword">var</span> <span class="keyword">var</span> ralpha = <span class="regexp">/alpha\([^)]*\)/i</span></div><div class="line"><span class="keyword">var</span> ropacity = <span class="regexp">/opacity=([^)]*)/</span></div><div class="line"></div><div class="line">fixed <span class="keyword">for</span> IE9, see <span class="comment">#8346</span></div><div class="line"><span class="keyword">var</span> rupper = <span class="regexp">/([A-Z]|^ms)/g</span></div><div class="line"><span class="keyword">var</span> rnumpx = <span class="regexp">/^-?\d+(?:px)?$/i</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> rnum = <span class="regexp">/^-?\d/</span>,</div><div class="line"><span class="keyword">var</span> rrelNum = <span class="regexp">/^([\-+])=([\-+.\de]+)/</span>,</div></pre></td></tr></table></figure></p>
+<p>编码后的空格<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> r20 = <span class="regexp">/%20/g</span>,</div><div class="line"><span class="keyword">var</span> rbracket = <span class="regexp">/\[\]$/</span>,</div></pre></td></tr></table></figure></p>
+<p>表示 \r,\n 或 \r\n<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rCRLF = <span class="regexp">/\r?\n/g</span>,</div></pre></td></tr></table></figure></p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rhash = /<span class="meta">#.*$/,</span></div></pre></td></tr></table></figure>
+<p>IE leaves an \r character at EOL<br><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var rheaders = /^(.*?):[ <span class="symbol">\t</span>]*([^<span class="symbol">\r</span><span class="symbol">\n</span>]*)<span class="symbol">\r</span>?$/mg,</div></pre></td></tr></table></figure></p>
+<p>可输入的标签<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var rinput = /^(?:color|<span class="type">date</span>|<span class="type">datetime</span>|<span class="type">datetime</span>-local|<span class="type">email</span>|<span class="type">hidden</span>|<span class="type">month</span>|<span class="type">number</span>|<span class="type">password</span>|<span class="type">range</span>|<span class="type">search</span>|<span class="type">tel</span>|<span class="type">text</span>|<span class="type">time</span>|<span class="type">url</span>|<span class="type">week</span>)$/i</div></pre></td></tr></table></figure></p>
+<p><code>#7653, #8125, #8152</code>: local protocol detection<br>访问本地资源时,浏览器地址栏可使用的schema<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var rlocalProtocol = /^(?:about|<span class="type">app</span>|<span class="type">app</span>\-storage|<span class="type">.+\-extension</span>|<span class="type">file</span>|<span class="type">res</span>|<span class="type">widget</span>):$/</div><div class="line"></div><div class="line">var rnoContent = /^(?:GET|<span class="type">HEAD</span>)$/</div></pre></td></tr></table></figure></p>
+<p>匹配 // </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rprotocol = <span class="regexp">/^\/\//</span></div><div class="line"><span class="keyword">var</span> rquery = <span class="regexp">/\?/</span></div></pre></td></tr></table></figure>
+<p>\b代表单词的开头或结尾,也就是单词的分界处<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rscript = <span class="regexp">/&lt;script\b[^&lt;]*(?:(?!&lt;\/script&gt;)&lt;[^&lt;]*)*&lt;\/script&gt;/gi</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> rselectTextarea = <span class="regexp">/^(?:select|textarea)/i</span></div><div class="line"><span class="keyword">var</span> rspacesAjax = <span class="regexp">/\s+/</span></div><div class="line"><span class="keyword">var</span> rts = <span class="regexp">/([?&amp;])_=[^&amp;]*/</span></div><div class="line"><span class="keyword">var</span> rurl = <span class="regexp">/^([\w\+\.\-]+:)(?:\/\/([^\/?#:]*)(?::(\d+))?)?/</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">var</span> rfxtypes = <span class="regexp">/^(?:toggle|show|hide)$/</span></div><div class="line"><span class="keyword">var</span> rfxnum = <span class="regexp">/^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> rtable = <span class="regexp">/^t(?:able|d|h)$/i</span></div><div class="line"><span class="keyword">var</span> rroot = <span class="regexp">/^(?:body|html)$/i</span>;</div></pre></td></tr></table></figure></p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2013/12/09/2013-12-09-emmet&vim/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2013/11/07/2013-11-07-waht -is-aria/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2013-11-30 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

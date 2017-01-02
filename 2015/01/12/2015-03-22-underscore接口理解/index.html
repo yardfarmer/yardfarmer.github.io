@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Underscore.js | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Underscore.js"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> Underscore.js</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>##简介<br><a href="http://underscorejs.org/" target="_blank" rel="external">Underscore.js</a>是一个灵巧的工具库。它提供了几十种函数式编程的方法，大大方便了JavaScript的编程。MVC框架Backbone.js就将这个库作为自己的工具库。除了可以在浏览器环境使用，Underscore.js还可以用于Node.js。<br>Underscore.js定义了一个下划线（_）对象，函数库的所有方法都属于这个对象。这些方法大致上可以分成：集合（collection）、数组（array）、函数（function）、对象（object）和工具（utility）五大类。 </p>
+<p>##接口示例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">"en"</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span> &gt;</span><span class="tag">&lt;/<span class="name">title</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../underscore-reading.js"</span> &gt;</span><span class="handlebars"><span class="xml"><span class="tag">&lt;/<span class="name">script</span> &gt;</span></span></span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span> &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> &gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"underscore_button"</span>&gt;</span>test button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"throttle_button"</span>&gt;</span>throttle button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"debounce_button"</span>&gt;</span>debounce button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *  [].forEach(function(value, key, list) &#123; &#125;)</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> testData = [<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>];</div><div class="line"></div><div class="line">    _.each(testData, <span class="function"><span class="keyword">function</span>(<span class="params">value, key, list</span>) </span>&#123;</div><div class="line">    <span class="comment">//  console.log(arguments);</span></div><div class="line">    &#125;);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// map 映射, 返回新的数组</span></div><div class="line"></div><div class="line">    <span class="keyword">var</span> eighted = _.map(testData, <span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</div><div class="line">      <span class="keyword">return</span> num * <span class="number">8</span>;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'mapped'</span>, eighted, testData);</div><div class="line"></div><div class="line">    <span class="comment">// 数组拷贝</span></div><div class="line">    <span class="keyword">var</span> cpData = testData.slice(<span class="number">0</span>);</div><div class="line">    cpData.pop();</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'copy'</span>, testData, cpData)</div><div class="line"></div><div class="line">    <span class="comment">//_.reduce(list, iteratee(memo, value, key, list), [memo], context);</span></div><div class="line"></div><div class="line">    <span class="keyword">var</span> rst = _.reduce(testData, <span class="function"><span class="keyword">function</span>(<span class="params">memo, value, key, list</span>) </span>&#123;</div><div class="line">       <span class="comment">// console.log(arguments);</span></div><div class="line">        <span class="keyword">return</span> memo + value;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'fib'</span>,rst);</div><div class="line"></div><div class="line">    <span class="comment">// _.find(list, predicate, [context])</span></div><div class="line">    <span class="keyword">var</span> back  = _.find(testData, <span class="function"><span class="keyword">function</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> num &gt; <span class="number">5</span>;</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'back'</span>, back);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> objData = [</div><div class="line">        &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>:<span class="number">2</span>, <span class="attr">c</span>:<span class="number">1</span>&#125;,</div><div class="line">        &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>:<span class="number">2</span>, <span class="attr">c</span>:<span class="number">2</span>&#125;,</div><div class="line">        &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>:<span class="number">2</span>, <span class="attr">c</span>:<span class="number">3</span>&#125;</div><div class="line">    ];</div><div class="line"></div><div class="line">    <span class="keyword">var</span> t = _.where(objData, &#123;<span class="attr">c</span>:<span class="number">1</span>&#125;);</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"where"</span>, t);</div><div class="line"></div><div class="line">    <span class="comment">// 从 `map` 中按名取值, pluck 快而猛的拉，从...中抽拔</span></div><div class="line">    <span class="keyword">var</span> stooges = [&#123;<span class="attr">name</span>: <span class="string">'moe'</span>, <span class="attr">age</span>: <span class="number">40</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">'larry'</span>, <span class="attr">age</span>: <span class="number">50</span>&#125;,</div><div class="line">                   &#123;<span class="attr">name</span>: <span class="string">'curly'</span>, <span class="attr">age</span>: <span class="number">60</span>&#125;];</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"pluck"</span>, _.pluck(stooges, <span class="string">'name'</span>));</div><div class="line"></div><div class="line">    <span class="comment">// 返回除去后 n 位的部分</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"initial,"</span>, _.initial([<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>], <span class="number">2</span>));</div><div class="line"></div><div class="line">    <span class="comment">// 与 initial 相对</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"rest"</span>, _.rest([<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>], <span class="number">2</span>));</div><div class="line"></div><div class="line">    <span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span>(<span class="params">greeting</span>) </span>&#123;<span class="keyword">return</span> greeting + <span class="string">":"</span> + <span class="keyword">this</span>.name &#125;;</div><div class="line">    func = _.bind(func, &#123;<span class="attr">name</span>: <span class="string">'im obj'</span>&#125;, <span class="string">'[this is arguments]'</span>);</div><div class="line">    <span class="comment">// 已经被过河拆桥</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'bind 返回新的 function '</span>, func());</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> buttonView = &#123;</div><div class="line">        <span class="attr">label</span>  : <span class="string">'underscore'</span>,</div><div class="line">        <span class="comment">// 通过 e.target  可以得到目标元素， this 真的是意义不到</span></div><div class="line">        <span class="comment">// be invoked with a fairly useless this.</span></div><div class="line">        onClick: <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'bindAll'</span>, <span class="keyword">this</span>.label, e.target) &#125;,</div><div class="line">        <span class="attr">onHover</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">'hovering: '</span> + <span class="keyword">this</span>.label); &#125;</div><div class="line">    &#125;;</div><div class="line">    _.bindAll(buttonView, <span class="string">'onClick'</span>, <span class="string">'onHover'</span>);</div><div class="line">    <span class="comment">// When the button is clicked, this.label will have the correct value.</span></div><div class="line"></div><div class="line">    underscore_button.addEventListener(<span class="string">'click'</span>, buttonView.onClick, <span class="literal">false</span>);</div><div class="line">    underscore_button.addEventListener(<span class="string">'hover'</span>, buttonView.onHover, <span class="literal">false</span>);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">"partial"</span> ,a ,b)&#125;;</div><div class="line"></div><div class="line">    <span class="comment">// 这个 arguments* 这里的参数在包裹的内部函数的最前面</span></div><div class="line">    <span class="comment">// _.partial(function, *arguments)</span></div><div class="line">    add5 = _.partial(add, <span class="number">5</span>, <span class="number">4</span>); <span class="comment">//</span></div><div class="line">    add5(<span class="number">1</span>,<span class="number">2</span>);</div><div class="line"></div><div class="line">    <span class="comment">// 在递归中会缓存方法的计算结果，达到类似 map 缓存的效果</span></div><div class="line">    <span class="keyword">var</span> fibonacci = _.memoize(<span class="function"><span class="keyword">function</span>(<span class="params">n</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> n &lt; <span class="number">2</span> ? n: fibonacci( n - <span class="number">1</span>) + fibonacci(n - <span class="number">2</span>);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"memoize"</span>, fibonacci(<span class="number">100</span>));</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fibonacci</span>(<span class="params">n</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> n &lt; <span class="number">2</span> ? n: fibonacci( n - <span class="number">1</span>) + fibonacci(n - <span class="number">2</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"fibonacci"</span>, fibonacci(<span class="number">100</span>));</div><div class="line"></div><div class="line">    <span class="keyword">var</span> log = _.bind(<span class="built_in">console</span>.log, <span class="built_in">console</span>);</div><div class="line">    _.delay(log, <span class="number">1000</span>, <span class="string">'delay'</span>,<span class="string">'log latter'</span>);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> throttled = _.throttle(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        log(<span class="string">'throttle'</span>);</div><div class="line">    &#125;, <span class="number">3000</span>);</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">        throttled();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 延时按钮, 处理频繁点击,加上限流阀</span></div><div class="line">    throttle_button.addEventListener(<span class="string">'click'</span>, throttled, <span class="literal">false</span>);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 每次执行间隔指定时间, 在间隔时间内对方法调用不再执行，</span></div><div class="line">    <span class="comment">// 但是会把间隔时间的起点设置为此次对方法调用的时间</span></div><div class="line">    <span class="comment">// 举例来说：下面这个情况， 每个2999 毫秒 单击一次，</span></div><div class="line">    <span class="comment">// 不满足每个3000秒的时间间隔, 故回调不执行</span></div><div class="line">    <span class="comment">// 即使每隔 2999 毫秒店家1000次，也只会在最后一次单击 3000ms 后，</span></div><div class="line">    <span class="comment">// 才能正常执行回调</span></div><div class="line">    <span class="comment">// 所以 debounce 适合用于 resize, 在窗口不再改变后执行就好了, 在</span></div><div class="line">    <span class="comment">// 移动中执行也没有意义</span></div><div class="line">    <span class="comment">// 另外适合输入框取值, 如果输入框一直在 change, 拿到值也没用, 所以在不变化执行就可以了。</span></div><div class="line">    <span class="keyword">var</span> slowClick = _.debounce(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        log(<span class="string">"click"</span>, <span class="string">"_debounce"</span>);</div><div class="line">    &#125;, <span class="number">3000</span>);</div><div class="line"></div><div class="line">    debounce_button.addEventListener(<span class="string">'click'</span>, slowClick, <span class="literal">false</span>);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// after:  在已经被掉了 指定次数 后，才执行</span></div><div class="line">    <span class="comment">// api 示例说适用于 异步处理, 在所有任务都完成时才执行。</span></div><div class="line">    <span class="keyword">var</span> render = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;log(<span class="string">'after'</span>)&#125;;</div><div class="line">    <span class="keyword">var</span> renderJob = _.after(<span class="number">5</span>, render);</div><div class="line">    _.each([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>], <span class="function"><span class="keyword">function</span>(<span class="params">job</span>) </span>&#123;</div><div class="line">        renderJob();</div><div class="line">    &#125;)</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// wrapper 注入/ AOP 切面编程</span></div><div class="line">    <span class="keyword">var</span> hello = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123; <span class="keyword">return</span> <span class="string">"hello: "</span> + name; &#125;;</div><div class="line">    hello = _.wrap(hello, <span class="function"><span class="keyword">function</span>(<span class="params">func</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"before, "</span> + func(<span class="string">"moe"</span>) + <span class="string">", after"</span>;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"wrap"</span>, hello());</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// compose, 组合模式/  像极管道 大管子</span></div><div class="line">    <span class="keyword">var</span> greet    = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123; <span class="keyword">return</span> <span class="string">"hi: "</span> + name; &#125;;</div><div class="line">    <span class="keyword">var</span> exclaim  = <span class="function"><span class="keyword">function</span>(<span class="params">statement</span>)</span>&#123; <span class="keyword">return</span> statement.toUpperCase() + <span class="string">"!"</span>; &#125;;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Caution!</div><div class="line">     * _.compose(f, g, h);</div><div class="line">     * 数据流为  f() &lt;- g() &lt;- h();</div><div class="line">     * f(), g(), and h() produces f(g(h())).</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> welcome = _.compose(log, greet, exclaim);</div><div class="line">    <span class="keyword">var</span> moe = welcome(<span class="string">'moe'</span>);</div><div class="line">    <span class="comment">//log('compose:' ,moe);</span></div><div class="line"></div><div class="line">    <span class="comment">// 对象 extend</span></div><div class="line">    <span class="keyword">var</span> big = _.extend(&#123;<span class="attr">x</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">y</span>: <span class="number">2</span>&#125;);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'extend'</span>, big);</div><div class="line"></div><div class="line">    <span class="comment">// 给对象设置默认参数, 只给设置对象原本不存在的参数</span></div><div class="line">    <span class="keyword">var</span> iceCream = &#123;<span class="attr">flavor</span>: <span class="string">"chocolate"</span>&#125;;</div><div class="line">    _.defaults(iceCream, &#123;<span class="attr">flavor</span>: <span class="string">"vanilla"</span>, <span class="attr">sprinkles</span>: <span class="string">"lots"</span>&#125;);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">var</span> tapData = _.chain(testData)</div><div class="line">            .filter(<span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123;</div><div class="line">                <span class="keyword">return</span> num &gt; <span class="number">5</span>;</div><div class="line">            &#125;)</div><div class="line">            .tap(log)</div><div class="line">            <span class="comment">// 多中间数据没有改变</span></div><div class="line">            .tap(<span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'tapped: '</span>, num); <span class="keyword">return</span> num * <span class="number">2</span>; &#125;)</div><div class="line">            .tap(log)</div><div class="line">            .map(<span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123; <span class="keyword">return</span> num * num; &#125;)</div><div class="line">            .value();</div><div class="line">    log(<span class="string">"tapData"</span>, tapData);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 扩展 underscore</span></div><div class="line">    <span class="comment">// underscore 扩展接口, 方便实用</span></div><div class="line">    _.mixin(&#123;</div><div class="line">        <span class="attr">hello</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"mixin: "</span>, <span class="string">"have a good time!"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    _.hello();</div><div class="line">    _(<span class="string">""</span>).hello();</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// &lt;%= someThing %&gt;</span></div><div class="line">    <span class="comment">// 模板的使用</span></div><div class="line">    <span class="keyword">var</span> compiled = _.template(<span class="string">"hello: &lt;%= name %&gt;"</span>);</div><div class="line">    log(compiled(&#123; <span class="attr">name</span>: <span class="string">"moe"</span> &#125;));</div><div class="line"></div><div class="line">    <span class="keyword">var</span> lyrics = [</div><div class="line">        &#123;<span class="attr">line</span>: <span class="number">1</span>, <span class="attr">words</span>: <span class="string">"I'm a lumberjack and I'm okay"</span>&#125;,</div><div class="line">        &#123;<span class="attr">line</span>: <span class="number">2</span>, <span class="attr">words</span>: <span class="string">"I sleep all night and I work all day"</span>&#125;,</div><div class="line">        &#123;<span class="attr">line</span>: <span class="number">3</span>, <span class="attr">words</span>: <span class="string">"He's a lumberjack and he's okay"</span>&#125;,</div><div class="line">        &#123;<span class="attr">line</span>: <span class="number">4</span>, <span class="attr">words</span>: <span class="string">"He sleeps all night and he works all day"</span>&#125;</div><div class="line">    ];</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 我没有任何天分， 我只有梦的天真</span></div><div class="line">    <span class="comment">// 输掉目标， 不能输掉人生</span></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * _.map([1, 2, 3], function(n)&#123; return n * 2; &#125;);</div><div class="line">     * _([1, 2, 3]).map(function(n)&#123; return n * 2; &#125;);</div><div class="line">     * 这其实是 underscore 的两种使用方式，回调式的和链式的</div><div class="line">     *</div><div class="line">     *  Returns a wrapped object.</div><div class="line">     *  Calling methods on this object will continue to return wrapped objects</div><div class="line">     *  until value is called.</div><div class="line">     *</div><div class="line">     *  这里 wrapped object 其实是 类似 jQ 对象的一个包裹后的对象,</div><div class="line">     *  本质就是挂载了 underscore 接口的 prototype</div><div class="line">     *  之所以挂载 prototype 是因为, 为了实现链式操作</div><div class="line">     */</div><div class="line"></div><div class="line">    <span class="keyword">var</span> chainData = _.chain(lyrics);</div><div class="line">    log(<span class="string">"chain, return a wrapped data:"</span>, chainData);</div><div class="line">    log(<span class="string">"chain, back to original data:"</span>, chainData.value());</div><div class="line"></div><div class="line">    <span class="keyword">var</span> d = chainData.map(<span class="function"><span class="keyword">function</span>(<span class="params"> line </span>) </span>&#123; <span class="keyword">return</span> line.words.split(<span class="string">' '</span>); &#125;)</div><div class="line">            .flatten()</div><div class="line">            <span class="comment">// reduce(data, function(memo, value, key , list))</span></div><div class="line">            .reduce(<span class="function"><span class="keyword">function</span>(<span class="params">counts, word</span>) </span>&#123; <span class="comment">// 实际参数为： memo, value, key, list</span></div><div class="line">                <span class="comment">// 通过 log, 可以很清楚的看清 reduce 是怎么回事。</span></div><div class="line">                <span class="comment">// log('inner reduce', counts, word);</span></div><div class="line"></div><div class="line">                counts[word] = (counts[word] || <span class="number">0</span>) + <span class="number">1</span>;</div><div class="line">                <span class="keyword">return</span> counts;</div><div class="line">            &#125;, &#123;&#125;) <span class="comment">// 这里的 `&#123;&#125;` 作为 前面 `iteratee` 回调参数中 memo 的初始值。</span></div><div class="line">            .value();</div><div class="line">    log(<span class="string">'chain compute'</span>, d);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span> &gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span> &gt;</span></div></pre></td></tr></table></figure>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2015/01/16/2015-01-16-hg-remote-push-hook/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2015/01/11/2015-03-22-web-animations/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2015-01-12 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/javascript/">javascript<span>9</span></a></li> <li><a href="/tags/library/">library<span>3</span></a></li> <li><a href="/tags/framework/">framework<span>1</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

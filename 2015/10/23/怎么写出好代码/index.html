@@ -1,0 +1,290 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>怎么写出好代码 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="怎么写出好代码"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> 怎么写出好代码</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <blockquote>
+<p>很难定义什么是好代码，但是坏代码是显而易见的。</p>
+</blockquote>
+<p>##良性循环</p>
+<p>对已经具有可测试性、可维护性、可理解性的代码进行测试和维护，可以让工作更简单。有了这个基础，可以让我们更富有成效，富有成效的人时快乐的，快乐的人也是富有成效的。这是一个良性循环。 </p>
+<h2 id="理论摘录"><a href="#理论摘录" class="headerlink" title="理论摘录"></a>理论摘录</h2><ol>
+<li>重构的基本技巧: 小步前进，频繁测试。</li>
+<li>对象技术的要点在于：将数据和对数据的操作行为包装在一起。</li>
+<li>封装：对外部世界隐藏内部细节。 </li>
+<li>可以让函数保持最小代码量的一个方法是让命令（Command）和查询（Query）保持分离。命令函数表示 do something, 而查询函数表示 return something。</li>
+</ol>
+<p>##代码的坏味道</p>
+<ol>
+<li>Duplicated Code（重复的代码）<ul>
+<li>合并重复的代码，提取，使之独立出来</li>
+</ul>
+</li>
+<li>Long Method（长函数）<ul>
+<li>一个函数越长，圈复杂度就越大，容易出问题的点就越多，并且需要的脑容量也更大，还会导致在修复 bug 的时候，产生新 bug 的概率加大。</li>
+<li>原则：每当感觉需要使用注释说明点什么的时候，就把需要说明的东西写入到一个独立的函数中。</li>
+</ul>
+</li>
+<li>Long Parameter List（过长参数列）</li>
+<li>Divergent Change（发散式变化）<ul>
+<li>一个类受多种变化的影响</li>
+<li>一旦需要修改，最好只修改一处</li>
+</ul>
+</li>
+<li>Shotgun Surgery（散弹式修改）<ul>
+<li>一种变化引发多个类需要修改</li>
+<li>每遇到某种变化，都必须在许多不同的类内做出许多小修改</li>
+</ul>
+</li>
+<li>Feature Envy（依恋情节）<ul>
+<li>某个函数为了计算某个值，从另一个对象那调用了多个取值函数</li>
+</ul>
+</li>
+<li>Data Clumps（数据泥团）<ul>
+<li>两个类中相同的字段，许多函数中相同的参数等绑在一起出现的数据，提炼成对象</li>
+</ul>
+</li>
+<li>Switch Statement<ul>
+<li>面向对象程序的一个显著特征：少用 switch 语句，多用多态。</li>
+</ul>
+</li>
+<li>Complicated Condition（复杂的条件判断）<ul>
+<li>把需要注释说明的分支条件，提炼成单独的一个函数</li>
+</ul>
+</li>
+<li>Proper Iterator（合理使用循环）<ul>
+<li>如果有些代码实际上是重复性的工作，那么合理的使用循环会使代码量更少</li>
+</ul>
+</li>
+<li>Only One Return（函数只有一个出口）<ul>
+<li>提前让函数退出，代替嵌套条件分支</li>
+<li>避免 if 分支的左右括号之间相隔 500 米</li>
+</ul>
+</li>
+</ol>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2015/10/23/测试工具-Mock-的使用-资料整理中/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2015/10/23/node-stream/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2015-10-23 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

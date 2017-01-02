@@ -1,0 +1,381 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>http学习札记 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="http学习札记"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> http学习札记</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <blockquote>
+<p>HTTP 报文会像河水一样流动。不管是请求报文还是响应报文，所有报文都会向下游（downstream） 流动。所有报文的发送者都在接收者的上游。</p>
+</blockquote>
+<p>HTTP 报文是简单的格式化数据块。</p>
+<p>报文块由三个部分组成：</p>
+<pre><code>1. 对报文进行描述的起始行（start line）、 //  HTTP/1.0 200 OK
+2. 包含属性的首部（header）块，{
+    Content-type: text/plain
+    Content-length: 100
+}
+3. 以及可选的、包含数据的主体（body）部分。(get 没有数据主体).
+</code></pre><p>起始行和首部就是由行分隔的ASCII 文本。<br>每行都以一个由两个字符组成的行终止序列(CRLF, Carriage Return Line Feed)作为结束，其中包括一个回车符（ASCII 码13）和一个换行符（ASCII 码10）。</p>
+<p>所有的HTTP 报文都可以分为两类： 请求报文（request message） 和响应报文（response message）。<code>本质就是 socket</code>。</p>
+<ul>
+<li>GET  从服务器获取一份文档        不包含主体</li>
+<li>POST 向服务器发送需要处理的数据  包含主体 </li>
+<li>HTTP 报文可以承载很多类型的数字数据：图片、视频、HTML 文档、软件应用程序、信用卡事务、电子邮件等。</li>
+<li>POST 方法起初是用来向服务器输入数据的.</li>
+</ul>
+<p>重定向状态码要么告知客户端使用替代位置来访问他们所感兴趣的资源，要么就提供一个替代的响应而不是资源的内容。<br>如果资源已被移动，可发送一个重定向状态码和一个可选的Location 首部来告知客户端资源已被移走，以及现在可以在哪里找到它。<br>浏览器就可以在不打扰使用者的情况下，透明地转入新的位置了。(地址栏直接跳转).</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">Remote</span> <span class="selector-tag">Address</span><span class="selector-pseudo">:128.121.66.211</span><span class="selector-pseudo">:80</span> (通过ip-&gt;dns查询来的)</div><div class="line"><span class="selector-tag">Request</span> <span class="selector-tag">URL</span><span class="selector-pseudo">:http</span>:<span class="comment">//www.joes-hardware.com/pet-products.txt</span></div><div class="line"><span class="selector-tag">Request</span> <span class="selector-tag">Method</span><span class="selector-pseudo">:GET</span></div><div class="line"><span class="selector-tag">Status</span> <span class="selector-tag">Code</span><span class="selector-pseudo">:301</span> <span class="selector-tag">Moved</span> <span class="selector-tag">Permanently</span></div><div class="line"><span class="selector-tag">RequestHeaders</span></div><div class="line"><span class="comment">// Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span></div><div class="line"><span class="comment">// Accept-Encoding:gzip,deflate,sdch</span></div><div class="line"><span class="comment">// Accept-Language:en,zh-CN;q=0.8,zh;q=0.6,ja;q=0.4</span></div><div class="line"><span class="comment">// Cache-Control:no-cache</span></div><div class="line"><span class="comment">// Connection:keep-alive</span></div><div class="line"><span class="comment">// DNT:1</span></div><div class="line"><span class="comment">// Host:www.joes-hardware.com</span></div><div class="line"><span class="comment">// Pragma:no-cache</span></div><div class="line"><span class="comment">// User-Agent:Mozilla/5.0</span></div><div class="line"></div><div class="line"><span class="selector-tag">ResonseHeaders</span></div><div class="line"><span class="comment">// Connection:Keep-Alive</span></div><div class="line"><span class="comment">// Content-Length:377</span></div><div class="line"><span class="comment">// Content-Type:text/html; charset=iso-8859-1</span></div><div class="line"><span class="comment">// Date:Wed, 01 Oct 2014 15:22:05 GMT</span></div><div class="line"><span class="comment">// Keep-Alive:timeout=15, max=98</span></div><div class="line"><span class="comment">// Location:http://www.gentle-grooming.com/</span></div><div class="line"><span class="comment">// Server:Apache/2.2.22 (Unix) DAV/2 FrontPage/5.0.2.2635 mod_ssl/2.2.22 OpenSSL/1.0.1h</span></div></pre></td></tr></table></figure>
+<p>Location 用于跳转,在相应的 header 中直接提供了 Location 跳转的 url </p>
+<p>301 Moved Permanently 在请求的URL 已被移除时使用。响应的Location 首部中应该包含资源现在所处的URL.</p>
+<p>304 Not Modified 客户端可以通过所包含的请求首部，使其请求变成有条件的。<br>如果客户端发起了一个条件GET请求，而最近资源未被修改的话，就可以用这个状态码来说明资源未被修改。<br>带有这个状态码的响应不应该包含实体的主体部分。</p>
+<p>标识为no-cache 的响应实际上是可以存储在本地缓存区中的。只是在与原始服务器进行新鲜度再验证之前，缓存不能将其提供给客户端使用。</p>
+<p>HTTP/1.1 中提供Pragma: no-cache 首部是为了兼容于HTTP/1.0+。除了与只理解Pragma: no-cache 的HTTP/1.0 应用程序进行交互时，HTTP 1.1 应用程序都应该使用 Cache-Control: no-cache.</p>
+<p>Cache-Control: max-age 首部表示的是从服务器将文档传来之时起，可以认为此文档处于新鲜状态的秒数.</p>
+<p>服务器可以请求缓存不要缓存文档，或者将最大使用期设置为零，从而在每次访问的时候都进行刷新：<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Cache</span><span class="params">-Control</span>: <span class="keyword">max</span><span class="params">-age</span>=<span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>http-equiv 元信息告诉浏览器如何去做，等效于设置了HTTP 报头。<br>这让你可以向浏览器传达一些原本由服务器告诉它的内容。当你不能控制服务器时，它特别有用。 (这句话很有内容，请求网页使，服务器在响应头里是可以设置属性的，但是如果没有设置。同样也可以在 header 里设置上。效果一样。)</p>
+<p>例如，如果你想设置一个缓存头，但又不能控制服务器，你可以使用http-equiv 属性：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"expires"</span> <span class="attr">content</span>=<span class="string">"Wed, 05 August 2020 00:00:00 GMT"</span>&gt;</span>.</div></pre></td></tr></table></figure></p>
+<p>http-equiv 属性是 http 协议的响应头报文，此属性出现在 meta 标签中。属性值用 content 属性描述当浏览器等设备接收服务器端传送的文件时，首先会接收文件的相关”(名称/值对)”，通常为多个。<br>所有服务器都至少要发送一个：<code>content-type:text/html</code>。这将告诉浏览器准备接受一个 HTML 文档。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"refresh"</span> <span class="attr">content</span>=<span class="string">"5"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"refresh"</span> <span class="attr">content</span>=<span class="string">"5; url=http://www.a.com/"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"pragma"</span> <span class="attr">content</span>=<span class="string">"no-cache"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p>会产生：<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Cache</span><span class="params">-Control</span>:<span class="keyword">max</span><span class="params">-age</span>=<span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>no-store 在response 头中是为了声明不让浏览器 存储这次响应的信息。<br>max-age 这个声明过期时间的。单位为秒 0 肯定就是不缓存了。<br>两个选项对于Cache 系统来说。都是比较有用的。</p>
+<p>关于 session，cookie，jsessionid 的关系。 session 就是 httpsession，服务器端的， cookie 就是浏览器端的。</p>
+<p>在 servlet 里使用了</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">HttpSession session</span> = request.getSession();</div><div class="line"><span class="attribute">String sessionid</span> = session.getId();</div></pre></td></tr></table></figure>
+<p>获取了 session ，即使没有在 session 里设置数据，那么在响应里也会去设置 cookie。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="string">Server:</span>Apache-Coyote/<span class="number">1.1</span></div><div class="line">Set-<span class="string">Cookie:</span>JSESSIONID=<span class="number">3</span>B44FEAE6B662D94F4F23DD8EC2D2697; Path=<span class="regexp">/nodeA/</span>; HttpOnly</div></pre></td></tr></table></figure>
+<p>并且有意思的是：如果在浏览器里把 cookie 删掉，那么下一次给服务器发请求，那么必然不会带着 cookie。所以服务器在没有 cookie 的请求中会在响应(因为没有把 cookie 中的 sessionid 带上，那么服务器认为这个客户端还没有对应的 session，于是发一个 session 给这个客户端，并且在返回响应的时候顺便设置在 cookie 上)的时候给带上 cookie（sessionid）。</p>
+<p>如果客户端在请求的时候把 cookie(seessionid)带上了，那么服务器就不会在响应中设置 cookie 了。如果浏览器把 cookie 禁用了，那么新的 cookie 是存不到浏览器的，响应的时候带着 cookie 也不管用，存不上。  但是禁用cookie 后，浏览器中存储的囤积的还是可以发送出去的。 </p>
+<p>那么问题来了，浏览器把 cookie 禁用了怎么办？ 请求的时候把 sessionid 存放到,貌似没有什么好办法，因为禁用 cookie，服务器的 sessionid 传不进来。在禁用 cookie 的情况下，taobao 登陆不上去，页面显示有问题。 amazon，jd 直接在登陆界面提示，不设置 cookie 登陆不进去。</p>
+<p>首部 Referer 请求用户是从这个页面上依照链接跳转过来的. Referer 首部提供了用户来源页面的 URL。改动后包含了用户状态信息的URL 被称为胖URL（fat URL）。</p>
+<p>可以笼统地将cookie 分为两类： 会话cookie 和持久cookie。会话cookie 是一种临时cookie，它记录了用户访问站点时的设置和偏好。用户退出浏览器时，会话 cookie 就被删除了。</p>
+<p>持久cookie 的生存时间更长一些；它们存储在硬盘上，浏览器退出，计算机重启时它们仍然存在。通常会用持久cookie 维护某个用户会周期性访问的站点的配置文件或登录名。</p>
+<p>如果设置了Discard 参数，或者没有设置Expires 或Max-Age 参数来说明扩展的客户端识别与cookie机制过期时间，这个cookie 就是一个会话cookie。</p>
+<p>浏览器会记住从服务器返回的Set-Cookie 或Set-Cookie2 首部中的cookie 内容，并将cookie 集存储在浏览器的 cookie 数据库中,将来用户返回同一站点时,浏览器会挑中那个服务器贴到用户上的那些cookie，并在一个cookie 请求首部中将其传回去。 </p>
+<p>浏览器只向服务器发送服务器产生的那些cookie。(谁拿来的，再给谁拿回去)</p>
+<p>版本 0 的Cookie首部客户端发送请求时，会将所有与域、路径和安全过滤器相匹配的未过期cookie 都发送给这个站点。<br>所有cookie 都被组合到一个Cookie 首部中：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Cookie: session-<span class="built_in">id</span>=<span class="number">002</span><span class="number">-1145265</span><span class="number">-8016838</span>; session-<span class="built_in">id</span>-<span class="built_in">time</span>=<span class="number">1007884800</span></div></pre></td></tr></table></figure>
+<p>如果客户端既支持版本0 又支持版本1 的cookie，但从服务器获得的是版本0 的<br>Set-Cookie 首部，就应该带着版本0 的Cookie 首部发送cookie。</p>
+<p>在绝大多数浏览器中，可以通过检测<br>navigator.cookieEnabled<br>这个属性实现。</p>
+<p>但是为 false 也不代表不能用 cookie，只是表示不能使用持久化 cookie<br>“当前浏览会话生命周期” 的非持久化cookie仍然是启用的。</p>
+<p>coookie 的作用域并不是局限在浏览器的单个窗口中，它的有效期和整个浏览器进程而不是单个浏览器窗口的有效期一致。</p>
+<p>一且设置了有效期，浏览器就会将cookie数据存储在一个文件中，并且直到过了指定的有效期才会删除该文件。</p>
+<p>默认情况下， cookie 和创建它的Web页面有关，并对该Web页面以及和该Web页面同目录或者子目录的其他Web页面可见。对其他目录的文件不可见，即使相同域名。如果把路径设置成”/“ , 那么该cookie对 ‘<a href="http://www.example.com`" target="_blank" rel="external">http://www.example.com`</a> 这台Web服务器上的页面都是可见的。</p>
+<p>cookie的 path 属性不能被用做访问控制机制。如果一个Web页面想要读取同站点其他页面的cookie ，只要简单地将其他页面以隐藏<code>&lt;iframe&gt;</code>的形式加载进来，随后读取对应文档的cookie就可以了。同源策略限制了跨站的cookie窥探，但是对于同一站点的文档它是完全合法的。</p>
+<p>有的大型网站想要子域之间能够互相共享 cookie. 比如， order.example.com 域下的服务器想要读取catalog.example.com域下设置的cookie值。这个时候就需要通过设置cookie的domain属性来达到目的.  比如设置 document.domain = “example.com”</p>
+<p><strong> domain属性的默认值是当前Web服务器的主机名.</strong> 由于cookie的名/值中的值是不允许包含分号、逗号和空白符，因此，在存储前一般可以采用JavaScript核心的全局函数 encodeURIComponent() 对值进行编码。</p>
+<p>处理 cookie 的技巧：</p>
+<ul>
+<li>要改变cookie的值，需要使用相同的名字、路径和域，再使新的值重新设置cookie 的值。</li>
+<li>delete 将max-age属性指定为0 ，再次设置cookie 。</li>
+<li>document.cookie // 返回所有作用在当前文档的所有 cookie ，多个 cookie 的集合的字符串形式。</li>
+</ul>
+<blockquote>
+<p>  <code>RFC 2965</code> 规定 cookie 不超过300个，为每个Web服务器保存的cookie数不能超过20个,数据不能超过4KB, 现代浏览器允许 cookie 超过300个。</p>
+</blockquote>
+<p>要给当前文档设置 cookie 值，非常简单，只须将cookie属性设置为一个字符串形式的值:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.cookie=<span class="string">'name_self=abc'</span>;</div><div class="line"><span class="built_in">document</span>.cookie=<span class="string">'name_self=abc;max-age=10'</span>; <span class="comment">// 10秒后过期</span></div><div class="line"><span class="built_in">document</span>.cookie=<span class="string">"name_self=abc;max-age=10;path='/path';domain='http://.domain.com';"</span>; <span class="comment">// 10秒后过期,由于设置了 domain 不限于 domain.com/path/xx  path 目录及其子目录的访问，其他子域名也可访问 cookie。</span></div></pre></td></tr></table></figure>
+<p>IE5 以及 IE5 以上版本的浏览器是通过在document元素后面附加一个专属的”DHTML行为”来实现客户端存储的。<br>如  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!--[<span class="keyword">if</span> IE]&gt;</div><div class="line"></div><div class="line">memory.style.behavior = <span class="string">"url('#default#userData')"</span> </div><div class="line"></div><div class="line">&lt;![endif]--&gt;</div></pre></td></tr></table></figure>
+<p>附加userData行为。</p>
+<h3 id="网络相关的长度问题"><a href="#网络相关的长度问题" class="headerlink" title="网络相关的长度问题"></a>网络相关的长度问题</h3><p>Http  Get方法提交的数据大小长度并没有限制，HTTP协议规范没有对URL长度进行限制。这个限制是特定的浏览器及服务器对它的限制。<br>IE     限制为2083个字符，如果超过这个数字，提交按钮没有任何反应。<br>Firefox 对于Firefox浏览器URL的长度限制为 65536 个字符。<br>Safari  URL最大长度限制为 80000 个字符。<br>Opera   URL最大长度限制为 190000 个字符。<br>Google  URL最大长度限制为 8182 个字符。<br>Apache  能接受最大url长度为 8192 个字符。</p>
+<p>Post 长度限制<br>在Tomcat下取消POST大小的限制（Tomcat默认2M）；<br>打开tomcat目录下的conf目录，打开server.xml 文件，修改maxPostSize</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- &lt;meta http-equiv="refresh" content="5" /&gt; --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"refresh"</span> <span class="attr">content</span>=<span class="string">"10;url=http://baidu.com"</span> /&gt;</span></div><div class="line"><span class="comment">&lt;!-- 10表示10秒，0即为立即跳转 --&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="解析域名"><a href="#解析域名" class="headerlink" title="解析域名"></a>解析域名</h3><p>首先，浏览器需要知道该网站的IP 地址。它向DNS 服务器发送一个包含域名的请求， 然后DNS 服务器返回给<code>浏览器</code>对应的IP 地址。为了减少DNS 服务器上的负载，并提高性能，DNS 查找机制会被浏览器、设备或设备和服务器之间的路由器和代理服务器缓存。这就是为什么更改DNS 记录可能需要几天才能生效的原因。</p>
+<h3 id="浏览器是如何显示页面的？"><a href="#浏览器是如何显示页面的？" class="headerlink" title="浏览器是如何显示页面的？"></a>浏览器是如何显示页面的？</h3><ol>
+<li>发起请求 </li>
+<li>ip地址 返回给浏览器。</li>
+<li><p>然后，浏览器会向由DNS 查找得到的IP 地址的主机发起TCP 连接。然后发送请求。<code>Remote Address:106.38.179.49:80</code>, 请求中包含网址、浏览器信息、浏览器能接受的数据类型（编码和语言），以及所有相关的cookie，包括域和路径的cookie。</p>
+</li>
+<li><p>发起请求, 浏览器开始下载响应。随着响应流到达，浏览器解析HTML 并识别出更多的资源。然后浏览器开始获取这些资源。</p>
+</li>
+<li><p>渲染页面,最后浏览器会尽快开始渲染页面。如果页面中外链了CSS 或脚本文件时，浏览器会等到这些文件加载和解析（如果是JavaScript 代码，则还需要执行）完再渲染页面。</p>
+</li>
+</ol>
+<h3 id="为什么页面加载缓慢？"><a href="#为什么页面加载缓慢？" class="headerlink" title="为什么页面加载缓慢？"></a>为什么页面加载缓慢？</h3><p>为什么页面加载缓慢？以下是可能的原因：</p>
+<ul>
+<li>HTTP 连接数</li>
+<li>总的字节数</li>
+<li>等待时的渲染阻塞</li>
+<li>延迟</li>
+<li>缓存能力差</li>
+</ul>
+<p>我们先把重点放在“网络”选项卡上，它有一个美丽的瀑布图，向我们展示了页面加载时的各种信息。<br>每一栏上的浅色代表的延迟，深色代表下载。</p>
+<p>iOS 上的Safari 浏览器支持同一域下的最多 6 个资源并行下载。<br>虽然可以通过添加额外的域名（也许是通过设置别名或子域名）的方式来并行下载更多的文件，但每次请求还是需要承担HTTP 层面的开销。</p>
+<p>对于图片，因为下载占到了请求时间的绝大部分，所以并行下载更好。出于这个原因（以及一些其他的原因），在网站上将图像与其他资源置于不同的域下是合理的。<br>(对图片设置 cookie 是完全没有必要的，所以最好给图片单独提供一个域名,可能放在专用的图片服务器上了)</p>
+<p>雅虎的Steve Souders 和YSlow 团队发现，为当前域创建两个别名，能允许更多的下载并行，会使大文件下载的性能明显改善。</p>
+<p>它的第一次加载必然比部署在多个域下的慢。不过由于每个域都需要进行DNS 查找， 添加太多的域反而会更慢。<br>使用至少两个，至多不超过五个域是YSlow 的经验法则。</p>
+<p>如果一个 cookie 与请求的域名或路径相匹配，它会伴随着每次请求发送（即上传）。 所以，如果你在你的域名下的第一个请求中设置了几千字节的cookie，那么此后发送到这个域的每次请求都将把这些字节包含在请求头里，然后发送、解压缩。</p>
+<p>服务器还必须在读取请求体之前读取这些cookie。cookie 可以把一个很小的请求变得很大。</p>
+<p>高延迟使因请求量大而导致的问题激增，因为每次请求都因延迟增加了往返的时间。</p>
+<p>对于低流量的网站 CDN 的帮助不大。 不过，把你的静态文件放在一个单独的没有 cookie 的域下总是有帮助的。<br>所以，如果有条件，务必做到这一点。 如果一个 cookie 与请求的域名或路径相匹配，它会伴随每次请求发送。 所以如果你在你的域名下的第一个请求。 （这里说第一个请求是有原因的，因正常情况下后续的服务器响应是不会再次设置 cookie 的。 没有必要在重新设置。 除非在每次服务器响应的时候强制在 response 里设置了 cookie， 这样才可能在每次的响应头中看到 set-cookie。 酱紫。）</p>
+<p>设置了几千个字节的 cookie，那么此后发送到这个域的每次请求都会把这些 cookie 包含在请求头中带回去, 导致 cookie 很耗费资源。</p>
+<p>另一个有价值的工具是 Charles proxy（Charlesproxy.com）。<br>Charles 是一个本地工具，能让你检查每一个请求，给请求添加断点，还可以模拟低带宽环境。<br>当开发工具没有给出关于HTTP 的更多信息时，Charles 可以帮助你。</p>
+<p>pageSpeed 把规则划分为六类：</p>
+<ul>
+<li>缓存优化，使页面的应用逻辑实现和所需数据一并离线缓存。</li>
+<li>往返时间最小化，减少请求响应的周期次数。</li>
+<li>请求开销最小化，减少上传数据包大小，（数据包，cookie 在 header 里）</li>
+<li>有效负载最小化，减少响应包，下载包和缓存页面的大小。(压缩,图像压缩)</li>
+<li>浏览器渲染优化，改进浏览器的页面布局。</li>
+<li>移动设备优化，为移动而优化。</li>
+</ul>
+<blockquote>
+<p>对移动端建议：“”延迟 javasript 解析(不必要的 js 不要放在 header)”+“”使首页的重定向可缓存”</p>
+</blockquote>
+<p>link 标签上的关于媒体查询的css文件，即使查询的结果不合适，也还是会下载的。只不过是不用。</p>
+<h2 id="XSS-的防御-输入框验证"><a href="#XSS-的防御-输入框验证" class="headerlink" title="XSS 的防御(输入框验证)"></a>XSS 的防御(输入框验证)</h2><h3 id="什么是-XSS-（cross-site-script）"><a href="#什么是-XSS-（cross-site-script）" class="headerlink" title="什么是 XSS （cross site script）"></a>什么是 XSS （cross site script）</h3><p>为了防止与层叠样式表css混淆，改为 xss； 通常表现为通过输入框插入非法脚本，获取其他用户安全信息。</p>
+<p>HTTPOnly ，一个成熟的标准， 浏览器将禁止页面中的 js 访问带有 HTTPOnly 属性的 cookie。<br>IE 6 和 其他现代浏览器均已支持这个标准。所以，HttpOnly 不是用于对抗 XSS，它是用于在 XSS 攻击后，防护 cookie 被读取，从而使大部分 XSS 攻击失去了意义。</p>
+<h3 id="一个-cookie-使用的过程大概是这样的："><a href="#一个-cookie-使用的过程大概是这样的：" class="headerlink" title="一个 cookie 使用的过程大概是这样的："></a>一个 cookie 使用的过程大概是这样的：</h3><ol>
+<li>浏览器像服务器发起请求，这时没有设置 cookie。</li>
+<li>服务器返回发送 Set-Cookie Header， 向客户端浏览器写入 Cookie。</li>
+<li>在 cookie 到期前，浏览器发起的所有的请求(即使 ajax，图片)，都会在请求头里写入 cookie。</li>
+</ol>
+<p>HttpOnly的使用是十分灵活的，它可以只用在最核心的位置。 比如我们的应用中会设置多个 cookie，而 HttpOnly 可以有选择的加在关键 cookie上，实施关键目标重点保护。</p>
+<p>给 Cookie 添加 HttpOnly 的代码：</p>
+<p>java:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Java:</div><div class="line">		Cookie coki1 = new Cookie("get_acookie_1", "acookieValue");</div><div class="line">		response.addCookie(coki1);</div><div class="line">		Cookie coki2 = new Cookie("get_acookie_2", "acookieValue");</div><div class="line">        // Cookie coki2 = new Cookie("get_acookie_2", "acookieValue;HTTPOnly"); // 这样不管用 </div><div class="line">		coki2.setHttpOnly(true); // ok</div><div class="line">		response.addCookie(coki2);</div><div class="line">C#:</div><div class="line">		HttpCookie ck = new HttpCookie('myCookie');</div><div class="line">		ck.HttpOnly = true;</div><div class="line">		Response.AppendCookie(ck);</div></pre></td></tr></table></figure>
+<h3 id="输入检查"><a href="#输入检查" class="headerlink" title="输入检查"></a>输入检查</h3><p>XSS 攻击一般都是在输入框等输入位置输入一些由特殊字符组成的攻击脚本。</p>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2015/01/03/2015-01-3-polymer/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2014/12/28/2014-12-28-http协议相关知识整理/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2014-12-30 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/http/">http<span>1</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/http/">http<span>2</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

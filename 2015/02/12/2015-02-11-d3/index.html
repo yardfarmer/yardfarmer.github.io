@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>D3.js 制作图表 | IO buffer</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="记录技术生活的点点滴滴">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="D3.js 制作图表"/>
+  <meta property="og:site_name" content="IO buffer"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">IO buffer</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> D3.js 制作图表</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>D3.js 为数据可视化而生，是一个适于生成互动图形的JavaScript函数库,可用于制作图表展示数据，d3完全开源，方便制作完全满足项目业务逻辑的需求，而不受现有图表库的种种限制。</p>
+<h2 id="操作网页元素"><a href="#操作网页元素" class="headerlink" title="操作网页元素"></a>操作网页元素</h2><p>D3提供了一系列操作网页元素的方法，很类似jQuery，也是先选中某个元素（select方法），然后对其进行某种操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> body = d3.select(<span class="string">"body"</span>);</div><div class="line"><span class="keyword">var</span> div = body.append(<span class="string">"div"</span>);</div><div class="line">div.html(<span class="string">"Hello, world!"</span>);</div></pre></td></tr></table></figure>
+<p>select方法用于选中一个元素，而selectAll方法用于选中一组元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> section = d3.selectAll(<span class="string">"section"</span>);</div><div class="line"><span class="keyword">var</span> div = section.append(<span class="string">"div"</span>);</div><div class="line">div.html(<span class="string">"Hello, world!"</span>);</div></pre></td></tr></table></figure>
+<p>d3采用类似 jQuery 的链式操作方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d3.select(<span class="string">"body"</span>)</div><div class="line">    .style(<span class="string">"color"</span>, <span class="string">"black"</span>)</div><div class="line">    .style(<span class="string">"background-color"</span>, <span class="string">"white"</span>);</div></pre></td></tr></table></figure>
+<p>需要注意的是append方法返回一个新对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d3.selectAll(<span class="string">"section"</span>)</div><div class="line">  .attr(<span class="string">"class"</span>, <span class="string">"special"</span>)</div><div class="line">  .append(<span class="string">"div"</span>)</div><div class="line">  .html(<span class="string">"Hello, world!"</span>);</div></pre></td></tr></table></figure>
+<h2 id="生成svg元素"><a href="#生成svg元素" class="headerlink" title="生成svg元素"></a>生成svg元素</h2><p>D3作图需要svg元素，可以用JavaScript代码动态生成。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> v = d3.select(<span class="string">"#graph"</span>)</div><div class="line">            .append(<span class="string">"svg"</span>);</div><div class="line"></div><div class="line">v.attr(<span class="string">"width"</span>, <span class="number">900</span>).attr(<span class="string">"height"</span>, <span class="number">400</span>);</div></pre></td></tr></table></figure>
+<h2 id="生成图形"><a href="#生成图形" class="headerlink" title="生成图形"></a>生成图形</h2><h3 id="选中对象集"><a href="#选中对象集" class="headerlink" title="选中对象集"></a>选中对象集</h3><p>selectAll方法不仅可以选中现有的网页元素，还可以选中当前尚不存在的网页元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d3.select(<span class="string">".chart"</span>)</div><div class="line">  .selectAll(<span class="string">"div"</span>);</div></pre></td></tr></table></figure>
+<p>上面代码表示，selectAll方法选中了.chart元素下面所有现有和将来可能出现的div元素。</p>
+<h3 id="绑定数据"><a href="#绑定数据" class="headerlink" title="绑定数据"></a>绑定数据</h3><p>data方法用于对选中的结果集绑定数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> data = [<span class="number">4</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">42</span>, <span class="number">12</span>];</div><div class="line"></div><div class="line">d3.select(<span class="string">".chart"</span>)</div><div class="line">  .selectAll(<span class="string">"div"</span>)</div><div class="line">  .data(data)</div><div class="line">  .enter().append(<span class="string">"div"</span>)</div><div class="line">  .style(<span class="string">"width"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d * <span class="number">10</span> + <span class="string">"px"</span>; &#125;)</div><div class="line">  .text(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d; &#125;);</div></pre></td></tr></table></figure>
+<p>上面代码中，enter方法和append方法表示由于此时div元素还不存在，必须根据数据的个数将它们创造出来。style方法和text方法的参数是函数，表示函数的运行结果就是设置网页元素的值。</p>
+<p>上面代码的运行结果是生成一个条状图，但是没有对条状图的长度进行控制，下面采用scale.linear方法对数据长度进行设置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> data = [<span class="number">4</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">42</span>, <span class="number">12</span>];</div><div class="line"></div><div class="line"><span class="keyword">var</span> x = d3.scale.linear()</div><div class="line">    .domain([<span class="number">0</span>, d3.max(data)])</div><div class="line">    .range([<span class="number">0</span>, <span class="number">420</span>]);</div><div class="line"></div><div class="line">d3.select(<span class="string">".chart"</span>)</div><div class="line">  .selectAll(<span class="string">"div"</span>)</div><div class="line">  .data(data)</div><div class="line">  .enter().append(<span class="string">"div"</span>)</div><div class="line">  .style(<span class="string">"width"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> x(d) + <span class="string">"px"</span>; &#125;)</div><div class="line">  .text(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d; &#125;);</div></pre></td></tr></table></figure>
+<h2 id="操作SVG图形"><a href="#操作SVG图形" class="headerlink" title="操作SVG图形"></a>操作SVG图形</h2><p>使用SVG图形生成条形图，首先是选中矢量图格式，然后每个数据值生成一个g元素（group），再在每个g元素内部生成一个rect元素和text元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> width = <span class="number">840</span>,</div><div class="line">    barHeight = <span class="number">20</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> x = d3.scale.linear()</div><div class="line">    .domain([<span class="number">0</span>, d3.max(dataArray)])</div><div class="line">    .range([<span class="number">0</span>, width]);</div><div class="line"></div><div class="line"><span class="keyword">var</span> chart = d3.select(<span class="string">".bar-chart-svg"</span>)</div><div class="line">    .attr(<span class="string">"width"</span>, width)</div><div class="line">    .attr(<span class="string">"height"</span>, barHeight * dataArray.length);</div><div class="line"></div><div class="line"><span class="keyword">var</span> bar = chart.selectAll(<span class="string">"g"</span>)</div><div class="line">    .data(dataArray)</div><div class="line">  .enter().append(<span class="string">"g"</span>)</div><div class="line">    .attr(<span class="string">"transform"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d, i</span>) </span>&#123; <span class="keyword">return</span> <span class="string">"translate(0,"</span> + i * barHeight + <span class="string">")"</span>; &#125;);</div><div class="line"></div><div class="line">bar.append(<span class="string">"rect"</span>)</div><div class="line">    .attr(<span class="string">"width"</span>, x)</div><div class="line">    .attr(<span class="string">"height"</span>, barHeight - <span class="number">1</span>);</div><div class="line"></div><div class="line">bar.append(<span class="string">"text"</span>)</div><div class="line">    .attr(<span class="string">"x"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> x(d) - <span class="number">3</span>; &#125;)</div><div class="line">    .attr(<span class="string">"y"</span>, barHeight / <span class="number">2</span>)</div><div class="line">    .attr(<span class="string">"dy"</span>, <span class="string">".35em"</span>)</div><div class="line">    .text(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d; &#125;);</div></pre></td></tr></table></figure>
+<h2 id="加载XML文件"><a href="#加载XML文件" class="headerlink" title="加载XML文件"></a>加载XML文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d3.xml(<span class="string">'example'</span>, <span class="string">'image/svg+xml'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">error, data</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (error) &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'加载SVG文件出错！'</span>, error);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// 处理SVG文件</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li>Dana Silver, <a href="http://danasilver.org/2013/12/31/d3-github-language-stats/" target="_blank" rel="external">The d3.js Bar Chart Tutorials with Github Data</a></li>
+</ul>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2015/02/21/2015-02-21-模拟polymer/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2015/01/18/2015-01-28-seajs/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2015-02-12 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/library/">library<span>2</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/library/">library<span>3</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
+  </script>
+
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
