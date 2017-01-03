@@ -4,6 +4,12 @@
   "hexo": {
     "version": "3.2.2"
   },
+  "scripts": {
+    "clean": "hexo clean",
+    "build": "npm run clean && hexo generate",
+    "start": "npm run build && hexo server",
+    "deploy": "npm run build && hexo deploy"
+  },
   "dependencies": {
     "hexo": "^3.1.0",
     "hexo-deployer-git": "0.0.4",
