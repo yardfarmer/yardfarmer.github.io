@@ -1148,6 +1148,23 @@ function b64_to_utf8(str) {
     </entry>
     
     <entry>
+      <title><![CDATA[探究 html5]]></title>
+      <url>http://yardfarmer.github.io/2015/06/28/2014-08-10-%E6%8E%A2%E7%A9%B6%20html5/</url>
+      <content type="html"><![CDATA[<p>##classList<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">div.classList.remove(<span class="string">"className"</span>);</div><div class="line">div.classList.add(<span class="string">"className"</span>);</div><div class="line"></div><div class="line"><span class="comment">/*toggle会切换状态*/</span></div><div class="line">div.classList.toggle(<span class="string">""</span>);</div><div class="line">div.classList.</div></pre></td></tr></table></figure></p>
+<p>##canvas</p>
+<p>##contenteditable<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tag</span> <span class="attr">contenteditable</span> &gt;</span><span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tag</span> <span class="attr">contenteditable</span>=<span class="string">"true"</span>&gt;</span><span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>##db.transaction<br>transaction 事务性,同进同退</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> db = openDatabase(<span class="string">'foo'</span>, <span class="string">'1.0'</span>, <span class="string">'foo'</span>, <span class="number">2</span> * <span class="number">1024</span>);</div><div class="line">db.transaction(<span class="function"><span class="keyword">function</span> (<span class="params">tx</span>) </span>&#123;  </div><div class="line">  tx.executeSql(<span class="string">'CREATE TABLE IF NOT EXISTS foo (id unique, text)'</span>);</div><div class="line">  <span class="comment">// 如果下面这条失败,上面的也会回退</span></div><div class="line">  tx.executeSql(<span class="string">'INSERT INTO foo (id, text) VALUES (1, "foobar")'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<hr>
+<p>##dataset<br>超级好的 dataset 属性</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"user"</span> <span class="attr">data-id</span>=<span class="string">"123456"</span> <span class="attr">data-user</span>=<span class="string">"cyk"</span>&gt;</span></div><div class="line">  dataset demo.</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">	<span class="keyword">var</span> el = <span class="built_in">document</span>.querySelector(<span class="string">"#user"</span>);</div><div class="line">	<span class="built_in">console</span>.log(el.id);</div><div class="line">	<span class="built_in">console</span>.log(el.dataset.id);</div><div class="line">	<span class="built_in">console</span>.log(el.dataset.user);</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<h2 id="drag-drop-amp-DataTansfer"><a href="#drag-drop-amp-DataTansfer" class="headerlink" title="drag/drop &amp; DataTansfer"></a>drag/drop &amp; DataTansfer</h2><p><em>DataTransfer</em>对象是用于承载drag和drop操作过程的数据的.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> addEvent(el, <span class="string">'dragstart'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line"> 	  <span class="comment">// only dropEffect='copy' will be dropable </span></div><div class="line">    e.dataTransfer.effectAllowed = <span class="string">'copyMove'</span>; </div><div class="line">    <span class="comment">// required otherwise doesn't work</span></div><div class="line">    e.dataTransfer.setData(<span class="string">'Text'</span>, <span class="keyword">this</span>.id); </div><div class="line">  &#125;);</div><div class="line"></div><div class="line">addEvent(bin, <span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (e.preventDefault) e.preventDefault(); <span class="comment">// allows us to drop</span></div><div class="line">  <span class="keyword">this</span>.className = <span class="string">'over'</span>;</div><div class="line">  e.dataTransfer.dropEffect = <span class="string">'copy'</span>;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[使用git部署远程服务器]]></title>
       <url>http://yardfarmer.github.io/2015/06/28/2013-12-29-%E5%88%A9%E7%94%A8git%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
       <content type="html"><![CDATA[<p>本地开发完成后，通常会在服务器上部署，坦白的说我见过并且用过 <code>vnc + winscp + hg pull/update</code> 方式, 可悲的是需要在四台服务器上全部执行一遍.</p>
@@ -1167,23 +1184,6 @@ function b64_to_utf8(str) {
 <h2 id="本地git的操作"><a href="#本地git的操作" class="headerlink" title="本地git的操作"></a>本地git的操作</h2><p>本地我们只需要添加一个远程库，在需要部署的时候 <code>push</code> 到远程库就行了,下面我们添加了一个名为<code>publish</code>的远程库</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git remote add publish username@xx<span class="selector-class">.xx</span><span class="selector-class">.xx</span><span class="selector-class">.xx</span>:/home/gitroot/projectname</div><div class="line">git push publish master</div></pre></td></tr></table></figure>
 <h2 id="可以强化的地方"><a href="#可以强化的地方" class="headerlink" title="可以强化的地方"></a>可以强化的地方</h2><p>还可以添加静态资源版本更新,服务器重启,代码编译等等</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[探究 html5]]></title>
-      <url>http://yardfarmer.github.io/2015/06/28/2014-08-10-%E6%8E%A2%E7%A9%B6%20html5/</url>
-      <content type="html"><![CDATA[<p>##classList<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">div.classList.remove(<span class="string">"className"</span>);</div><div class="line">div.classList.add(<span class="string">"className"</span>);</div><div class="line"></div><div class="line"><span class="comment">/*toggle会切换状态*/</span></div><div class="line">div.classList.toggle(<span class="string">""</span>);</div><div class="line">div.classList.</div></pre></td></tr></table></figure></p>
-<p>##canvas</p>
-<p>##contenteditable<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tag</span> <span class="attr">contenteditable</span> &gt;</span><span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tag</span> <span class="attr">contenteditable</span>=<span class="string">"true"</span>&gt;</span><span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>##db.transaction<br>transaction 事务性,同进同退</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> db = openDatabase(<span class="string">'foo'</span>, <span class="string">'1.0'</span>, <span class="string">'foo'</span>, <span class="number">2</span> * <span class="number">1024</span>);</div><div class="line">db.transaction(<span class="function"><span class="keyword">function</span> (<span class="params">tx</span>) </span>&#123;  </div><div class="line">  tx.executeSql(<span class="string">'CREATE TABLE IF NOT EXISTS foo (id unique, text)'</span>);</div><div class="line">  <span class="comment">// 如果下面这条失败,上面的也会回退</span></div><div class="line">  tx.executeSql(<span class="string">'INSERT INTO foo (id, text) VALUES (1, "foobar")'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<hr>
-<p>##dataset<br>超级好的 dataset 属性</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"user"</span> <span class="attr">data-id</span>=<span class="string">"123456"</span> <span class="attr">data-user</span>=<span class="string">"cyk"</span>&gt;</span></div><div class="line">  dataset demo.</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">	<span class="keyword">var</span> el = <span class="built_in">document</span>.querySelector(<span class="string">"#user"</span>);</div><div class="line">	<span class="built_in">console</span>.log(el.id);</div><div class="line">	<span class="built_in">console</span>.log(el.dataset.id);</div><div class="line">	<span class="built_in">console</span>.log(el.dataset.user);</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
-<h2 id="drag-drop-amp-DataTansfer"><a href="#drag-drop-amp-DataTansfer" class="headerlink" title="drag/drop &amp; DataTansfer"></a>drag/drop &amp; DataTansfer</h2><p><em>DataTransfer</em>对象是用于承载drag和drop操作过程的数据的.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> addEvent(el, <span class="string">'dragstart'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line"> 	  <span class="comment">// only dropEffect='copy' will be dropable </span></div><div class="line">    e.dataTransfer.effectAllowed = <span class="string">'copyMove'</span>; </div><div class="line">    <span class="comment">// required otherwise doesn't work</span></div><div class="line">    e.dataTransfer.setData(<span class="string">'Text'</span>, <span class="keyword">this</span>.id); </div><div class="line">  &#125;);</div><div class="line"></div><div class="line">addEvent(bin, <span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (e.preventDefault) e.preventDefault(); <span class="comment">// allows us to drop</span></div><div class="line">  <span class="keyword">this</span>.className = <span class="string">'over'</span>;</div><div class="line">  e.dataTransfer.dropEffect = <span class="string">'copy'</span>;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -3626,15 +3626,28 @@ $(document).ready(function() {
     </entry>
     
     <entry>
-      <title><![CDATA[隐形的翅膀]]></title>
-      <url>http://yardfarmer.github.io/2014/10/23/2014-10-23-swing/</url>
-      <content type="html"><![CDATA[<p>每一次都在徘徊孤单中坚强</p>
-<p>每一次就算受伤害也不闪泪光</p>
-<p>不去想他们拥有美丽的太阳</p>
-<p>带我飞，给我希望</p>
-<p>我终于翱翔，穿过云朵不害怕</p>
-<p>我看见每天的夕阳都会由变化</p>
-<p>我终于看到， 所有梦想都开花</p>
+      <title><![CDATA[不完美]]></title>
+      <url>http://yardfarmer.github.io/2014/10/23/2014-10-23-%E7%9C%8B%E5%BE%85%E4%B8%8D%E5%AE%8C%E7%BE%8E/</url>
+      <content type="html"><![CDATA[<h1 id="不完美"><a href="#不完美" class="headerlink" title="不完美"></a>不完美</h1><p>黄金是不完美的，</p>
+<p>钻石是不完美的，</p>
+<p>它们都不纯。</p>
+<p>手机不是完美的，</p>
+<p>平板不是完美的，</p>
+<p>他们太小了，他们没有键盘。</p>
+<p>书本是不完美的，太沉，没法搜索，</p>
+<p>pdf 也是不完美的，看它们的设备太少。</p>
+<p>vim 是不完美的，小问题太多。</p>
+<p>我，我自己也是不完美的，</p>
+<p>对！</p>
+<p>通通不完美！</p>
+<p>然而，什么东西又是完美的呢？</p>
+<p>眼睛里放的总是不完美，那么天空是暗淡的，</p>
+<p>可我要的又是什么呢？</p>
+<p>我要的就是使用我身边不完美的东西，</p>
+<p>去创造出属于我的同样不完美的完美。</p>
+<blockquote>
+<p>2014年10月23日 跑步归来有感</p>
+</blockquote>
 ]]></content>
     </entry>
     
@@ -3714,28 +3727,15 @@ $(document).ready(function() {
     </entry>
     
     <entry>
-      <title><![CDATA[不完美]]></title>
-      <url>http://yardfarmer.github.io/2014/10/23/2014-10-23-%E7%9C%8B%E5%BE%85%E4%B8%8D%E5%AE%8C%E7%BE%8E/</url>
-      <content type="html"><![CDATA[<h1 id="不完美"><a href="#不完美" class="headerlink" title="不完美"></a>不完美</h1><p>黄金是不完美的，</p>
-<p>钻石是不完美的，</p>
-<p>它们都不纯。</p>
-<p>手机不是完美的，</p>
-<p>平板不是完美的，</p>
-<p>他们太小了，他们没有键盘。</p>
-<p>书本是不完美的，太沉，没法搜索，</p>
-<p>pdf 也是不完美的，看它们的设备太少。</p>
-<p>vim 是不完美的，小问题太多。</p>
-<p>我，我自己也是不完美的，</p>
-<p>对！</p>
-<p>通通不完美！</p>
-<p>然而，什么东西又是完美的呢？</p>
-<p>眼睛里放的总是不完美，那么天空是暗淡的，</p>
-<p>可我要的又是什么呢？</p>
-<p>我要的就是使用我身边不完美的东西，</p>
-<p>去创造出属于我的同样不完美的完美。</p>
-<blockquote>
-<p>2014年10月23日 跑步归来有感</p>
-</blockquote>
+      <title><![CDATA[隐形的翅膀]]></title>
+      <url>http://yardfarmer.github.io/2014/10/23/2014-10-23-swing/</url>
+      <content type="html"><![CDATA[<p>每一次都在徘徊孤单中坚强</p>
+<p>每一次就算受伤害也不闪泪光</p>
+<p>不去想他们拥有美丽的太阳</p>
+<p>带我飞，给我希望</p>
+<p>我终于翱翔，穿过云朵不害怕</p>
+<p>我看见每天的夕阳都会由变化</p>
+<p>我终于看到， 所有梦想都开花</p>
 ]]></content>
     </entry>
     
