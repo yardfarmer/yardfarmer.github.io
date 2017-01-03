@@ -42,36 +42,42 @@
 
  <body>  
   <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+  <div class="container">
+    <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	    <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
 	  <a class="navbar-brand" href="/">output stream</a>
       <div class="collapse navbar-collapse nav-menu">
-		<ul class="nav navbar-nav">
-		  
-		  <li>
-			<a href="/demos" title="Demos.">
-			  <i class="fa fa-flask"></i>Demos
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/archives" title="All the articles.">
-			  <i class="fa fa-archive"></i>Archives
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/about" title="About me.">
-			  <i class="fa fa-user"></i>About
-			</a>
-		  </li>
-		  
-		</ul>
+		    <ul class="nav navbar-nav">
+    		  
+    		  <li>
+    			 <a href="/demos" title="Demos.">
+            <i class="fa fa-flask"></i>Demos
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/archives" title="All the articles.">
+            <i class="fa fa-archive"></i>归档
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/about" title="About me.">
+            <i class="fa fa-user"></i>关于我
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/#" title="Search Posts.">
+            <i class="fa fa-search"></i>搜索
+    			 </a>
+    		  </li>
+    		  
+    		</ul>
       </div>
     </div> <!-- container -->
 </nav>
@@ -100,8 +106,8 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2017-01-02 </div>
-			<div class="article-title"><a href="/2017/01/02/新的一年-2017/" >hexo-tag-demo-example</a></div>						
+			<div class="date"> 2017-01-03 </div>
+			<div class="article-title"><a href="/2017/01/03/新的一年-2017/" title="介绍下使用 fenced-code.">Hello 2017</a></div>						
 		</h3>
 	
 
@@ -109,29 +115,26 @@
 			<div class="entry">
   <div class="row">
 	
+           
+              <div class="thumbnail"><a href="/2017/01/03/新的一年-2017/"><img src="http://7i7gr4.com1.z0.glb.clouddn.com/2017-01-03-14834300366651.jpg" alt="Hello 2017"  class="nofancybox"></a>
+           
+		</div>
 	
-		<link rel="stylesheet" href="/css/demobox.css">
-
-    <div class="demobox">
-      <div class="demobox-result"></div>
-    <div class="demobox-meta"><div class="demobox-name">hexo-tag-demo</div><div class="demobox-intro"><p>An example for hexo-tag-demo.</p>
-<p>The <code>&lt;intro&gt;</code> tag supports <strong>markdown</strong>.
-</p>
-<template for-show="">
-  <div id="colorbox"></div>
-  <button id="demo-button">Click Me</button>
-</template>
-
-<script for-show="">
-  document.getElementById('demo-button').onclick = function() {
+	
+		<h1 id="hello-2017"><a href="#hello-2017" class="headerlink" title="hello, 2017"></a>hello, 2017</h1><h2 id="关于-hexo-filter-fenced-code-使用"><a href="#关于-hexo-filter-fenced-code-使用" class="headerlink" title="关于 hexo-filter-fenced-code 使用"></a>关于 <code>hexo-filter-fenced-code</code> 使用</h2><ul>
+<li>5个 “`” 执行不显示</li>
+<li>4个 “`” 显示并执行</li>
+</ul>
+<h3 id="ok-用起来还不错"><a href="#ok-用起来还不错" class="headerlink" title="ok 用起来还不错"></a>ok 用起来还不错</h3><div class="hexo-insert-code">  <div id="colorbox"></div>
+  <button id="demo-button">Click Me</button></div>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">'demo-button'</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> randomColor = <span class="string">'#'</span> + <span class="built_in">Math</span>.random().toString().substr(<span class="number">2</span>,<span class="number">6</span>);</div><div class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'colorbox'</span>).innerHTML = randomColor;</div><div class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'colorbox'</span>).style.background = randomColor;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<script>  document.getElementById('demo-button').onclick = function() {
     var randomColor = '#' + Math.random().toString().substr(2,6);
     document.getElementById('colorbox').innerHTML = randomColor;
     document.getElementById('colorbox').style.background = randomColor;
-  }
-</script>
-
-<style for-show="">
-  #colorbox {
+  }</script>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#colorbox</span> &#123;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">  <span class="attribute">line-height</span>: <span class="number">150px</span>;</div><div class="line">  <span class="attribute">text-align</span>: center;</div><div class="line">  <span class="attribute">margin-bottom</span>: <span class="number">20px</span>;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</div><div class="line">&#125;</div><div class="line">  <span class="selector-id">#demo-button</span> &#123;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">5px</span> <span class="number">10px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<style type="text/css">  #colorbox {
     border: 1px solid #ddd;
     height: 150px;
     width: 200px;
@@ -140,14 +143,14 @@
     margin-bottom: 20px;
     color: #fff;
   }
-  #demo-button {
+    #demo-button {
     padding: 5px 10px;
-  }
-</style></div></div></div>
-  
+  }</style>
+<h2 id="来张张图片"><a href="#来张张图片" class="headerlink" title="来张张图片"></a>来张张图片</h2><p><img src="http://7i7gr4.com1.z0.glb.clouddn.com/2017-01-03-屏幕快照 2017-01-03 15.47.54 -2-.png" alt="屏幕快照 2017-01-03 15.47.54 -2-"></p>
+
 	
 	</div>
-  <a type="button" href="/2017/01/02/新的一年-2017/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/01/03/新的一年-2017/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -634,13 +637,7 @@ function b64_to_utf8(str) {
 		<div class="col-md-3">
 	<div id="sidebar">
 	
-			
-  <div class="form-group has-success has-feedback" id="site_search">
-    <form class="site-search-form">
-        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
-    </form>
-  </div>  
-
+			 
 
 		
 			
@@ -683,48 +680,48 @@ function b64_to_utf8(str) {
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
-		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
-		
-			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
-		
 			<li><a href="/tags/css/">css<span>7</span></a></li>
 		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
-		
-			<li><a href="/tags/hg/">hg<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
-		
-			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
-		
-			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
 		
 			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
 		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
 		
-			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
 		
 			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
 		
-			<li><a href="/tags/Tips/">Tips<span>1</span></a></li>
+			<li><a href="/tags/build/">build<span>2</span></a></li>
 		
-			<li><a href="/tags/document/">document<span>1</span></a></li>
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
 		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
+			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+		
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+		
+			<li><a href="/tags/http/">http<span>2</span></a></li>
+		
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
 		
 			<li><a href="/tags/module/">module<span>2</span></a></li>
 		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
+			<li><a href="/tags/document/">document<span>1</span></a></li>
+		
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+		
+			<li><a href="/tags/default/">default<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
 		
 		
-		   <li><a href="/tags">...<span>40</span></a></li>
+		   <li><a href="/tags">...<span>39</span></a></li>
 		 
 		</ul>
 	</div>
@@ -737,7 +734,7 @@ function b64_to_utf8(str) {
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/01/02/新的一年-2017/" ><i class="fa fa-file-o"></i>hexo-tag-demo-example</a>
+        <a href="/2017/01/03/新的一年-2017/"  title="介绍下使用 fenced-code." ><i class="fa fa-file-o"></i>Hello 2017</a>
       </li>
     
       <li>
@@ -788,17 +785,6 @@ function b64_to_utf8(str) {
 </p> </footer>
 </div> <!-- container-narrow -->
   
-  <script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
-  </script>
-
-
-
   
 <a id="gotop" href="#">   
   <span>▲</span> 
@@ -808,9 +794,9 @@ function b64_to_utf8(str) {
 <script src="/js/gallery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
-<script src="/js/search.js"></script> 
+<!-- <script src="/js/search.js"></script>  -->
 
-
+<!-- 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
@@ -818,9 +804,9 @@ function b64_to_utf8(str) {
   $('.fancybox').fancybox();
 })(jQuery);
 </script>
+ -->
 
-
-
+<!-- 
    <script type="text/javascript">      
      var search_path = "search.xml";
 	 if (search_path.length == 0) {
@@ -829,6 +815,25 @@ function b64_to_utf8(str) {
 	 var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
    </script>
+ -->
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+        opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+
+    <input type="text" class="cb-search-content" id="cb-search-content" style="position: fixed; top: 60px" placeholder="文章标题 日期 标签" />
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png"  id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- <div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png"  id="cb-search-btn"  title="双击ctrl试一下"/>
+</div> -->
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
 
 </body>
    </html>

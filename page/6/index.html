@@ -42,36 +42,42 @@
 
  <body>  
   <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+  <div class="container">
+    <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	    <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
 	  <a class="navbar-brand" href="/">output stream</a>
       <div class="collapse navbar-collapse nav-menu">
-		<ul class="nav navbar-nav">
-		  
-		  <li>
-			<a href="/demos" title="Demos.">
-			  <i class="fa fa-flask"></i>Demos
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/archives" title="All the articles.">
-			  <i class="fa fa-archive"></i>Archives
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/about" title="About me.">
-			  <i class="fa fa-user"></i>About
-			</a>
-		  </li>
-		  
-		</ul>
+		    <ul class="nav navbar-nav">
+    		  
+    		  <li>
+    			 <a href="/demos" title="Demos.">
+            <i class="fa fa-flask"></i>Demos
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/archives" title="All the articles.">
+            <i class="fa fa-archive"></i>归档
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/about" title="About me.">
+            <i class="fa fa-user"></i>关于我
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/#" title="Search Posts.">
+            <i class="fa fa-search"></i>搜索
+    			 </a>
+    		  </li>
+    		  
+    		</ul>
       </div>
     </div> <!-- container -->
 </nav>
@@ -95,82 +101,6 @@
 		<div class="mypage">
 		
 		<!-- title and entry -->
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2015-05-25 </div>
-			<div class="article-title"><a href="/2015/05/25/css书写规范/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>css 编写习惯</p>
-<ol>
-<li><p>分区, 看过视觉稿之后，我们可以得出该视觉稿有9个独立区块，所以我们描写结构的css文件中的区块样式定义最多为9块</p>
-</li>
-<li><p>抽象, 考虑哪些局部分类的样式是基本相似的, 可以抽出来复用. </p>
-<ul>
-<li><p>比如字体, 颜色做成复用的样式, 所以在分区的基础上再加一个定义块, 用于编写复用的样式; </p>
-</li>
-<li><p>比如使用 css sprite 图时, 不应每使用一次图片就引用一次, 而是应该定义一个工公用的样式.</p>
-</li>
-<li><p>把定义背景的代码也放在一处, 便于维护</p>
-</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p>css文件中定义样式区块的数量 = 页面最多区块数 + 公共区块 + 背景图区块 </p>
-</blockquote>
-<ul>
-<li><p>IE6下如果背景图在各处定义，那么它将导致背景图多次被请求，加大服务器开销</p>
-</li>
-<li><p>构思 css 文件中的代码结构</p>
-</li>
-</ul>
-<blockquote>
-<p>css代码结构先后循序为：背景图定义、公用定义、各个页面区块定义，两个代码区块之间请用回车键换行隔开</p>
-</blockquote>
-<pre><code>/* 背景图 */
-.part-a .background,
-.part-b .background,
-.part-c .background{background:url(&quot;http://www.aissa.me/fuck/you/once.png&quot;) no-repeat;}
-
-/* 公用 */
-.link:link,
-.link:visited{color:#06c; text-decoration:none;}
-.link:hover{color:#ff7300; text-decoration:underline;}
-.margin-top-8px{margin-top:8px;}
-
-/* 区块一 */
-.part-a{width:400px; height:300px;}
-.part-a .background{background-position:-50px -100px; width:100px; height:150px;}
-.part-a .class-a{width:100px; height:100px;}
-......
-
-/* 区块二 */
-.part-b{width:400px; height:300px;}
-.part-b .background{background-position:-50px -100px; width:100px; height:150px;}
-.part-b .class-a{width:100px; height:100px;}
-......
-
-/* 区块三 */
-.part-c{width:400px; height:300px;}
-.part-c .background{background-position:-50px -100px; width:100px; height:150px;}
-.part-c .class-a{width:100px; height:100px;}
-......
-</code></pre>
-	
-	</div>
-  <a type="button" href="/2015/05/25/css书写规范/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
 		
 			
 	
@@ -501,6 +431,54 @@ default-push = http://localhost:8002/  # 被推送端的 web 服务地址
 </div>
 
 		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-01-03 </div>
+			<div class="article-title"><a href="/2015/01/03/2015-01-3-polymer/" >polymer的使用</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="结构搭建"><a href="#结构搭建" class="headerlink" title="结构搭建"></a>结构搭建</h2><h3 id="加载引用文件"><a href="#加载引用文件" class="headerlink" title="加载引用文件"></a>加载引用文件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span></span></div><div class="line">  <span class="attr">src</span>=<span class="string">"../components/platform/platform.js"</span>&gt;<span class="handlebars"><span class="xml"></span></span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/font-roboto/roboto.html"</span>&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/core-header-panel/core-header-panel.html"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/core-toolbar/core-toolbar.html"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/paper-tabs/paper-tabs.html"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div></pre></td></tr></table></figure>
+<p>Polymer 使用 HTML imports 来加载 components. HTML imports 提供了依赖关系的管理，保证你的 elements 和它们的依赖都加载好了你再使用它们。</p>
+<h3 id="预防-FOUC"><a href="#预防-FOUC" class="headerlink" title="预防 FOUC"></a>预防 FOUC</h3><p>在 custom elements 更新 之前可能显示错乱。 为了缓解 FOUC 问题, Polymer 提供了一个 polyfill 解决方案，配合 :unresolved 伪类 使用。 对于简单的 app，你可以为 body 添加 unresolved 属性。这将在页面初始化时隐藏页面直到所有的 elements 被更新才显示。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">unresolved</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>polymer-ready 触发前， Polymer 会执行以下的步骤：</p>
+<ul>
+<li>移除 elements 中 [unresolved] 属性</li>
+<li>添加 [resolved] 属性</li>
+<li>在 element 收到第一个  transitionend 时移除 [resolved]</li>
+</ul>
+<h3 id="声明式数据绑定"><a href="#声明式数据绑定" class="headerlink" title="声明式数据绑定"></a>声明式数据绑定</h3><p><code>胡子</code> 方式， mustache(有一款同名的模板引擎mustache.js)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"name-tag"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">    This is <span class="tag">&lt;<span class="name">b</span>&gt;</span>&#123;&#123;owner&#125;&#125;<span class="tag">&lt;/<span class="name">b</span>&gt;</span>'s name-tag element.</div><div class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">    Polymer(<span class="string">'name-tag'</span>, &#123;</div><div class="line">      owner: <span class="string">'Daniel'</span></div><div class="line">    &#125;);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="自动化定位结点"><a href="#自动化定位结点" class="headerlink" title="自动化定位结点"></a>自动化定位结点</h3><p>Polymer 另一个给力的功能是自动化定位结点。一个 component 的 shadow DOM 中标有 id 特性的结点可以被自动引用在该 component 的 this.$ 散列表中。</p>
+<p>注意：通过数据绑定动态创建的结点<em>无法</em>被添加到 this.$ 散列表中。该散列表只包含<em>静态</em>创建的 shadow DOM 结点 (即定义在 element 外部的模板中的结点)。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"x-form"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"nameInput"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    Polymer(<span class="string">'x-form'</span>, &#123;</div><div class="line">      <span class="attr">logNameValue</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.$.nameInput.value);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>为了定位 element 的 shadow DOM 里的其它结点，你可以创建一个带有确定<code>id</code> 的容器 element，然后使用 querySelector 来获取子孙。举个例子，如果你的 element 的模板是下面这个样子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">template</span> <span class="attr">if</span>=<span class="string">"&#123;&#123;some_condition&#125;&#125;"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"inner"</span>&gt;</span></div><div class="line">        该内容通过数据绑定被创建</div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>你可以在容器内这样定位：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">this.$.container.querySelector('#inner');</div></pre></td></tr></table></figure>
+<h3 id="触发自定义事件"><a href="#触发自定义事件" class="headerlink" title="触发自定义事件"></a>触发自定义事件</h3><p>Polymer core 提供了一个便捷的 fire() 方法传递自定义事件。实际上这是一个围绕标准的 node.dispatchEvent(new CustomEvent(…)) 包装出来的。当需要在一个微任务完成之后触发一个事件，请使用其异步的版本：asyncFire()。</p>
+<p>例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span> <span class="attr">href</span>=<span class="string">"bower_components/polymer/polymer.html"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"ouch-button"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">on-click</span>=<span class="string">"&#123;&#123;onClick&#125;&#125;"</span>&gt;</span>GO<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">        Polymer(<span class="string">'ouch-button'</span>, &#123;</div><div class="line">            onClick: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">				<span class="comment">// fire(inType, inDetail, inToNode)</span></div><div class="line">                <span class="keyword">this</span>.fire(<span class="string">'ouch'</span>, &#123;</div><div class="line">                    msg: <span class="string">'hahaha'</span></div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>index.html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"bower_components/platform/platform.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span> <span class="attr">href</span>=<span class="string">"self_event_ref.html"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">ouch-button</span>&gt;</span><span class="tag">&lt;/<span class="name">ouch-button</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'ouch-button'</span>).addEventListener(<span class="string">'ouch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(e.type, e.detail.msg);</div><div class="line">  &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>中文站 <a href="http://docs.polymerchina.org/docs/start/getting-the-code.html" target="_blank" rel="external">polymerchina</a></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2015/01/03/2015-01-3-polymer/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
 
 		</div>
 
@@ -534,13 +512,7 @@ default-push = http://localhost:8002/  # 被推送端的 web 服务地址
 		<div class="col-md-3">
 	<div id="sidebar">
 	
-			
-  <div class="form-group has-success has-feedback" id="site_search">
-    <form class="site-search-form">
-        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
-    </form>
-  </div>  
-
+			 
 
 		
 			
@@ -583,48 +555,48 @@ default-push = http://localhost:8002/  # 被推送端的 web 服务地址
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+		
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
+		
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
+		
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+		
+			<li><a href="/tags/library/">library<span>3</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
 		
 			<li><a href="/tags/mac/">mac<span>1</span></a></li>
 		
 			<li><a href="/tags/linux/">linux<span>6</span></a></li>
 		
-			<li><a href="/tags/Tips/">Tips<span>1</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
-		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
-		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
-		
-			<li><a href="/tags/document/">document<span>1</span></a></li>
-		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/library/">library<span>3</span></a></li>
-		
-			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
-		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
-		
-			<li><a href="/tags/test/">test<span>2</span></a></li>
-		
 			<li><a href="/tags/css/">css<span>7</span></a></li>
 		
-			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
-		
-			<li><a href="/tags/module/">module<span>2</span></a></li>
-		
-			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
 		
 		
-		   <li><a href="/tags">...<span>40</span></a></li>
+		   <li><a href="/tags">...<span>39</span></a></li>
 		 
 		</ul>
 	</div>
@@ -637,7 +609,7 @@ default-push = http://localhost:8002/  # 被推送端的 web 服务地址
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/01/02/新的一年-2017/" ><i class="fa fa-file-o"></i>hexo-tag-demo-example</a>
+        <a href="/2017/01/03/新的一年-2017/"  title="介绍下使用 fenced-code." ><i class="fa fa-file-o"></i>Hello 2017</a>
       </li>
     
       <li>
@@ -688,17 +660,6 @@ default-push = http://localhost:8002/  # 被推送端的 web 服务地址
 </p> </footer>
 </div> <!-- container-narrow -->
   
-  <script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
-  </script>
-
-
-
   
 <a id="gotop" href="#">   
   <span>▲</span> 
@@ -708,9 +669,9 @@ default-push = http://localhost:8002/  # 被推送端的 web 服务地址
 <script src="/js/gallery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
-<script src="/js/search.js"></script> 
+<!-- <script src="/js/search.js"></script>  -->
 
-
+<!-- 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
@@ -718,9 +679,9 @@ default-push = http://localhost:8002/  # 被推送端的 web 服务地址
   $('.fancybox').fancybox();
 })(jQuery);
 </script>
+ -->
 
-
-
+<!-- 
    <script type="text/javascript">      
      var search_path = "search.xml";
 	 if (search_path.length == 0) {
@@ -729,6 +690,25 @@ default-push = http://localhost:8002/  # 被推送端的 web 服务地址
 	 var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
    </script>
+ -->
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+        opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+
+    <input type="text" class="cb-search-content" id="cb-search-content" style="position: fixed; top: 60px" placeholder="文章标题 日期 标签" />
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png"  id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- <div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png"  id="cb-search-btn"  title="双击ctrl试一下"/>
+</div> -->
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
 
 </body>
    </html>

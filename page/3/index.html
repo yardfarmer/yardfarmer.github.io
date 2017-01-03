@@ -42,36 +42,42 @@
 
  <body>  
   <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+  <div class="container">
+    <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	    <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
 	  <a class="navbar-brand" href="/">output stream</a>
       <div class="collapse navbar-collapse nav-menu">
-		<ul class="nav navbar-nav">
-		  
-		  <li>
-			<a href="/demos" title="Demos.">
-			  <i class="fa fa-flask"></i>Demos
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/archives" title="All the articles.">
-			  <i class="fa fa-archive"></i>Archives
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/about" title="About me.">
-			  <i class="fa fa-user"></i>About
-			</a>
-		  </li>
-		  
-		</ul>
+		    <ul class="nav navbar-nav">
+    		  
+    		  <li>
+    			 <a href="/demos" title="Demos.">
+            <i class="fa fa-flask"></i>Demos
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/archives" title="All the articles.">
+            <i class="fa fa-archive"></i>归档
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/about" title="About me.">
+            <i class="fa fa-user"></i>关于我
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/#" title="Search Posts.">
+            <i class="fa fa-search"></i>搜索
+    			 </a>
+    		  </li>
+    		  
+    		</ul>
       </div>
     </div> <!-- container -->
 </nav>
@@ -101,7 +107,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2012-11-17-自定义github-pages的域名/" >github.io绑定域名</a></div>						
+			<div class="article-title"><a href="/2015/06/28/2012-08-03-XMLHttpRequest发送put,delete请求/" >XMLHttpRequest发送put,delete请求</a></div>						
 		</h3>
 	
 
@@ -110,13 +116,24 @@
   <div class="row">
 	
 	
-		<p>##什么是github pages<br><a href="http://pages.github.com/" target="_blank" rel="external">github pages</a>是<a href="https://github.io" target="_blank" rel="external">github</a>提供的免费的存放网页的服务，有了它，你就可以轻松使用静态网页构建一个网站，比如搭建笔记的博客.并且如果你有自己的域名，它可以绑定域名。</p>
-<p>##设置你的域名dns指向你的github二级域名<br>然后我们在域名控制的地方添加一个A纪录，我的域名基本上都是在godaddy上买的，godaddy上默认的dns经常被墙，所以我把dns换成了国内靠谱的<a href="http://dnspod.cn" target="_blank" rel="external">dnspod.cn</a>。如下设置<br><img src="/images/codesnip_20140804201809.png" alt="20121117181954.png"></p>
-<p>正常情况下，几分钟就可以访问了，例如你现在可以访问<a href="http://codinglion.me" target="_blank" rel="external">我的博客</a>。</p>
+		<p>记得之前有同事问过，能不能用js实现http的put和delete请求。最近看了点REST相关的东西，对HTTP协议的构造也有一些新的认识，原来很多请求已经背离了最早设计HTTP协议的初衷，get/post/put/delete分别对应着查/改/增/删，这很像数据库里的select/ update/insert/delete,感觉HTTP协议当初设计的时候是参考了数据库的操作（RFC最初于1969年制定，但是包含http 1.1的规范 RFC 2616于1996年才制定的，关系数据库是1970年提出的理论，具体是个神马关系，不太好说），我们几乎所有的操作都是get和post，put和delete用得非常少，可能与form目前只能使用get和post有关，html5规范中据说有想<a href="http://www.w3.org/TR/html5/association-of-controls-and-forms.html#attr-fs-method" target="_blank" rel="external">实现form</a>的put和delete,但是最后放弃了，不知何故。</p>
+<p>先放几个与REST相关的链接，有些我还没有消化透：</p>
+<ul>
+<li><a href="http://www.w3.org/QA/2008/10/understanding-http-put.html" target="_blank" rel="external">http://www.w3.org/QA/2008/10/understanding-http-put.html</a></li>
+<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html" target="_blank" rel="external">http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html</a></li>
+<li><a href="http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html" target="_blank" rel="external">http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html</a></li>
+<li><a href="http://hi.baidu.com/msingle/blog/item/410517229971d1b54623e805.html" target="_blank" rel="external">http://hi.baidu.com/msingle/blog/item/410517229971d1b54623e805.html</a></li>
+<li><a href="http://q.sohu.com/forum/5/topic/3464168" target="_blank" rel="external">http://q.sohu.com/forum/5/topic/3464168</a><br>那么到底能不能用js实现put和delete呢？</li>
+</ul>
+<p>大家都知道XMLHttpRequest对象的open方法第一个参数就是method,有多少人用过除了”GET”和”POST”之外的参数呢？试验了一个，发现了好玩的，哈哈，例子猛击<a href="/demos/1343967804284_httpmethod_test.html" title="点开看看呗">这里</a>，请在不同的浏览器中测试，服务器返回的是请求的method。</p>
+<p>在IE6，7，8下，自己乱定义的method jser.me光荣牺牲，报错了，但是put,delete都很正常，并且请求过一次的post，居然也成get了，</p>
+<p>在FF,chrome下不仅put,delete很正常，jser.me这个自定义的方法也给力的完成了</p>
+<p>小试验证明put和delete是完全可以用XMLHttpRequest来实现的~~~</p>
+<p>PS:在本机(apache)测试的时候jser.me是很完美的完成了，在服务器上到nginx时被拦了，看配置也没找到哪出问题了，囧</p>
 
 	
 	</div>
-  <a type="button" href="/2015/06/28/2012-11-17-自定义github-pages的域名/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2015/06/28/2012-08-03-XMLHttpRequest发送put,delete请求/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -360,7 +377,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2012-08-03-XMLHttpRequest发送put,delete请求/" >XMLHttpRequest发送put,delete请求</a></div>						
+			<div class="article-title"><a href="/2015/06/28/2012-08-03-页面性能的几个评测点/" >页面性能的几个评测点</a></div>						
 		</h3>
 	
 
@@ -369,24 +386,39 @@
   <div class="row">
 	
 	
-		<p>记得之前有同事问过，能不能用js实现http的put和delete请求。最近看了点REST相关的东西，对HTTP协议的构造也有一些新的认识，原来很多请求已经背离了最早设计HTTP协议的初衷，get/post/put/delete分别对应着查/改/增/删，这很像数据库里的select/ update/insert/delete,感觉HTTP协议当初设计的时候是参考了数据库的操作（RFC最初于1969年制定，但是包含http 1.1的规范 RFC 2616于1996年才制定的，关系数据库是1970年提出的理论，具体是个神马关系，不太好说），我们几乎所有的操作都是get和post，put和delete用得非常少，可能与form目前只能使用get和post有关，html5规范中据说有想<a href="http://www.w3.org/TR/html5/association-of-controls-and-forms.html#attr-fs-method" target="_blank" rel="external">实现form</a>的put和delete,但是最后放弃了，不知何故。</p>
-<p>先放几个与REST相关的链接，有些我还没有消化透：</p>
+		<p>页面性能评测还是时间第一，细化了可以分为下面的几个</p>
+<ol>
+<li><p>加载时间</p>
 <ul>
-<li><a href="http://www.w3.org/QA/2008/10/understanding-http-put.html" target="_blank" rel="external">http://www.w3.org/QA/2008/10/understanding-http-put.html</a></li>
-<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html" target="_blank" rel="external">http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html</a></li>
-<li><a href="http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html" target="_blank" rel="external">http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html</a></li>
-<li><a href="http://hi.baidu.com/msingle/blog/item/410517229971d1b54623e805.html" target="_blank" rel="external">http://hi.baidu.com/msingle/blog/item/410517229971d1b54623e805.html</a></li>
-<li><a href="http://q.sohu.com/forum/5/topic/3464168" target="_blank" rel="external">http://q.sohu.com/forum/5/topic/3464168</a><br>那么到底能不能用js实现put和delete呢？</li>
+<li>从在浏览器里按下回车键到页面开始出现的时间，相同站点在不同浏览器下这个时间会有所不同</li>
+<li>触发浏览器onload事件的时间</li>
+<li>所有资源下载完毕的时间</li>
 </ul>
-<p>大家都知道XMLHttpRequest对象的open方法第一个参数就是method,有多少人用过除了”GET”和”POST”之外的参数呢？试验了一个，发现了好玩的，哈哈，例子猛击<a href="/demos/1343967804284_httpmethod_test.html" title="点开看看呗">这里</a>，请在不同的浏览器中测试，服务器返回的是请求的method。</p>
-<p>在IE6，7，8下，自己乱定义的method jser.me光荣牺牲，报错了，但是put,delete都很正常，并且请求过一次的post，居然也成get了，</p>
-<p>在FF,chrome下不仅put,delete很正常，jser.me这个自定义的方法也给力的完成了</p>
-<p>小试验证明put和delete是完全可以用XMLHttpRequest来实现的~~~</p>
-<p>PS:在本机(apache)测试的时候jser.me是很完美的完成了，在服务器上到nginx时被拦了，看配置也没找到哪出问题了，囧</p>
+</li>
+<li><p>资源</p>
+<ul>
+<li>所有的请求数</li>
+<li>图片/css/javascript的大小</li>
+<li>网页（html）的大小</li>
+<li>异步请求的数量</li>
+<li>坏请求的数量(重定向，服务器端错误等等)</li>
+</ul>
+</li>
+<li><p>网络</p>
+<ul>
+<li>DNS时间（查找域名对应的服务器IP耗费的时间）</li>
+<li>连接时间 （向服务器发起连接时间）</li>
+<li>服务器时间 （服务器端处理请求的耗费时间）</li>
+<li>传输时间 （由服务器向客户端传输资源耗费时间）</li>
+<li>等待时间 （同时向一个服务器请求的连接数量是有限制的，获取资源时的等待空闲连接的时间）</li>
+</ul>
+</li>
+</ol>
+<p>以上关键点互相之间相辅相成，二和三决定了一的时间，另外，交互复杂的网站，很多资源的请求是在用户操作的情况下发起的，这些单个的请求也同样可以用上样的关键点进行评测。</p>
 
 	
 	</div>
-  <a type="button" href="/2015/06/28/2012-08-03-XMLHttpRequest发送put,delete请求/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2015/06/28/2012-08-03-页面性能的几个评测点/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -691,7 +723,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2014-08-10-javascript启示录书摘/" >javascript启示录书摘</a></div>						
+			<div class="article-title"><a href="/2015/06/28/2014-08-10-transition&animation/" >CSS3 的 transition 和 animation</a></div>						
 		</h3>
 	
 
@@ -700,81 +732,20 @@
   <div class="row">
 	
 	
-		<h2 id="JavaScript-对象"><a href="#JavaScript-对象" class="headerlink" title="JavaScript 对象"></a>JavaScript 对象</h2><h3 id="JavaScript-构造函数"><a href="#JavaScript-构造函数" class="headerlink" title="JavaScript 构造函数"></a>JavaScript 构造函数</h3><p>如果使用 new 调用某函数，该函数则担任一个特殊的角色，将函数的 this 值设置为正在构建的新对象。并且构造函数还默认返回这个新构建的对象（即 this）。这个返回的新对象认为是构建该对象的构造函数的实例。</p>
-<h3 id="typeof-操作符"><a href="#typeof-操作符" class="headerlink" title="typeof 操作符"></a>typeof 操作符</h3><p>typeof 操作符用于返回正在使用值的类型。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNull = <span class="literal">null</span>;         <span class="comment">// typeof myNull : object</span></div><div class="line"><span class="keyword">var</span> myUndefined = <span class="literal">null</span>;    <span class="comment">// undefined</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'str'</span>;           <span class="comment">// string</span></div><div class="line"><span class="keyword">var</span> str = <span class="built_in">String</span>(<span class="string">'str'</span>);   <span class="comment">// string, 没有 new，不会返回对象</span></div><div class="line"><span class="keyword">var</span> num = <span class="number">1</span>;               <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> num = <span class="built_in">Number</span>(<span class="string">'1'</span>);     <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> bol = <span class="literal">true</span>;            <span class="comment">// boolean</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> num = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="string">'1'</span>); <span class="comment">// object, new</span></div><div class="line"><span class="keyword">var</span> str = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'a'</span>); <span class="comment">// object, new</span></div></pre></td></tr></table></figure></p>
-<h3 id="contructor属性"><a href="#contructor属性" class="headerlink" title="contructor属性"></a>contructor属性</h3><p>碰到用 new 操作符实例化出来的对象，typeof 就无能为力了。这时，可以用 constructor 属性。</p>
-<table>
-<thead>
-<tr>
-<th>obj</th>
-<th>obj.constructor</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>obj = new Number(‘21’);</td>
-<td>Number</td>
-</tr>
-<tr>
-<td>obj = 1;</td>
-<td>Number</td>
-</tr>
-<tr>
-<td>obj = new String(‘abc’);</td>
-<td>String</td>
-</tr>
-<tr>
-<td>obj = ‘abc’</td>
-<td>String</td>
-</tr>
-<tr>
-<td>obj = true;</td>
-<td>Boolean</td>
-</tr>
-<tr>
-<td>obj = new Object();</td>
-<td>Object</td>
-</tr>
-<tr>
-<td>obj = {};</td>
-<td>Object</td>
-</tr>
-<tr>
-<td>obj = new Array();</td>
-<td>Array</td>
-</tr>
-<tr>
-<td>obj = new Function();</td>
-<td>Function</td>
-</tr>
-<tr>
-<td>obj = function(){ }; //字面量方式</td>
-<td>Function</td>
-</tr>
-</tbody>
-</table>
-<h3 id="instanceof-操作符"><a href="#instanceof-操作符" class="headerlink" title="instanceof 操作符"></a>instanceof 操作符</h3><p>instanceof 操作符可以验证指定对象是否是某个构造函数的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">instanceObj <span class="keyword">instanceof</span> ConstructorFunction</div></pre></td></tr></table></figure></p>
-<p>任何对象 instanceof Object 总是返回 true。</p>
-<p><code>instanceof 只适用于 new 构造函数创建返回的复杂对象和实例</code></p>
-<h2 id="对象与属性"><a href="#对象与属性" class="headerlink" title="对象与属性"></a>对象与属性</h2><h3 id="删除对象属性"><a href="#删除对象属性" class="headerlink" title="删除对象属性"></a>删除对象属性</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = &#123; <span class="attr">bar</span>: <span class="string">'bar'</span> &#125;;</div><div class="line"><span class="keyword">delete</span> foo.bar;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'bar'</span> <span class="keyword">in</span> foo); <span class="comment">// false,in 操作符不仅不仅能检查对象自身的属性而且能检查通过原型链继承过来的属性</span></div></pre></td></tr></table></figure>
-<p>##head 对象</p>
-<h3 id="什么是-head-对象"><a href="#什么是-head-对象" class="headerlink" title="什么是 head 对象"></a>什么是 head 对象</h3><p>JavaScript 代码本身必须包含在对象内部。比如，在 Web 浏览器环境中编写 JavaScript 代码时，JavaScript 被包含在 window 对象内，并在其内部执行。这个 window 对象被认为实 “head” 对象。</p>
-<p>head 对象是由 JavaScript 在幕后创建，用于封装用户自定义代码，并容纳 JavaScript 预定义的原生代码。在编写 Javascript 代码时，它将被编写在 head 对象的上下文中。</p>
-<h3 id="head-对象内的全局函数"><a href="#head-对象内的全局函数" class="headerlink" title="head 对象内的全局函数"></a>head 对象内的全局函数</h3><ul>
-<li>decodeURL()</li>
-<li>decodeURLComponent()</li>
-<li>encodeURI()</li>
-<li>encodeURIComponent()</li>
-<li>eval()</li>
-<li>isFinite()</li>
-<li>isNaN()</li>
-<li>parseFloat()</li>
-<li>parseInt()</li>
-</ul>
+		<p>##transition<br>transition 属性是<br>transition-property,<br>transition-duration,<br>transition-timing-function,<br>transition-delay<br>的简称,用于设定一个元素的两个状态,不同的状态可以用伪类，比如:hover, :active 或者是通过 javascript 动态设定。IE10+支持。</p>
+<p>所以 transition 的初始值为：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transition-delay</span>: 0<span class="selector-tag">s</span>;</div><div class="line"><span class="selector-tag">transition-duration</span>: 0<span class="selector-tag">s</span>;</div><div class="line"><span class="selector-tag">transition-property</span>: <span class="selector-tag">all</span>;</div><div class="line"><span class="selector-tag">transition-timing-function</span>: <span class="selector-tag">ease</span>;</div></pre></td></tr></table></figure></p>
+<p>###用法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">  <span class="attribute">transition</span>: &lt;property&gt; &lt;duration&gt;    &lt;timing-function&gt; &lt;delay&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>并且有事件可以监测 transition 结束<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">el.addEventListener(<span class="string">"transitionend"</span>,updateTransition,<span class="literal">true</span>);</div><div class="line"></div><div class="line"><span class="comment">//in webkit</span></div><div class="line">el.addEventListener(<span class="string">"webkitTransitionEnd"</span>,updateTransition,<span class="literal">true</span>);</div></pre></td></tr></table></figure></p>
+<p>###实例<br>HTML<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--  DEMO 1: Fade Block --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"fade"</span>&gt;</span></div><div class="line">     move here  !</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"nudge"</span>&gt;</span></div><div class="line">    mouse on me </div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"bounce"</span>&gt;</span>Place mouse on  me i will bounce!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"spin"</span>&gt;</span>Place mouse on  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i will spin<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"accordion"</span> <span class="attr">class</span>=<span class="string">"accordion"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#first"</span>&gt;</span>This is first tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"first"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#second"</span>&gt;</span>This is second tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"second"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	</div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#third"</span>&gt;</span>This is third tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"third"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">DEMO 1: Fade Block</div><div class="line">*/</div><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">    <span class="attribute">margin-bottom</span>: <span class="number">50px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#fade</span> &#123;</div><div class="line">    <span class="comment">/*opacity:1;</span></div><div class="line">    -webkit-transition: opacity 10s liner 10s;*/</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">transition-property</span>: font-size;</div><div class="line">  <span class="attribute">transition-duration</span>: <span class="number">0.5s</span>;</div><div class="line">  <span class="attribute">transition-delay</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#fade</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">36px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/* DEMO2 */</span></div><div class="line"><span class="selector-id">#nudge</span>&#123;</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-transition-property</span>: color,</div><div class="line">        background-color,padding-left;</div><div class="line">    <span class="attribute">-webkit-transition-duration</span>: <span class="number">500ms</span>,<span class="number">500ms</span>, <span class="number">500ms</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#nudge</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>: <span class="number">#efefef</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#333</span>;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">50px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#bounce</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">    <span class="attribute">-webkit-animation-name</span>:bounce;</div><div class="line">    <span class="attribute">-webkit-animation-duration</span>:<span class="number">1s</span>;</div><div class="line">    <span class="attribute">-webkit-animation-iteration-count</span>:<span class="number">2</span>;</div><div class="line">    <span class="attribute">-webkit-animation-direction</span>:alternate</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> bounce &#123;</div><div class="line">    <span class="selector-tag">from</span>&#123;<span class="attribute">margin-left</span>:<span class="number">0</span>;&#125;</div><div class="line">    <span class="selector-tag">to</span>&#123;<span class="attribute">margin-left</span>:<span class="number">250px</span>;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#spin</span>&#123;</div><div class="line">    <span class="attribute">-webkit-transition</span>: -webkit-transform <span class="number">10s</span> ease-in;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#spin</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(36000deg);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">a</span>&#123;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">padding</span>:<span class="number">5px</span> <span class="number">10px</span>;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#000</span>;</div><div class="line">    </div><div class="line">    <span class="comment">/*可以去掉链接的下划线等修饰效果*/</span></div><div class="line">    <span class="attribute">text-decoration</span>:none;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#999</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">div</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#cda</span>;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#222</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">div</span> <span class="selector-tag">p</span>&#123;</div><div class="line">    <span class="attribute">padding</span>:<span class="number">20px</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="selector-id">#accordion</span> <span class="selector-tag">div</span>&#123;</div><div class="line">    <span class="comment">/*先隐藏起来*/</span></div><div class="line">    <span class="attribute">height</span>:<span class="number">0</span>;</div><div class="line">    <span class="attribute">overflow</span>:hidden;</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-transition</span>:height <span class="number">600ms</span> ease;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#accordion</span> <span class="selector-tag">div</span><span class="selector-pseudo">:target</span>&#123;</div><div class="line">    <span class="attribute">height</span>:<span class="number">110px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>##animation<br>animation 属性是如下这些属性的简写<br>animation-name: none<br>animation-duration: 0s<br>animation-timing-function: ease<br>animation-delay: 0s<br>animation-iteration-count: 1<br>animation-direction: normal<br>animation-fill-mode: none</p>
+<p>###用法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">animation</span>:</div><div class="line">	<span class="selector-tag">animation-name</span></div><div class="line">    <span class="selector-tag">time</span>(<span class="selector-tag">duration</span>)</div><div class="line">    <span class="selector-tag">timing-function</span></div><div class="line">    <span class="selector-tag">time</span>(<span class="selector-tag">delay</span>)</div><div class="line">    <span class="selector-tag">animation-iteration-count</span>( 结束之前的循环次数)</div><div class="line">    <span class="selector-tag">single-animation-direction</span> </div><div class="line">    <span class="comment">/*&#123;</span></div><div class="line">    	animation-direction: normal (每次从正方向开始)</div><div class="line">		animation-direction: reverse （每次从反方向开始）</div><div class="line">		animation-direction: alternate （正反往复）</div><div class="line">    &#125;*/</div><div class="line">    <span class="selector-tag">single-animation-fill-mode</span></div></pre></td></tr></table></figure></p>
+<p>###实例<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"view_port"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"polling_message"</span>&gt;</span></div><div class="line">        Listener for dispatches     </div><div class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"cylon_eye"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.polling_message</span> &#123;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">margin-right</span>:<span class="number">2%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.view_port</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: black;</div><div class="line">    <span class="attribute">height</span>: <span class="number">50px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">overflow</span>: hidden;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.cylon_eye</span> &#123;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">80%</span>;</div><div class="line">    <span class="attribute">background-color</span>: red;</div><div class="line">    </div><div class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(to right, rgba(0, 0, 0, 0.9) <span class="number">25%</span>, <span class="built_in">rgba</span>(0, 0, 0, 0.1) <span class="number">50%</span>, <span class="built_in">rgba</span>(0, 0, 0, 0.9) <span class="number">75%</span>);</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">       <span class="attribute">-moz-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">         <span class="attribute">-o-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">            <span class="attribute">animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">moz</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">o</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
 	
 	</div>
-  <a type="button" href="/2015/06/28/2014-08-10-javascript启示录书摘/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2015/06/28/2014-08-10-transition&animation/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -811,13 +782,7 @@
 		<div class="col-md-3">
 	<div id="sidebar">
 	
-			
-  <div class="form-group has-success has-feedback" id="site_search">
-    <form class="site-search-form">
-        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
-    </form>
-  </div>  
-
+			 
 
 		
 			
@@ -860,48 +825,48 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
 		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
 		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+			<li><a href="/tags/git/">git<span>5</span></a></li>
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+			<li><a href="/tags/http/">http<span>2</span></a></li>
 		
 			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
 		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
-		
-			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
-		
-			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
-		
-			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
-		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
-		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
-		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
-		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
-		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
-		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
-		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
 		
 			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
 		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
 		
-		   <li><a href="/tags">...<span>40</span></a></li>
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
+		
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+		
+			<li><a href="/tags/think/">think<span>1</span></a></li>
+		
+			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+		
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>2</span></a></li>
+		
+		
+		   <li><a href="/tags">...<span>39</span></a></li>
 		 
 		</ul>
 	</div>
@@ -914,7 +879,7 @@
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/01/02/新的一年-2017/" ><i class="fa fa-file-o"></i>hexo-tag-demo-example</a>
+        <a href="/2017/01/03/新的一年-2017/"  title="介绍下使用 fenced-code." ><i class="fa fa-file-o"></i>Hello 2017</a>
       </li>
     
       <li>
@@ -965,17 +930,6 @@
 </p> </footer>
 </div> <!-- container-narrow -->
   
-  <script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
-  </script>
-
-
-
   
 <a id="gotop" href="#">   
   <span>▲</span> 
@@ -985,9 +939,9 @@
 <script src="/js/gallery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
-<script src="/js/search.js"></script> 
+<!-- <script src="/js/search.js"></script>  -->
 
-
+<!-- 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
@@ -995,9 +949,9 @@
   $('.fancybox').fancybox();
 })(jQuery);
 </script>
+ -->
 
-
-
+<!-- 
    <script type="text/javascript">      
      var search_path = "search.xml";
 	 if (search_path.length == 0) {
@@ -1006,6 +960,25 @@
 	 var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
    </script>
+ -->
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+        opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+
+    <input type="text" class="cb-search-content" id="cb-search-content" style="position: fixed; top: 60px" placeholder="文章标题 日期 标签" />
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png"  id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- <div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png"  id="cb-search-btn"  title="双击ctrl试一下"/>
+</div> -->
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
 
 </body>
    </html>

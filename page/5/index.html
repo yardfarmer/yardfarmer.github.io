@@ -42,36 +42,42 @@
 
  <body>  
   <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+  <div class="container">
+    <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	    <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
 	  <a class="navbar-brand" href="/">output stream</a>
       <div class="collapse navbar-collapse nav-menu">
-		<ul class="nav navbar-nav">
-		  
-		  <li>
-			<a href="/demos" title="Demos.">
-			  <i class="fa fa-flask"></i>Demos
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/archives" title="All the articles.">
-			  <i class="fa fa-archive"></i>Archives
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/about" title="About me.">
-			  <i class="fa fa-user"></i>About
-			</a>
-		  </li>
-		  
-		</ul>
+		    <ul class="nav navbar-nav">
+    		  
+    		  <li>
+    			 <a href="/demos" title="Demos.">
+            <i class="fa fa-flask"></i>Demos
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/archives" title="All the articles.">
+            <i class="fa fa-archive"></i>归档
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/about" title="About me.">
+            <i class="fa fa-user"></i>关于我
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/#" title="Search Posts.">
+            <i class="fa fa-search"></i>搜索
+    			 </a>
+    		  </li>
+    		  
+    		</ul>
       </div>
     </div> <!-- container -->
 </nav>
@@ -171,42 +177,6 @@
 	
 	</div>
   <a type="button" href="/2015/06/20/filtbar_重构/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2015-06-12 </div>
-			<div class="article-title"><a href="/2015/06/12/了解neat/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#了解neat</p>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo neat <span class="keyword">server</span> xxx xxx</div></pre></td></tr></table></figure>
-<p>这里的 neat 在路径</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>neat</div></pre></td></tr></table></figure>
-<p>这里的 neat 是个 link, 真实的地址在</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/<span class="class"><span class="keyword">lib</span>/<span class="title">node_modules</span>/@<span class="title">ali</span>/<span class="title">neat</span>/<span class="title">bin</span>/<span class="title">neat</span></span></div></pre></td></tr></table></figure>
-<p>文件的内容是</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/env node</div><div class="line">require(<span class="string">'../neat.js'</span>).<span class="built_in">run</span>(<span class="built_in">process</span>.argv);</div></pre></td></tr></table></figure>
-<p>声明了执行环境静, 下面就可以写环境支持的代码了, 类似于 shell 文件标注 <code>bash</code>.</p>
-<blockquote>
-<p>脚本语言的第一行，目的就是指出，你想要你的这个文件中的代码用什么可执行程序去运行它</p>
-</blockquote>
-<p>##fd-server</p>
-<p>它是基于 connect 模块 开发的, 所有的组件都是以中间件的方式进行开发, 所以中间件的写法类似</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var cfg;</div><div class="line"></div><div class="line">module.exports = <span class="keyword">function</span>(req, res, <span class="keyword">next</span>) &#123;</div><div class="line">   	<span class="regexp">//</span> <span class="keyword">do</span> something</div><div class="line">  </div><div class="line">   	<span class="keyword">next</span>(); <span class="regexp">//</span> <span class="keyword">if</span> necessory</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-
-	
-	</div>
-  <a type="button" href="/2015/06/12/了解neat/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -661,6 +631,82 @@
 </div>
 
 		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-05-25 </div>
+			<div class="article-title"><a href="/2015/05/25/css书写规范/" ></a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>css 编写习惯</p>
+<ol>
+<li><p>分区, 看过视觉稿之后，我们可以得出该视觉稿有9个独立区块，所以我们描写结构的css文件中的区块样式定义最多为9块</p>
+</li>
+<li><p>抽象, 考虑哪些局部分类的样式是基本相似的, 可以抽出来复用. </p>
+<ul>
+<li><p>比如字体, 颜色做成复用的样式, 所以在分区的基础上再加一个定义块, 用于编写复用的样式; </p>
+</li>
+<li><p>比如使用 css sprite 图时, 不应每使用一次图片就引用一次, 而是应该定义一个工公用的样式.</p>
+</li>
+<li><p>把定义背景的代码也放在一处, 便于维护</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>css文件中定义样式区块的数量 = 页面最多区块数 + 公共区块 + 背景图区块 </p>
+</blockquote>
+<ul>
+<li><p>IE6下如果背景图在各处定义，那么它将导致背景图多次被请求，加大服务器开销</p>
+</li>
+<li><p>构思 css 文件中的代码结构</p>
+</li>
+</ul>
+<blockquote>
+<p>css代码结构先后循序为：背景图定义、公用定义、各个页面区块定义，两个代码区块之间请用回车键换行隔开</p>
+</blockquote>
+<pre><code>/* 背景图 */
+.part-a .background,
+.part-b .background,
+.part-c .background{background:url(&quot;http://www.aissa.me/fuck/you/once.png&quot;) no-repeat;}
+
+/* 公用 */
+.link:link,
+.link:visited{color:#06c; text-decoration:none;}
+.link:hover{color:#ff7300; text-decoration:underline;}
+.margin-top-8px{margin-top:8px;}
+
+/* 区块一 */
+.part-a{width:400px; height:300px;}
+.part-a .background{background-position:-50px -100px; width:100px; height:150px;}
+.part-a .class-a{width:100px; height:100px;}
+......
+
+/* 区块二 */
+.part-b{width:400px; height:300px;}
+.part-b .background{background-position:-50px -100px; width:100px; height:150px;}
+.part-b .class-a{width:100px; height:100px;}
+......
+
+/* 区块三 */
+.part-c{width:400px; height:300px;}
+.part-c .background{background-position:-50px -100px; width:100px; height:150px;}
+.part-c .class-a{width:100px; height:100px;}
+......
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2015/05/25/css书写规范/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
 
 		</div>
 
@@ -694,13 +740,7 @@
 		<div class="col-md-3">
 	<div id="sidebar">
 	
-			
-  <div class="form-group has-success has-feedback" id="site_search">
-    <form class="site-search-form">
-        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
-    </form>
-  </div>  
-
+			 
 
 		
 			
@@ -743,48 +783,48 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+			<li><a href="/tags/linux/">linux<span>6</span></a></li>
 		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
-		
-			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
-		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
-		
-			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
-		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
-		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
-		
-			<li><a href="/tags/test/">test<span>2</span></a></li>
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
 		
 			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
 		
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
+		
+			<li><a href="/tags/build/">build<span>2</span></a></li>
+		
 			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
 		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>2</span></a></li>
 		
 			<li><a href="/tags/http/">http<span>2</span></a></li>
 		
-			<li><a href="/tags/document/">document<span>1</span></a></li>
-		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
-		
-			<li><a href="/tags/Hexo/">Hexo<span>1</span></a></li>
-		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
 			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
 		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+			<li><a href="/tags/library/">library<span>3</span></a></li>
+		
+			<li><a href="/tags/default/">default<span>1</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
+		
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
 		
 			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
 		
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
 		
-		   <li><a href="/tags">...<span>40</span></a></li>
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+		
+		   <li><a href="/tags">...<span>39</span></a></li>
 		 
 		</ul>
 	</div>
@@ -797,7 +837,7 @@
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/01/02/新的一年-2017/" ><i class="fa fa-file-o"></i>hexo-tag-demo-example</a>
+        <a href="/2017/01/03/新的一年-2017/"  title="介绍下使用 fenced-code." ><i class="fa fa-file-o"></i>Hello 2017</a>
       </li>
     
       <li>
@@ -848,17 +888,6 @@
 </p> </footer>
 </div> <!-- container-narrow -->
   
-  <script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
-  </script>
-
-
-
   
 <a id="gotop" href="#">   
   <span>▲</span> 
@@ -868,9 +897,9 @@
 <script src="/js/gallery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
-<script src="/js/search.js"></script> 
+<!-- <script src="/js/search.js"></script>  -->
 
-
+<!-- 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
@@ -878,9 +907,9 @@
   $('.fancybox').fancybox();
 })(jQuery);
 </script>
+ -->
 
-
-
+<!-- 
    <script type="text/javascript">      
      var search_path = "search.xml";
 	 if (search_path.length == 0) {
@@ -889,6 +918,25 @@
 	 var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
    </script>
+ -->
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+        opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+
+    <input type="text" class="cb-search-content" id="cb-search-content" style="position: fixed; top: 60px" placeholder="文章标题 日期 标签" />
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png"  id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- <div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png"  id="cb-search-btn"  title="双击ctrl试一下"/>
+</div> -->
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
 
 </body>
    </html>

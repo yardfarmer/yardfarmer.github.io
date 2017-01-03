@@ -42,36 +42,42 @@
 
  <body>  
   <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+  <div class="container">
+    <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	    <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
 	  <a class="navbar-brand" href="/">output stream</a>
       <div class="collapse navbar-collapse nav-menu">
-		<ul class="nav navbar-nav">
-		  
-		  <li>
-			<a href="/demos" title="Demos.">
-			  <i class="fa fa-flask"></i>Demos
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/archives" title="All the articles.">
-			  <i class="fa fa-archive"></i>Archives
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/about" title="About me.">
-			  <i class="fa fa-user"></i>About
-			</a>
-		  </li>
-		  
-		</ul>
+		    <ul class="nav navbar-nav">
+    		  
+    		  <li>
+    			 <a href="/demos" title="Demos.">
+            <i class="fa fa-flask"></i>Demos
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/archives" title="All the articles.">
+            <i class="fa fa-archive"></i>归档
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/about" title="About me.">
+            <i class="fa fa-user"></i>关于我
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/#" title="Search Posts.">
+            <i class="fa fa-search"></i>搜索
+    			 </a>
+    		  </li>
+    		  
+    		</ul>
       </div>
     </div> <!-- container -->
 </nav>
@@ -95,54 +101,6 @@
 		<div class="mypage">
 		
 		<!-- title and entry -->
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2015-01-03 </div>
-			<div class="article-title"><a href="/2015/01/03/2015-01-3-polymer/" >polymer的使用</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h2 id="结构搭建"><a href="#结构搭建" class="headerlink" title="结构搭建"></a>结构搭建</h2><h3 id="加载引用文件"><a href="#加载引用文件" class="headerlink" title="加载引用文件"></a>加载引用文件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span></span></div><div class="line">  <span class="attr">src</span>=<span class="string">"../components/platform/platform.js"</span>&gt;<span class="handlebars"><span class="xml"></span></span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/font-roboto/roboto.html"</span>&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/core-header-panel/core-header-panel.html"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/core-toolbar/core-toolbar.html"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span></span></div><div class="line">  <span class="attr">href</span>=<span class="string">"../components/paper-tabs/paper-tabs.html"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div></pre></td></tr></table></figure>
-<p>Polymer 使用 HTML imports 来加载 components. HTML imports 提供了依赖关系的管理，保证你的 elements 和它们的依赖都加载好了你再使用它们。</p>
-<h3 id="预防-FOUC"><a href="#预防-FOUC" class="headerlink" title="预防 FOUC"></a>预防 FOUC</h3><p>在 custom elements 更新 之前可能显示错乱。 为了缓解 FOUC 问题, Polymer 提供了一个 polyfill 解决方案，配合 :unresolved 伪类 使用。 对于简单的 app，你可以为 body 添加 unresolved 属性。这将在页面初始化时隐藏页面直到所有的 elements 被更新才显示。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">unresolved</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>polymer-ready 触发前， Polymer 会执行以下的步骤：</p>
-<ul>
-<li>移除 elements 中 [unresolved] 属性</li>
-<li>添加 [resolved] 属性</li>
-<li>在 element 收到第一个  transitionend 时移除 [resolved]</li>
-</ul>
-<h3 id="声明式数据绑定"><a href="#声明式数据绑定" class="headerlink" title="声明式数据绑定"></a>声明式数据绑定</h3><p><code>胡子</code> 方式， mustache(有一款同名的模板引擎mustache.js)</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"name-tag"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">    This is <span class="tag">&lt;<span class="name">b</span>&gt;</span>&#123;&#123;owner&#125;&#125;<span class="tag">&lt;/<span class="name">b</span>&gt;</span>'s name-tag element.</div><div class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">    Polymer(<span class="string">'name-tag'</span>, &#123;</div><div class="line">      owner: <span class="string">'Daniel'</span></div><div class="line">    &#125;);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="自动化定位结点"><a href="#自动化定位结点" class="headerlink" title="自动化定位结点"></a>自动化定位结点</h3><p>Polymer 另一个给力的功能是自动化定位结点。一个 component 的 shadow DOM 中标有 id 特性的结点可以被自动引用在该 component 的 this.$ 散列表中。</p>
-<p>注意：通过数据绑定动态创建的结点<em>无法</em>被添加到 this.$ 散列表中。该散列表只包含<em>静态</em>创建的 shadow DOM 结点 (即定义在 element 外部的模板中的结点)。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"x-form"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"nameInput"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    Polymer(<span class="string">'x-form'</span>, &#123;</div><div class="line">      <span class="attr">logNameValue</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.$.nameInput.value);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>为了定位 element 的 shadow DOM 里的其它结点，你可以创建一个带有确定<code>id</code> 的容器 element，然后使用 querySelector 来获取子孙。举个例子，如果你的 element 的模板是下面这个样子：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">template</span> <span class="attr">if</span>=<span class="string">"&#123;&#123;some_condition&#125;&#125;"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"inner"</span>&gt;</span></div><div class="line">        该内容通过数据绑定被创建</div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>你可以在容器内这样定位：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">this.$.container.querySelector('#inner');</div></pre></td></tr></table></figure>
-<h3 id="触发自定义事件"><a href="#触发自定义事件" class="headerlink" title="触发自定义事件"></a>触发自定义事件</h3><p>Polymer core 提供了一个便捷的 fire() 方法传递自定义事件。实际上这是一个围绕标准的 node.dispatchEvent(new CustomEvent(…)) 包装出来的。当需要在一个微任务完成之后触发一个事件，请使用其异步的版本：asyncFire()。</p>
-<p>例如：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span> <span class="attr">href</span>=<span class="string">"bower_components/polymer/polymer.html"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">polymer-element</span> <span class="attr">name</span>=<span class="string">"ouch-button"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">on-click</span>=<span class="string">"&#123;&#123;onClick&#125;&#125;"</span>&gt;</span>GO<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">        Polymer(<span class="string">'ouch-button'</span>, &#123;</div><div class="line">            onClick: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">				<span class="comment">// fire(inType, inDetail, inToNode)</span></div><div class="line">                <span class="keyword">this</span>.fire(<span class="string">'ouch'</span>, &#123;</div><div class="line">                    msg: <span class="string">'hahaha'</span></div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">polymer-element</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>index.html</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"bower_components/platform/platform.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span> <span class="attr">href</span>=<span class="string">"self_event_ref.html"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">ouch-button</span>&gt;</span><span class="tag">&lt;/<span class="name">ouch-button</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="built_in">document</span>.querySelector(<span class="string">'ouch-button'</span>).addEventListener(<span class="string">'ouch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(e.type, e.detail.msg);</div><div class="line">  &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>中文站 <a href="http://docs.polymerchina.org/docs/start/getting-the-code.html" target="_blank" rel="external">polymerchina</a></li>
-</ul>
-
-	
-	</div>
-  <a type="button" href="/2015/01/03/2015-01-3-polymer/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
 		
 			
 	
@@ -718,6 +676,261 @@ img {
 </div>
 
 		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-11-10 </div>
+			<div class="article-title"><a href="/2014/11/10/2014-11-10-regexp-inaction/" >regexp-head-first</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>正则表达式（regular expression）是一种表达文本模式的方法，常常用作按照“给定模式”匹配文本的工具，比如给定一个Email地址的模式，然后用来确定一个字符串是否为Email地址。JavaScript的正则表达式体系是参照Perl 5建立的。</p>
+<p>新建正则表达式有两种方法。一种是使用字面量，以斜杠表示开始和结束。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/xyz/</span>;</div></pre></td></tr></table></figure>
+<p>另一种是使用RegExp构造函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"xyz"</span>);</div></pre></td></tr></table></figure>
+<p>上面两种写法是等价的，都建立了一个内容为xyz的正则表达式对象。</p>
+<p>RegExp构造函数还可以接受第二个参数，表示修饰符（详细解释见下文）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"xyz"</span>, <span class="string">"i"</span>);</div><div class="line"><span class="comment">// 等价于</span></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/xyz/i</span>;</div></pre></td></tr></table></figure>
+<p>这两种写法在运行时有一个细微的区别。采用字面量的写法，正则对象在代码载入时（即编译时）生成；采用构造函数的方法，正则对象在代码运行时生成。考虑到书写的便利和直观，实际应用中，基本上都采用字面量的写法。</p>
+<p>正则对象生成以后，有两种使用方式：</p>
+<ul>
+<li><p>使用正则对象本身的方法，将字符串作为参数，比如regex.test(string)。</p>
+</li>
+<li><p>使用字符串对象的方法，将正则对象作为参数，比如string.match(regex)。</p>
+</li>
+</ul>
+<p>下面逐一介绍这两种使用方式。</p>
+<h2 id="正则对象的属性和方法"><a href="#正则对象的属性和方法" class="headerlink" title="正则对象的属性和方法"></a>正则对象的属性和方法</h2><h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>正则对象的属性主要如下：</p>
+<ul>
+<li><p><strong>ignoreCase</strong>：返回一个布尔值，表示是否设置了i修饰符，该属性只读。</p>
+</li>
+<li><p><strong>global</strong>：返回一个布尔值，表示是否设置了g修饰符，该属性只读。</p>
+</li>
+<li><p><strong>lastIndex</strong>：返回下一次开始搜索的位置。该属性可读写，但是只在设置了g修饰符时有意义。</p>
+</li>
+<li><p><strong>source</strong>：返回正则表达式的字符串形式（不包括反斜杠），该属性只读。</p>
+</li>
+<li><p><strong>multiline</strong>：返回一个布尔值，表示是否设置了m修饰符，该属性只读。</p>
+</li>
+</ul>
+<p>下面是属性应用的实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/abc/igm</span>;</div><div class="line"></div><div class="line">r.ignoreCase <span class="comment">// true</span></div><div class="line">r.global <span class="comment">// true</span></div><div class="line">r.multiline <span class="comment">// true</span></div><div class="line">r.lastIndex <span class="comment">// 0</span></div><div class="line">r.source <span class="comment">// "abc"</span></div></pre></td></tr></table></figure>
+<h3 id="test方法"><a href="#test方法" class="headerlink" title="test方法"></a>test方法</h3><p>test方法返回布尔值，用来验证字符串是否符合某个模式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/cat/.test(<span class="string">'cats and dogs'</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>上面代码验证参数字符串之中是否包含cat，结果返回true。</p>
+<p>如果正则表达式带有g修饰符，则每一次test方法都从上一次结束的位置开始向后匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/x/g</span>;</div><div class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</div><div class="line"></div><div class="line">r.lastIndex <span class="comment">// 0</span></div><div class="line">r.test(s) <span class="comment">// true</span></div><div class="line"></div><div class="line">r.lastIndex <span class="comment">// 2</span></div><div class="line">r.test(s) <span class="comment">// true</span></div><div class="line"></div><div class="line">r.lastIndex <span class="comment">// 4</span></div><div class="line">r.test(s) <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>上面代码的正则对象使用了g修饰符，表示要记录搜索位置。接着，三次使用test方法，每一次开始搜索的位置都是上一次匹配的后一个位置。</p>
+<p>如果正则模式是一个空字符串，则匹配所有字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">""</span>).test(<span class="string">"abc"</span>)</div><div class="line"><span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h3 id="exec方法"><a href="#exec方法" class="headerlink" title="exec方法"></a>exec方法</h3><p>exec方法返回匹配结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</div><div class="line"><span class="keyword">var</span> r1 = <span class="regexp">/x/</span>;</div><div class="line"><span class="keyword">var</span> r2 = <span class="regexp">/y/</span>;</div><div class="line"></div><div class="line">r1.exec(s) <span class="comment">// ["x"]</span></div><div class="line">r2.exec(s) <span class="comment">// null</span></div></pre></td></tr></table></figure>
+<p>上面代码表示，如果匹配成功，exec方法返回一个数组，里面是匹配结果。如果匹配失败，返回null。</p>
+<p>如果正则表示式包含圆括号，则返回的数组会包括多个元素。其中，第一个元素是整个匹配成功的结果，后面的元素就是圆括号对应的匹配成功的组，也就是说第二个元素就对应第一个括号，第三个元素对应第二个括号，以此类推。整个返回数组的length属性等于匹配成功的组数+1。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/_(x)/</span>;</div><div class="line"></div><div class="line">r.exec(s) <span class="comment">// ["_x", "x"]</span></div></pre></td></tr></table></figure>
+<p>上面代码的exex方法，返回一个数组。第一个元素是整个匹配的结果，第二个元素是圆括号匹配的结果。</p>
+<p>exec方法的返回数组还包含以下两个属性：</p>
+<ul>
+<li><strong>input</strong>：整个原字符串。</li>
+<li><strong>index</strong>：整个模式匹配成功的开始位置。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/a(b+)a/</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = regex.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line"></div><div class="line">arr</div><div class="line"><span class="comment">// ["abbba", "bbb"]</span></div><div class="line"></div><div class="line">arr.index</div><div class="line"><span class="comment">// 1</span></div><div class="line"></div><div class="line">arr.input</div><div class="line"><span class="comment">// "_abbba_aba_"</span></div></pre></td></tr></table></figure>
+<p>上面代码中的index属性等于1，是因为从原字符串的第二个位置开始匹配成功。</p>
+<p>如果正则表达式加上g修饰符，则可以使用多次exec方法，下一次搜索的位置从上一次匹配成功结束的位置开始。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/a(b+)a/g</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a1 = r.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line">a1 <span class="comment">// ["abbba", "bbb"]</span></div><div class="line">a1.index <span class="comment">// 1</span></div><div class="line">r.lastIndex <span class="comment">// 6</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> a2 = r.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line">a2 <span class="comment">// ["aba", "b"]</span></div><div class="line">a2.index <span class="comment">// 7</span></div><div class="line">r.lastIndex <span class="comment">// 10</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> a3 = r.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line">a3 <span class="comment">// null</span></div><div class="line">a3.index <span class="comment">// TypeError: Cannot read property 'index' of null</span></div><div class="line">r.lastIndex <span class="comment">// 0</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> a4 = r.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line">a4 <span class="comment">// ["abbba", "bbb"]</span></div><div class="line">a4.index <span class="comment">// 1</span></div><div class="line">r.lastIndex <span class="comment">// 6</span></div></pre></td></tr></table></figure>
+<p>上面代码连续用了四次exec方法，前三次都是从上一次匹配结束的位置向后匹配。当第三次匹配结束以后，整个字符串已经到达尾部，正则对象的lastIndex属性重置为0，意味着第四次匹配将从头开始。</p>
+<p>利用g修饰符允许多次匹配的特点，可以用一个循环完成全部匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/a(b+)a/g</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">"_abbba_aba_"</span>;</div><div class="line"></div><div class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</div><div class="line">	<span class="keyword">var</span> match = r.exec(s);</div><div class="line">	<span class="keyword">if</span> (!match) <span class="keyword">break</span>;</div><div class="line">	<span class="built_in">console</span>.log(match[<span class="number">1</span>]);</div><div class="line">&#125;</div><div class="line"><span class="comment">// bbb</span></div><div class="line"><span class="comment">// b</span></div></pre></td></tr></table></figure>
+<p>如果正则对象是一个空字符串，则exec方法会匹配成功，但返回的也是空字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r1 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">""</span>);</div><div class="line"><span class="keyword">var</span> a1 = r1.exec(<span class="string">"abc"</span>);</div><div class="line">a1 <span class="comment">// [""]</span></div><div class="line">a1.index <span class="comment">// 0</span></div><div class="line">r1.lastIndex <span class="comment">// 0 </span></div><div class="line"></div><div class="line"><span class="keyword">var</span> r2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"()"</span>);</div><div class="line"><span class="keyword">var</span> a2 = r2.exec(<span class="string">"abc"</span>);</div><div class="line">a2 <span class="comment">// ["", ""]</span></div><div class="line">a2.index <span class="comment">// 0</span></div><div class="line">r2.lastIndex <span class="comment">// 0</span></div></pre></td></tr></table></figure>
+<h2 id="字符串对象的方法"><a href="#字符串对象的方法" class="headerlink" title="字符串对象的方法"></a>字符串对象的方法</h2><p>字符串对象的方法之中，有4种与正则对象有关。</p>
+<ul>
+<li><p><strong>match</strong>：返回匹配的子字符串。</p>
+</li>
+<li><p><strong>search</strong>：按照给定的正则规则进行搜索。</p>
+</li>
+<li><p><strong>replace</strong>：按照给定的正则规则进行替换。</p>
+</li>
+<li><p><strong>split</strong>：按照给定规则进行字符串分割。</p>
+</li>
+</ul>
+<p>下面逐一介绍。</p>
+<h3 id="match方法"><a href="#match方法" class="headerlink" title="match方法"></a>match方法</h3><p>match方法对字符串进行正则匹配，返回匹配结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</div><div class="line"><span class="keyword">var</span> r1 = <span class="regexp">/x/</span>;</div><div class="line"><span class="keyword">var</span> r2 = <span class="regexp">/y/</span>;</div><div class="line"></div><div class="line">s.match(r1) <span class="comment">// ["x"]</span></div><div class="line">s.match(r2) <span class="comment">// null</span></div></pre></td></tr></table></figure>
+<p>从上面代码可以看到，字符串的match方法与正则对象的exec方法非常类似：匹配成功返回一个数组，匹配失败返回null。</p>
+<p>如果正则表达式带有g修饰符，则该方法与正则对象的exec方法行为不同，会返回所有匹配成功的结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">"abba"</span>;</div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/a/g</span>;</div><div class="line"></div><div class="line">s.match(r) <span class="comment">// ["a", "a"]</span></div><div class="line">r.exec(s) <span class="comment">// ["a"]</span></div></pre></td></tr></table></figure>
+<h3 id="search方法"><a href="#search方法" class="headerlink" title="search方法"></a>search方法</h3><p>search方法返回第一个满足条件的匹配结果在整个字符串中的位置。如果没有任何匹配，则返回-1。该方法会忽略g参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">'_x_x'</span>.search(<span class="regexp">/x/</span>)</div><div class="line"><span class="comment">// 1</span></div></pre></td></tr></table></figure>
+<h3 id="replace方法"><a href="#replace方法" class="headerlink" title="replace方法"></a>replace方法</h3><p>replace方法可以替换匹配的值，它接受两个参数，第一个是搜索模式，第二个是替换的内容。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">str.replace(search, replacement)</div></pre></td></tr></table></figure>
+<p>搜索模式如果不加g修饰符，就替换第一个匹配成功的值，否则替换所有匹配成功的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">"aaa"</span>.replace(<span class="string">"a"</span>, <span class="string">"b"</span>)</div><div class="line"><span class="comment">// "baa"</span></div><div class="line"></div><div class="line"><span class="string">"aaa"</span>.replace(<span class="regexp">/a/</span>, <span class="string">"b"</span>)</div><div class="line"><span class="comment">// "baa"</span></div><div class="line"></div><div class="line"><span class="string">"aaa"</span>.replace(<span class="regexp">/a/g</span>, <span class="string">"b"</span>)</div><div class="line"><span class="comment">// "bbb"</span></div><div class="line"></div><div class="line"><span class="comment">// 去掉两边的空格</span></div><div class="line"><span class="string">"   a    b   "</span>.replace(<span class="regexp">/(?:^\s+)|(?:[\s]+$)/g</span>,<span class="string">''</span>)</div><div class="line"><span class="comment">// "a   b"</span></div></pre></td></tr></table></figure>
+<p>replace方法的第二个参数可以使用美元符号$，(从匹配子串中提取替换使用的原料)用来指代所替换的内容。</p>
+<blockquote>
+<p>青出于蓝而胜于蓝</p>
+</blockquote>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby"> $&amp; 指代匹配的子字符串。</span></div><div class="line">-<span class="ruby"> $` 指代匹配结果前面的文本。</span></div><div class="line">-<span class="ruby"> $' 指代匹配结果后面的文本。</span></div><div class="line">-<span class="ruby"> $n 指代匹配成功的第n组内容，n从<span class="number">1</span>开始计数。</span></div><div class="line">-<span class="ruby"> $$ 指代美元符号$。</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">"abc"</span>.replace(<span class="string">"b"</span>, <span class="string">"[$`-$&amp;-$']"</span>)</div><div class="line"><span class="comment">// "a[a-b-c]c"</span></div><div class="line"></div><div class="line"><span class="string">"hello world"</span>.replace(<span class="regexp">/(\w+)\s(\w+)/</span>,<span class="string">"$2 $1"</span>)</div><div class="line"><span class="comment">// "world hello"</span></div></pre></td></tr></table></figure>
+<p>第二个参数还可以是一个函数，将匹配内容替换为函数返回值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">"3 and 5"</span>.replace(<span class="regexp">/[0-9]+/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">match</span>)</span>&#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">2</span> * match; &#125;)</div><div class="line"><span class="comment">// "6 and 10"</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="string">"The quick brown fox jumped over the lazy dog."</span>;</div><div class="line"><span class="keyword">var</span> pattern = <span class="regexp">/quick|brown|lazy/ig</span>;</div><div class="line">a.replace( pattern, <span class="function"><span class="keyword">function</span> <span class="title">replacer</span>(<span class="params">match</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> match.toUpperCase();</div><div class="line">&#125; );</div><div class="line"><span class="comment">// The QUICK BROWN fox jumped over the LAZY dog.</span></div></pre></td></tr></table></figure>
+<p>作为replace方法第二个参数的替换函数，可以接受多个参数。它的第一个参数是捕捉到的内容，第二个参数是捕捉到的组匹配（有多少个组匹配，就有多少个对应的参数）。此外，最后还可以添加两个参数，倒数第二个参数是捕捉到的内容在整个字符串中的位置（比如从第五个位置开始），最后一个参数是原字符串。下面是一个网页模板替换的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> prices = &#123;</div><div class="line">    <span class="string">"pr_1"</span>: <span class="string">"$1.99"</span>,</div><div class="line">    <span class="string">"pr_2"</span>: <span class="string">"$9.99"</span>,</div><div class="line">    <span class="string">"pr_3"</span>: <span class="string">"$5.00"</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> template = <span class="string">".."</span>; <span class="comment">// some ecommerce page template</span></div><div class="line"></div><div class="line">template.replace(</div><div class="line">    <span class="regexp">/(&lt;span id=")(.*?)("&gt;)(&lt;\/span&gt;)/g</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">match,$<span class="number">1</span>,$<span class="number">2</span>,$<span class="number">3</span>,$<span class="number">4</span></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> $<span class="number">1</span> + $<span class="number">2</span> + $<span class="number">3</span> + prices[$<span class="number">2</span>] + $<span class="number">4</span>;</div><div class="line">    &#125;</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>上面代码的捕捉模式中，有四个括号，所以会产生四个组匹配，在匹配函数中用$1到$4表示。匹配函数的作用是将价格插入模板中。</p>
+<h3 id="split方法"><a href="#split方法" class="headerlink" title="split方法"></a>split方法</h3><p>split方法按照正则规则分割字符串，返回一个由分割后的各个部分组成的数组。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">str.split(separator, [limit])</div></pre></td></tr></table></figure>
+<p>该方法接受两个参数，第一个参数是分隔规则，第二个参数是返回数组的最大成员数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">'a,  b,c, d'</span>.split(<span class="string">','</span>) </div><div class="line"><span class="comment">// [ 'a', '  b', 'c', ' d' ]</span></div><div class="line"></div><div class="line"><span class="string">'a,  b,c, d'</span>.split(<span class="regexp">/, */</span>)</div><div class="line"><span class="comment">// [ 'a', 'b', 'c', 'd' ]</span></div><div class="line"></div><div class="line"><span class="string">'a,  b,c, d'</span>.split(<span class="regexp">/, */</span>, <span class="number">2</span>)</div><div class="line">[ <span class="string">'a'</span>, <span class="string">'b'</span> ]</div></pre></td></tr></table></figure>
+<p>上面代码使用正则表达式，去除了子字符串的逗号前面的空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">"aaa*a*"</span>.split(<span class="regexp">/a*/</span>)</div><div class="line"><span class="comment">// [ '', '*', '*' ]</span></div><div class="line"></div><div class="line"><span class="string">"aaa**a*"</span>.split(<span class="regexp">/a*/</span>)</div><div class="line"><span class="comment">// ["", "*", "*", "*"]</span></div></pre></td></tr></table></figure>
+<p>上面代码的分割规则是出现0次或多次的a，所以第一个分隔符是“aaa”，第二个分割符是“a”，将整个字符串分成三个部分。出现0次的a，意味着只要没有a就可以分割，实际上就是按字符分割。</p>
+<p>如果正则表达式带有括号，则括号匹配的部分也会作为数组成员返回。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">"aaa*a*"</span>.split(<span class="regexp">/(a*)/</span>)</div><div class="line"><span class="comment">// [ '', 'aaa', '*', 'a', '*' ]</span></div></pre></td></tr></table></figure>
+<p>上面代码的正则表达式使用了括号，第一个组匹配是“aaa”，第二个组匹配是“a”，它们都作为数组成员返回。</p>
+<p>下面是另一个组匹配的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">'a,  b  ,  '</span>.split(<span class="regexp">/(,)/</span>)</div><div class="line"><span class="comment">// ["a", ",", "  b  ", ",", "  "]</span></div><div class="line"></div><div class="line"><span class="string">'a,  b  ,  '</span>.split(<span class="regexp">/ *(,) */</span>)</div><div class="line"><span class="comment">// ["a", ",", "b", ",", ""]</span></div></pre></td></tr></table></figure>
+<h2 id="匹配规则"><a href="#匹配规则" class="headerlink" title="匹配规则"></a>匹配规则</h2><p>正则表达式对字符串的匹配有很复杂的规则。下面一一介绍这些规则。</p>
+<h3 id="字面量字符和元字符"><a href="#字面量字符和元字符" class="headerlink" title="字面量字符和元字符"></a>字面量字符和元字符</h3><p>大部分字符在正则表达式中，就是字面的含义，比如/a/匹配a，/b/匹配b。它们都叫做“字面量字符”（literal characters）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/dog/.test(<span class="string">"old dog"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>上面代码中正则表达式的dog，就是字面量字符，所以/dog/匹配old dog，因为它就表示d、o、g三个字母连在一起。</p>
+<p>除了字面量字符以外，还有一部分字符有特殊含义，不代表字面的意思。它们叫做“元字符”（metacharacters），主要有以下几个。</p>
+<p><strong>（1）点字符（.)</strong></p>
+<p>点字符（.）匹配除回车（\r）、换行(\n) 、行分隔符（\u2028）和段分隔符（\u2029）以外的所有字符。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/c.t/</div></pre></td></tr></table></figure>
+<p>上面代码中的c.t匹配c和t之间包含任意一个字符的情况，只要这三个字符在同一行，比如cat、c2t、c-t等等，但是不匹配coot。</p>
+<p><strong>（2）位置字符</strong></p>
+<p>位置字符用来提示字符所处的位置，主要有两个字符。</p>
+<ul>
+<li>^ 表示字符串的起首。</li>
+<li>$ 表示字符串的行尾。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/^test/.test(<span class="string">"test123"</span>) <span class="comment">// true</span></div><div class="line">/test$/.test(<span class="string">"new test"</span>) <span class="comment">// true</span></div><div class="line">/^test$/.test(<span class="string">"test"</span>) <span class="comment">// true</span></div><div class="line">/^test$/.test(<span class="string">"test test"</span>) <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p><strong>（3）选择符（|）</strong></p>
+<p>竖线符号（|）在正则表达式中表示“或关系”（OR），即 cat|dog 表示匹配cat或dog。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/<span class="number">11</span>|<span class="number">22</span>/.test(<span class="string">"911"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h3 id="字符类"><a href="#字符类" class="headerlink" title="字符类"></a>字符类</h3><p>字符类（class）表示有一系列字符可供选择，只要匹配其中一个就可以了。所有可供选择的字符都放在方括号内，比如[xyz] 表示x、y、z之中任选一个匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/[abc]/.test(<span class="string">"hello world"</span>) <span class="comment">// false</span></div><div class="line">/[abc]/.test(<span class="string">"apple"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>上面代码表示，字符串hello world不包含abc这三个字母中的任一个，而字符串apple包含字母a。</p>
+<p>有两个字符在字符类中有特殊含义。</p>
+<p><strong>（1）脱字符（&#94;）</strong></p>
+<p>如果方括号内的第一个字符是[&#94;]，则表示除了字符类之中的字符，其他字符都可以匹配。比如，[&#94;xyz] 表示除了x、y、z之外都可以匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/[^abc]/.test(<span class="string">"hello world"</span>) <span class="comment">// true</span></div><div class="line">/[^abc]/.test(<span class="string">"bbc"</span>) <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>上面代码表示，字符串hello world不包含字母abc中的任一个，所以返回true；字符串bbc不包含abc以外的字母，所以返回false。</p>
+<blockquote>
+<p>注意，脱字符只有在字符类的第一个位置才有特殊含义，否则就是字面含义。</p>
+</blockquote>
+<p><strong>（2）连字符（-）</strong></p>
+<p>某些情况下，对于连续序列的字符，连字符（-）用来提供简写形式，表示字符的连续范围。比如，[abc]可以写成[a-c]，[0123456789]可以写成[0-9]，同理[A-Z]表示26个大写字母。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/a-z/.test(<span class="string">"b"</span>) <span class="comment">// false</span></div><div class="line">/[a-z]/.test(<span class="string">"b"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>上面代码中，当连字号（dash）不出现在方括号之中，就不具备简写的作用，只代表字面的含义，所以不匹配字符b。只有当连字号用在方括号之中，才表示连续的字符序列。</p>
+<p>以下都是合法的字符类简写形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[<span class="number">0</span><span class="number">-9.</span>,]</div><div class="line">[<span class="number">0</span><span class="number">-9</span>a-fA-F]</div><div class="line">[a-zA-Z0<span class="number">-9</span>-]</div><div class="line">[<span class="number">1</span><span class="number">-31</span>]</div></pre></td></tr></table></figure>
+<p>上面代码中最后一个字符类[1-31]，不代表1到31，只代表1到3。</p>
+<blockquote>
+<p>注意，字符类的连字符必须在头尾两个字符中间，才有特殊含义，否则就是字面含义。</p>
+</blockquote>
+<h3 id="重复类"><a href="#重复类" class="headerlink" title="重复类"></a>重复类</h3><p>{} 表示模式的重复次数。{n}表示重复n次，{n,}表示至少重复n次，{n,m}表示重复不少于n次，不多于m次。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/lo&#123;<span class="number">2</span>&#125;k/.test(<span class="string">"look"</span>) <span class="comment">// true</span></div><div class="line">/lo&#123;<span class="number">2</span>,<span class="number">5</span>&#125;k/.test(<span class="string">"looook"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h3 id="量词符"><a href="#量词符" class="headerlink" title="量词符"></a>量词符</h3><ul>
+<li>? 表示某个模式出现1次或0次，等同于{0, 1}。</li>
+<li>* 表示某个模式出现0次或多次，等同于 {0,}。</li>
+<li>+ 表示某个模式出现1次或多次，等同于 {1,}。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/t?est/.test(<span class="string">"test"</span>) <span class="comment">// true</span></div><div class="line">/t?est/.test(<span class="string">"est"</span>) <span class="comment">// true</span></div><div class="line"></div><div class="line">/t+est/.test(<span class="string">"test"</span>) <span class="comment">// true</span></div><div class="line">/t+est/.test(<span class="string">"ttest"</span>) <span class="comment">// true</span></div><div class="line">/t+est/.test(<span class="string">"tttest"</span>) <span class="comment">// true</span></div><div class="line">/t+est/.test(<span class="string">"est"</span>) <span class="comment">// false</span></div><div class="line"></div><div class="line">/t*est/.test(<span class="string">"test"</span>) <span class="comment">// true</span></div><div class="line">/t*est/.test(<span class="string">"ttest"</span>) <span class="comment">// true</span></div><div class="line">/t*est/.test(<span class="string">"tttest"</span>) <span class="comment">// true</span></div><div class="line">/t*est/.test(<span class="string">"est"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>以上三个量词符，默认情况下的匹配规则都是贪婪模式，即最大可能匹配，直到下一个字符不满足匹配规则为止。比如，对于字符串“aaa”来说，/a+/将会匹配“aaa”，而不会匹配“aa”。为了将贪婪模式改为非贪婪模式，可以在量词符后面加一个问号，/a+?/将会只匹配“a”。</p>
+<h3 id="转义符"><a href="#转义符" class="headerlink" title="转义符"></a>转义符</h3><p>正则表达式中那些有特殊含义的字符，如果要匹配它们本身，就需要在它们前面要加上反斜杠。比如要匹配加号，就要写成\+。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/<span class="number">1</span>+<span class="number">1</span>/.test(<span class="string">"1+1"</span>)</div><div class="line"><span class="comment">// false</span></div><div class="line"></div><div class="line">/<span class="number">1</span>\+<span class="number">1</span>/.test(<span class="string">"1+1"</span>)</div><div class="line"><span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>正则模式中，需要用斜杠转义的，一共有12个字符：&#94;、.、[、$、(、)、|、*、+、?、{和 \。需要特别注意的是，如果使用RegExp方法生成正则对象，转义需要使用两个斜杠，因为字符串内部会先转义一次。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"1\+1"</span>)).test(<span class="string">"1+1"</span>) <span class="comment">// false</span></div><div class="line">(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"1\\+1"</span>)).test(<span class="string">"1+1"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><p>修饰符（modifier）表示模式的附加规则，放在正则模式的最尾部。</p>
+<p><strong>（1）g修饰符</strong></p>
+<p>默认情况下，第一次匹配成功后，正则对象就停止向下匹配了。g修饰符表示全局匹配（global），加上它以后，正则对象将匹配全部符合条件的结果，主要用于搜索和替换。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/b/</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> str = <span class="string">'abba'</span>;</div><div class="line"></div><div class="line">regex.test(str); <span class="comment">// true</span></div><div class="line">regex.test(str); <span class="comment">// true</span></div><div class="line">regex.test(str); <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>上面代码连续做了三次匹配，都返回true。它的含义是如果不加g修饰符，每次匹配时都是从字符串头部开始匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/b/g</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> str = <span class="string">'abba'</span>;</div><div class="line"></div><div class="line">regex.test(str); <span class="comment">// true</span></div><div class="line">regex.test(str); <span class="comment">// true</span></div><div class="line">regex.test(str); <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>上面代码中，因为字符串“abba”只有两个“b”，所以前两次匹配结果为true，第三次匹配结果为false。它的含义是加上g修饰符以后，每次匹配都是从上一次匹配成功处开始往后匹配。</p>
+<p><strong>（2）i修饰符</strong></p>
+<p>默认情况下，正则对象区分字母的大小写，加上i修饰符以后表示忽略大小写（ignorecase）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/abc/.test(<span class="string">"ABC"</span>) <span class="comment">// false</span></div><div class="line">/abc/i.test(<span class="string">"ABC"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>上面代码表示，加了i修饰符以后，不考虑大小写，所以模式abc匹配字符串ABC。</p>
+<p><strong>（3）m修饰符</strong></p>
+<p>有时，字符串的头部或尾部可能会有换行符。默认情况下，正则对象会将换行符当作算入字符串的开头或结尾。m修饰符表示多行模式（multiline），加上它以后，正则对象会忽略字符串头部或尾部的换行符，即&#94;和$会忽略换行符。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/world$/.test(<span class="string">"hello world\n"</span>) <span class="comment">// false</span></div><div class="line">/world$/m.test(<span class="string">"hello world\n"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>上面的代码中，字符串结尾处有一个换行符。如果不加m修饰符，匹配不成功，因为字符串的结尾不是world；加上以后，换行符被省略，匹配成功。</p>
+<p>修饰符可以多个一起使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/test/ig</span>;</div></pre></td></tr></table></figure>
+<h3 id="预定义模式"><a href="#预定义模式" class="headerlink" title="预定义模式"></a>预定义模式</h3><p>预定义模式指的是某些常见模式的简写方式。</p>
+<ul>
+<li>\d 匹配0-9之间的任一数字，相当于[0-9]。</li>
+<li>\D 匹配所有0-9以外的字符，相当于[^0-9]。</li>
+<li>\w 匹配任意的字母、数字和下划线，相当于[A-Za-z0-9_]。</li>
+<li>\W 除所有字母、数字和下划线以外的字符，相当于/[&#94;A-Za-z0-9_]/ 。</li>
+<li>\s 匹配空格（包括制表符、空格符、断行符等），相等于[\t\r\n\v\f]。</li>
+<li>\S 匹配非空格的字符，相当于[&#94;\t\r\n\v\f]。</li>
+<li>\b 匹配词的边界。</li>
+<li>\B 匹配非词边界，即在词的内部。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/\s\w*/.exec("hello world") // [" world"]</div><div class="line"></div><div class="line">/\bworld/.test("hello world") // true</div><div class="line">/\bworld/.test("hello-world") // true</div><div class="line">/\bworld/.test("helloworld") // false</div><div class="line"></div><div class="line">/\Bworld/.test("hello-world") // false</div><div class="line">/\Bworld/.test("helloworld") // true</div></pre></td></tr></table></figure>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><p>正则对象对一些不能打印的特殊字符，提供了表达形式。</p>
+<ul>
+<li>\cX 表示 Ctrl-X</li>
+<li>[\b] 匹配退格键(U+0008)，不要与\b混淆。</li>
+<li>\n 匹配换行键。</li>
+<li>\r 匹配回车键。</li>
+<li>\t 匹配制表符tab（U+0009）。</li>
+<li>\v 匹配垂直制表符（U+000B）。</li>
+<li>\f 匹配换页符（U+000C）。</li>
+<li>\0 匹配null字符（U+0000）。</li>
+<li>\xhh 匹配一个以两位十六进制数表示的字符。</li>
+<li>\uhhhh 匹配一个以四位十六进制数表示的unicode字符。</li>
+</ul>
+<h3 id="组匹配"><a href="#组匹配" class="headerlink" title="组匹配"></a>组匹配</h3><p><strong>（1）概述</strong></p>
+<p>正则表达式的括号表示分组匹配，括号中的模式可以用来捕获分组的内容。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abcabc"</span>.match(<span class="regexp">/(.)b(.)/</span>);</div><div class="line">m </div><div class="line"><span class="comment">// ["abc", "a", "c"]</span></div></pre></td></tr></table></figure>
+<p>上面代码中，正则表达式/(.)b(.)/一共使用两个括号，第一个括号捕获a，第二个括号捕获c。</p>
+<p>注意，使用组匹配时，不宜同时使用g修饰符，否则match方法不会捕获分组的内容。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abcabc"</span>.match(<span class="regexp">/(.)b(.)/g</span>);</div><div class="line">m</div><div class="line"><span class="comment">// ["abc", "abc"]</span></div></pre></td></tr></table></figure>
+<p>上面代码使用带g修饰符的正则表达式，结果match方法只捕获了匹配整个表达式的部分。</p>
+<p>在正则表达式内部，可以用\n引用括号匹配的内容，n是从1开始的自然数，表示对应顺序的括号。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/(.)b(.)\<span class="number">1</span>b\<span class="number">2</span>/.test(<span class="string">"abcabc"</span>)</div><div class="line"><span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>上面的代码中，\1表示前一个括号匹配的内容（即“a”），\2表示第二个括号匹配的内容（即“b”）。</p>
+<p>组匹配非常有用，下面是一个匹配网页标签的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> tagName = <span class="regexp">/&lt;([^&gt;]+)&gt;[^&lt;]*&lt;\/\1&gt;/</span>;</div><div class="line">tagName.exec(<span class="string">"&lt;b&gt;bold&lt;/b&gt;"</span>)[<span class="number">1</span>]</div><div class="line"><span class="comment">// 'b'</span></div></pre></td></tr></table></figure>
+<p><strong>（2）非捕获组</strong></p>
+<p>(?:x)称为非捕获组（Non-capturing group），表示不返回该组匹配的内容，即匹配的结果中不计入这个括号。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abc"</span>.match(<span class="regexp">/(?:.)b(.)/</span>);</div><div class="line"></div><div class="line">m[<span class="number">1</span>]</div><div class="line"><span class="comment">// "c"</span></div></pre></td></tr></table></figure>
+<p>上面代码中的模式，一共使用了两个括号。其中第一个括号是非捕获组，所以返回的第一个被捕获的组是第二个括号所匹配的“c”。</p>
+<p>下面是用来分解网址的正则表达式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> url = <span class="regexp">/(http|ftp):\/\/([^/\r\n]+)(\/[^\r\n]*)?/</span>;</div><div class="line"></div><div class="line">url.exec(<span class="string">"http://google.com/"</span>);</div><div class="line"><span class="comment">// ["http://google.com/", "http", "google.com", "/"]</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> url = <span class="regexp">/(?:http|ftp):\/\/([^/\r\n]+)(\/[^\r\n]*)?/</span>;</div><div class="line"></div><div class="line">url.exec(<span class="string">"http://google.com/"</span>);</div><div class="line"><span class="comment">// ["http://google.com/", "google.com", "/"]</span></div></pre></td></tr></table></figure>
+<p>上面的代码中，前一个正则表达式是正常匹配，第一个括号返回网络协议；后一个正则表达式是非捕获匹配，返回结果中不包括网络协议。</p>
+<p><strong>（3）先行断言</strong></p>
+<p>x(?=y)称为先行断言（Positive look-ahead），x只有在y前面才匹配，y不会被计入返回结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abc"</span>.match(<span class="regexp">/b(?=c)/</span>);</div><div class="line">m </div><div class="line"><span class="comment">// "b"</span></div></pre></td></tr></table></figure>
+<p>上面的代码使用了先行断言，b在c前面所以被匹配，但是括号对应的c不会被返回。</p>
+<p><strong>（4）后行断言</strong></p>
+<p>x(?!y)称为后行断言（Negative look-ahead），x只有不在y前面才匹配，y不会被计入返回结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abd"</span>.match(<span class="regexp">/b(?!c)/</span>);</div><div class="line">m</div><div class="line"><span class="comment">// ["b"]</span></div></pre></td></tr></table></figure>
+<p>上面的代码使用了后行断言，b不在c前面所以被匹配，而且括号对应的d不会被返回。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li>Axel Rauschmayer, <a href="http://www.2ality.com/2011/04/javascript-overview-of-regular.html" target="_blank" rel="external">JavaScript: an overview of the regular expression API</a></li>
+<li>Mozilla Developer Network, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank" rel="external">Regular Expressions</a></li>
+<li>Axel Rauschmayer, <a href="http://www.2ality.com/2013/08/regexp-g.html" target="_blank" rel="external">The flag /g of JavaScript’s regular expressions</a></li>
+<li>Sam Hughes, <a href="http://qntm.org/files/re/re.html" target="_blank" rel="external">Learn regular expressions in about 55 minutes</a></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2014/11/10/2014-11-10-regexp-inaction/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
 
 		</div>
 
@@ -751,13 +964,7 @@ img {
 		<div class="col-md-3">
 	<div id="sidebar">
 	
-			
-  <div class="form-group has-success has-feedback" id="site_search">
-    <form class="site-search-form">
-        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
-    </form>
-  </div>  
-
+			 
 
 		
 			
@@ -800,48 +1007,48 @@ img {
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
-		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
-		
-			<li><a href="/tags/module/">module<span>2</span></a></li>
-		
-			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
-		
-			<li><a href="/tags/css/">css<span>7</span></a></li>
-		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
-		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
-		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
-		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
 		
 			<li><a href="/tags/test/">test<span>2</span></a></li>
 		
-			<li><a href="/tags/library/">library<span>3</span></a></li>
-		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
-			<li><a href="/tags/Hexo/">Hexo<span>1</span></a></li>
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
 		
 			<li><a href="/tags/build/">build<span>2</span></a></li>
 		
-			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+			<li><a href="/tags/module/">module<span>2</span></a></li>
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
 		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+		
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/think/">think<span>1</span></a></li>
+		
+			<li><a href="/tags/default/">default<span>1</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+		
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
+		
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+		
+			<li><a href="/tags/http/">http<span>2</span></a></li>
 		
 		
-		   <li><a href="/tags">...<span>40</span></a></li>
+		   <li><a href="/tags">...<span>39</span></a></li>
 		 
 		</ul>
 	</div>
@@ -854,7 +1061,7 @@ img {
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/01/02/新的一年-2017/" ><i class="fa fa-file-o"></i>hexo-tag-demo-example</a>
+        <a href="/2017/01/03/新的一年-2017/"  title="介绍下使用 fenced-code." ><i class="fa fa-file-o"></i>Hello 2017</a>
       </li>
     
       <li>
@@ -905,17 +1112,6 @@ img {
 </p> </footer>
 </div> <!-- container-narrow -->
   
-  <script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
-  </script>
-
-
-
   
 <a id="gotop" href="#">   
   <span>▲</span> 
@@ -925,9 +1121,9 @@ img {
 <script src="/js/gallery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
-<script src="/js/search.js"></script> 
+<!-- <script src="/js/search.js"></script>  -->
 
-
+<!-- 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
@@ -935,9 +1131,9 @@ img {
   $('.fancybox').fancybox();
 })(jQuery);
 </script>
+ -->
 
-
-
+<!-- 
    <script type="text/javascript">      
      var search_path = "search.xml";
 	 if (search_path.length == 0) {
@@ -946,6 +1142,25 @@ img {
 	 var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
    </script>
+ -->
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+        opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+
+    <input type="text" class="cb-search-content" id="cb-search-content" style="position: fixed; top: 60px" placeholder="文章标题 日期 标签" />
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png"  id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- <div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png"  id="cb-search-btn"  title="双击ctrl试一下"/>
+</div> -->
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
 
 </body>
    </html>

@@ -42,36 +42,42 @@
 
  <body>  
   <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+  <div class="container">
+    <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	    <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
 	  <a class="navbar-brand" href="/">output stream</a>
       <div class="collapse navbar-collapse nav-menu">
-		<ul class="nav navbar-nav">
-		  
-		  <li>
-			<a href="/demos" title="Demos.">
-			  <i class="fa fa-flask"></i>Demos
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/archives" title="All the articles.">
-			  <i class="fa fa-archive"></i>Archives
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/about" title="About me.">
-			  <i class="fa fa-user"></i>About
-			</a>
-		  </li>
-		  
-		</ul>
+		    <ul class="nav navbar-nav">
+    		  
+    		  <li>
+    			 <a href="/demos" title="Demos.">
+            <i class="fa fa-flask"></i>Demos
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/archives" title="All the articles.">
+            <i class="fa fa-archive"></i>归档
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/about" title="About me.">
+            <i class="fa fa-user"></i>关于我
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/#" title="Search Posts.">
+            <i class="fa fa-search"></i>搜索
+    			 </a>
+    		  </li>
+    		  
+    		</ul>
       </div>
     </div> <!-- container -->
 </nav>
@@ -95,309 +101,6 @@
 		<div class="mypage">
 		
 		<!-- title and entry -->
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-04-22 </div>
-			<div class="article-title"><a href="/2014/04/22/2014-04-22-前端工程师需要掌握的linux基础命令/" >前端工程师需要掌握的linux基础命令</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>最近做服务器的热备，整理了些<code>李纳斯</code>工具的适用方法。</p>
-<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><ul>
-<li>sleep 500 暂停</li>
-<li>ctrl + z 暂停</li>
-<li>progress &amp; 后台运行</li>
-<li>jobs\bg\fg 查看后台任务</li>
-<li>file 查看文件类型</li>
-<li>cd - 上一个工作目录</li>
-<li>pwd 查看当前工作目录</li>
-<li>touch 创建文件或者更新文件创建时间</li>
-<li>rm -i 交互式删除</li>
-</ul>
-<h3 id="时间相关"><a href="#时间相关" class="headerlink" title="时间相关"></a>时间相关</h3><ul>
-<li>date 查看时间</li>
-<li>date +%Y–%m–%d 格式化显示</li>
-<li>date -s “20:20:16” 修改时间</li>
-<li>hwclock 查看硬件时钟</li>
-<li>cal 查看日历</li>
-<li>uptime 查看系统运行时间</li>
-</ul>
-<h3 id="输出查看"><a href="#输出查看" class="headerlink" title="输出查看"></a>输出查看</h3><ul>
-<li>echo  输出指定的字符到标准输出</li>
-<li>cat   输出指定文件到标准输出</li>
-<li>head -n 指定行数</li>
-<li>tail<ul>
-<li>-n 显示行数</li>
-<li>-f 实时更新</li>
-</ul>
-</li>
-<li>more 只能向下翻页</li>
-<li>less 上下翻页</li>
-</ul>
-<h3 id="查看硬件信息"><a href="#查看硬件信息" class="headerlink" title="查看硬件信息"></a>查看硬件信息</h3><ul>
-<li>lspci -v 查看pci设备</li>
-<li>lsusb -v 查看use设备</li>
-<li>lsmod 查看加载的驱动</li>
-</ul>
-<h3 id="关机重启"><a href="#关机重启" class="headerlink" title="关机重启"></a>关机重启</h3><ul>
-<li>shutdown -h 关机</li>
-<li>shutdown -h +10 10分钟后关机</li>
-<li>shutdown -r 重启</li>
-<li>shutdown -r now 现在重启</li>
-<li>shutdown -h 20:30 20点30分关机</li>
-<li>poweroff 关机</li>
-<li>reboot 重启</li>
-</ul>
-<h3 id="归档、压缩"><a href="#归档、压缩" class="headerlink" title="归档、压缩"></a>归档、压缩</h3><ul>
-<li>zip xxx.zip myfile</li>
-<li><p>unzip xxx.zip</p>
-</li>
-<li><p>tar -xvf out.tar </p>
-</li>
-<li>tar -cvf out.tar myfile</li>
-<li>tar -zcvf out.tar.gz myfile</li>
-</ul>
-<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><ul>
-<li>locate keyword 在数据库里查找</li>
-<li><p>updatedb 更新数据库</p>
-</li>
-<li><p>find . -name “<em>aa</em>“ 查找文件名带aa的文件</p>
-</li>
-<li>find / -name *.conf 查找conf目录</li>
-<li>find / -perm 777 查找文件模式为777的</li>
-<li>find / -type d  查找文件夹</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find . -name <span class="string">"*a*"</span> -exec cat &#123;&#125; \;</div></pre></td></tr></table></figure>
-<p>查找名字里带a的文件，并且cat出来，注意后面的{} \;是必须的，且中间必须有空格</p>
-<ul>
-<li>查找条件</li>
-<li>-name</li>
-<li>-perm</li>
-<li>-user</li>
-<li>-group</li>
-<li>-ctime</li>
-<li>-type</li>
-<li>-size</li>
-</ul>
-<h2 id="常见目录及功能"><a href="#常见目录及功能" class="headerlink" title="常见目录及功能"></a>常见目录及功能</h2><ul>
-<li>/opt 目录安装大型软件</li>
-<li>/proc 系统实时信息，虚拟目录</li>
-<li>/sbin 超级用户才能执行的命令</li>
-<li>/usr 一般的软件安装</li>
-<li>/var 经常变化的信息</li>
-</ul>
-<h2 id="BASH"><a href="#BASH" class="headerlink" title="BASH"></a>BASH</h2><ul>
-<li>!! 重复执行前一个命令</li>
-<li>!字符 重复前一个命令以『字符』开头的命令</li>
-<li>!num 按历史纪录重复执行</li>
-<li>!?ea 重复执行之前包含ea的命令</li>
-<li><p>!-n  重复执行n个命令之前的那个命令</p>
-</li>
-<li><p>ctrl + r 在历史命令中搜索</p>
-</li>
-<li><p>esc . 按个esc然后再按一下. 使用上一个命令的参数</p>
-</li>
-<li><p>? 匹配任意一个字符</p>
-</li>
-<li><ul>
-<li>任意一个字符</li>
-</ul>
-</li>
-<li>[0-9] 数字</li>
-<li>[abc] 任意字符</li>
-<li>[^abc] 除列表以外的字符</li>
-</ul>
-<h2 id="VIM"><a href="#VIM" class="headerlink" title="VIM"></a>VIM</h2><p><code>:sh</code> 到BASH环境中</p>
-<p><code>ctrl+d</code> 回到VIM</p>
-<h2 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h2><ul>
-<li>fdisk -l 列出硬盘信息</li>
-<li><p>fdisk /dev/sdb  进行交互式分区</p>
-<ul>
-<li>m 帮助</li>
-</ul>
-</li>
-<li><p>partprobe 更新一下分区表</p>
-</li>
-</ul>
-<p>分区机制有MBR和GPT两种<br>MBR 使用BIOS引导方式的PC设备，目前不支持2T以上，支持分区数量有限</p>
-<p>分区表只有256字节信息</p>
-<p>MBR最多只能创建4个主分区，主分区可以直接使用， 更多分区使用扩展分区和逻辑分区</p>
-<p>一个扩展分区会占用一个主分区位置，扩展分区不能直接用</p>
-<p>基于扩展分区创建逻辑分区</p>
-<p>最多支持63个IDE分区，15个SCSI分区</p>
-<p>GPT EFFI引导方式</p>
-<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><p>操作系统通过文件系统管理文件及数据，磁盘或者分区需要创建文件系统后才能被操作系统使用</p>
-<ul>
-<li>mke2fs 创建文件系统</li>
-<li><p>mke2fs -t ext4 /dev/sda3  创建文件系统类型</p>
-<ul>
-<li>-b 文件块大小,4k</li>
-<li>-c 建立的时候检查坏损块</li>
-<li>-L 建立卷标</li>
-<li>-j 建立文件系统日志</li>
-</ul>
-</li>
-<li><p>dumpe2fs 查看分区的文件系统信息</p>
-</li>
-<li><p>fsck 检查并且修复损坏的文件系统</p>
-</li>
-</ul>
-<p>带有日志的文件系统有较强的恢复性</p>
-<p>##　挂载分区</p>
-<ul>
-<li>mount /dev/sdb1 /mnt/ 挂载到指定的位置</li>
-<li>mount 查看已经挂载的分区</li>
-<li>lsof 查看哪些文件被使用，被谁打开</li>
-<li>fuser -m /dev/sdb1 被谁使用</li>
-</ul>
-<p>配置/etc/fstab 自动挂载</p>
-<h2 id="帮助信息"><a href="#帮助信息" class="headerlink" title="帮助信息"></a>帮助信息</h2><ul>
-<li>ls –help</li>
-<li>ls -h</li>
-<li>man ls</li>
-<li>man -k 关键字查找命令</li>
-<li>info 更详细</li>
-</ul>
-<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>root 用户 0</p>
-<p>系统用户 1-499</p>
-<p>普通用户 500以上</p>
-<h3 id="相关文件"><a href="#相关文件" class="headerlink" title="相关文件"></a>相关文件</h3><ul>
-<li>/etc/passwd 密码 </li>
-<li>/etc/shadow 用户密码</li>
-<li>/etc/group  保存组</li>
-</ul>
-<h3 id="当前用户命令"><a href="#当前用户命令" class="headerlink" title="当前用户命令"></a>当前用户命令</h3><ul>
-<li>whami 当前登录用户</li>
-<li>who 哪些用户</li>
-<li>w 有哪些用户在干什么</li>
-</ul>
-<h3 id="用户操作"><a href="#用户操作" class="headerlink" title="用户操作"></a>用户操作</h3><ul>
-<li>useradd 添加用户</li>
-<li>usermod 修改用户</li>
-<li>userdel 删除用户</li>
-</ul>
-<h3 id="用户组操作"><a href="#用户组操作" class="headerlink" title="用户组操作"></a>用户组操作</h3><ul>
-<li>groupadd 用户组添加 </li>
-<li>groupmod 用户组修改</li>
-<li>groupdel 用户组删除</li>
-</ul>
-<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>限制对特定文件的读、写、执行，每一个文件都有特定的权限<br>进程权限与运行它的用户权限相关</p>
-<p>目录必须有x权限，否则不能查看内容</p>
-<p>UGO: user group other</p>
-<p>每三个一组r w x</p>
-<p>rwxrwxrwx 三个一组</p>
-<h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><ul>
-<li>chown 修改拥有者 </li>
-<li>chgrp 修改所有组</li>
-<li><p>chmod 修改权限</p>
-</li>
-<li><p>u\g\o代表用户、组其它</p>
-</li>
-<li>a代表所有</li>
-<li>+-增加或者删除</li>
-<li>r\w\x 三种权限</li>
-</ul>
-<p>chmod g-x xxxxx 减去xxxxx的用户组执行权限</p>
-<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><p>32bit分为网络部分和主机部分<br>子网掩码用来确定网络部分的位数</p>
-<ul>
-<li>ifconfig -a 查看所有接口</li>
-<li><p>ifconfig eth0 查看特定接口</p>
-</li>
-<li><p>ifup eth0 启用接口</p>
-</li>
-<li><p>ifdown eth0 禁用接口</p>
-</li>
-<li><p>setup 配置网络信息</p>
-</li>
-</ul>
-<h2 id="网络排查相关命令"><a href="#网络排查相关命令" class="headerlink" title="网络排查相关命令"></a>网络排查相关命令</h2><ul>
-<li>host 查看域名对应ip</li>
-<li>dig  查看域名信息</li>
-<li>ip route 查看路由表</li>
-<li>traceroute 查看到达目标地址经过的路由</li>
-<li>mtr 网络质量测试</li>
-</ul>
-<h2 id="管道和重定向"><a href="#管道和重定向" class="headerlink" title="管道和重定向"></a>管道和重定向</h2><ul>
-<li>STDIN  0</li>
-<li>STDOUT 1</li>
-<li>STDERR 2</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt; STDOUT 重定向到文件【覆盖】</div><div class="line">&gt;&gt; STDOUT 重定向到文件，追加</div><div class="line">2&gt; STDERR 重定向到文件</div><div class="line">2&gt;&amp;1 STDERR与STDOUT结合</div><div class="line">&lt;  重定向到STDIN</div><div class="line">| 一个命令的STDOUT作为另一个命令的STDIN</div><div class="line">2&gt;/dev/null 把错误重定向到null设备</div></pre></td></tr></table></figure>
-<h2 id="安装删除包"><a href="#安装删除包" class="headerlink" title="安装删除包"></a>安装删除包</h2><ul>
-<li>rpm -i xxx.rpm 安装</li>
-<li>rpm -e xxxx 卸载</li>
-<li>rpm -U xxx 升级</li>
-<li>rpm -ivh <a href="http://xxxx" target="_blank" rel="external">http://xxxx</a>  网络安装</li>
-<li>rpm -qa 安装的列表</li>
-<li>rpm -ql xxx  安装的东西 </li>
-</ul>
-<ul>
-<li>yum search </li>
-<li>yum list (all | installed | updates)</li>
-<li>yum info packagename</li>
-</ul>
-<h2 id="文本处理工具"><a href="#文本处理工具" class="headerlink" title="文本处理工具"></a>文本处理工具</h2><ul>
-<li><p>grep </p>
-<ul>
-<li>-i 忽略大小写</li>
-<li>-n 显示行数</li>
-<li>-v 不带关键字的行</li>
-<li>-Ax 之后的x行</li>
-<li>-Cx 之前之后的x行</li>
-<li>-Bx 之前的x行</li>
-</ul>
-</li>
-<li><p>cut </p>
-<ul>
-<li>-d 切分符号</li>
-<li>-f 显示的列</li>
-<li>-c 基于字符进行切割</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cut <span class="_">-d</span>: <span class="_">-f</span>1 xxx 对xx文件进行</div><div class="line">cut -c2-6 xxx 基于2到6进行切割</div></pre></td></tr></table></figure>
-<ul>
-<li><p>wc </p>
-<ul>
-<li>-l 只计行数</li>
-<li>-w 只讲单词</li>
-<li>-m 字符</li>
-<li>-c 只计字节数</li>
-</ul>
-</li>
-<li><p>sort 排序</p>
-<ul>
-<li>-r 倒序</li>
-<li>-u 删除重复行</li>
-<li>-tc 使用c进行分割为列进行排序</li>
-</ul>
-</li>
-<li><p>uniq 删除重复相邻行</p>
-</li>
-<li><p>diff 比较文件 </p>
-<ul>
-<li>-b 忽略空格数量改变</li>
-<li>-u 生成patch文件</li>
-</ul>
-</li>
-<li><p>aspell 拼写检查</p>
-</li>
-</ul>
-<h2 id="实际例子"><a href="#实际例子" class="headerlink" title="实际例子"></a>实际例子</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">tr <span class="_">-d</span> <span class="string">'apple'</span> &lt; hosts 删除hosts文件里的apple</div><div class="line">tr <span class="string">'a-z'</span><span class="string">'A-Z'</span> &lt; hosts 大小写转换</div><div class="line"></div><div class="line">sed <span class="string">'s/str/newstr/g'</span> hosts 替换hosts中的str</div><div class="line">sed <span class="string">'1,50s/str/newstr/g'</span> hosts 只替换1到50行</div><div class="line">sed <span class="_">-e</span> <span class="string">'s/linux/unix/g'</span> <span class="_">-e</span> <span class="string">'s/xxx/xsdjlfsjdf'</span> hosts  连续处理两个替换</div><div class="line"></div><div class="line">sed <span class="_">-f</span> <span class="built_in">command</span> hosts 把替换的命令放到<span class="built_in">command</span>文件里</div><div class="line"></div><div class="line">ps aux | grep xxx  查看某个进程</div><div class="line"></div><div class="line">lsof -i:portnum 查看端口被哪个进程占用</div><div class="line"></div><div class="line"><span class="built_in">kill</span> -9 pid 杀掉某个进程</div><div class="line"></div><div class="line">killall program 杀掉指定名称的所有进程</div></pre></td></tr></table></figure>
-
-	
-	</div>
-  <a type="button" href="/2014/04/22/2014-04-22-前端工程师需要掌握的linux基础命令/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
 		
 			
 	
@@ -1114,6 +817,64 @@ scrollWidth scrollHeight scrollLeft scrollTop /
 </div>
 
 		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2013-12-24 </div>
+			<div class="article-title"><a href="/2013/12/24/2013-12-24-css核心概念/" >css核心概念</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="Visual-formatting-Context"><a href="#Visual-formatting-Context" class="headerlink" title="Visual formatting Context"></a>Visual formatting Context</h2><p>在常规流中的框（boxes，元素形成的矩形区域），都属于一个格式化的上下文中，可能是块(block)的，也可能是行内(inline)的，但不可能同时是行内的又是块的。块框(block box)参与块格式化上下文(formatting context)。行内框(inline box)参与行内格式化上下文。</p>
+<h3 id="包含块-containing-block-简介"><a href="#包含块-containing-block-简介" class="headerlink" title="包含块(containing block)简介"></a>包含块(containing block)简介</h3><p>在CSS2.1中，很多box的定位和尺寸的计算，都取决于一个矩形的边界，这个矩形，就被称作是包含块(containing block)。一般来说，(元素)生成的box会扮演它子孙元素包含块的角色；我们称之为：一个(元素的)box为它的子孙节点建造了包含块。包含块是一个相对的概念。<br>比如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">table</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>hi<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>div 和 table 都是包含块。div 是 table 的包含块，同时table又是 td 的包含块，不是绝对的。<br>“一个box的包含块”，指的是“该box所存在的那个包含块”，并不是它建造的包含块。比如，上述代码中，table 的包含块，说的是 div 建造的包含块，而不是table自身建造的包含块。table 建造的包含块，可以称作 td 的包含块。</p>
+<p>每个box关于它的包含块都有一个位置，但是它不会被包含块限制；它可以溢出(包含块)。包含块上可以通过设置 overflow 特性达到处理溢出的子孙元素的目的。</p>
+<h3 id="行内级别元素和行内框"><a href="#行内级别元素和行内框" class="headerlink" title="行内级别元素和行内框"></a>行内级别元素和行内框</h3><p>行内元素是源文档中那些不形成新的内容块的元素；内容在行内分布（如，段落内着重的文本，行内图形等等）。某些’display’特性的值形成行内元素：’inline’，’inline-table’，’run-in’。行内级别元素生成行内框。</p>
+<h3 id="匿名行内框"><a href="#匿名行内框" class="headerlink" title="匿名行内框"></a>匿名行内框</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">P</span>&gt;</span>Some <span class="tag">&lt;<span class="name">EM</span>&gt;</span>emphasized<span class="tag">&lt;/<span class="name">em</span>&gt;</span> text<span class="tag">&lt;/<span class="name">P</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>P元素生成一个块控制框，其内还有几个行内框。”emphasized”的框是一个行内元素（em）产生的行内框，而其它的框（”Some”和”text”）是块级元素（P）产生的行内框。后者就称为匿名行内控制框，因为它们没有与之相关的行内元素，所以，这些框被叫做匿名行内框。</p>
+<h3 id="块格式化上下文-Block-formatting-contexts"><a href="#块格式化上下文-Block-formatting-contexts" class="headerlink" title="块格式化上下文(Block formatting contexts)"></a>块格式化上下文(Block formatting contexts)</h3><p>把context翻译成”上下文”，是因为，它强调框存在的环境。所谓上下文，有活动范围，有效区域的意思。</p>
+<blockquote>
+<p>The hasLayout property conflicts with a number of normative CSS rules, although it is similar in concept to block formatting contexts.</p>
+</blockquote>
+<h2 id="haslayout"><a href="#haslayout" class="headerlink" title="haslayout"></a>haslayout</h2><p>haslayout 是Windows Internet Explorer渲染引擎的一个内部组成部分。在Internet Explorer中，一个元素要么自己对自身的内容进行计算大小和组织，要么依赖于父元素来计算尺寸和组织内容。为了调节这两个不同的概念，渲染引擎采用了 hasLayout 的属性，属性值可以为true或false。当一个元素的 hasLayout 属性值为true时，我们说这个元素有一个布局（layout）.</p>
+<p>hasLayout 属性与许多 css 的标准相冲突. 即使它在概念上与 BFC 很像.</p>
+<p>In IE7 mode, only elements that have layout can be containing blocks, which conflicts with CSS2.1 normative definition (see 10.1). Not all block elements have layout by default, yet block elements should be the containing blocks of all their children that have relative or static positioning.</p>
+<p>有 layout 的元素才能容纳块状元素, 这与 CSS2.1 标准相冲突. 不是所有的块状元素默认就拥有 layout, 而是块状元素应该作为所有具有相对或静态定位的子元素的包含块.</p>
+<p>对于并非所有的元素都默认有布局，微软给出的主要原因是“性能和简洁”。如果所有的元素都默认有布局，会对性能和内存使用上产生有害的影响。</p>
+<h3 id="如何激发-haslayout？"><a href="#如何激发-haslayout？" class="headerlink" title="如何激发 haslayout？"></a>如何激发 haslayout？</h3><p>大部分的 IE 显示错误，都可以通过激发元素的 haslayout 属性来修正。可以通过设置 css 尺寸属性(width/height)等来激发元素的 haslayout，使其“拥有布局”。如下所示，通过设置以下 css 属性即可。</p>
+<ul>
+<li>display: inline-block</li>
+<li>height: (任何值除了auto)</li>
+<li>float: (left 或 right)</li>
+<li>position: absolute</li>
+<li>width: (任何值除了auto)</li>
+<li>writing-mode: tb-rl</li>
+<li>zoom: (除 normal 外任意值)</li>
+</ul>
+<h2 id="Block-Formatting-Context-块格式化上下文"><a href="#Block-Formatting-Context-块格式化上下文" class="headerlink" title="Block Formatting Context (块格式化上下文)"></a>Block Formatting Context (块格式化上下文)</h2><p>块格式化上下文是 W3C css2.1 规范中的一个概念,它决定了元素如何<br>对其内容进行定位,以及与其他元素的关系和相互作用.</p>
+<p>在创建了 Block Formatting Context 的元素中, 其子元素会一个接一个的放置<br>.垂直方向上它们的起点是一个包含块的顶部. 两个相邻元素之间的<br>距离取决于’margin’ 特性. </p>
+<p>在 Block Formatting Context 中,相邻的块级元素的垂直边距会折叠.<br>(collapse).</p>
+<p>在 BFC 中,每一个元素左外边与包含块的左边相接触,即使存在浮动也是如此<br>. 除非这个元素也创建了一个新的 BFC.</p>
+<p>浮动元素,绝对定位元素, inline-block, table-cells, table-captions 以及<br><code>overflow</code> 值不是 <code>visible</code> 的元素, 会创建block formatting context.</p>
+<p>hasLayout 和 block formatting context 是对同一类事物的不同理解.</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>可视化结构的基础就是由大大小小的 box(盒) 组成的. 每个盒子有自己的盒模型 </p>
+<p>在现实布局上,又分为块框(block box)和行内框(inline box).</p>
+<p>盒子之间的关系就是涉及到了格式化上下文, Block Formatting Context 和 Inline Formatting Context&gt;</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://bbs.csdn.net/topics/340237864" target="_blank" rel="external">http://bbs.csdn.net/topics/340237864</a><br><a href="http://bbs.csdn.net/topics/340219127" target="_blank" rel="external">http://bbs.csdn.net/topics/340219127</a></p>
+
+	
+	</div>
+  <a type="button" href="/2013/12/24/2013-12-24-css核心概念/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
 
 		</div>
 
@@ -1147,13 +908,7 @@ scrollWidth scrollHeight scrollLeft scrollTop /
 		<div class="col-md-3">
 	<div id="sidebar">
 	
-			
-  <div class="form-group has-success has-feedback" id="site_search">
-    <form class="site-search-form">
-        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
-    </form>
-  </div>  
-
+			 
 
 		
 			
@@ -1196,48 +951,48 @@ scrollWidth scrollHeight scrollLeft scrollTop /
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
-		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
-		
-			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
-		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
-		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
-			<li><a href="/tags/document/">document<span>1</span></a></li>
-		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
 			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
-		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
 		
 			<li><a href="/tags/module/">module<span>2</span></a></li>
 		
-			<li><a href="/tags/css/">css<span>7</span></a></li>
-		
-			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
-		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
 		
 			<li><a href="/tags/library/">library<span>3</span></a></li>
 		
-			<li><a href="/tags/Tips/">Tips<span>1</span></a></li>
+			<li><a href="/tags/html/">html<span>2</span></a></li>
 		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
 		
 			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
 		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+			<li><a href="/tags/think/">think<span>1</span></a></li>
 		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+		
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
+		
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/default/">default<span>1</span></a></li>
+		
+			<li><a href="/tags/linux/">linux<span>6</span></a></li>
+		
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+		
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
 		
 		
-		   <li><a href="/tags">...<span>40</span></a></li>
+		   <li><a href="/tags">...<span>39</span></a></li>
 		 
 		</ul>
 	</div>
@@ -1250,7 +1005,7 @@ scrollWidth scrollHeight scrollLeft scrollTop /
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/01/02/新的一年-2017/" ><i class="fa fa-file-o"></i>hexo-tag-demo-example</a>
+        <a href="/2017/01/03/新的一年-2017/"  title="介绍下使用 fenced-code." ><i class="fa fa-file-o"></i>Hello 2017</a>
       </li>
     
       <li>
@@ -1301,17 +1056,6 @@ scrollWidth scrollHeight scrollLeft scrollTop /
 </p> </footer>
 </div> <!-- container-narrow -->
   
-  <script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'ZP2ZSuHgipSZfRyU8uTR','2.0.0');
-  </script>
-
-
-
   
 <a id="gotop" href="#">   
   <span>▲</span> 
@@ -1321,9 +1065,9 @@ scrollWidth scrollHeight scrollLeft scrollTop /
 <script src="/js/gallery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
-<script src="/js/search.js"></script> 
+<!-- <script src="/js/search.js"></script>  -->
 
-
+<!-- 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
@@ -1331,9 +1075,9 @@ scrollWidth scrollHeight scrollLeft scrollTop /
   $('.fancybox').fancybox();
 })(jQuery);
 </script>
+ -->
 
-
-
+<!-- 
    <script type="text/javascript">      
      var search_path = "search.xml";
 	 if (search_path.length == 0) {
@@ -1342,6 +1086,25 @@ scrollWidth scrollHeight scrollLeft scrollTop /
 	 var path = "/" + search_path;
      searchFunc(path, 'local-search-input', 'local-search-result');
    </script>
+ -->
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+        opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+
+    <input type="text" class="cb-search-content" id="cb-search-content" style="position: fixed; top: 60px" placeholder="文章标题 日期 标签" />
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png"  id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- <div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png"  id="cb-search-btn"  title="双击ctrl试一下"/>
+</div> -->
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
 
 </body>
    </html>
