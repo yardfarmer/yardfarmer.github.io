@@ -106,8 +106,8 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2015-08-13 </div>
-			<div class="article-title"><a href="/2015/08/13/hello-world/" >Hello World</a></div>						
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-07-17-Git修改历史提交的信息/" >Git修改历史提交的信息</a></div>						
 		</h3>
 	
 
@@ -116,19 +116,14 @@
   <div class="row">
 	
 	
-		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+		<p>##起因<br>公司内部使用的gitlab分支上可以使用未注册的用户提交，但是在master分支上必须是注册用户，就算是提交分支成功了，再往master合并的时候也会出错，所以只能修改历史提交纪录</p>
+<p>##解决<br>本质上就是使用<code>git filter-branch</code>，<a href="https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html" target="_blank" rel="external">这里</a>是这个命令的详细文档，另外github上提供了一个脚本</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line"> </div><div class="line">git filter-branch --env-filter '</div><div class="line"> </div><div class="line">an="$GIT_AUTHOR_NAME"</div><div class="line">am="$GIT_AUTHOR_EMAIL"</div><div class="line">cn="$GIT_COMMITTER_NAME"</div><div class="line">cm="$GIT_COMMITTER_EMAIL"</div><div class="line"> </div><div class="line">if [ "$GIT_COMMITTER_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    cn="Your New Committer Name"</div><div class="line">    cm="Your New Committer Email"</div><div class="line">fi</div><div class="line">if [ "$GIT_AUTHOR_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    an="Your New Author Name"</div><div class="line">    am="Your New Author Email"</div><div class="line">fi</div><div class="line"> </div><div class="line">export GIT_AUTHOR_NAME="$an"</div><div class="line">export GIT_AUTHOR_EMAIL="$am"</div><div class="line">export GIT_COMMITTER_NAME="$cn"</div><div class="line">export GIT_COMMITTER_EMAIL="$cm"</div><div class="line">'</div></pre></td></tr></table></figure>
+<p><a href="https://help.github.com/articles/changing-author-info" target="_blank" rel="external">地址</a>，注意如果你把cm或者am换成中文的，一定要保证脚本文件是utf-8编码的，否则注释中容易出现乱码</p>
 
 	
 	</div>
-  <a type="button" href="/2015/08/13/hello-world/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2013-07-17-Git修改历史提交的信息/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -136,8 +131,8 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2015-07-26 </div>
-			<div class="article-title"><a href="/2015/07/26/消除函数的术语歧义/" ></a></div>						
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/node_harmony/" ></a></div>						
 		</h3>
 	
 
@@ -146,11 +141,24 @@
   <div class="row">
 	
 	
-		<p>#消除函数的术语歧义<br><figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line"></div><div class="line"><span class="javascript">    <span class="comment">/**</span></span></div><div class="line">     * 命名函数表达式 (named function expression)</div><div class="line">     *</div><div class="line">     * 真正的函数名是: add</div><div class="line">     * 函数 add 赋给 变量 add2</div><div class="line">     *</div><div class="line">     * 用在 debug 调试, 或者递归调用时获取函数名</div><div class="line">     *</div><div class="line">     * @param a</div><div class="line">     * @param b</div><div class="line">     * @returns &#123;*&#125;</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> add2 = <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'function name:'</span>, <span class="built_in">arguments</span>.callee.name);</div><div class="line">        <span class="keyword">return</span> a + b;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(add2(<span class="number">1</span>,<span class="number">3</span>), add2.name);</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 未命名函数表达式, 简称函数表达式,</div><div class="line">     * 也称为 匿名函数 (anonymous function)</div><div class="line">     * @returns &#123;&#123;&#125;&#125;</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> unNameFunc = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'function name:'</span>, <span class="built_in">arguments</span>.callee.name);</div><div class="line">        <span class="keyword">return</span> &#123;&#125;;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(unNameFunc(), unNameFunc.name); <span class="comment">// ""</span></div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 函数声明, 与匿名函数表达式很相似</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 扩展</div><div class="line">     */</div><div class="line"></div><div class="line">    <span class="comment">// 函数表达式, 通过运算符 `!` 连接后面的函数声明,</span></div><div class="line">    <span class="comment">// 转换成了函数表达式, 而函数表达式是可以立即执行的</span></div><div class="line">    !<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello bar!'</span>);</div><div class="line">    &#125;();</div><div class="line"></div><div class="line">    <span class="comment">// 函数表达式, 通过运算符 `+` 连接后面的函数声明,</span></div><div class="line">    <span class="comment">// 转换成了函数表达式, 而函数表达式是可以立即执行的</span></div><div class="line">    +<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello bar+'</span>);</div><div class="line">    &#125;();</div><div class="line"></div><div class="line">    <span class="comment">// 函数表达式, 通过运算符 `()` 连接后面的函数声明,</span></div><div class="line">    <span class="comment">// 转换成了函数表达式, 而函数表达式是可以立即执行的</span></div><div class="line">    (<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello bar()'</span>);</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line"><span class="comment">//    函数声明,不是语句, 不能执行</span></div><div class="line"><span class="comment">//    function bar() &#123;</span></div><div class="line"><span class="comment">//        console.log('hello bar');</span></div><div class="line"><span class="comment">//    &#125;();</span></div></pre></td></tr></table></figure></p>
+		<p>#node harmony<br>They have done away with the –harmony flag - which in Node 0.11+ you had to include if you wanted to use any ES6 features at all. In io.js, you get them right out of the box! The current list of ES6 features enabled by default are:</p>
+<p>iojs 已经可以默认支持这些了。</p>
+<ul>
+<li>let</li>
+<li>const</li>
+<li>Map</li>
+<li>WeakMap/WeakSet</li>
+<li>Generators</li>
+<li>Binary and Octal literals, 二进制和八进制的字面量</li>
+<li>Promises</li>
+<li>Pro string method</li>
+<li>Symbols</li>
+<li>Template strings</li>
+</ul>
 
 	
 	</div>
-  <a type="button" href="/2015/07/26/消除函数的术语歧义/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/node_harmony/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -158,32 +166,8 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2015-07-19 </div>
-			<div class="article-title"><a href="/2015/07/19/javascript/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<blockquote>
-<p>任何可以用 javascript 写成的应用最终都会用 javascript 写。</p>
-</blockquote>
-
-	
-	</div>
-  <a type="button" href="/2015/07/19/javascript/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2013-08-10-重布局和重绘/" >前端优化的小范围记录</a></div>						
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-08-10-重布局和重绘/" >前端优化的小范围记录</a></div>						
 		</h3>
 	
 
@@ -224,7 +208,7 @@
 
 	
 	</div>
-  <a type="button" href="/2015/06/28/2013-08-10-重布局和重绘/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2013-08-10-重布局和重绘/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -232,8 +216,269 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2013-08-20-javascript的几种使用多行字符串的方式/" >javascript的几种使用多行字符串的方式</a></div>						
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-08-21-karma下测试异步载入的js文件/" >karma下测试异步载入的js文件</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>默认情况下<a href="http://karma-runner.github.io/" target="_blank" rel="external">karma</a>是把所有的需要测试文件载入到测试页面，如果我们要对一个jsonp方法或者一个模块载入方法进行测试，它会给出一个找不到文件的提示，原因是karma的本地服务器会把需要测试的文件放在<code>/base/*</code>下，这个搞起来也很方便, 两步就搞定</p>
+<ul>
+<li>设置karma的conf文件里的<code>files</code></li>
+<li>对需要测试的方法进行mock，如果是本地请求路径，加上<code>/base/</code></li>
+</ul>
+<h2 id="需要测试的方法"><a href="#需要测试的方法" class="headerlink" title="需要测试的方法"></a>需要测试的方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span> (<span class="params">url, success, charset</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> node = doc.createElement(<span class="string">'script'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (charset) &#123;</div><div class="line">        node.charset = charset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line">    node.onreadystatechange = node.onload = node.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(node.readyState)) &#123;</div><div class="line">            node.onload = node.onerror = node.onreadystatechange = <span class="literal">null</span>;</div><div class="line"></div><div class="line">            success.call(node);</div><div class="line">            node = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    node.async = <span class="literal">true</span>;</div><div class="line">    node.src = url;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> head = documentElement.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>] || doc.documentElement;</div><div class="line">    head.insertBefore(node, head.firstChild);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="karma-conf-js"><a href="#karma-conf-js" class="headerlink" title="karma.conf.js"></a>karma.conf.js</h2><p>测试的代码写在tests/mainSpec.js里，我们要载入tests/loader/1.js，修改karma的配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">... other config code ...</div><div class="line"></div><div class="line">        files: [</div><div class="line">                <span class="comment">//保证loader下的文件可以访问,但是又不会直接引用到页面上</span></div><div class="line">                &#123; <span class="attr">pattern</span>: <span class="string">'tests/loader/*.js'</span>, <span class="attr">included</span>: <span class="literal">false</span> &#125;, </div><div class="line">                <span class="string">'tests/lib/jquery-1.7.2.min.js'</span>,</div><div class="line">                <span class="string">'tests/lib/expect.js'</span>,</div><div class="line">                <span class="string">'tests/configData.js'</span>,</div><div class="line">                <span class="string">'src/loader.js'</span>,</div><div class="line">                <span class="string">'tests/**/*Spec.js'</span></div><div class="line">        ],</div><div class="line">... other config code ...</div></pre></td></tr></table></figure>
+<h2 id="mainSpec-js里的改造"><a href="#mainSpec-js里的改造" class="headerlink" title="mainSpec.js里的改造"></a>mainSpec.js里的改造</h2><p>需要在karma的环境中，改造一下loadScript方法，其它环境中可以忽略</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.__karma__) &#123; <span class="comment">//只处理在karma的环境中</span></div><div class="line">    <span class="keyword">var</span> __loadScript = loadScript;</div><div class="line">    loadScript= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">        <span class="comment">//只处理本地路径 </span></div><div class="line">        <span class="keyword">if</span> (args[<span class="number">0</span>].indexOf(<span class="string">'http://'</span>) == <span class="number">-1</span>) &#123;</div><div class="line">            args[<span class="number">0</span>] = <span class="string">'/base/tests/'</span> + args[<span class="number">0</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        __loadScript.apply(<span class="literal">null</span>, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后写一句最近非常大的一个感悟：没有测试代码的代码都是狗屎代码！</p>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-08-21-karma下测试异步载入的js文件/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-01-09.jquery工具方法/" >jQuery工具方法</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>jQuery函数库提供了一个jQuery对象（简写为$），这个对象本身是一个构造函数，可以用来生成jQuery对象的实例。有了实例以后，就可以调用许多针对实例的方法，它们定义jQuery.prototype对象上面（简写为$.fn）。</p>
+<p>除了实例对象的方法以外，jQuery对象本身还提供一些方法（即直接定义jQuery对象上面），不需要生成实例就能使用。由于这些方法类似“通用工具”的性质，所以我们把它们称为“工具方法”（utilities）。</p>
+<h2 id="常用工具方法"><a href="#常用工具方法" class="headerlink" title="常用工具方法"></a>常用工具方法</h2><p><strong>（1）$.trim</strong></p>
+<p>$.trim方法用于移除字符串头部和尾部多余的空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.trim(<span class="string">'   Hello   '</span>) <span class="comment">// Hello</span></div></pre></td></tr></table></figure>
+<p><strong>（2）$.contains</strong></p>
+<p>$.contains方法返回一个布尔值，表示某个DOM元素（第二个参数）是否为另一个DOM元素（第一个参数）的下级元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.contains(<span class="built_in">document</span>.documentElement, <span class="built_in">document</span>.body); </div><div class="line"><span class="comment">// true</span></div><div class="line"></div><div class="line">$.contains(<span class="built_in">document</span>.body, <span class="built_in">document</span>.documentElement); </div><div class="line"><span class="comment">// false</span></div><div class="line"></div><div class="line"></div><div class="line">$.contains 源码解析：</div><div class="line"></div><div class="line"><span class="built_in">document</span>.ownerDocument; <span class="comment">// =&gt; null;</span></div><div class="line"></div><div class="line">contains = hasCompare || rnative.test( docElem.contains ) ?</div><div class="line">		<span class="function"><span class="keyword">function</span>(<span class="params"> a, b </span>) </span>&#123;</div><div class="line">			<span class="keyword">var</span> adown = a.nodeType === <span class="number">9</span> ? a.documentElement : a,</div><div class="line">				bup = b &amp;&amp; b.parentNode;</div><div class="line">			<span class="keyword">return</span> a === bup || !!( bup &amp;&amp; bup.nodeType === <span class="number">1</span> &amp;&amp; (</div><div class="line">				adown.contains ?</div><div class="line">					adown.contains( bup ) :</div><div class="line">					a.compareDocumentPosition &amp;&amp; a.compareDocumentPosition( bup ) &amp; <span class="number">16</span></div><div class="line">			));</div><div class="line">		&#125; :</div><div class="line">		<span class="function"><span class="keyword">function</span>(<span class="params"> a, b </span>) </span>&#123;</div><div class="line">			<span class="keyword">if</span> ( b ) &#123;</div><div class="line">				<span class="keyword">while</span> ( (b = b.parentNode) ) &#123;</div><div class="line">					<span class="keyword">if</span> ( b === a ) &#123;</div><div class="line">						<span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">		&#125;;</div></pre></td></tr></table></figure>
+<p><strong>（3）$.each，$.map</strong></p>
+<p>$.each方法用于遍历数组和对象，然后返回原始对象。它接受两个参数，分别是数据集合和回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.each([ <span class="number">52</span>, <span class="number">97</span> ], <span class="function"><span class="keyword">function</span>(<span class="params"> index, value </span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log( index + <span class="string">": "</span> + value );</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 0: 52 </span></div><div class="line"><span class="comment">// 1: 97 </span></div><div class="line"></div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  <span class="attr">p1</span>: <span class="string">"hello"</span>,</div><div class="line">  <span class="attr">p2</span>: <span class="string">"world"</span></div><div class="line">&#125;;</div><div class="line">$.each( obj, <span class="function"><span class="keyword">function</span>(<span class="params"> key, value </span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log( key + <span class="string">": "</span> + value );</div><div class="line">&#125;);</div><div class="line"><span class="comment">// p1: hello</span></div><div class="line"><span class="comment">// p2: world</span></div></pre></td></tr></table></figure>
+<p>需要注意的，jQuery对象实例也有一个each方法（$.fn.each），两者的作用差不多。</p>
+<p>$.map方法也是用来遍历数组和对象，但是会返回一个新对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> a = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>];</div><div class="line">a = $.map(a, <span class="function"><span class="keyword">function</span> (<span class="params">n, i</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> (n.toUpperCase() + i);</div><div class="line">&#125;);</div><div class="line"><span class="comment">// ["A0", "B1", "C2", "D3", "E4"]</span></div></pre></td></tr></table></figure>
+<p><strong>（4）$.inArray</strong></p>
+<p>$.inArray方法返回一个值在数组中的位置（从0开始）。如果该值不在数组中，则返回-1。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];</div><div class="line">$.inArray(<span class="number">4</span>,a) <span class="comment">// 3</span></div></pre></td></tr></table></figure>
+<p><strong>（5）$.extend</strong></p>
+<p>$.extend方法用于将多个对象合并进第一个对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> o1 = &#123;<span class="attr">p1</span>:<span class="string">'a'</span>,<span class="attr">p2</span>:<span class="string">'b'</span>&#125;;</div><div class="line"><span class="keyword">var</span> o2 = &#123;<span class="attr">p1</span>:<span class="string">'c'</span>&#125;;</div><div class="line"></div><div class="line">$.extend(o1,o2);</div><div class="line">o1.p1 <span class="comment">// "c"</span></div></pre></td></tr></table></figure>
+<p>$.extend的另一种用法是生成一个新对象，用来继承原有对象。这时，它的第一个参数应该是一个空对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> o1 = &#123;<span class="attr">p1</span>:<span class="string">'a'</span>,<span class="attr">p2</span>:<span class="string">'b'</span>&#125;;</div><div class="line"><span class="keyword">var</span> o2 = &#123;<span class="attr">p1</span>:<span class="string">'c'</span>&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> o = $.extend(&#123;&#125;,o1,o2);</div><div class="line">o</div><div class="line"><span class="comment">// Object &#123;p1: "c", p2: "b"&#125;</span></div></pre></td></tr></table></figure>
+<p>默认情况下，extend方法生成的对象是“浅拷贝”，也就是说，如果某个属性是对象或数组，那么只会生成指向这个对象或数组的指针，而不会复制值。如果想要“深拷贝”，可以在extend方法的第一个参数传入布尔值true。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> o1 = &#123;<span class="attr">p1</span>:[<span class="string">'a'</span>,<span class="string">'b'</span>]&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> o2 = $.extend(&#123;&#125;,o1);</div><div class="line"><span class="keyword">var</span> o3 = $.extend(<span class="literal">true</span>,&#123;&#125;,o1);</div><div class="line"></div><div class="line">o1.p1[<span class="number">0</span>]=<span class="string">'c'</span>;</div><div class="line"></div><div class="line">o2.p1 <span class="comment">// ["c", "b"]</span></div><div class="line">o3.p1 <span class="comment">// ["a", "b"]</span></div></pre></td></tr></table></figure>
+<p>上面代码中，o2是浅拷贝，o3是深拷贝。结果，改变原始数组的属性，o2会跟着一起变，而o3不会。</p>
+<p><strong>（6）$.proxy</strong></p>
+<p>$.proxy方法类似于ECMAScript 5的bind方法，可以绑定函数的上下文（也就是this对象）和参数，返回一个新函数。</p>
+<p>jQuery.proxy()的主要用处是为回调函数绑定上下文对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">	<span class="attr">type</span>: <span class="string">"object"</span>,</div><div class="line">	<span class="attr">test</span>: <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="keyword">this</span>.type);</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">$(<span class="string">"#button"</span>)</div><div class="line">  .on(<span class="string">"click"</span>, o.test) <span class="comment">// 无输出</span></div><div class="line">  .on(<span class="string">"click"</span>, $.proxy(o.test, o)) <span class="comment">// object</span></div></pre></td></tr></table></figure>
+<p>上面的代码中，第一个回调函数没有绑定上下文，所以结果为空，没有任何输出；第二个回调函数将上下文绑定为对象o，结果就为object。</p>
+<p>这个例子的另一种等价的写法是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">"#button"</span>).on( <span class="string">"click"</span>, $.proxy(o, test))</div></pre></td></tr></table></figure>
+<p>上面代码的$.proxy(o, test)的意思是，将o的方法test与o绑定。</p>
+<p>这个例子表明，proxy方法的写法主要有两种。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">jQuery.proxy(<span class="function"><span class="keyword">function</span>, <span class="title">context</span>)</span></div><div class="line"></div><div class="line">// <span class="title">or</span></div><div class="line"></div><div class="line"><span class="title">jQuery</span>.<span class="title">proxy</span>(<span class="params">context, name</span>)</div></pre></td></tr></table></figure>
+<p>第一种写法是为函数（function）指定上下文对象（context），第二种写法是指定上下文对象（context）和它的某个方法名（name）。</p>
+<p>再看一个例子。正常情况下，下面代码中的this对象指向发生click事件的DOM对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">'#myElement'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    $(<span class="keyword">this</span>).addClass(<span class="string">'aNewClass'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>如果我们想让回调函数延迟运行，使用setTimeout方法，代码就会出错，因为setTimeout使得回调函数在全局环境运行，this将指向全局对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">'#myElement'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        $(<span class="keyword">this</span>).addClass(<span class="string">'aNewClass'</span>);</div><div class="line">    &#125;, <span class="number">1000</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码中的this，将指向全局对象window，导致出错。</p>
+<p>这时，就可以用proxy方法，将this对象绑定到myElement对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">'#myElement'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    setTimeout($.proxy(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        $(<span class="keyword">this</span>).addClass(<span class="string">'aNewClass'</span>); </div><div class="line">    &#125;, <span class="keyword">this</span>), <span class="number">1000</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><strong>（7）$.data，$.removeData</strong></p>
+<p>$.data方法可以用来在DOM节点上储存数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 存入数据</span></div><div class="line">$.data(<span class="built_in">document</span>.body, <span class="string">"foo"</span>, <span class="number">52</span> );</div><div class="line"></div><div class="line"><span class="comment">// 读取数据</span></div><div class="line">$.data(<span class="built_in">document</span>.body, <span class="string">"foo"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 读取所有数据</span></div><div class="line">$.data(<span class="built_in">document</span>.body);</div></pre></td></tr></table></figure>
+<p>上面代码在网页元素body上储存了一个键值对，键名为“foo”，键值为52。</p>
+<p>$.removeData方法用于移除$.data方法所储存的数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.data(div, <span class="string">"test1"</span>, <span class="string">"VALUE-1"</span>);</div><div class="line">$.removeData(div, <span class="string">"test1"</span>);</div></pre></td></tr></table></figure>
+<p><strong>（8）$.parseHTML，$.parseJSON，$.parseXML</strong></p>
+<p>$.parseHTML方法用于将字符串解析为DOM对象。</p>
+<p>$.parseJSON方法用于将JSON字符串解析为JavaScript对象，作用与原生的JSON.parse()类似。但是，jQuery没有提供类似JSON.stringify()的方法，即不提供将JavaScript对象转为JSON对象的方法。</p>
+<p>$.parseXML方法用于将字符串解析为XML对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> html = $.parseHTML(<span class="string">"hello, &lt;b&gt;my name is&lt;/b&gt; jQuery."</span>);</div><div class="line"><span class="keyword">var</span> obj = $.parseJSON(<span class="string">'&#123;"name": "John"&#125;'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> xml = <span class="string">"&lt;rss version='2.0'&gt;&lt;channel&gt;&lt;title&gt;RSS Title&lt;/title&gt;&lt;/channel&gt;&lt;/rss&gt;"</span>;</div><div class="line"><span class="keyword">var</span> xmlDoc = $.parseXML(xml);</div></pre></td></tr></table></figure>
+<p><strong>（9）$.makeArray</strong></p>
+<p>$.makeArray方法将一个类似数组的对象，转化为真正的数组。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> a = $.makeArray(<span class="built_in">document</span>.getElementsByTagName(<span class="string">"div"</span>));</div></pre></td></tr></table></figure>
+<p><strong>（10）$.merge</strong></p>
+<p>$.merge方法用于将一个数组（第二个参数）合并到另一个数组（第一个参数）之中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> a1 = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>];</div><div class="line"><span class="keyword">var</span> a2 = [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];</div><div class="line">$.merge(a1, a2);</div><div class="line"></div><div class="line">a1</div><div class="line"><span class="comment">// [0, 1, 2, 2, 3, 4]</span></div></pre></td></tr></table></figure>
+<p><strong>（11）$.now</strong></p>
+<p>$.now方法返回当前时间距离1970年1月1日00:00:00 UTC对应的毫秒数，等同于(new Date).getTime()。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.now()</div><div class="line"><span class="comment">// 1388212221489</span></div></pre></td></tr></table></figure>
+<h2 id="判断数据类型的方法"><a href="#判断数据类型的方法" class="headerlink" title="判断数据类型的方法"></a>判断数据类型的方法</h2><p>jQuery提供一系列工具方法，用来判断数据类型，以弥补JavaScript原生的typeof运算符的不足。以下方法对参数进行判断，返回一个布尔值。</p>
+<ul>
+<li>jQuery.isArray()：是否为数组。</li>
+<li>jQuery.isEmptyObject()：是否为空对象（不含可枚举的属性）。</li>
+<li>jQuery.isFunction()：是否为函数。</li>
+<li>jQuery.isNumeric()：是否为数值（整数或浮点数）。</li>
+<li>jQuery.isPlainObject()：是否为使用“{}”或“new Object”生成的对象，而不是浏览器原生提供的对象。</li>
+<li>jQuery.isWindow()：是否为window对象。</li>
+<li>jQuery.isXMLDoc()：判断一个DOM节点是否处于XML文档之中。</li>
+</ul>
+<p>下面是一些例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.isEmptyObject(&#123;&#125;) <span class="comment">// true</span></div><div class="line">$.isPlainObject(<span class="built_in">document</span>.location) <span class="comment">// false</span></div><div class="line">$.isWindow(<span class="built_in">window</span>) <span class="comment">// true</span></div><div class="line">$.isXMLDoc(<span class="built_in">document</span>.body) <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>除了上面这些方法以外，还有一个$.type方法，可以返回一个变量的数据类型。它的实质是用Object.prototype.toString方法读取对象内部的[[Class]]属性（参见《标准库》的Object对象一节）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.type(<span class="regexp">/test/</span>) <span class="comment">// "regexp"</span></div></pre></td></tr></table></figure>
+<h2 id="Ajax操作"><a href="#Ajax操作" class="headerlink" title="Ajax操作"></a>Ajax操作</h2><h3 id="ajax"><a href="#ajax" class="headerlink" title="$.ajax"></a>$.ajax</h3><p>jQuery对象上面还定义了Ajax方法（$.ajax()），用来处理Ajax操作。调用该方法后，浏览器就会向服务器发出一个HTTP请求。</p>
+<p>$.ajax()的用法主要有两种。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax(url[, options])</div><div class="line">$.ajax([options])</div></pre></td></tr></table></figure>
+<p>上面代码中的url，指的是服务器网址，options则是一个对象参数，设置Ajax请求的具体参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax(&#123;</div><div class="line">  <span class="attr">async</span>: <span class="literal">true</span>,</div><div class="line">  <span class="attr">url</span>: <span class="string">'/url/to/json'</span>,</div><div class="line">  <span class="attr">type</span>: <span class="string">'GET'</span>,</div><div class="line">  <span class="attr">data</span> : &#123; <span class="attr">id</span> : <span class="number">123</span> &#125;,</div><div class="line">  <span class="attr">dataType</span>: <span class="string">'json'</span>,</div><div class="line">  <span class="attr">timeout</span>: <span class="number">30000</span>,</div><div class="line">  <span class="attr">success</span>: successCallback,</div><div class="line">  <span class="attr">error</span>: errorCallback,</div><div class="line">  <span class="attr">complete</span>: completeCallback,</div><div class="line">  <span class="attr">statusCode</span>: &#123;</div><div class="line">        <span class="number">404</span>: handler404,</div><div class="line">        <span class="number">500</span>: handler500</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">successCallback</span>(<span class="params">json</span>) </span>&#123;</div><div class="line">	$(<span class="string">'&lt;h1/&gt;'</span>).text(json.title).appendTo(<span class="string">'body'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">errorCallback</span>(<span class="params">xhr, status</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">'出问题了！'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">completeCallback</span>(<span class="params">xhr, status</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">'Ajax请求已结束。'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码的对象参数有多个属性，含义如下：</p>
+<ul>
+<li>accepts：将本机所能处理的数据类型，告诉服务器。</li>
+<li>async：该项默认为true，如果设为false，则表示发出的是同步请求。</li>
+<li>beforeSend：指定发出请求前，所要调用的函数，通常用来对发出的数据进行修改。</li>
+<li>cache：该项默认为true，如果设为false，则浏览器不缓存返回服务器返回的数据。注意，浏览器本身就不会缓存POST请求返回的数据，所以即使设为false，也只对HEAD和GET请求有效。</li>
+<li>complete：指定当HTTP请求结束时（请求成功或请求失败的回调函数，此时已经运行完毕）的回调函数。不管请求成功或失败，该回调函数都会执行。它的参数为发出请求的原始对象以及返回的状态信息。</li>
+<li>contentType：发送到服务器的数据类型。</li>
+<li>context：指定一个对象，作为所有Ajax相关的回调函数的this对象。</li>
+<li>crossDomain：该属性设为true，将强制向相同域名发送一个跨域请求（比如JSONP）。</li>
+<li>data：向服务器发送的数据，如果使用GET方法，此项将转为查询字符串，附在网址的最后。</li>
+<li>dataType：向服务器请求的数据类型，可以设为text、html、script、json、jsonp和xml。</li>
+<li>error：请求失败时的回调函数，函数参数为发出请求的原始对象以及返回的状态信息。</li>
+<li>headers：指定HTTP请求的头信息。</li>
+<li>ifModified：如果该属性设为true，则只有当服务器端的内容与上次请求不一样时，才会发出本次请求。</li>
+<li>jsonp：指定JSONP请求“callback=?”中的callback的名称。</li>
+<li>jsonpCallback: 指定JSONP请求中回调函数的名称。</li>
+<li>mimeType：指定HTTP请求的mime type。</li>
+<li>password：指定HTTP认证所需要的密码。</li>
+<li>statusCode：值为一个对象，为服务器返回的状态码，指定特别的回调函数。</li>
+<li>success：请求成功时的回调函数，函数参数为服务器传回的数据、状态信息、发出请求的原始对象。</li>
+<li>timeout: 等待的最长毫秒数。如果过了这个时间，请求还没有返回，则自动将请求状态改为失败。</li>
+<li>type：向服务器发送信息所使用的HTTP动词，默认为GET，其他动词有POST、PUT、DELETE。</li>
+<li>url：服务器端网址。这是唯一必需的一个属性，其他属性都可以省略。</li>
+<li>username：指定HTTP认证的用户名。</li>
+<li>xhr：指定生成XMLHttpRequest对象时的回调函数。</li>
+</ul>
+<p>这些参数之中，url可以独立出来，作为ajax方法的第一个参数。也就是说，上面代码还可以写成下面这样。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax(<span class="string">'/url/to/json'</span>,&#123;</div><div class="line">  <span class="attr">type</span>: <span class="string">'GET'</span>,</div><div class="line">  <span class="attr">dataType</span>: <span class="string">'json'</span>,</div><div class="line">  <span class="attr">success</span>: successCallback,</div><div class="line">  <span class="attr">error</span>: errorCallback</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>作为向服务器发送的数据，data属性也可以写成一个对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">    url: <span class="string">'/remote/url'</span>,</div><div class="line">    <span class="attr">data</span>: &#123;</div><div class="line">        <span class="attr">param1</span>: <span class="string">'value1'</span>,</div><div class="line">        <span class="attr">param2</span>: <span class="string">'value2'</span></div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 相当于</span></div><div class="line">$.ajax(&#123;</div><div class="line">    <span class="attr">url</span>: <span class="string">'/remote/url?param1=value1&amp;param2=value2...'</span></div><div class="line">&#125;&#125;);</div></pre></td></tr></table></figure>
+<h3 id="简便写法"><a href="#简便写法" class="headerlink" title="简便写法"></a>简便写法</h3><p>ajax方法还有一些简便写法。</p>
+<ul>
+<li>$.get()：发出GET请求。</li>
+<li>$.getScript()：读取一个JavaScript脚本文件并执行。</li>
+<li>$.getJSON()：发出GET请求，读取一个JSON文件。</li>
+<li>$.post()：发出POST请求。</li>
+<li>$.fn.load()：读取一个html文件，并将其放入当前元素之中。</li>
+</ul>
+<p>一般来说，这些简便方法依次接受三个参数：url、数据、成功时的回调函数。</p>
+<p><strong>（1）$.get()，$.post()</strong></p>
+<p>这两个方法分别对应HTTP的GET方法和POST方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.get(<span class="string">'/data/people.html'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">html</span>)</span>&#123;</div><div class="line">  $(<span class="string">'#target'</span>).html(html);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">$.post(<span class="string">'/data/save'</span>, &#123;<span class="attr">name</span>: <span class="string">'Rebecca'</span>&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">resp</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="built_in">JSON</span>.parse(resp));</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>get方法和post方法的参数相同，第一个参数是服务器网址，该参数是必需的，其他参数都是可选的。第二个参数是发送给服务器的数据，第三个参数是操作成功后的回调函数。</p>
+<p>上面的post方法对应的ajax写法如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax(&#123;</div><div class="line">    <span class="attr">type</span>: <span class="string">'POST'</span>,</div><div class="line">    <span class="attr">url</span>: <span class="string">'/data/save'</span>,</div><div class="line">    <span class="attr">data</span>: &#123;<span class="attr">name</span>: <span class="string">'Rebecca'</span>&#125;,</div><div class="line">    <span class="attr">dataType</span>: <span class="string">'json'</span>,</div><div class="line">    <span class="attr">success</span>: <span class="function"><span class="keyword">function</span> (<span class="params">resp</span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="built_in">JSON</span>.parse(resp));</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><strong>（2）$.getJSON()</strong></p>
+<p>ajax方法的另一个简便写法是getJSON方法。当服务器端返回JSON格式的数据，可以用这个方法代替$.ajax方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.getJSON(<span class="string">'url/to/json'</span>, &#123;<span class="string">'a'</span>: <span class="number">1</span>&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面的代码等同于下面的写法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax(&#123;</div><div class="line">  <span class="attr">dataType</span>: <span class="string">"json"</span>,</div><div class="line">  <span class="attr">url</span>: <span class="string">'/url/to/data'</span>,</div><div class="line">  <span class="attr">data</span>: &#123;<span class="string">'a'</span>: <span class="number">1</span>&#125;,</div><div class="line">  <span class="attr">success</span>: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(data);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><strong>（3）$.getScript()</strong></p>
+<p>$.getScript方法用于从服务器端加载一个脚本文件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.getScript(<span class="string">'/static/js/myScript.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	functionFromMyScript();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码先从服务器加载myScript.js脚本，然后在回调函数中执行该脚本提供的函数。</p>
+<p>getScript的回调函数接受三个参数，分别是脚本文件的内容，HTTP响应的状态信息和ajax对象实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.getScript( <span class="string">"ajax/test.js"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data, textStatus, jqxhr</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log( data ); <span class="comment">// test.js的内容</span></div><div class="line">  <span class="built_in">console</span>.log( textStatus ); <span class="comment">// Success</span></div><div class="line">  <span class="built_in">console</span>.log( jqxhr.status ); <span class="comment">// 200</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>getScript是ajax方法的简便写法，因此返回的是一个deferred对象，可以使用deferred接口。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">jQuery.getScript(<span class="string">"/path/to/myscript.js"</span>)</div><div class="line">	.done(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="comment">// ...</span></div><div class="line">	&#125;)</div><div class="line">	.fail(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="comment">// ...</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><strong>（4）$.fn.load()</strong></p>
+<p>$.fn.load不是jQuery的工具方法，而是定义在jQuery对象实例上的方法，用于获取服务器端的HTML文件，将其放入当前元素。由于该方法也属于ajax操作，所以放在这里一起讲。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">'#newContent'</span>).load(<span class="string">'/foo.html'</span>);</div></pre></td></tr></table></figure>
+<p>$.fn.load方法还可以指定一个选择器，将远程文件中匹配选择器的部分，放入当前元素，并指定操作完成时的回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">'#newContent'</span>).load(<span class="string">'/foo.html #myDiv h1:first'</span>,</div><div class="line">	<span class="function"><span class="keyword">function</span>(<span class="params">html</span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'内容更新！'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码只加载foo.html中匹配“#myDiv h1:first”的部分，加载完成后会运行指定的回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">'#main-menu a'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">   event.preventDefault();</div><div class="line"></div><div class="line">   $(<span class="string">'#main'</span>).load(<span class="keyword">this</span>.href + <span class="string">' #main *'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面的代码将指定网页中匹配“#main *”，加载入当前的main元素。星号表示匹配main元素包含的所有子元素，如果不加这个星号，就会加载整个main元素（包括其本身），导致一个main元素中还有另一个main元素。</p>
+<p>load方法可以附加一个字符串或对象作为参数，一起向服务器提交。如果是字符串，则采用GET方法提交；如果是对象，则采用POST方法提交。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$( <span class="string">"#feeds"</span> ).load( <span class="string">"feeds.php"</span>, &#123; <span class="attr">limit</span>: <span class="number">25</span> &#125;, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log( <span class="string">"已经载入"</span> );</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码将<code>{ limit: 25 }</code>通过POST方法向服务器提交。</p>
+<p>load方法的回调函数，可以用来向用户提示操作已经完成。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">'#main-menu a'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">   event.preventDefault();</div><div class="line"> </div><div class="line">   $(<span class="string">'#main'</span>).load(<span class="keyword">this</span>.href + <span class="string">' #main *'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">responseText, status</span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (status === <span class="string">'success'</span>) &#123;</div><div class="line">         $(<span class="string">'#notification-bar'</span>).text(<span class="string">'加载成功！'</span>);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">         $(<span class="string">'#notification-bar'</span>).text(<span class="string">'出错了！'</span>);</div><div class="line">      &#125;</div><div class="line">   &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="Ajax事件"><a href="#Ajax事件" class="headerlink" title="Ajax事件"></a>Ajax事件</h3><p>jQuery提供以下一些方法，用于指定特定的AJAX事件的回调函数。</p>
+<ul>
+<li>.ajaxComplete()：ajax请求完成。</li>
+<li>.ajaxError()：ajax请求出错。</li>
+<li>.ajaxSend()：ajax请求发出之前。</li>
+<li>.ajaxStart()：第一个ajax请求开始发出，即没有还未完成ajax请求。</li>
+<li>.ajaxStop()：所有ajax请求完成之后。</li>
+<li>.ajaxSuccess()：ajax请求成功之后。</li>
+</ul>
+<p>下面是示例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">'#loading_indicator'</span>)</div><div class="line">.ajaxStart(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;$(<span class="keyword">this</span>).show();&#125;)</div><div class="line">.ajaxStop(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;$(<span class="keyword">this</span>).hide();&#125;);</div></pre></td></tr></table></figure>
+<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p>ajax方法返回的是一个deferred对象，可以用then方法为该对象指定回调函数（详细解释参见《deferred对象》一节）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax(&#123;</div><div class="line">  <span class="attr">url</span>: <span class="string">'/data/people.json'</span>,</div><div class="line">  <span class="attr">dataType</span>: <span class="string">'json'</span></div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">resp</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(resp.people);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h3><p>由于浏览器存在“同域限制”，ajax方法只能向当前网页所在的域名发出HTTP请求。但是，通过在当前网页中插入script元素（\<script\>），可以向不同的域名发出GET请求，这种变通方法叫做JSONP（JSON with Padding）。</script\></p>
+<p>ajax方法可以发出JSONP请求，方法是在对象参数中指定dataType为JSONP。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax(&#123;</div><div class="line">  <span class="attr">url</span>: <span class="string">'/data/search.jsonp'</span>,</div><div class="line">  <span class="attr">data</span>: &#123;<span class="attr">q</span>: <span class="string">'a'</span>&#125;,</div><div class="line">  <span class="attr">dataType</span>: <span class="string">'jsonp'</span>,</div><div class="line">  <span class="attr">success</span>: <span class="function"><span class="keyword">function</span>(<span class="params">resp</span>) </span>&#123;</div><div class="line">    $(<span class="string">'#target'</span>).html(<span class="string">'Results: '</span> + resp.results.length);</div><div class="line">  &#125;</div><div class="line">&#125;);)</div></pre></td></tr></table></figure>
+<p>JSONP的通常做法是，在所要请求的URL后面加在回调函数的名称。ajax方法规定，如果所请求的网址以类似“callback=?”的形式结尾，则自动采用JSONP形式。所以，上面的代码还可以写成下面这样。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.getJSON(<span class="string">'/data/search.jsonp?q=a&amp;callback=?'</span>,</div><div class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">resp</span>) </span>&#123;</div><div class="line">    $(<span class="string">'#target'</span>).html(<span class="string">'Results: '</span> + resp.results.length);</div><div class="line">  &#125;</div><div class="line">);</div></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li>David Walsh, <a href="http://davidwalsh.name/loading-scripts-jquery" target="_blank" rel="external">Loading Scripts with jQuery</a></li>
+<li>Nguyen Huu Phuoc, <a href="http://programer.tips/2014/09/best-jquery-practices.html" target="_blank" rel="external">Best jQuery practices</a></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-01-09.jquery工具方法/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-10-06-利用github的api显示当前文章的历史记录/" >利用github的api显示当前文章的历史记录</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>利用github放blog也有一段时间了，一直想做一个小功能，就是展示某个文章的历史纪录，简单来说就是<code>git log 某个文章</code></p>
+<h2 id="两种思路"><a href="#两种思路" class="headerlink" title="两种思路"></a>两种思路</h2><ul>
+<li>写一个jekyll的插件</li>
+<li>js利用github的api</li>
+</ul>
+<h3 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h3><p>由于github上的jekyll生成网站时是不允许使用的自定义插件的，这个思路暂时忽略。事实上，可以在本地生成静态网站，然后上传到github上，直接使用<code>gh-pages</code>分支来展示，因为不太想重新建一个repo，这个思路暂时忽略吧。</p>
+<h3 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h3><p>利用github的<a href="http://developer.github.com/v3/repos/commits/" target="_blank" rel="external">commits api</a>，比如一个文章的commits可以用下面的请求获取, 指定<code>path</code>参数就可以获取特定文件的提交纪录。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$.getJSON(<span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path=_posts%2F2013-07-29-lion%E4%B8%8B%E7%9A%84safari6%E5%AF%B9%E7%BA%AF%E6%95%B0%E5%AD%97%E4%BD%BF%E7%94%A8toString%E6%8A%A5%E9%94%99.md'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;)</div></pre></td></tr></table></figure>
+<p>返回的数据格式是一个数组，在每个文章页面加上下面一个id为history的div，然后通过下面的js渲染出对应html，展示效果见每个文章的下方</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取脚本函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadJs</span>(<span class="params">src, callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> doc = <span class="built_in">document</span>;</div><div class="line">    <span class="keyword">var</span> head = doc.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>];</div><div class="line">    <span class="keyword">var</span> script = doc.createElement(<span class="string">'script'</span>);</div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line"></div><div class="line">    script.onreadystatechange = script.onload = script.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(script.readyState)) &#123;</div><div class="line">            callback();</div><div class="line">            script.onload = script.onerror = script.onreadystatechange = <span class="literal">null</span>;</div><div class="line">            script = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    script.src = src;</div><div class="line">    script.async = <span class="literal">true</span>;</div><div class="line"></div><div class="line">    head.insertBefore(script, head.firstChild);</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadJs(<span class="string">'/js/jquery-1.7.2.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    loadJs(<span class="string">'/js/md5.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//取到文章的路径，追加到请求地址上</span></div><div class="line">        <span class="comment">//可以通过&#123;&#123;page.path&#125;&#125;来取到</span></div><div class="line">        <span class="keyword">var</span> articlePath =<span class="string">'&#123;&#123;page.path&#125;&#125;'</span></div><div class="line">        <span class="keyword">var</span> api = <span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path='</span></div><div class="line">        <span class="keyword">var</span> tmpl = <span class="string">'&lt;div class="article"&gt;\</span></div><div class="line">                        &lt;span class="datetime"&gt;&#123;date&#125;&lt;/span&gt;\</div><div class="line">                        &lt;span&gt;\</div><div class="line">                            &lt;image src="&#123;src&#125;" title="&#123;author&#125;"&gt;\</div><div class="line">                            &#123;message&#125;\</div><div class="line">                        &lt;/span&gt;\</div><div class="line">                    &lt;/div&gt;'</div><div class="line">            <span class="keyword">var</span> gravstarurl = <span class="string">'https://1.gravatar.com/avatar/&#123;md5hash&#125;?s=16'</span>; </div><div class="line">            $.getJSON(api + articlePath,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">                <span class="keyword">if</span>( data.length == <span class="number">0</span> )&#123;</div><div class="line">                    $(<span class="string">'#history'</span>).html(<span class="string">'暂无历史纪录 :)'</span>);</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">var</span> history = <span class="string">''</span>;</div><div class="line">            $.each(data, <span class="function"><span class="keyword">function</span>(<span class="params">i, v</span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> avatar = gravstarurl.replace(<span class="string">'&#123;md5hash&#125;'</span>, md5(v.commit.author.email));</div><div class="line">                history += tmpl.replace(<span class="string">'&#123;src&#125;'</span>, avatar)</div><div class="line">                               .replace(<span class="string">'&#123;date&#125;'</span>, v.commit.author.date.replace(<span class="regexp">/T.*Z/</span>,<span class="string">''</span>))</div><div class="line">                               .replace(<span class="string">'&#123;message&#125;'</span>, v.commit.message);</div><div class="line">                &#125;);</div><div class="line"></div><div class="line">            $(<span class="string">'#history'</span>).html(history);</div><div class="line">        &#125;)</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>详细的文件可以查看<a href="https://github.com/jserme/jserme.github.io/blob/master/_layouts/post.html#L41" target="_blank" rel="external">这里</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-10-06-利用github的api显示当前文章的历史记录/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-08-20-javascript的几种使用多行字符串的方式/" >javascript的几种使用多行字符串的方式</a></div>						
 		</h3>
 	
 
@@ -330,7 +575,7 @@
 
 	
 	</div>
-  <a type="button" href="/2015/06/28/2013-08-20-javascript的几种使用多行字符串的方式/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2013-08-20-javascript的几种使用多行字符串的方式/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -338,8 +583,8 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2013-08-21-karma下测试异步载入的js文件/" >karma下测试异步载入的js文件</a></div>						
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/neat的使用/" ></a></div>						
 		</h3>
 	
 
@@ -348,21 +593,25 @@
   <div class="row">
 	
 	
-		<p>默认情况下<a href="http://karma-runner.github.io/" target="_blank" rel="external">karma</a>是把所有的需要测试文件载入到测试页面，如果我们要对一个jsonp方法或者一个模块载入方法进行测试，它会给出一个找不到文件的提示，原因是karma的本地服务器会把需要测试的文件放在<code>/base/*</code>下，这个搞起来也很方便, 两步就搞定</p>
-<ul>
-<li>设置karma的conf文件里的<code>files</code></li>
-<li>对需要测试的方法进行mock，如果是本地请求路径，加上<code>/base/</code></li>
-</ul>
-<h2 id="需要测试的方法"><a href="#需要测试的方法" class="headerlink" title="需要测试的方法"></a>需要测试的方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span> (<span class="params">url, success, charset</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> node = doc.createElement(<span class="string">'script'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (charset) &#123;</div><div class="line">        node.charset = charset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line">    node.onreadystatechange = node.onload = node.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(node.readyState)) &#123;</div><div class="line">            node.onload = node.onerror = node.onreadystatechange = <span class="literal">null</span>;</div><div class="line"></div><div class="line">            success.call(node);</div><div class="line">            node = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    node.async = <span class="literal">true</span>;</div><div class="line">    node.src = url;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> head = documentElement.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>] || doc.documentElement;</div><div class="line">    head.insertBefore(node, head.firstChild);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="karma-conf-js"><a href="#karma-conf-js" class="headerlink" title="karma.conf.js"></a>karma.conf.js</h2><p>测试的代码写在tests/mainSpec.js里，我们要载入tests/loader/1.js，修改karma的配置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">... other config code ...</div><div class="line"></div><div class="line">        files: [</div><div class="line">                <span class="comment">//保证loader下的文件可以访问,但是又不会直接引用到页面上</span></div><div class="line">                &#123; <span class="attr">pattern</span>: <span class="string">'tests/loader/*.js'</span>, <span class="attr">included</span>: <span class="literal">false</span> &#125;, </div><div class="line">                <span class="string">'tests/lib/jquery-1.7.2.min.js'</span>,</div><div class="line">                <span class="string">'tests/lib/expect.js'</span>,</div><div class="line">                <span class="string">'tests/configData.js'</span>,</div><div class="line">                <span class="string">'src/loader.js'</span>,</div><div class="line">                <span class="string">'tests/**/*Spec.js'</span></div><div class="line">        ],</div><div class="line">... other config code ...</div></pre></td></tr></table></figure>
-<h2 id="mainSpec-js里的改造"><a href="#mainSpec-js里的改造" class="headerlink" title="mainSpec.js里的改造"></a>mainSpec.js里的改造</h2><p>需要在karma的环境中，改造一下loadScript方法，其它环境中可以忽略</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.__karma__) &#123; <span class="comment">//只处理在karma的环境中</span></div><div class="line">    <span class="keyword">var</span> __loadScript = loadScript;</div><div class="line">    loadScript= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">        <span class="comment">//只处理本地路径 </span></div><div class="line">        <span class="keyword">if</span> (args[<span class="number">0</span>].indexOf(<span class="string">'http://'</span>) == <span class="number">-1</span>) &#123;</div><div class="line">            args[<span class="number">0</span>] = <span class="string">'/base/tests/'</span> + args[<span class="number">0</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        __loadScript.apply(<span class="literal">null</span>, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后写一句最近非常大的一个感悟：没有测试代码的代码都是狗屎代码！</p>
+		<p>#开发环境</p>
+<p>##一. neat</p>
+<p>###gulp 的使用</p>
+<ol>
+<li><p><strong>gulp </strong> 需要自己去安装, <code>npm install gulp</code>, 然后 gulpfile.js 文件放入根目录.</p>
+</li>
+<li><p>安装模板</p>
+<pre><code>sudo neat install @ali/generator-apm
+</code></pre></li>
+</ol>
+<p>###yo 的使用</p>
+<p>在 neat.fdm 的根目录 </p>
+<pre><code>sudo tnpm install generator-polymer
+</code></pre><p>##二. apm</p>
+<p>是1688开发的<strong>组件</strong>平台, 推荐 <strong>commonjs</strong> 语法来写组件</p>
 
 	
 	</div>
-  <a type="button" href="/2015/06/28/2013-08-21-karma下测试异步载入的js文件/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/neat的使用/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -370,64 +619,8 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2013-10-06-利用github的api显示当前文章的历史记录/" >利用github的api显示当前文章的历史记录</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>利用github放blog也有一段时间了，一直想做一个小功能，就是展示某个文章的历史纪录，简单来说就是<code>git log 某个文章</code></p>
-<h2 id="两种思路"><a href="#两种思路" class="headerlink" title="两种思路"></a>两种思路</h2><ul>
-<li>写一个jekyll的插件</li>
-<li>js利用github的api</li>
-</ul>
-<h3 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h3><p>由于github上的jekyll生成网站时是不允许使用的自定义插件的，这个思路暂时忽略。事实上，可以在本地生成静态网站，然后上传到github上，直接使用<code>gh-pages</code>分支来展示，因为不太想重新建一个repo，这个思路暂时忽略吧。</p>
-<h3 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h3><p>利用github的<a href="http://developer.github.com/v3/repos/commits/" target="_blank" rel="external">commits api</a>，比如一个文章的commits可以用下面的请求获取, 指定<code>path</code>参数就可以获取特定文件的提交纪录。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$.getJSON(<span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path=_posts%2F2013-07-29-lion%E4%B8%8B%E7%9A%84safari6%E5%AF%B9%E7%BA%AF%E6%95%B0%E5%AD%97%E4%BD%BF%E7%94%A8toString%E6%8A%A5%E9%94%99.md'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;)</div></pre></td></tr></table></figure>
-<p>返回的数据格式是一个数组，在每个文章页面加上下面一个id为history的div，然后通过下面的js渲染出对应html，展示效果见每个文章的下方</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取脚本函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadJs</span>(<span class="params">src, callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> doc = <span class="built_in">document</span>;</div><div class="line">    <span class="keyword">var</span> head = doc.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>];</div><div class="line">    <span class="keyword">var</span> script = doc.createElement(<span class="string">'script'</span>);</div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line"></div><div class="line">    script.onreadystatechange = script.onload = script.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(script.readyState)) &#123;</div><div class="line">            callback();</div><div class="line">            script.onload = script.onerror = script.onreadystatechange = <span class="literal">null</span>;</div><div class="line">            script = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    script.src = src;</div><div class="line">    script.async = <span class="literal">true</span>;</div><div class="line"></div><div class="line">    head.insertBefore(script, head.firstChild);</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadJs(<span class="string">'/js/jquery-1.7.2.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    loadJs(<span class="string">'/js/md5.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//取到文章的路径，追加到请求地址上</span></div><div class="line">        <span class="comment">//可以通过&#123;&#123;page.path&#125;&#125;来取到</span></div><div class="line">        <span class="keyword">var</span> articlePath =<span class="string">'&#123;&#123;page.path&#125;&#125;'</span></div><div class="line">        <span class="keyword">var</span> api = <span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path='</span></div><div class="line">        <span class="keyword">var</span> tmpl = <span class="string">'&lt;div class="article"&gt;\</span></div><div class="line">                        &lt;span class="datetime"&gt;&#123;date&#125;&lt;/span&gt;\</div><div class="line">                        &lt;span&gt;\</div><div class="line">                            &lt;image src="&#123;src&#125;" title="&#123;author&#125;"&gt;\</div><div class="line">                            &#123;message&#125;\</div><div class="line">                        &lt;/span&gt;\</div><div class="line">                    &lt;/div&gt;'</div><div class="line">            <span class="keyword">var</span> gravstarurl = <span class="string">'https://1.gravatar.com/avatar/&#123;md5hash&#125;?s=16'</span>; </div><div class="line">            $.getJSON(api + articlePath,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">                <span class="keyword">if</span>( data.length == <span class="number">0</span> )&#123;</div><div class="line">                    $(<span class="string">'#history'</span>).html(<span class="string">'暂无历史纪录 :)'</span>);</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">var</span> history = <span class="string">''</span>;</div><div class="line">            $.each(data, <span class="function"><span class="keyword">function</span>(<span class="params">i, v</span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> avatar = gravstarurl.replace(<span class="string">'&#123;md5hash&#125;'</span>, md5(v.commit.author.email));</div><div class="line">                history += tmpl.replace(<span class="string">'&#123;src&#125;'</span>, avatar)</div><div class="line">                               .replace(<span class="string">'&#123;date&#125;'</span>, v.commit.author.date.replace(<span class="regexp">/T.*Z/</span>,<span class="string">''</span>))</div><div class="line">                               .replace(<span class="string">'&#123;message&#125;'</span>, v.commit.message);</div><div class="line">                &#125;);</div><div class="line"></div><div class="line">            $(<span class="string">'#history'</span>).html(history);</div><div class="line">        &#125;)</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>详细的文件可以查看<a href="https://github.com/jserme/jserme.github.io/blob/master/_layouts/post.html#L41" target="_blank" rel="external">这里</a></p>
-
-	
-	</div>
-  <a type="button" href="/2015/06/28/2013-10-06-利用github的api显示当前文章的历史记录/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2012-11-17-自定义github-pages的域名/" >github.io绑定域名</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>##什么是github pages<br><a href="http://pages.github.com/" target="_blank" rel="external">github pages</a>是<a href="https://github.io" target="_blank" rel="external">github</a>提供的免费的存放网页的服务，有了它，你就可以轻松使用静态网页构建一个网站，比如搭建笔记的博客.并且如果你有自己的域名，它可以绑定域名。</p>
-<p>##设置你的域名dns指向你的github二级域名<br>然后我们在域名控制的地方添加一个A纪录，我的域名基本上都是在godaddy上买的，godaddy上默认的dns经常被墙，所以我把dns换成了国内靠谱的<a href="http://dnspod.cn" target="_blank" rel="external">dnspod.cn</a>。如下设置<br><img src="/images/codesnip_20140804201809.png" alt="20121117181954.png"></p>
-<p>正常情况下，几分钟就可以访问了，例如你现在可以访问<a href="http://codinglion.me" target="_blank" rel="external">我的博客</a>。</p>
-
-	
-	</div>
-  <a type="button" href="/2015/06/28/2012-11-17-自定义github-pages的域名/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2013-11-09-requirejs/" ></a></div>						
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-11-09-requirejs/" ></a></div>						
 		</h3>
 	
 
@@ -565,7 +758,7 @@
 
 	
 	</div>
-  <a type="button" href="/2015/06/28/2013-11-09-requirejs/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2013-11-09-requirejs/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -573,8 +766,8 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2015-06-28 </div>
-			<div class="article-title"><a href="/2015/06/28/2013-11-13-如何在karma里载入html文件进行测试/" >如何在karma里载入html文件进行测试</a></div>						
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-11-13-如何在karma里载入html文件进行测试/" >如何在karma里载入html文件进行测试</a></div>						
 		</h3>
 	
 
@@ -604,7 +797,7 @@
 
 	
 	</div>
-  <a type="button" href="/2015/06/28/2013-11-13-如何在karma里载入html文件进行测试/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2013-11-13-如何在karma里载入html文件进行测试/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -684,45 +877,45 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/module/">module<span>2</span></a></li>
-		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
 			<li><a href="/tags/browser/">browser<span>3</span></a></li>
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
 		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
-		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
-		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
-			<li><a href="/tags/library/">library<span>3</span></a></li>
-		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+			<li><a href="/tags/default/">default<span>1</span></a></li>
 		
 			<li><a href="/tags/hg/">hg<span>1</span></a></li>
 		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+		
+			<li><a href="/tags/library/">library<span>3</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>2</span></a></li>
+		
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
 		
 			<li><a href="/tags/http/">http<span>2</span></a></li>
 		
-			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
-		
-			<li><a href="/tags/document/">document<span>1</span></a></li>
-		
-			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
 		
 			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
 		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
 		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+			<li><a href="/tags/build/">build<span>2</span></a></li>
 		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -738,23 +931,23 @@
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/01/03/新的一年-2017/"  title="介绍下使用 fenced-code." ><i class="fa fa-file-o"></i>Hello 2017</a>
+        <a href="/2017/02/01/2012-08-03-XMLHttpRequest发送put,delete请求/" ><i class="fa fa-file-o"></i>XMLHttpRequest发送put,delete请求</a>
       </li>
     
       <li>
-        <a href="/2015/10/27/what_is_true/" ><i class="fa fa-file-o"></i>实际情况是什么样的</a>
+        <a href="/2017/02/01/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2015/10/23/软件设计原则/" ><i class="fa fa-file-o"></i>软件设计原则</a>
+        <a href="/2017/02/01/2012-08-03-页面性能的几个评测点/" ><i class="fa fa-file-o"></i>页面性能的几个评测点</a>
       </li>
     
       <li>
-        <a href="/2015/10/23/测试工具-Mock-的使用-资料整理中/" ><i class="fa fa-file-o"></i>测试工具 Mock 的使用(资料整理中)</a>
+        <a href="/2017/02/01/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2015/10/23/怎么写出好代码/" ><i class="fa fa-file-o"></i>怎么写出好代码</a>
+        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
       </li>
     
   </ul>

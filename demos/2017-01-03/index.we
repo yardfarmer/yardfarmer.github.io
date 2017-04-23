@@ -1,0 +1,15 @@
+<template>
+  <div>
+    <text>Hello Weex!</text>
+  </div>
+</template>
+
+<style>
+  .text {
+    font-size: 28;
+  }
+</style>
+
+<script>
+  
+</script>

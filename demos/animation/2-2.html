@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+		.box {
+			height: 100px;
+			width: 100px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+<div class="box"></div>
+<!-- /.box -->
+<script>
+		var deg = 0;
+		var block = document.querySelector('.box');
+		var startTime = Date.now();
+		var distance = 1000;
+		var T = 5000;
+
+		requestAnimationFrame(function step() {
+			var p = Math.min(1.0, (Date.now() - startTime) / T);
+
+			block.style.transform = 'translateX('+ (distance * p * p) +'px)';
+
+			if (p < 1.0) {
+				requestAnimationFrame(step)
+			}
+		})
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+		.box {
+			height: 100px;
+			width: 100px;
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+<div class="box"></div>
+<!-- /.box -->
+<script>
+		var deg = 0;
+		var block = document.querySelector('.box');
+		var startTime = Date.now();
+		var duration = 1000;
+
+		setInterval(function() {
+			var p = (Date.now() - startTime) / duration;
+			block.style.transform = 'rotate('+ 360*p +'deg)';
+		}, 1000 / 60)
+</script>
+</body>
+</html>

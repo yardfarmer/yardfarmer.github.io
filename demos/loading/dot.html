@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+		body {
+			
+		}
+		.box {
+			height: 36px;
+			width: 84px;
+			border: 1px solid red;
+			position: relative;
+		}
+
+		.dot {
+			width: 12px;
+			height: 12px;
+			border-radius: 6px;
+			position: absolute;
+			top: 12px;
+			opacity: 0.9;
+			animation-iteration-count: infinite;
+		  /*transform-origin: 0% 0%;*/
+		  /*animation-fill-mode: forwards; /*when the spec is finished*/*/
+		  /*transition: all 0.5s ease-out;*/
+		}
+		
+		.dot1 {
+			background-color: #f04b3d; /*red*/
+			left: 12px;
+			animation: moveRed ease 1.8s;
+		}
+		
+		.dot2 {
+			background-color: #049be5; /*blue*/
+			left: 36px;
+			animation: moveBlue ease 1.8s;
+		}
+		
+		.dot3 {
+			left: 60px;
+			background-color: #f5a623; /*yellow*/
+			animation: moveYellow ease 1.8s;
+		}
+
+		@keyframes moveRed {
+		  0% {
+		  }
+		  14% {
+		    transform:  translate(24px, 0);
+		    z-index: 1;
+		  }
+		  28% {
+		    transform:  translate(48px, 0);
+		    z-index: 1;
+		  }
+		  42% {
+		    transform:  translate(72px, 0);
+		  }
+		  56% {
+		    transform:  translate(48, 0);
+		    z-index: 10;
+		  }
+		  70% {
+		  }
+		  84% {
+		  	z-index: 1;
+		  }
+		  100% {
+		    transform:  translate(12px, 0);
+		  }
+		}
+
+		@keyframes moveBlue {
+		  0% {
+		  	transform:  translate(72px, 0);
+		  	z-index: 1;
+		  }
+		  14% {
+		    transform:  translate(48px, 0);
+		    z-index: 10;
+		  }
+		  28% {
+		  	z-index: 1;
+		  }
+		  42% {
+		  }
+		  56% {
+		    transform:  translate(12px, 0);
+		  }
+		  70% {
+		  }
+		  84% {
+		  	transform:  translate(48px, 0);
+		  	z-index: 1;
+		  }
+		  100% {
+		    transform:  translate(72px, 0);
+		  }
+		}
+
+		@keyframes moveYellow {
+		  0% {
+		  	transform:  translate(48px, 0);
+		    z-index: 1;
+		  }
+		  14% {
+		  }
+		  28% {
+		    transform:  translate(12px, 0);
+		  }
+		  42% {
+		  	transform:  translate(48px, 0);
+		    z-index: 1;
+		  }
+		  56% {
+		    transform:  translate(72px, 0);
+		  }
+		  70% {
+		  	transform:  translate(48px, 0);
+		    z-index: 10;
+		  }
+		  84% {
+		  }
+		  100% {
+		  }
+		}
+
+
+	</style>
+</head>
+<body>
+  <!-- http://image.uisdc.com/wp-content/uploads/2016/12/uisdc-vision-20161230-7.png -->
+<div class="box">
+	<div class="dot dot1"></div>
+	<div class="dot dot2"></div>
+	<div class="dot dot3"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://astyle-src.alicdn.com/fdevlib/css/lofty/port/lofty.css" rel="stylesheet"></link>
+  <script src="https://astyle-src.alicdn.com/fdevlib/js/lofty/port/lofty.js"></script>
+  <script src="https://astyle-src.alicdn.com/fdevlib/js/gallery/jquery/jquery-latest.js"></script>
+  <!-- <link rel="stylesheet" href="https://astyle-src.alicdn.com/app/birdsnest/css/birdsnest/global/lst-supply-chain-layout.css"> -->
+  <link rel="stylesheet" href="https://astyle-src.alicdn.com/fdevlib/css/lofty/ui/tip/1.0/front/tip-min.css">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_duye4s8tvj1qbyb9.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <!-- 头部导航开始 -->
+  <div class="header navbar">
+    <div class="home-header">
+      <div class="tip-box">
+        <div class="close-btn">关闭</div>
+        <div class="content">
+          当tip提示框溢出页面时，是否在目标元素的反方向显示（例：tip显示在目标元素上方，当溢出时，自动显示在目标元素的下方）
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 头部导航结束 -->
+  <!-- 页面容器开始 -->
+  <div class="page-container">
+    <!-- 侧边栏菜单开始 -->
+    <div class="page-sidebar nav-collapse">
+      <ul class="page-sidebar-menu">
+        <li class="toggler">
+          <div class="sidebar-toggler"><i class="iconfont"></i></div>
+        </li>
+      </ul>
+    </div>
+    <!-- 侧边栏菜单结束 -->
+    <!-- 页面内容区开始 -->
+    <div class="page-content">
+      <div style="height: 2303px; width: 1180px; margin: 0 auto; background-color: #ccc;">这里替换嵌入内容</div>
+      <!-- 或者 -->
+      <!-- <iframe id="page-content-iframe" src="http://taobao.com/"></iframe> -->
+    </div>
+    <!-- 页面内容区结束 -->
+  </div>
+  <!-- 页面容器结束 -->
+  <script>
+  var PAGE_NAV_DATA = [{
+    "active": false,
+    "name": "首页",
+    "url": "//supplier-test.caigou.1688.com/index.htm?_mall_code_=lst"
+  }, {
+    "active": true,
+    "children": [{
+      "active": true,
+      "children": [{
+        "active": true,
+        "name": "已入住供应商列表",
+        "url": "//supplier-test.caigou.1688.com/supplier/admin/supplier_manage_list.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "商家审核及查看",
+        "target": "_parent",
+        "url": "//supplier-test.caigou.1688.com/supplier/admin/supplier_approval_list.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "品牌审核列表",
+        "url": "//supplier-test.caigou.1688.com/supplier/admin/supplier_apply_brand_list.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "合同管理",
+        "url": "//supplier-test.caigou.1688.com/contract/admin/contract_list.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "供应商联系方式查询",
+        "url": "//supplier-test.caigou.1688.com/supplier/admin/supplier_contact_query.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "基准合作规则管理",
+        "url": "//supplier-test.caigou.1688.com/supplier/admin/base_collaborate_ruler_list.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "基准合作规则导入",
+        "url": "//supplier-test.caigou.1688.com/supplier/admin/base_collaborate_ruler_import.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "技术服务费管理",
+        "url": "//supplier-test.caigou.1688.com/rate/admin/technicalServiceRateList.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "技术服务费导入",
+        "url": "//supplier-test.caigou.1688.com/rate/admin/technicalServiceImport.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "佣金审核",
+        "url": "//supplier-test.caigou.1688.com/rate/admin/rateRulerAuditManage.htm?_mall_code_=lst"
+      }],
+      "icon": "icon-shangjiaxinxi",
+      "name": "供应商管理"
+    }, {
+      "active": false,
+      "children": [{
+        "active": false,
+        "name": "发布产品",
+        "url": "//go-test.1688.com/product/product_list_4_provider_new.htm?_mall_code_=lst#/spu"
+      }, {
+        "active": false,
+        "name": "商品报价管理",
+        "url": "//supplier-test.caigou.1688.com/item/admin/productQuoteManage.htm?__app_code__=birdsnest&_mall_code_=lst"
+      }],
+      "icon": "icon-similar-product",
+      "name": "商品管理"
+    }, {
+      "active": false,
+      "children": [{
+        "active": false,
+        "name": "发布类目管理",
+        "url": "//portal.go.1688.com/page/categorymanager.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "展示类目管理",
+        "url": "//portal.go.1688.com/page/mallDisplayCatManager.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "展示类目挂靠",
+        "url": "//portal.go.1688.com/mallcat/postCatList.htm?type=caigoumalldisplaycat&_mall_code_=lst"
+      }],
+      "icon": "icon-category",
+      "name": "品类规划"
+    }, {
+      "active": false,
+      "children": [{
+        "active": false,
+        "name": "补货管理",
+        "url": "//supplier-test.caigou.1688.com/warehouse/admin/bopsReplenishmentList.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "销量与库存查询",
+        "url": "//supplier-test.caigou.1688.com/warehouse/admin/bopsWarehouseReport.htm?_mall_code_=lst"
+      }],
+      "icon": "icon-auto",
+      "name": "库存管理"
+    }, {
+      "active": false,
+      "children": [{
+        "active": false,
+        "name": "仓库列表",
+        "url": "//supplier-test.caigou.1688.com/warehouse/storemanagement.htm?__app_code__=birdsnest&_mall_code_=lst"
+      }],
+      "icon": "icon-store",
+      "name": "仓储管理"
+    }, {
+      "active": false,
+      "children": [{
+        "active": false,
+        "name": "优惠报名设置",
+        "url": "//maya-test.alibaba-inc.com/kaleido/promotion_list.html?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "供应商包邮审核",
+        "url": "//supplier-test.caigou.1688.com/marketing/admin/supplierFreePostList.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "自营销优惠设置",
+        "url": "//supplier-test.caigou.1688.com/marketing/admin/promotionListPage.htm?_mall_code_=lst"
+      }],
+      "icon": "icon-gifts",
+      "name": "营销管理"
+    }, {
+      "active": false,
+      "children": [{
+        "active": false,
+        "name": "虚仓补贴模板管理",
+        "url": "//supplier-test.caigou.1688.com/supplier/vwh/manager.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "地采物流费率设置",
+        "url": "//supplier-test.caigou.1688.com/supplier/admin/supplierLogisticalRateImport.htm?_mall_code_=lst"
+      }, {
+        "active": false,
+        "name": "运费补贴对账单",
+        "url": "//supplier-test.caigou.1688.com/settlement/operatorStatementManager.htm?_mall_code_=lst"
+      }],
+      "icon": "icon-jiesuan",
+      "name": "结算管理"
+    }, {
+      "active": false,
+      "icon": "icon-survey",
+      "name": "履单管理"
+    }, {
+      "active": false,
+      "icon": "icon-service",
+      "name": "服务管理"
+    }],
+    "name": "日常操作"
+  }, {
+    "active": false,
+    "children": [{
+      "active": false,
+      "name": "offer配置地址查询",
+      "url": "//supplier-test.caigou.1688.com/offer/admin/offerAddrShow.htm?_mall_code_=lst"
+    }],
+    "name": "系统工具"
+  }, {
+    "active": false,
+    "children": [{
+      "active": false,
+      "name": "录入物资信息",
+      "url": "//supplier-test.caigou.1688.com/product/admin/postProduct4Mall.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "采购产品目录",
+      "url": "//supplier-test.caigou.1688.com/product/admin/productList4Mall.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "共建SPU管理",
+      "url": "//supplier-test.caigou.1688.com/product/admin/product_list.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "产品系列管理",
+      "url": "//supplier-test.caigou.1688.com/productseries/admin/productSeriesManage.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "产品图片处理",
+      "url": "//supplier-test.caigou.1688.com/product/service/product_list.htm?_mall_code_=lst"
+    }],
+    "name": "产品管理"
+  }, {
+    "active": false,
+    "children": [{
+      "active": false,
+      "name": "商品报价列表",
+      "url": "//supplier-test.caigou.1688.com/item/admin/quoteList.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "商品报价管理",
+      "url": "//supplier-test.caigou.1688.com/item/admin/productQuoteManage.htm?__app_code__=birdsnest&_mall_code_=lst"
+    }],
+    "name": "商品管理"
+  }, {
+    "active": false,
+    "children": [{
+      "active": false,
+      "name": "供应商管理",
+      "url": "//supplier-test.caigou.1688.com/supplier/admin/supplier_manage_list.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "商家审核及查看",
+      "url": "//supplier-test.caigou.1688.com/supplier/admin/supplier_approval_list.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "合同管理",
+      "url": "//supplier-test.caigou.1688.com/contract/admin/contract_list.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "供应商联系方式查询",
+      "url": "//supplier-test.caigou.1688.com/supplier/admin/supplier_contact_query.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "基准合作规则管理",
+      "url": "//supplier-test.caigou.1688.com/supplier/admin/base_collaborate_ruler_list.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "基准合作规则导入",
+      "url": "//supplier-test.caigou.1688.com/supplier/admin/base_collaborate_ruler_import.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "技术服务费管理",
+      "url": "//supplier-test.caigou.1688.com/rate/admin/technicalServiceRateList.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "技术服务费导入",
+      "url": "//supplier-test.caigou.1688.com/rate/admin/technicalServiceImport.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "佣金审核",
+      "url": "//supplier-test.caigou.1688.com/rate/admin/rateRulerAuditManage.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "物流佣金审核列表",
+      "url": "//supplier-test.caigou.1688.com/rate/admin/logicalRateAuditManage.htm?mall_code=lst&_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "基准物流费率导入",
+      "url": "//supplier-test.caigou.1688.com/rate/admin/baseTechnicalServiceImport.htm?mall_code=lst&_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "品牌审核列表",
+      "url": "//supplier-test.caigou.1688.com/supplier/admin/supplier_apply_brand_list.htm?_mall_code_=lst"
+    }],
+    "name": "供应商管理"
+  }, {
+    "active": false,
+    "children": [{
+      "active": false,
+      "name": "优惠报名设置",
+      "url": "//maya-test.alibaba-inc.com/kaleido/promotion_list.html?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "供应商包邮审核",
+      "url": "//supplier-test.caigou.1688.com/marketing/admin/supplierFreePostList.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "自营销优惠设置",
+      "url": "//supplier-test.caigou.1688.com/marketing/admin/promotionListPage.htm?_mall_code_=lst"
+    }],
+    "name": "营销管理"
+  }, {
+    "active": false,
+    "children": [{
+      "active": false,
+      "name": "虚仓补贴模板管理",
+      "url": "//supplier-test.caigou.1688.com/supplier/vwh/manager.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "地采物流费率设置",
+      "url": "//supplier-test.caigou.1688.com/supplier/admin/supplierLogisticalRateImport.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "运费补贴对账单",
+      "url": "//supplier-test.caigou.1688.com/settlement/operatorStatementManager.htm?_mall_code_=lst"
+    }],
+    "name": "结算管理"
+  }, {
+    "active": false,
+    "children": [{
+      "active": false,
+      "name": "发货邀请",
+      "url": "//supplier-test.caigou.1688.com/warehouse/admin/warehouseInInvite.htm?__app_code__=birdsnest&_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "仓库列表",
+      "url": "//supplier-test.caigou.1688.com/warehouse/storemanagement.htm?__app_code__=birdsnest&_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "补货管理",
+      "url": "//supplier-test.caigou.1688.com/warehouse/admin/bopsReplenishmentList.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "销量与库存查询",
+      "url": "//supplier-test.caigou.1688.com/warehouse/admin/bopsWarehouseReport.htm?_mall_code_=lst"
+    }],
+    "name": "仓储管理"
+  }, {
+    "active": false,
+    "children": [{
+      "active": false,
+      "name": "offer配送地址同步",
+      "url": "//supplier-test.caigou.1688.com/offer/admin/offerAsyncAddrPage.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "offer配置地址查询",
+      "url": "//supplier-test.caigou.1688.com/offer/admin/offerAddrShow.htm?_mall_code_=lst"
+    }, {
+      "active": false,
+      "name": "Offer问题检查",
+      "url": "//supplier-test.caigou.1688.com/offer/admin/offerCheckPage.htm?_mall_code_=lst"
+    }],
+    "name": "诊断工具"
+  }];
+
+  var PAGE_MALLS = [{
+    "active": true,
+    "code": "lst",
+    "name": "零售通",
+    "sceneCode": "lst",
+    "sceneName": "零售通，勿删"
+  }];
+
+  var CURRENT_MALL = 'lst';
+  var MENU_COLLAPSE = true;
+
+  var NOTICE_CONFIG = {
+    "noticeName":"UI新公告UI新公告UI新公告UI新公告",
+    "url":"http://www.1688.com"
+  };
+
+  </script>
+  <!-- <script src="https://astyle-src.alicdn.com/app/birdsnest/js/birdsnest/global/lst-supply-chain-layout.js"></script> -->
+  <script src="js/layout.js"></script>
+</body>
+
+</html>
