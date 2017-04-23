@@ -4,10 +4,22 @@
   
     
     <entry>
-      <title><![CDATA[linux同步标准时间]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2012-08-03-linux%E5%90%8C%E6%AD%A5%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4/</url>
-      <content type="html"><![CDATA[<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ntpdate  ph.pool.ntp.org</div></pre></td></tr></table></figure>
-<p><a href="http://www.pool.ntp.org/zone/asia" title="地址" target="_blank" rel="external">亚洲ntp server</a></p>
+      <title><![CDATA[XMLHttpRequest发送put,delete请求]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2012-08-03-XMLHttpRequest%E5%8F%91%E9%80%81put,delete%E8%AF%B7%E6%B1%82/</url>
+      <content type="html"><![CDATA[<p>记得之前有同事问过，能不能用js实现http的put和delete请求。最近看了点REST相关的东西，对HTTP协议的构造也有一些新的认识，原来很多请求已经背离了最早设计HTTP协议的初衷，get/post/put/delete分别对应着查/改/增/删，这很像数据库里的select/ update/insert/delete,感觉HTTP协议当初设计的时候是参考了数据库的操作（RFC最初于1969年制定，但是包含http 1.1的规范 RFC 2616于1996年才制定的，关系数据库是1970年提出的理论，具体是个神马关系，不太好说），我们几乎所有的操作都是get和post，put和delete用得非常少，可能与form目前只能使用get和post有关，html5规范中据说有想<a href="http://www.w3.org/TR/html5/association-of-controls-and-forms.html#attr-fs-method" target="_blank" rel="external">实现form</a>的put和delete,但是最后放弃了，不知何故。</p>
+<p>先放几个与REST相关的链接，有些我还没有消化透：</p>
+<ul>
+<li><a href="http://www.w3.org/QA/2008/10/understanding-http-put.html" target="_blank" rel="external">http://www.w3.org/QA/2008/10/understanding-http-put.html</a></li>
+<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html" target="_blank" rel="external">http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html</a></li>
+<li><a href="http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html" target="_blank" rel="external">http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html</a></li>
+<li><a href="http://hi.baidu.com/msingle/blog/item/410517229971d1b54623e805.html" target="_blank" rel="external">http://hi.baidu.com/msingle/blog/item/410517229971d1b54623e805.html</a></li>
+<li><a href="http://q.sohu.com/forum/5/topic/3464168" target="_blank" rel="external">http://q.sohu.com/forum/5/topic/3464168</a><br>那么到底能不能用js实现put和delete呢？</li>
+</ul>
+<p>大家都知道XMLHttpRequest对象的open方法第一个参数就是method,有多少人用过除了”GET”和”POST”之外的参数呢？试验了一个，发现了好玩的，哈哈，例子猛击<a href="/demos/1343967804284_httpmethod_test.html" title="点开看看呗">这里</a>，请在不同的浏览器中测试，服务器返回的是请求的method。</p>
+<p>在IE6，7，8下，自己乱定义的method jser.me光荣牺牲，报错了，但是put,delete都很正常，并且请求过一次的post，居然也成get了，</p>
+<p>在FF,chrome下不仅put,delete很正常，jser.me这个自定义的方法也给力的完成了</p>
+<p>小试验证明put和delete是完全可以用XMLHttpRequest来实现的~~~</p>
+<p>PS:在本机(apache)测试的时候jser.me是很完美的完成了，在服务器上到nginx时被拦了，看配置也没找到哪出问题了，囧</p>
 ]]></content>
     </entry>
     
@@ -26,37 +38,10 @@
     </entry>
     
     <entry>
-      <title><![CDATA[页面性能的几个评测点]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2012-08-03-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E7%9A%84%E5%87%A0%E4%B8%AA%E8%AF%84%E6%B5%8B%E7%82%B9/</url>
-      <content type="html"><![CDATA[<p>页面性能评测还是时间第一，细化了可以分为下面的几个</p>
-<ol>
-<li><p>加载时间</p>
-<ul>
-<li>从在浏览器里按下回车键到页面开始出现的时间，相同站点在不同浏览器下这个时间会有所不同</li>
-<li>触发浏览器onload事件的时间</li>
-<li>所有资源下载完毕的时间</li>
-</ul>
-</li>
-<li><p>资源</p>
-<ul>
-<li>所有的请求数</li>
-<li>图片/css/javascript的大小</li>
-<li>网页（html）的大小</li>
-<li>异步请求的数量</li>
-<li>坏请求的数量(重定向，服务器端错误等等)</li>
-</ul>
-</li>
-<li><p>网络</p>
-<ul>
-<li>DNS时间（查找域名对应的服务器IP耗费的时间）</li>
-<li>连接时间 （向服务器发起连接时间）</li>
-<li>服务器时间 （服务器端处理请求的耗费时间）</li>
-<li>传输时间 （由服务器向客户端传输资源耗费时间）</li>
-<li>等待时间 （同时向一个服务器请求的连接数量是有限制的，获取资源时的等待空闲连接的时间）</li>
-</ul>
-</li>
-</ol>
-<p>以上关键点互相之间相辅相成，二和三决定了一的时间，另外，交互复杂的网站，很多资源的请求是在用户操作的情况下发起的，这些单个的请求也同样可以用上样的关键点进行评测。</p>
+      <title><![CDATA[linux同步标准时间]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2012-08-03-linux%E5%90%8C%E6%AD%A5%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4/</url>
+      <content type="html"><![CDATA[<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ntpdate  ph.pool.ntp.org</div></pre></td></tr></table></figure>
+<p><a href="http://www.pool.ntp.org/zone/asia" title="地址" target="_blank" rel="external">亚洲ntp server</a></p>
 ]]></content>
     </entry>
     
@@ -165,6 +150,202 @@
       <title><![CDATA[实际情况是什么样的]]></title>
       <url>http://yardfarmer.github.io/2017/02/01/what_is_true/</url>
       <content type="html"><![CDATA[<p>不去亲身体验，是感受不到身临其境的感受的。 考虑了很久的事，不踏出门槛，可能永远也体验不到真实的情况。 晚上出门走走，发现往日喧嚣杂乱的街道变得明亮，清净而又不时弥漫芳香。因为时机，环境变了，人心里『第一感受』 并不总是那么准确。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[介绍js-assessment]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2013-03-30-%E4%BB%8B%E7%BB%8Djs-assessment/</url>
+      <content type="html"><![CDATA[<p>##js-assessment简介<br><a href="https://github.com/rmurphey/js-assessment" target="_blank" rel="external">js-assessment</a>是一个帮助你通过写单元测试来学习js的小项目，这是一个非常有意思的东西，建议你花时间把这个做完，肯定受益匪浅。</p>
+<p>##怎么玩<br>需要你的电脑上有nodejs环境</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone https:<span class="comment">//github.com/rmurphey/js-assessment.git</span></div><div class="line">cd js-assessment</div><div class="line">npm install </div><div class="line">node bin/serve</div></pre></td></tr></table></figure>
+<p>接着打开你的浏览器访问 <a href="http://localhost:4444" target="_blank" rel="external">http://localhost:4444</a></p>
+<p>然后用你的编辑器到目录app下去编辑每个文件，刷新浏览器，使所有的测试用命都能通过。</p>
+<p>如果你实在看不懂英文描述那些方法要求的实现结果，可以到tests目录下的app里看每个测试用例是怎么写的，可以学到不少东西，当然不要作弊啊</p>
+<p>##学到的一些东西</p>
+<ul>
+<li>BDD方式开发程序挺有趣的</li>
+<li>单纯针对语言特性的单元测试很简单</li>
+<li>两个递归的小例子很好玩</li>
+<li>写测试用例要覆盖全面，包括一些不常见的情况和边界情况</li>
+<li>mocha写测试用例很爽</li>
+<li>好的实现方式也更容易测试，比如异步的时候使用promise模式</li>
+</ul>
+<p>##答案<br>是题就会有答案，当然也只是参考答案，没有绝对答案的，<a href="https://github.com/rmurphey/js-assessment-answers" target="_blank" rel="external">项目自带的</a>、<a href="https://github.com/jserme/js-assessment/tree/master/app" target="_blank" rel="external">小哥我做的</a></p>
+<p>##总结<br>完成它和写这个文章相距的时间有点长，当时的有些感悟都忘记了。。。所以，以后还是想到了，直接就写，google reader要关闭了，多写了点文章吧。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>http://yardfarmer.github.io/2017/02/01/node_harmony/</url>
+      <content type="html"><![CDATA[<p>#node harmony<br>They have done away with the –harmony flag - which in Node 0.11+ you had to include if you wanted to use any ES6 features at all. In io.js, you get them right out of the box! The current list of ES6 features enabled by default are:</p>
+<p>iojs 已经可以默认支持这些了。</p>
+<ul>
+<li>let</li>
+<li>const</li>
+<li>Map</li>
+<li>WeakMap/WeakSet</li>
+<li>Generators</li>
+<li>Binary and Octal literals, 二进制和八进制的字面量</li>
+<li>Promises</li>
+<li>Pro string method</li>
+<li>Symbols</li>
+<li>Template strings</li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[前端优化的小范围记录]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2013-08-10-%E9%87%8D%E5%B8%83%E5%B1%80%E5%92%8C%E9%87%8D%E7%BB%98/</url>
+      <content type="html"><![CDATA[<h2 id="HTML-方面"><a href="#HTML-方面" class="headerlink" title="HTML 方面"></a>HTML 方面</h2><h3 id="重布局和重绘"><a href="#重布局和重绘" class="headerlink" title="重布局和重绘"></a>重布局和重绘</h3><p>重布局和重绘，是 web 页面中最常见的重量级操作。当浏览器需要更新它的呈现模型时，就会发生重布局和重绘。只要加载页面就会发生一次重布局和重绘(浏览器在加载页面时必须至少绘制一次页面）, 但在动态页面的应用中，会发生很多次的重布局和重绘。</p>
+<ul>
+<li>当改变样式时候，而不该页面的几何布局，将发生重绘。隐藏一个元素，或者改变一个元素的背景色时，都将导致一次重绘</li>
+<li>当对页面的结构进行更新时，将导致重布局。从文档中移除元素，或者将元素添加到文档中、改变元素的大小或者改变元素的某些属性，都将导致页面重布局，重布局的代价比重绘大，它涉及到使用当前的 DOM、CSS 的定义，重新计算页面的几何结构。</li>
+</ul>
+<h3 id="优化措施"><a href="#优化措施" class="headerlink" title="优化措施"></a>优化措施</h3><p> 最少次数的更新 DOM</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">table</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'one append, one dom cost'</span>)</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">		$(<span class="string">"#main table"</span>).append(<span class="string">"&lt;tr&gt;&lt;td&gt;append to row: &lt;/td&gt;&lt;td&gt;"</span> + i + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'one append, one dom cost'</span>);</div><div class="line">	<span class="comment">// =&gt; one append, one dom cost: 4952.122ms </span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="keyword">var</span> tableRows = <span class="string">""</span>;</div><div class="line">	<span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ ) &#123;</div><div class="line">		tableRows += <span class="string">"&lt;tr&gt;&lt;td&gt;accumulate and append, now is at :&lt;/td&gt;&lt;td&gt;"</span>+ i +<span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">    $(<span class="string">"#main table"</span>).append(tableRows);</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="comment">// =&gt; accumulate and append cost: 117.491ms</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>采用一次想操作 dom 的方法比每次都操作 dom 快了 42 倍。<br><img src="./images/codesnip_20141229215927.png" alt="显著对比"></p>
+<h2 id="JS-方面"><a href="#JS-方面" class="headerlink" title="JS 方面"></a>JS 方面</h2><h3 id="缓存计算值"><a href="#缓存计算值" class="headerlink" title="缓存计算值"></a>缓存计算值</h3><h3 id="恰当的适用循环"><a href="#恰当的适用循环" class="headerlink" title="恰当的适用循环"></a>恰当的适用循环</h3><ul>
+<li>for (最快的)</li>
+<li>$.each(item)</li>
+<li><p>Array.forEach(item,index)</p>
+<p>  后两种采用回调的方式，涉及到准备执行上下文,进栈出栈的操作，并且由于所有的操作都在函数进行， 当引用了外部作用域的变量，循环体中的代码会反复的在作用链中向上查找。传统的 for 循环在包含它的上下文中执行，没有创建新的执行上下文的负担，同时循环外的变量依然保持在当前作用域中，省去了作用域的向上查找。 </p>
+</li>
+</ul>
+<h2 id="CSS-方面"><a href="#CSS-方面" class="headerlink" title="CSS 方面"></a>CSS 方面</h2><h3 id="高效的使用选择器"><a href="#高效的使用选择器" class="headerlink" title="高效的使用选择器"></a>高效的使用选择器</h3><ul>
+<li>解析引擎自右向左的计算每条规则</li>
+<li>尽可能的使用具体化的选择器，id 好于 tag</li>
+<li><p>避免不必要的冗余</p>
+<p>  无论哪种浏览器，适用 id 选择器或单个类选择器都是选择元素最快的方式。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#id"</span>)</div><div class="line">$(<span class="string">".class"</span>)</div><div class="line"></div><div class="line"><span class="comment">//  以下为反模式</span></div><div class="line">$(<span class="string">"section div div div &gt; div #id"</span>)</div><div class="line">$(<span class="string">"section div div div &gt; div .class"</span>)</div><div class="line">$(<span class="string">"section div div div p:not('.class')"</span>)</div></pre></td></tr></table></figure>
+<p>适当的使用选择器上下文，如果上下文就是费了九牛加二虎的力气选出来的，不如不加</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".classname"</span>)</div><div class="line"></div><div class="line">$(<span class="string">".classname"</span>,<span class="string">"#id"</span>)  <span class="comment">// 添加一个简单明确的上下文比搜索整个 dom 快些</span></div></pre></td></tr></table></figure>
+<h2 id="HTTP-方向"><a href="#HTTP-方向" class="headerlink" title="HTTP 方向"></a>HTTP 方向</h2><ol>
+<li>cookie</li>
+<li>多域名</li>
+</ol>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[karma下测试异步载入的js文件]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2013-08-21-karma%E4%B8%8B%E6%B5%8B%E8%AF%95%E5%BC%82%E6%AD%A5%E8%BD%BD%E5%85%A5%E7%9A%84js%E6%96%87%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<p>默认情况下<a href="http://karma-runner.github.io/" target="_blank" rel="external">karma</a>是把所有的需要测试文件载入到测试页面，如果我们要对一个jsonp方法或者一个模块载入方法进行测试，它会给出一个找不到文件的提示，原因是karma的本地服务器会把需要测试的文件放在<code>/base/*</code>下，这个搞起来也很方便, 两步就搞定</p>
+<ul>
+<li>设置karma的conf文件里的<code>files</code></li>
+<li>对需要测试的方法进行mock，如果是本地请求路径，加上<code>/base/</code></li>
+</ul>
+<h2 id="需要测试的方法"><a href="#需要测试的方法" class="headerlink" title="需要测试的方法"></a>需要测试的方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span> (<span class="params">url, success, charset</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> node = doc.createElement(<span class="string">'script'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (charset) &#123;</div><div class="line">        node.charset = charset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line">    node.onreadystatechange = node.onload = node.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(node.readyState)) &#123;</div><div class="line">            node.onload = node.onerror = node.onreadystatechange = <span class="literal">null</span>;</div><div class="line"></div><div class="line">            success.call(node);</div><div class="line">            node = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    node.async = <span class="literal">true</span>;</div><div class="line">    node.src = url;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> head = documentElement.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>] || doc.documentElement;</div><div class="line">    head.insertBefore(node, head.firstChild);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="karma-conf-js"><a href="#karma-conf-js" class="headerlink" title="karma.conf.js"></a>karma.conf.js</h2><p>测试的代码写在tests/mainSpec.js里，我们要载入tests/loader/1.js，修改karma的配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">... other config code ...</div><div class="line"></div><div class="line">        files: [</div><div class="line">                <span class="comment">//保证loader下的文件可以访问,但是又不会直接引用到页面上</span></div><div class="line">                &#123; <span class="attr">pattern</span>: <span class="string">'tests/loader/*.js'</span>, <span class="attr">included</span>: <span class="literal">false</span> &#125;, </div><div class="line">                <span class="string">'tests/lib/jquery-1.7.2.min.js'</span>,</div><div class="line">                <span class="string">'tests/lib/expect.js'</span>,</div><div class="line">                <span class="string">'tests/configData.js'</span>,</div><div class="line">                <span class="string">'src/loader.js'</span>,</div><div class="line">                <span class="string">'tests/**/*Spec.js'</span></div><div class="line">        ],</div><div class="line">... other config code ...</div></pre></td></tr></table></figure>
+<h2 id="mainSpec-js里的改造"><a href="#mainSpec-js里的改造" class="headerlink" title="mainSpec.js里的改造"></a>mainSpec.js里的改造</h2><p>需要在karma的环境中，改造一下loadScript方法，其它环境中可以忽略</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.__karma__) &#123; <span class="comment">//只处理在karma的环境中</span></div><div class="line">    <span class="keyword">var</span> __loadScript = loadScript;</div><div class="line">    loadScript= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">        <span class="comment">//只处理本地路径 </span></div><div class="line">        <span class="keyword">if</span> (args[<span class="number">0</span>].indexOf(<span class="string">'http://'</span>) == <span class="number">-1</span>) &#123;</div><div class="line">            args[<span class="number">0</span>] = <span class="string">'/base/tests/'</span> + args[<span class="number">0</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        __loadScript.apply(<span class="literal">null</span>, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后写一句最近非常大的一个感悟：没有测试代码的代码都是狗屎代码！</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[javascript的几种使用多行字符串的方式]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2013-08-20-javascript%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BD%BF%E7%94%A8%E5%A4%9A%E8%A1%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%96%B9%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<p>JS里并没有标准的多行字符串的表示方法，但是在用模板的时候，为了保证模板的可阅读性，我们又不可避免的使用多行字符串，所以出现了各种搞法，这里以一段jade的模板作为示例，简单总结和对比一下。</p>
+<h2 id="字符串相加"><a href="#字符串相加" class="headerlink" title="字符串相加"></a>字符串相加</h2><p>这是最容易理解也很常用的一种形式，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">''</span>+</div><div class="line">    <span class="string">'!!! 5'</span> +</div><div class="line">    <span class="string">'html'</span> +</div><div class="line">    <span class="string">'  include header'</span> +</div><div class="line">    <span class="string">'  body'</span> +</div><div class="line">    <span class="string">'    //if IE 6'</span> +</div><div class="line">    <span class="string">'        .alert.alert-error'</span> +</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> +</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> +</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> +</div><div class="line">    <span class="string">'    include head'</span> +</div><div class="line">    <span class="string">'    .container'</span> +</div><div class="line">    <span class="string">'        .row-fluid'</span> +</div><div class="line">    <span class="string">'            .span8'</span> +</div><div class="line">    <span class="string">'                block main'</span> +</div><div class="line">    <span class="string">'                include pagerbar'</span> +</div><div class="line">    <span class="string">'            .span4'</span> +</div><div class="line">    <span class="string">'                include sidebar'</span> +</div><div class="line">    <span class="string">'    include footer'</span> +</div><div class="line">    <span class="string">'    include script'</span></div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>易理解，简单，可靠 </li>
+<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
+<li>大量的<code>+</code>号看上去满天星,大量的<code>&#39;</code>和<code>&quot;</code>, 丑陋</li>
+</ul>
+<h2 id="反斜线"><a href="#反斜线" class="headerlink" title="反斜线"></a>反斜线</h2><p>这个叫续行符, 这个并非一种很常见的方式, 但是一旦用上了，还是很容易上瘾，只需要加一个字符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">'\</span></div><div class="line">    !!! 5\</div><div class="line">    html\</div><div class="line">      include header\</div><div class="line">      body\</div><div class="line">        //if IE 6\</div><div class="line">            .alert.alert-error\</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器\</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载\</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载\</div><div class="line">        include head\</div><div class="line">        .container\</div><div class="line">            .row-fluid\</div><div class="line">                .span8\</div><div class="line">                    block main\</div><div class="line">                    include pagerbar\</div><div class="line">                .span4\</div><div class="line">                    include sidebar\</div><div class="line">        include footer\</div><div class="line">        include script'</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>简单,每一行只需要有多一个<code>\</code></li>
+<li>高效！在大部分的浏览器上，这种方式都是最快的，看这个<a href="http://jsperf.com/zp-string-concatenation/6" target="_blank" rel="external">效率对比</a></li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>致命缺陷，每一行的<code>\</code>必须不可以有空格，否则直接脚本错误 </li>
+<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
+<li>尽管绝大部分的js引擎都支持它，但是它并不是ECMAScript的一部分(我并没有研究规范，这句话是从<a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml?showone=Multiline_string_literals#Multiline_string_literals" target="_blank" rel="external">google的编码规范</a>翻译过来的)</li>
+</ul>
+<h2 id="字符串数组join"><a href="#字符串数组join" class="headerlink" title="字符串数组join"></a>字符串数组join</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = [</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>].join(<span class="string">'\n'</span>);</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>真正意义上的多行字符串 </li>
+<li>易理解，简单，可靠 </li>
+<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
+</ul>
+<h2 id="String-prototype-concat"><a href="#String-prototype-concat" class="headerlink" title="String.prototype.concat"></a>String.prototype.concat</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = <span class="built_in">String</span>.prototype.concat.call(</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>);</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>不常用，事实上字符串的concat方法远没有<code>+</code>号常见</li>
+<li>易理解，简单，可靠 </li>
+<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>并不是真正意义上的多行字符串 </li>
+<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
+</ul>
+<h2 id="heredoc"><a href="#heredoc" class="headerlink" title="heredoc"></a>heredoc</h2><p>这是一种很有技巧的解决办法, 利用了function的toString方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">heredoc</span>(<span class="params">fn</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> fn.toString().split(<span class="string">'\n'</span>).slice(<span class="number">1</span>,<span class="number">-1</span>).join(<span class="string">'\n'</span>) + <span class="string">'\n'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> tmpl = heredoc(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="comment">/*</span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line"> */&#125;);</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>模板字符串内不必写多余的任何字符，干净，简单 </li>
+<li>真正意义上的多行字符串, 有<code>\n</code>哦 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>不可以在单个字符串中添加js逻辑 </li>
+<li>容易被压缩器压缩掉，yui compressor可以通过<code>/*!</code>来避免被压缩掉，<a href="https://github.com/mishoo/UglifyJS2" target="_blank" rel="external">uglifyjs</a>和<a href="https://developers.google.com/closure/compiler/" target="_blank" rel="external">gcc</a>也可以通过选项配置不删除特定的注释，这个不是大问题</li>
+</ul>
+<h2 id="coffeescript"><a href="#coffeescript" class="headerlink" title="coffeescript"></a>coffeescript</h2><p>相当于换了一个语言，其实这种语言上缺少的功能，通过<a href="http://coffeescript.org/#strings" target="_blank" rel="external">coffeescript</a>这种以js为编译目标的语言来实现是一种非常棒的选择。    </p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var tmpl = <span class="string">""" </span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line">    """</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>易理解，简单，可靠 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>需要了解coffeescript </li>
+<li>整个文件都需要用coffeescript来写</li>
+</ul>
+<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><p>ES6的有一个新的特性，<a href="http://wiki.ecmascript.org/doku.php?id=harmony:quasis" target="_blank" rel="external">Template Strings</a>, 这是语言层面上第一次实现了多行字符串, 在<a href="https://www.google.com/intl/en/chrome/browser/canary.html" target="_blank" rel="external">chrome canary</a>里打开<code>Enable Experimental JavaScript</code>就可以使用这个特性，另外<a href="http://www.typescriptlang.org/" target="_blank" rel="external">typescript</a>也会支持这种方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = </div><div class="line">   <span class="string">`!!! 5</span></div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script`</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>易理解，原生支持 </li>
+<li>真正的多行字符串</li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>JS引擎支持有限 </li>
+</ul>
+<p>##总结</p>
+<p>看了这么些写法，如何选择？如果你用的是coffeescript，放心大胆的使用它支持的多行字符串写法；如果是在客户端，同时你解决了你的压缩器去掉注释的问题，推荐使用heredoc；如果你无法解决压缩器的问题，使用反斜线连接吧，每行只需要加一个字符。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git修改历史提交的信息]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2013-07-17-Git%E4%BF%AE%E6%94%B9%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E7%9A%84%E4%BF%A1%E6%81%AF/</url>
+      <content type="html"><![CDATA[<p>##起因<br>公司内部使用的gitlab分支上可以使用未注册的用户提交，但是在master分支上必须是注册用户，就算是提交分支成功了，再往master合并的时候也会出错，所以只能修改历史提交纪录</p>
+<p>##解决<br>本质上就是使用<code>git filter-branch</code>，<a href="https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html" target="_blank" rel="external">这里</a>是这个命令的详细文档，另外github上提供了一个脚本</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line"> </div><div class="line">git filter-branch --env-filter '</div><div class="line"> </div><div class="line">an="$GIT_AUTHOR_NAME"</div><div class="line">am="$GIT_AUTHOR_EMAIL"</div><div class="line">cn="$GIT_COMMITTER_NAME"</div><div class="line">cm="$GIT_COMMITTER_EMAIL"</div><div class="line"> </div><div class="line">if [ "$GIT_COMMITTER_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    cn="Your New Committer Name"</div><div class="line">    cm="Your New Committer Email"</div><div class="line">fi</div><div class="line">if [ "$GIT_AUTHOR_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    an="Your New Author Name"</div><div class="line">    am="Your New Author Email"</div><div class="line">fi</div><div class="line"> </div><div class="line">export GIT_AUTHOR_NAME="$an"</div><div class="line">export GIT_AUTHOR_EMAIL="$am"</div><div class="line">export GIT_COMMITTER_NAME="$cn"</div><div class="line">export GIT_COMMITTER_EMAIL="$cm"</div><div class="line">'</div></pre></td></tr></table></figure>
+<p><a href="https://help.github.com/articles/changing-author-info" target="_blank" rel="external">地址</a>，注意如果你把cm或者am换成中文的，一定要保证脚本文件是utf-8编码的，否则注释中容易出现乱码</p>
 ]]></content>
     </entry>
     
@@ -351,223 +532,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[介绍js-assessment]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2013-03-30-%E4%BB%8B%E7%BB%8Djs-assessment/</url>
-      <content type="html"><![CDATA[<p>##js-assessment简介<br><a href="https://github.com/rmurphey/js-assessment" target="_blank" rel="external">js-assessment</a>是一个帮助你通过写单元测试来学习js的小项目，这是一个非常有意思的东西，建议你花时间把这个做完，肯定受益匪浅。</p>
-<p>##怎么玩<br>需要你的电脑上有nodejs环境</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone https:<span class="comment">//github.com/rmurphey/js-assessment.git</span></div><div class="line">cd js-assessment</div><div class="line">npm install </div><div class="line">node bin/serve</div></pre></td></tr></table></figure>
-<p>接着打开你的浏览器访问 <a href="http://localhost:4444" target="_blank" rel="external">http://localhost:4444</a></p>
-<p>然后用你的编辑器到目录app下去编辑每个文件，刷新浏览器，使所有的测试用命都能通过。</p>
-<p>如果你实在看不懂英文描述那些方法要求的实现结果，可以到tests目录下的app里看每个测试用例是怎么写的，可以学到不少东西，当然不要作弊啊</p>
-<p>##学到的一些东西</p>
-<ul>
-<li>BDD方式开发程序挺有趣的</li>
-<li>单纯针对语言特性的单元测试很简单</li>
-<li>两个递归的小例子很好玩</li>
-<li>写测试用例要覆盖全面，包括一些不常见的情况和边界情况</li>
-<li>mocha写测试用例很爽</li>
-<li>好的实现方式也更容易测试，比如异步的时候使用promise模式</li>
-</ul>
-<p>##答案<br>是题就会有答案，当然也只是参考答案，没有绝对答案的，<a href="https://github.com/rmurphey/js-assessment-answers" target="_blank" rel="external">项目自带的</a>、<a href="https://github.com/jserme/js-assessment/tree/master/app" target="_blank" rel="external">小哥我做的</a></p>
-<p>##总结<br>完成它和写这个文章相距的时间有点长，当时的有些感悟都忘记了。。。所以，以后还是想到了，直接就写，google reader要关闭了，多写了点文章吧。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title></title>
-      <url>http://yardfarmer.github.io/2017/02/01/node_harmony/</url>
-      <content type="html"><![CDATA[<p>#node harmony<br>They have done away with the –harmony flag - which in Node 0.11+ you had to include if you wanted to use any ES6 features at all. In io.js, you get them right out of the box! The current list of ES6 features enabled by default are:</p>
-<p>iojs 已经可以默认支持这些了。</p>
-<ul>
-<li>let</li>
-<li>const</li>
-<li>Map</li>
-<li>WeakMap/WeakSet</li>
-<li>Generators</li>
-<li>Binary and Octal literals, 二进制和八进制的字面量</li>
-<li>Promises</li>
-<li>Pro string method</li>
-<li>Symbols</li>
-<li>Template strings</li>
-</ul>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[前端优化的小范围记录]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2013-08-10-%E9%87%8D%E5%B8%83%E5%B1%80%E5%92%8C%E9%87%8D%E7%BB%98/</url>
-      <content type="html"><![CDATA[<h2 id="HTML-方面"><a href="#HTML-方面" class="headerlink" title="HTML 方面"></a>HTML 方面</h2><h3 id="重布局和重绘"><a href="#重布局和重绘" class="headerlink" title="重布局和重绘"></a>重布局和重绘</h3><p>重布局和重绘，是 web 页面中最常见的重量级操作。当浏览器需要更新它的呈现模型时，就会发生重布局和重绘。只要加载页面就会发生一次重布局和重绘(浏览器在加载页面时必须至少绘制一次页面）, 但在动态页面的应用中，会发生很多次的重布局和重绘。</p>
-<ul>
-<li>当改变样式时候，而不该页面的几何布局，将发生重绘。隐藏一个元素，或者改变一个元素的背景色时，都将导致一次重绘</li>
-<li>当对页面的结构进行更新时，将导致重布局。从文档中移除元素，或者将元素添加到文档中、改变元素的大小或者改变元素的某些属性，都将导致页面重布局，重布局的代价比重绘大，它涉及到使用当前的 DOM、CSS 的定义，重新计算页面的几何结构。</li>
-</ul>
-<h3 id="优化措施"><a href="#优化措施" class="headerlink" title="优化措施"></a>优化措施</h3><p> 最少次数的更新 DOM</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">table</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'one append, one dom cost'</span>)</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">		$(<span class="string">"#main table"</span>).append(<span class="string">"&lt;tr&gt;&lt;td&gt;append to row: &lt;/td&gt;&lt;td&gt;"</span> + i + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'one append, one dom cost'</span>);</div><div class="line">	<span class="comment">// =&gt; one append, one dom cost: 4952.122ms </span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="keyword">var</span> tableRows = <span class="string">""</span>;</div><div class="line">	<span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ ) &#123;</div><div class="line">		tableRows += <span class="string">"&lt;tr&gt;&lt;td&gt;accumulate and append, now is at :&lt;/td&gt;&lt;td&gt;"</span>+ i +<span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">    $(<span class="string">"#main table"</span>).append(tableRows);</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="comment">// =&gt; accumulate and append cost: 117.491ms</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>采用一次想操作 dom 的方法比每次都操作 dom 快了 42 倍。<br><img src="./images/codesnip_20141229215927.png" alt="显著对比"></p>
-<h2 id="JS-方面"><a href="#JS-方面" class="headerlink" title="JS 方面"></a>JS 方面</h2><h3 id="缓存计算值"><a href="#缓存计算值" class="headerlink" title="缓存计算值"></a>缓存计算值</h3><h3 id="恰当的适用循环"><a href="#恰当的适用循环" class="headerlink" title="恰当的适用循环"></a>恰当的适用循环</h3><ul>
-<li>for (最快的)</li>
-<li>$.each(item)</li>
-<li><p>Array.forEach(item,index)</p>
-<p>  后两种采用回调的方式，涉及到准备执行上下文,进栈出栈的操作，并且由于所有的操作都在函数进行， 当引用了外部作用域的变量，循环体中的代码会反复的在作用链中向上查找。传统的 for 循环在包含它的上下文中执行，没有创建新的执行上下文的负担，同时循环外的变量依然保持在当前作用域中，省去了作用域的向上查找。 </p>
-</li>
-</ul>
-<h2 id="CSS-方面"><a href="#CSS-方面" class="headerlink" title="CSS 方面"></a>CSS 方面</h2><h3 id="高效的使用选择器"><a href="#高效的使用选择器" class="headerlink" title="高效的使用选择器"></a>高效的使用选择器</h3><ul>
-<li>解析引擎自右向左的计算每条规则</li>
-<li>尽可能的使用具体化的选择器，id 好于 tag</li>
-<li><p>避免不必要的冗余</p>
-<p>  无论哪种浏览器，适用 id 选择器或单个类选择器都是选择元素最快的方式。</p>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#id"</span>)</div><div class="line">$(<span class="string">".class"</span>)</div><div class="line"></div><div class="line"><span class="comment">//  以下为反模式</span></div><div class="line">$(<span class="string">"section div div div &gt; div #id"</span>)</div><div class="line">$(<span class="string">"section div div div &gt; div .class"</span>)</div><div class="line">$(<span class="string">"section div div div p:not('.class')"</span>)</div></pre></td></tr></table></figure>
-<p>适当的使用选择器上下文，如果上下文就是费了九牛加二虎的力气选出来的，不如不加</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".classname"</span>)</div><div class="line"></div><div class="line">$(<span class="string">".classname"</span>,<span class="string">"#id"</span>)  <span class="comment">// 添加一个简单明确的上下文比搜索整个 dom 快些</span></div></pre></td></tr></table></figure>
-<h2 id="HTTP-方向"><a href="#HTTP-方向" class="headerlink" title="HTTP 方向"></a>HTTP 方向</h2><ol>
-<li>cookie</li>
-<li>多域名</li>
-</ol>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Git修改历史提交的信息]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2013-07-17-Git%E4%BF%AE%E6%94%B9%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E7%9A%84%E4%BF%A1%E6%81%AF/</url>
-      <content type="html"><![CDATA[<p>##起因<br>公司内部使用的gitlab分支上可以使用未注册的用户提交，但是在master分支上必须是注册用户，就算是提交分支成功了，再往master合并的时候也会出错，所以只能修改历史提交纪录</p>
-<p>##解决<br>本质上就是使用<code>git filter-branch</code>，<a href="https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html" target="_blank" rel="external">这里</a>是这个命令的详细文档，另外github上提供了一个脚本</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line"> </div><div class="line">git filter-branch --env-filter '</div><div class="line"> </div><div class="line">an="$GIT_AUTHOR_NAME"</div><div class="line">am="$GIT_AUTHOR_EMAIL"</div><div class="line">cn="$GIT_COMMITTER_NAME"</div><div class="line">cm="$GIT_COMMITTER_EMAIL"</div><div class="line"> </div><div class="line">if [ "$GIT_COMMITTER_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    cn="Your New Committer Name"</div><div class="line">    cm="Your New Committer Email"</div><div class="line">fi</div><div class="line">if [ "$GIT_AUTHOR_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    an="Your New Author Name"</div><div class="line">    am="Your New Author Email"</div><div class="line">fi</div><div class="line"> </div><div class="line">export GIT_AUTHOR_NAME="$an"</div><div class="line">export GIT_AUTHOR_EMAIL="$am"</div><div class="line">export GIT_COMMITTER_NAME="$cn"</div><div class="line">export GIT_COMMITTER_EMAIL="$cm"</div><div class="line">'</div></pre></td></tr></table></figure>
-<p><a href="https://help.github.com/articles/changing-author-info" target="_blank" rel="external">地址</a>，注意如果你把cm或者am换成中文的，一定要保证脚本文件是utf-8编码的，否则注释中容易出现乱码</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[javascript的几种使用多行字符串的方式]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2013-08-20-javascript%E7%9A%84%E5%87%A0%E7%A7%8D%E4%BD%BF%E7%94%A8%E5%A4%9A%E8%A1%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%96%B9%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<p>JS里并没有标准的多行字符串的表示方法，但是在用模板的时候，为了保证模板的可阅读性，我们又不可避免的使用多行字符串，所以出现了各种搞法，这里以一段jade的模板作为示例，简单总结和对比一下。</p>
-<h2 id="字符串相加"><a href="#字符串相加" class="headerlink" title="字符串相加"></a>字符串相加</h2><p>这是最容易理解也很常用的一种形式，如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">''</span>+</div><div class="line">    <span class="string">'!!! 5'</span> +</div><div class="line">    <span class="string">'html'</span> +</div><div class="line">    <span class="string">'  include header'</span> +</div><div class="line">    <span class="string">'  body'</span> +</div><div class="line">    <span class="string">'    //if IE 6'</span> +</div><div class="line">    <span class="string">'        .alert.alert-error'</span> +</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> +</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> +</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> +</div><div class="line">    <span class="string">'    include head'</span> +</div><div class="line">    <span class="string">'    .container'</span> +</div><div class="line">    <span class="string">'        .row-fluid'</span> +</div><div class="line">    <span class="string">'            .span8'</span> +</div><div class="line">    <span class="string">'                block main'</span> +</div><div class="line">    <span class="string">'                include pagerbar'</span> +</div><div class="line">    <span class="string">'            .span4'</span> +</div><div class="line">    <span class="string">'                include sidebar'</span> +</div><div class="line">    <span class="string">'    include footer'</span> +</div><div class="line">    <span class="string">'    include script'</span></div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>易理解，简单，可靠 </li>
-<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
-<li>大量的<code>+</code>号看上去满天星,大量的<code>&#39;</code>和<code>&quot;</code>, 丑陋</li>
-</ul>
-<h2 id="反斜线"><a href="#反斜线" class="headerlink" title="反斜线"></a>反斜线</h2><p>这个叫续行符, 这个并非一种很常见的方式, 但是一旦用上了，还是很容易上瘾，只需要加一个字符</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">'\</span></div><div class="line">    !!! 5\</div><div class="line">    html\</div><div class="line">      include header\</div><div class="line">      body\</div><div class="line">        //if IE 6\</div><div class="line">            .alert.alert-error\</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器\</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载\</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载\</div><div class="line">        include head\</div><div class="line">        .container\</div><div class="line">            .row-fluid\</div><div class="line">                .span8\</div><div class="line">                    block main\</div><div class="line">                    include pagerbar\</div><div class="line">                .span4\</div><div class="line">                    include sidebar\</div><div class="line">        include footer\</div><div class="line">        include script'</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>简单,每一行只需要有多一个<code>\</code></li>
-<li>高效！在大部分的浏览器上，这种方式都是最快的，看这个<a href="http://jsperf.com/zp-string-concatenation/6" target="_blank" rel="external">效率对比</a></li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>致命缺陷，每一行的<code>\</code>必须不可以有空格，否则直接脚本错误 </li>
-<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
-<li>尽管绝大部分的js引擎都支持它，但是它并不是ECMAScript的一部分(我并没有研究规范，这句话是从<a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml?showone=Multiline_string_literals#Multiline_string_literals" target="_blank" rel="external">google的编码规范</a>翻译过来的)</li>
-</ul>
-<h2 id="字符串数组join"><a href="#字符串数组join" class="headerlink" title="字符串数组join"></a>字符串数组join</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = [</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>].join(<span class="string">'\n'</span>);</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>真正意义上的多行字符串 </li>
-<li>易理解，简单，可靠 </li>
-<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
-</ul>
-<h2 id="String-prototype-concat"><a href="#String-prototype-concat" class="headerlink" title="String.prototype.concat"></a>String.prototype.concat</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = <span class="built_in">String</span>.prototype.concat.call(</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>);</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>不常用，事实上字符串的concat方法远没有<code>+</code>号常见</li>
-<li>易理解，简单，可靠 </li>
-<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>并不是真正意义上的多行字符串 </li>
-<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
-</ul>
-<h2 id="heredoc"><a href="#heredoc" class="headerlink" title="heredoc"></a>heredoc</h2><p>这是一种很有技巧的解决办法, 利用了function的toString方法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">heredoc</span>(<span class="params">fn</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> fn.toString().split(<span class="string">'\n'</span>).slice(<span class="number">1</span>,<span class="number">-1</span>).join(<span class="string">'\n'</span>) + <span class="string">'\n'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> tmpl = heredoc(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="comment">/*</span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line"> */&#125;);</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>模板字符串内不必写多余的任何字符，干净，简单 </li>
-<li>真正意义上的多行字符串, 有<code>\n</code>哦 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>不可以在单个字符串中添加js逻辑 </li>
-<li>容易被压缩器压缩掉，yui compressor可以通过<code>/*!</code>来避免被压缩掉，<a href="https://github.com/mishoo/UglifyJS2" target="_blank" rel="external">uglifyjs</a>和<a href="https://developers.google.com/closure/compiler/" target="_blank" rel="external">gcc</a>也可以通过选项配置不删除特定的注释，这个不是大问题</li>
-</ul>
-<h2 id="coffeescript"><a href="#coffeescript" class="headerlink" title="coffeescript"></a>coffeescript</h2><p>相当于换了一个语言，其实这种语言上缺少的功能，通过<a href="http://coffeescript.org/#strings" target="_blank" rel="external">coffeescript</a>这种以js为编译目标的语言来实现是一种非常棒的选择。    </p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var tmpl = <span class="string">""" </span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line">    """</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>易理解，简单，可靠 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>需要了解coffeescript </li>
-<li>整个文件都需要用coffeescript来写</li>
-</ul>
-<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><p>ES6的有一个新的特性，<a href="http://wiki.ecmascript.org/doku.php?id=harmony:quasis" target="_blank" rel="external">Template Strings</a>, 这是语言层面上第一次实现了多行字符串, 在<a href="https://www.google.com/intl/en/chrome/browser/canary.html" target="_blank" rel="external">chrome canary</a>里打开<code>Enable Experimental JavaScript</code>就可以使用这个特性，另外<a href="http://www.typescriptlang.org/" target="_blank" rel="external">typescript</a>也会支持这种方式</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = </div><div class="line">   <span class="string">`!!! 5</span></div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script`</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>易理解，原生支持 </li>
-<li>真正的多行字符串</li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>JS引擎支持有限 </li>
-</ul>
-<p>##总结</p>
-<p>看了这么些写法，如何选择？如果你用的是coffeescript，放心大胆的使用它支持的多行字符串写法；如果是在客户端，同时你解决了你的压缩器去掉注释的问题，推荐使用heredoc；如果你无法解决压缩器的问题，使用反斜线连接吧，每行只需要加一个字符。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[karma下测试异步载入的js文件]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2013-08-21-karma%E4%B8%8B%E6%B5%8B%E8%AF%95%E5%BC%82%E6%AD%A5%E8%BD%BD%E5%85%A5%E7%9A%84js%E6%96%87%E4%BB%B6/</url>
-      <content type="html"><![CDATA[<p>默认情况下<a href="http://karma-runner.github.io/" target="_blank" rel="external">karma</a>是把所有的需要测试文件载入到测试页面，如果我们要对一个jsonp方法或者一个模块载入方法进行测试，它会给出一个找不到文件的提示，原因是karma的本地服务器会把需要测试的文件放在<code>/base/*</code>下，这个搞起来也很方便, 两步就搞定</p>
-<ul>
-<li>设置karma的conf文件里的<code>files</code></li>
-<li>对需要测试的方法进行mock，如果是本地请求路径，加上<code>/base/</code></li>
-</ul>
-<h2 id="需要测试的方法"><a href="#需要测试的方法" class="headerlink" title="需要测试的方法"></a>需要测试的方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span> (<span class="params">url, success, charset</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> node = doc.createElement(<span class="string">'script'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (charset) &#123;</div><div class="line">        node.charset = charset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line">    node.onreadystatechange = node.onload = node.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(node.readyState)) &#123;</div><div class="line">            node.onload = node.onerror = node.onreadystatechange = <span class="literal">null</span>;</div><div class="line"></div><div class="line">            success.call(node);</div><div class="line">            node = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    node.async = <span class="literal">true</span>;</div><div class="line">    node.src = url;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> head = documentElement.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>] || doc.documentElement;</div><div class="line">    head.insertBefore(node, head.firstChild);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="karma-conf-js"><a href="#karma-conf-js" class="headerlink" title="karma.conf.js"></a>karma.conf.js</h2><p>测试的代码写在tests/mainSpec.js里，我们要载入tests/loader/1.js，修改karma的配置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">... other config code ...</div><div class="line"></div><div class="line">        files: [</div><div class="line">                <span class="comment">//保证loader下的文件可以访问,但是又不会直接引用到页面上</span></div><div class="line">                &#123; <span class="attr">pattern</span>: <span class="string">'tests/loader/*.js'</span>, <span class="attr">included</span>: <span class="literal">false</span> &#125;, </div><div class="line">                <span class="string">'tests/lib/jquery-1.7.2.min.js'</span>,</div><div class="line">                <span class="string">'tests/lib/expect.js'</span>,</div><div class="line">                <span class="string">'tests/configData.js'</span>,</div><div class="line">                <span class="string">'src/loader.js'</span>,</div><div class="line">                <span class="string">'tests/**/*Spec.js'</span></div><div class="line">        ],</div><div class="line">... other config code ...</div></pre></td></tr></table></figure>
-<h2 id="mainSpec-js里的改造"><a href="#mainSpec-js里的改造" class="headerlink" title="mainSpec.js里的改造"></a>mainSpec.js里的改造</h2><p>需要在karma的环境中，改造一下loadScript方法，其它环境中可以忽略</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.__karma__) &#123; <span class="comment">//只处理在karma的环境中</span></div><div class="line">    <span class="keyword">var</span> __loadScript = loadScript;</div><div class="line">    loadScript= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">        <span class="comment">//只处理本地路径 </span></div><div class="line">        <span class="keyword">if</span> (args[<span class="number">0</span>].indexOf(<span class="string">'http://'</span>) == <span class="number">-1</span>) &#123;</div><div class="line">            args[<span class="number">0</span>] = <span class="string">'/base/tests/'</span> + args[<span class="number">0</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        __loadScript.apply(<span class="literal">null</span>, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后写一句最近非常大的一个感悟：没有测试代码的代码都是狗屎代码！</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title></title>
-      <url>http://yardfarmer.github.io/2017/02/01/neat%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-      <content type="html"><![CDATA[<p>#开发环境</p>
-<p>##一. neat</p>
-<p>###gulp 的使用</p>
-<ol>
-<li><p><strong>gulp </strong> 需要自己去安装, <code>npm install gulp</code>, 然后 gulpfile.js 文件放入根目录.</p>
-</li>
-<li><p>安装模板</p>
-<pre><code>sudo neat install @ali/generator-apm
-</code></pre></li>
-</ol>
-<p>###yo 的使用</p>
-<p>在 neat.fdm 的根目录 </p>
-<pre><code>sudo tnpm install generator-polymer
-</code></pre><p>##二. apm</p>
-<p>是1688开发的<strong>组件</strong>平台, 推荐 <strong>commonjs</strong> 语法来写组件</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[利用github的api显示当前文章的历史记录]]></title>
       <url>http://yardfarmer.github.io/2017/02/01/2013-10-06-%E5%88%A9%E7%94%A8github%E7%9A%84api%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E6%96%87%E7%AB%A0%E7%9A%84%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95/</url>
       <content type="html"><![CDATA[<p>利用github放blog也有一段时间了，一直想做一个小功能，就是展示某个文章的历史纪录，简单来说就是<code>git log 某个文章</code></p>
@@ -737,6 +701,27 @@
 <li>Jim Cowart, <a href="http://tech.pro/blog/1561/five-helpful-tips-when-using-requirejs" target="_blank" rel="external">Five Helpful Tips When Using RequireJS</a> </li>
 <li>Jim Cowart, <a href="http://tech.pro/blog/1639/using-rjs-to-optimize-your-requirejs-project" target="_blank" rel="external">Using r.js to Optimize Your RequireJS Project</a></li>
 </ul>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>http://yardfarmer.github.io/2017/02/01/neat%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+      <content type="html"><![CDATA[<p>#开发环境</p>
+<p>##一. neat</p>
+<p>###gulp 的使用</p>
+<ol>
+<li><p><strong>gulp </strong> 需要自己去安装, <code>npm install gulp</code>, 然后 gulpfile.js 文件放入根目录.</p>
+</li>
+<li><p>安装模板</p>
+<pre><code>sudo neat install @ali/generator-apm
+</code></pre></li>
+</ol>
+<p>###yo 的使用</p>
+<p>在 neat.fdm 的根目录 </p>
+<pre><code>sudo tnpm install generator-polymer
+</code></pre><p>##二. apm</p>
+<p>是1688开发的<strong>组件</strong>平台, 推荐 <strong>commonjs</strong> 语法来写组件</p>
 ]]></content>
     </entry>
     
@@ -977,21 +962,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Hello World]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/hello-world/</url>
-      <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title></title>
       <url>http://yardfarmer.github.io/2017/02/01/filtbar_%E9%87%8D%E6%9E%84/</url>
       <content type="html"><![CDATA[<p>#filtbar 重构</p>
@@ -1014,12 +984,46 @@
     </entry>
     
     <entry>
+      <title><![CDATA[Hello World]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/hello-world/</url>
+      <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title></title>
       <url>http://yardfarmer.github.io/2017/02/01/event_performance%EF%BC%88%E4%BA%8B%E4%BB%B6%E6%80%A7%E8%83%BD%EF%BC%89/</url>
       <content type="html"><![CDATA[<p>#Event performance（事件性能）</p>
 <p>在大多数情况下，一个事件如click很少发生，性能表现并不显注。但是，高频率事件比如mousemove 或者 scroll可以每秒触发几十个次，在这种情况下明智地使用事件变得更加重要。可以按如下的办法提高事件的性能：减少事件处理函数中的工作量；对于在事件处理函数中要用到的信息做好缓存而不是再重新计算一次；或使用setTimeout限制的页面更新的实际次数。</p>
 <p>许多委派的事件处理程序绑定到 document 树的顶层附近，可以降低性能。每次发生事件时，jQuery 需要比较从 event target（目标元素） 开始到文档顶部的路径中每一个元素上所有该类型的事件。为了获得更好的性能，在绑定代理事件时，绑定的元素最好尽可能的靠近目标元素。避免在大型文档中，过多的在 document 或 document.body 上添加代理事件。</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>http://yardfarmer.github.io/2017/02/01/css%E7%BC%96%E5%86%99%E8%A7%84%E8%8C%83/</url>
+      <content type="html"><![CDATA[<p>#css编写规范</p>
+<h2 id="css-书写顺序"><a href="#css-书写顺序" class="headerlink" title="css 书写顺序"></a>css 书写顺序</h2><p>尽量按照特定顺序编写规则，这将确保你充分发挥 CSS 中第一个 C 的意义：<strong>cascade</strong>，层叠。</p>
+<p>一份规划良好的 CSS 应当按照如下排列：</p>
+<ol>
+<li>Reset 万物之根源</li>
+<li>元素类型 没有 class 的 h1、ul 等</li>
+<li>对象以及抽象内容 最一般、最基础的设计模式</li>
+<li>子元素 由对象延伸出来的所有拓展及其子元素</li>
+<li>修补 针对异常状态</li>
+</ol>
+<blockquote>
+<p>显示 &gt; 盒模型 &gt; 文本</p>
+</blockquote>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/*========================</div><div class="line">/*显示*/</div><div class="line">display |<span class="type">| visibility</span></div><div class="line">list-style : list-style-type |<span class="type">| list</span>-style-position |<span class="type">| list</span>-style-image</div><div class="line">position</div><div class="line"><span class="built_in">top</span> |<span class="type">| right</span> |<span class="type">| bottom</span> |<span class="type">| left</span></div><div class="line">z-index</div><div class="line"><span class="built_in">clear</span></div><div class="line">float</div><div class="line">/*盒模型*/</div><div class="line">width</div><div class="line">max-width |<span class="type">| min</span>-width</div><div class="line">height</div><div class="line">max-height |<span class="type">| min</span>-height</div><div class="line">overflow |<span class="type">| clip</span></div><div class="line">margin : margin-<span class="built_in">top</span> |<span class="type">| margin</span>-<span class="built_in">right</span> |<span class="type">| margin</span>-<span class="built_in">bottom</span> |<span class="type">| margin</span>-<span class="built_in">left</span></div><div class="line">padding : padding-<span class="built_in">top</span> |<span class="type">| padding</span>-<span class="built_in">right</span> |<span class="type">| padding</span>-<span class="built_in">bottom</span> |<span class="type">| padding</span>-<span class="built_in">left</span></div><div class="line">outline : outline-color |<span class="type">| outline</span>-style |<span class="type">| outline</span>-width</div><div class="line">border</div><div class="line">background : background-color |<span class="type">| background</span>-image |<span class="type">| background</span>-<span class="built_in">repeat</span> |<span class="type">| background</span>-attachment |<span class="type">| background</span>-position</div><div class="line">/*文本*/</div><div class="line">color</div><div class="line">font : font-style |<span class="type">| font</span>-variant |<span class="type">| font</span>-weight |<span class="type">| font</span>-size |<span class="type">|    line</span>-height |<span class="type">| font</span>-family</div><div class="line">font : caption | <span class="type">icon</span> | <span class="type">menu</span> | <span class="type">message</span>-box | <span class="type">small</span>-caption |    <span class="type">status</span>-bar</div><div class="line">text-overflow</div><div class="line">text-align</div><div class="line">text-indent</div><div class="line">line-height</div><div class="line">white-space</div><div class="line">vertical-align</div><div class="line">cursor</div><div class="line">========================*/</div></pre></td></tr></table></figure>]]></content>
     </entry>
     
     <entry>
@@ -1062,25 +1066,6 @@
 <p>使用 promise</p>
 <figure class="highlight scilab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Q.fcall(step1)</div><div class="line">.<span class="keyword">then</span>(step2)</div><div class="line">.<span class="keyword">then</span>(step3)</div><div class="line">.<span class="keyword">then</span>(step4)</div><div class="line">.<span class="keyword">then</span>(<span class="function"><span class="keyword">function</span> <span class="params">(value4)</span> &#123;</span></div><div class="line">    <span class="comment">// Do something with value4</span></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span> <span class="params">(error)</span> &#123;</span></div><div class="line">    <span class="comment">// Handle any error from step1 through step4</span></div><div class="line">&#125;)</div><div class="line">.done();</div></pre></td></tr></table></figure>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title></title>
-      <url>http://yardfarmer.github.io/2017/02/01/css%E7%BC%96%E5%86%99%E8%A7%84%E8%8C%83/</url>
-      <content type="html"><![CDATA[<p>#css编写规范</p>
-<h2 id="css-书写顺序"><a href="#css-书写顺序" class="headerlink" title="css 书写顺序"></a>css 书写顺序</h2><p>尽量按照特定顺序编写规则，这将确保你充分发挥 CSS 中第一个 C 的意义：<strong>cascade</strong>，层叠。</p>
-<p>一份规划良好的 CSS 应当按照如下排列：</p>
-<ol>
-<li>Reset 万物之根源</li>
-<li>元素类型 没有 class 的 h1、ul 等</li>
-<li>对象以及抽象内容 最一般、最基础的设计模式</li>
-<li>子元素 由对象延伸出来的所有拓展及其子元素</li>
-<li>修补 针对异常状态</li>
-</ol>
-<blockquote>
-<p>显示 &gt; 盒模型 &gt; 文本</p>
-</blockquote>
-<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/*========================</div><div class="line">/*显示*/</div><div class="line">display |<span class="type">| visibility</span></div><div class="line">list-style : list-style-type |<span class="type">| list</span>-style-position |<span class="type">| list</span>-style-image</div><div class="line">position</div><div class="line"><span class="built_in">top</span> |<span class="type">| right</span> |<span class="type">| bottom</span> |<span class="type">| left</span></div><div class="line">z-index</div><div class="line"><span class="built_in">clear</span></div><div class="line">float</div><div class="line">/*盒模型*/</div><div class="line">width</div><div class="line">max-width |<span class="type">| min</span>-width</div><div class="line">height</div><div class="line">max-height |<span class="type">| min</span>-height</div><div class="line">overflow |<span class="type">| clip</span></div><div class="line">margin : margin-<span class="built_in">top</span> |<span class="type">| margin</span>-<span class="built_in">right</span> |<span class="type">| margin</span>-<span class="built_in">bottom</span> |<span class="type">| margin</span>-<span class="built_in">left</span></div><div class="line">padding : padding-<span class="built_in">top</span> |<span class="type">| padding</span>-<span class="built_in">right</span> |<span class="type">| padding</span>-<span class="built_in">bottom</span> |<span class="type">| padding</span>-<span class="built_in">left</span></div><div class="line">outline : outline-color |<span class="type">| outline</span>-style |<span class="type">| outline</span>-width</div><div class="line">border</div><div class="line">background : background-color |<span class="type">| background</span>-image |<span class="type">| background</span>-<span class="built_in">repeat</span> |<span class="type">| background</span>-attachment |<span class="type">| background</span>-position</div><div class="line">/*文本*/</div><div class="line">color</div><div class="line">font : font-style |<span class="type">| font</span>-variant |<span class="type">| font</span>-weight |<span class="type">| font</span>-size |<span class="type">|    line</span>-height |<span class="type">| font</span>-family</div><div class="line">font : caption | <span class="type">icon</span> | <span class="type">menu</span> | <span class="type">message</span>-box | <span class="type">small</span>-caption |    <span class="type">status</span>-bar</div><div class="line">text-overflow</div><div class="line">text-align</div><div class="line">text-indent</div><div class="line">line-height</div><div class="line">white-space</div><div class="line">vertical-align</div><div class="line">cursor</div><div class="line">========================*/</div></pre></td></tr></table></figure>]]></content>
     </entry>
     
     <entry>
@@ -1175,22 +1160,37 @@
     </entry>
     
     <entry>
-      <title><![CDATA[XMLHttpRequest发送put,delete请求]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2012-08-03-XMLHttpRequest%E5%8F%91%E9%80%81put,delete%E8%AF%B7%E6%B1%82/</url>
-      <content type="html"><![CDATA[<p>记得之前有同事问过，能不能用js实现http的put和delete请求。最近看了点REST相关的东西，对HTTP协议的构造也有一些新的认识，原来很多请求已经背离了最早设计HTTP协议的初衷，get/post/put/delete分别对应着查/改/增/删，这很像数据库里的select/ update/insert/delete,感觉HTTP协议当初设计的时候是参考了数据库的操作（RFC最初于1969年制定，但是包含http 1.1的规范 RFC 2616于1996年才制定的，关系数据库是1970年提出的理论，具体是个神马关系，不太好说），我们几乎所有的操作都是get和post，put和delete用得非常少，可能与form目前只能使用get和post有关，html5规范中据说有想<a href="http://www.w3.org/TR/html5/association-of-controls-and-forms.html#attr-fs-method" target="_blank" rel="external">实现form</a>的put和delete,但是最后放弃了，不知何故。</p>
-<p>先放几个与REST相关的链接，有些我还没有消化透：</p>
+      <title><![CDATA[页面性能的几个评测点]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2012-08-03-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E7%9A%84%E5%87%A0%E4%B8%AA%E8%AF%84%E6%B5%8B%E7%82%B9/</url>
+      <content type="html"><![CDATA[<p>页面性能评测还是时间第一，细化了可以分为下面的几个</p>
+<ol>
+<li><p>加载时间</p>
 <ul>
-<li><a href="http://www.w3.org/QA/2008/10/understanding-http-put.html" target="_blank" rel="external">http://www.w3.org/QA/2008/10/understanding-http-put.html</a></li>
-<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html" target="_blank" rel="external">http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html</a></li>
-<li><a href="http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html" target="_blank" rel="external">http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html</a></li>
-<li><a href="http://hi.baidu.com/msingle/blog/item/410517229971d1b54623e805.html" target="_blank" rel="external">http://hi.baidu.com/msingle/blog/item/410517229971d1b54623e805.html</a></li>
-<li><a href="http://q.sohu.com/forum/5/topic/3464168" target="_blank" rel="external">http://q.sohu.com/forum/5/topic/3464168</a><br>那么到底能不能用js实现put和delete呢？</li>
+<li>从在浏览器里按下回车键到页面开始出现的时间，相同站点在不同浏览器下这个时间会有所不同</li>
+<li>触发浏览器onload事件的时间</li>
+<li>所有资源下载完毕的时间</li>
 </ul>
-<p>大家都知道XMLHttpRequest对象的open方法第一个参数就是method,有多少人用过除了”GET”和”POST”之外的参数呢？试验了一个，发现了好玩的，哈哈，例子猛击<a href="/demos/1343967804284_httpmethod_test.html" title="点开看看呗">这里</a>，请在不同的浏览器中测试，服务器返回的是请求的method。</p>
-<p>在IE6，7，8下，自己乱定义的method jser.me光荣牺牲，报错了，但是put,delete都很正常，并且请求过一次的post，居然也成get了，</p>
-<p>在FF,chrome下不仅put,delete很正常，jser.me这个自定义的方法也给力的完成了</p>
-<p>小试验证明put和delete是完全可以用XMLHttpRequest来实现的~~~</p>
-<p>PS:在本机(apache)测试的时候jser.me是很完美的完成了，在服务器上到nginx时被拦了，看配置也没找到哪出问题了，囧</p>
+</li>
+<li><p>资源</p>
+<ul>
+<li>所有的请求数</li>
+<li>图片/css/javascript的大小</li>
+<li>网页（html）的大小</li>
+<li>异步请求的数量</li>
+<li>坏请求的数量(重定向，服务器端错误等等)</li>
+</ul>
+</li>
+<li><p>网络</p>
+<ul>
+<li>DNS时间（查找域名对应的服务器IP耗费的时间）</li>
+<li>连接时间 （向服务器发起连接时间）</li>
+<li>服务器时间 （服务器端处理请求的耗费时间）</li>
+<li>传输时间 （由服务器向客户端传输资源耗费时间）</li>
+<li>等待时间 （同时向一个服务器请求的连接数量是有限制的，获取资源时的等待空闲连接的时间）</li>
+</ul>
+</li>
+</ol>
+<p>以上关键点互相之间相辅相成，二和三决定了一的时间，另外，交互复杂的网站，很多资源的请求是在用户操作的情况下发起的，这些单个的请求也同样可以用上样的关键点进行评测。</p>
 ]]></content>
     </entry>
     
@@ -1358,18 +1358,52 @@
     </entry>
     
     <entry>
-      <title><![CDATA[CSS3 的 transition 和 animation]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2014-08-10-transition&animation/</url>
-      <content type="html"><![CDATA[<p>##transition<br>transition 属性是<br>transition-property,<br>transition-duration,<br>transition-timing-function,<br>transition-delay<br>的简称,用于设定一个元素的两个状态,不同的状态可以用伪类，比如:hover, :active 或者是通过 javascript 动态设定。IE10+支持。</p>
-<p>所以 transition 的初始值为：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transition-delay</span>: 0<span class="selector-tag">s</span>;</div><div class="line"><span class="selector-tag">transition-duration</span>: 0<span class="selector-tag">s</span>;</div><div class="line"><span class="selector-tag">transition-property</span>: <span class="selector-tag">all</span>;</div><div class="line"><span class="selector-tag">transition-timing-function</span>: <span class="selector-tag">ease</span>;</div></pre></td></tr></table></figure></p>
-<p>###用法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">  <span class="attribute">transition</span>: &lt;property&gt; &lt;duration&gt;    &lt;timing-function&gt; &lt;delay&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>并且有事件可以监测 transition 结束<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">el.addEventListener(<span class="string">"transitionend"</span>,updateTransition,<span class="literal">true</span>);</div><div class="line"></div><div class="line"><span class="comment">//in webkit</span></div><div class="line">el.addEventListener(<span class="string">"webkitTransitionEnd"</span>,updateTransition,<span class="literal">true</span>);</div></pre></td></tr></table></figure></p>
-<p>###实例<br>HTML<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--  DEMO 1: Fade Block --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"fade"</span>&gt;</span></div><div class="line">     move here  !</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"nudge"</span>&gt;</span></div><div class="line">    mouse on me </div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"bounce"</span>&gt;</span>Place mouse on  me i will bounce!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"spin"</span>&gt;</span>Place mouse on  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i will spin<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"accordion"</span> <span class="attr">class</span>=<span class="string">"accordion"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#first"</span>&gt;</span>This is first tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"first"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#second"</span>&gt;</span>This is second tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"second"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	</div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#third"</span>&gt;</span>This is third tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"third"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>CSS<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">DEMO 1: Fade Block</div><div class="line">*/</div><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">    <span class="attribute">margin-bottom</span>: <span class="number">50px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#fade</span> &#123;</div><div class="line">    <span class="comment">/*opacity:1;</span></div><div class="line">    -webkit-transition: opacity 10s liner 10s;*/</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">transition-property</span>: font-size;</div><div class="line">  <span class="attribute">transition-duration</span>: <span class="number">0.5s</span>;</div><div class="line">  <span class="attribute">transition-delay</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#fade</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">36px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/* DEMO2 */</span></div><div class="line"><span class="selector-id">#nudge</span>&#123;</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-transition-property</span>: color,</div><div class="line">        background-color,padding-left;</div><div class="line">    <span class="attribute">-webkit-transition-duration</span>: <span class="number">500ms</span>,<span class="number">500ms</span>, <span class="number">500ms</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#nudge</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>: <span class="number">#efefef</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#333</span>;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">50px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#bounce</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">    <span class="attribute">-webkit-animation-name</span>:bounce;</div><div class="line">    <span class="attribute">-webkit-animation-duration</span>:<span class="number">1s</span>;</div><div class="line">    <span class="attribute">-webkit-animation-iteration-count</span>:<span class="number">2</span>;</div><div class="line">    <span class="attribute">-webkit-animation-direction</span>:alternate</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> bounce &#123;</div><div class="line">    <span class="selector-tag">from</span>&#123;<span class="attribute">margin-left</span>:<span class="number">0</span>;&#125;</div><div class="line">    <span class="selector-tag">to</span>&#123;<span class="attribute">margin-left</span>:<span class="number">250px</span>;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#spin</span>&#123;</div><div class="line">    <span class="attribute">-webkit-transition</span>: -webkit-transform <span class="number">10s</span> ease-in;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#spin</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(36000deg);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">a</span>&#123;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">padding</span>:<span class="number">5px</span> <span class="number">10px</span>;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#000</span>;</div><div class="line">    </div><div class="line">    <span class="comment">/*可以去掉链接的下划线等修饰效果*/</span></div><div class="line">    <span class="attribute">text-decoration</span>:none;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#999</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">div</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#cda</span>;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#222</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">div</span> <span class="selector-tag">p</span>&#123;</div><div class="line">    <span class="attribute">padding</span>:<span class="number">20px</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="selector-id">#accordion</span> <span class="selector-tag">div</span>&#123;</div><div class="line">    <span class="comment">/*先隐藏起来*/</span></div><div class="line">    <span class="attribute">height</span>:<span class="number">0</span>;</div><div class="line">    <span class="attribute">overflow</span>:hidden;</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-transition</span>:height <span class="number">600ms</span> ease;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#accordion</span> <span class="selector-tag">div</span><span class="selector-pseudo">:target</span>&#123;</div><div class="line">    <span class="attribute">height</span>:<span class="number">110px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>##animation<br>animation 属性是如下这些属性的简写<br>animation-name: none<br>animation-duration: 0s<br>animation-timing-function: ease<br>animation-delay: 0s<br>animation-iteration-count: 1<br>animation-direction: normal<br>animation-fill-mode: none</p>
-<p>###用法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">animation</span>:</div><div class="line">	<span class="selector-tag">animation-name</span></div><div class="line">    <span class="selector-tag">time</span>(<span class="selector-tag">duration</span>)</div><div class="line">    <span class="selector-tag">timing-function</span></div><div class="line">    <span class="selector-tag">time</span>(<span class="selector-tag">delay</span>)</div><div class="line">    <span class="selector-tag">animation-iteration-count</span>( 结束之前的循环次数)</div><div class="line">    <span class="selector-tag">single-animation-direction</span> </div><div class="line">    <span class="comment">/*&#123;</span></div><div class="line">    	animation-direction: normal (每次从正方向开始)</div><div class="line">		animation-direction: reverse （每次从反方向开始）</div><div class="line">		animation-direction: alternate （正反往复）</div><div class="line">    &#125;*/</div><div class="line">    <span class="selector-tag">single-animation-fill-mode</span></div></pre></td></tr></table></figure></p>
-<p>###实例<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"view_port"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"polling_message"</span>&gt;</span></div><div class="line">        Listener for dispatches     </div><div class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"cylon_eye"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.polling_message</span> &#123;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">margin-right</span>:<span class="number">2%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.view_port</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: black;</div><div class="line">    <span class="attribute">height</span>: <span class="number">50px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">overflow</span>: hidden;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.cylon_eye</span> &#123;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">80%</span>;</div><div class="line">    <span class="attribute">background-color</span>: red;</div><div class="line">    </div><div class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(to right, rgba(0, 0, 0, 0.9) <span class="number">25%</span>, <span class="built_in">rgba</span>(0, 0, 0, 0.1) <span class="number">50%</span>, <span class="built_in">rgba</span>(0, 0, 0, 0.9) <span class="number">75%</span>);</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">       <span class="attribute">-moz-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">         <span class="attribute">-o-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">            <span class="attribute">animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">moz</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">o</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      <title><![CDATA[javascript并发模型和事件循环(Event Loop)]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2014-08-10-javascript%20%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B%E5%92%8C%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</url>
+      <content type="html"><![CDATA[<p>JavaScript的”并发模型”是基于事件循环的.这个并发模型有别与Java的多线程,javascript的并发是单线程的.<br>Javascript 中有个重要一块，Event Loop，能把单线程的 JavaScript 使出 多线程的感觉。</p>
+<blockquote>
+<p>“Event Loop是一个程序结构，用于等待和发送消息和事件。（a programming construct that waits for and dispatches events or messages in a program.）”</p>
+</blockquote>
+<p>简单的说，就是在程序中（不一定是浏览器）中跑两个线程，一个负责程序本身的运行，作为主线程； 另一个负责主线程与其他线程的的通信，被称为“Event Loop 线程” 。  每当遇到异步的 setTimeOut ，setInterval 这些异步任务，交给 EventLoop 线程，然后自己往后运行，等到主线程运行完后，再去 Event Loop 线程拿结果。</p>
+<p>这种模型人称 “asynchronous” 或 “non-blocking” 模行。 </p>
+<p>我简单的画了一个 javascript 的执行图,我们通过图,逐步分析.<br><a href="http://www.cnblogs.com/yakun/p/3802725.html" target="_blank" rel="external">原图见我的博客</a></p>
+<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>函数调用时所用的执行环境栈<br>当js方法被调用时,会进入一个执行环境(execution context),如果有另外一个方法被调用了(或者自身递归调用),会新建一个新的执行环境,并且代码的执行会进入到这个新的执行环境.函数调用返回的时候重新回到原来的执行环境. 由此,代码执行的过程便形成了一个执行环境栈,江湖人称 “stack”;</p>
+<h2 id="执行环境-上下文"><a href="#执行环境-上下文" class="headerlink" title="执行环境(上下文)"></a>执行环境(上下文)</h2><p>execution context 是一个由ECMA定义的抽象的概念,所有的javascript代码都是在 execution context 执行环境中执行的.执行环境即执行上下文是一种对象，代码在执行上下文环境中执行。可以通过 this 关键字访问执行上下文，this 是对当前执行环境对象的引用。 一般情况下，</p>
+<blockquote>
+<p>如果代码不存在一个用户自定义的对象或函数中， 那么它将处于全局上下文环境。</p>
+</blockquote>
+<p>全局执行环境是最外层的一个执行环境.在Web浏览器中,全局执行环境认为是window对象.因此所有全局变量和函数都是作为window对象的属性和方法创建的.</p>
+<p>全局的代码(inline中执行的代码,通常包括js文件,html页面,加载的)在全局执行环境中执行.每个方法调用都有一个与之关联的执行环境.</p>
+<p>某个执行环境中的所有代码执行完毕后,该执行环境被销毁,保存在其中的所有变量和函数定义也随之销毁. 全局执行环境直到页面关闭时才被销毁.</p>
+<p>每个函数都有自己的执行环境,当执行流进入一个函数时,Javascript 创建一个新的执行上下文，并进入该函的执行上下文。函数的执行环境就会被推入环境栈中. 而在函数执行之后,栈将其环境栈弹出,把控制权返回给之前的执行环境.Javascript 中的执行流正是由这个方便的机制的控制着.</p>
+<p>当代码在一个执行环境中执行时,会创建变量对象的一个作用域链(scope chain).<br>作用域链的用途,确保当前执行环境能有序(不明白就接着看)的访问所能获取的变量和函数.</p>
+<p>作用域链的前端,始终都是当前执行的代码所在的执行环境的变量对象.</p>
+<p>即当前作用域没有,外层作用域兜着.</p>
+<p>执行环境被创建时会有次序的进行一些工作.</p>
+<ol>
+<li><p>首先,在方法的执行环境中,Activation 活动对象被创建.活动对象另有一套实现机制.可以认为是对象,但又很特殊,没有prototype,不能在代码中直接引用到.</p>
+</li>
+<li><p>下一步,在方法调用创建执行环境的时候,会创建 argument 对象(类数组对象,含有传进来的参数,length,callee),活动对象中会有一个”argument”同名属性来引用这个argument对象.</p>
+</li>
+<li><p>再下一步,执行环境会被指定一个作用域.作用域由承载对象的列表(或链)组成.当代码在一个执行环境中执行,会创建变量对象的一个作用域链(scope chain).作用域链的前端,始终都是当前执行的代码所在执行环境的变量对象(和上面提到的 Activation 活动对象是一个对象). 如果这个环境是函数(javascript 环境只有函数和全局环境这两种), 则将其活动对象作为变量对象使用,活动对象在最开始时只包含一个arguments对象.</p>
+</li>
+</ol>
+<p>作用域链中下一个变量对象来自当前代码的外层环境.以此类推,直到到达最外层的全局执行环境,这样便构成了一条从底到上的作用域链.全局执行环境的变量对象始终都是作用域链的最后一个对象.<br>标示符解析是沿着作用域链一级一级的搜索标示符的过程.搜索过程始终都是从作用域链的最前端开始,然后主逐级向后回溯. </p>
+<h4 id="当进入执行环境"><a href="#当进入执行环境" class="headerlink" title="当进入执行环境"></a>当进入执行环境</h4><p>当进入执行环境(代码即将但仍未执行时),变量对象也就是活动对象已经包含了以下这些属性:</p>
+<ol>
+<li>函数的所有形参,由名称和对应值组成变量对象的属性.</li>
+<li>执行环境所在函数内部的所有子函数声明,由名称和对应值(函数对象 function object)组成变量对象的属性.如果变量对象内已存在同名属性,那么会被替换所有的变量声明.</li>
+<li>由名称和对应值(undefined)组成变量对象的属性,如果变量名称跟已经声明的形式参数或函数相同，则变量声明不会干扰已经存在的这类属性.</li>
+</ol>
+<p>需要说明的是,每个执行环境都有this,this的值取决于调用者和所执行代码的类型,this值是在进入执行环境时就已经确定的. 取值与执行环境相关联,并且在执行环境运行期间是不能被修改的.</p>
+<blockquote>
+<p>this 执行上下文中的一个属性. </p>
+</blockquote>
+<p> 在全局代码中,this始终是全局对象本身.</p>
+<p>在通常的函数调用中,this是由函数的调用者提供的,即被调用函数的父执行环境提供的.this值取决于函数调用的方式.</p>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆是一个对象互联的网络。用数学术语说就是“图”。图由节点及其之间的边构成。节点和边都是可被标记的：节点（对象）用对象构造器的名称标记，边则由属性名称标记。<br>从一个对象到另一个的边序列被叫做路径（path）。通常我们只对那些不重复经过同一节点两次的简单路径（simple path）感兴趣。<br>我们把垃圾收集器根节点到某个指定对象的路径叫做retaining path。如果不存在这样的路径，则该对象被称作无法达到的（unreachable），应在垃圾收集过程中被处置。</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>在web浏览器中,当事件发生时如果该事件有相应的监听器,则该消息会被及时的加进消息队列,如果没有监听器,该事件会被丢失.<br>javascript运行时伴随一个待处理的消息(也就是任务)队列,每个消息都关联了相关的处理函数,当函数的执行栈为空时,即当前没有正在执行的函数,那么,队列会从中挑出一个去处理.处理过程包括调用相关的函数(不用担心处理函数的作用域问题,因为在javascript中,作用域是词法化作用域,是方法在定义的时候已经确定的,与调用无关.作用域链创建早于方法调用,得益于此,我们方能使用闭包),处理完成后,如果栈为空,则再次尝试从队列中挑选可处理的事件或任务. 从中可以很容易窥探到 setInterval,setTimeout 是怎么进行异步执行的了.<br>这,就是事件循环,event loop.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析,javascript是不存在并发的,单线程何谈并发? 这只是说说了<em>非阻塞</em>.</p>
 ]]></content>
     </entry>
     
@@ -1391,79 +1425,18 @@
     </entry>
     
     <entry>
-      <title><![CDATA[javascript启示录书摘]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2014-08-10-javascript%E5%90%AF%E7%A4%BA%E5%BD%95%E4%B9%A6%E6%91%98/</url>
-      <content type="html"><![CDATA[<h2 id="JavaScript-对象"><a href="#JavaScript-对象" class="headerlink" title="JavaScript 对象"></a>JavaScript 对象</h2><h3 id="JavaScript-构造函数"><a href="#JavaScript-构造函数" class="headerlink" title="JavaScript 构造函数"></a>JavaScript 构造函数</h3><p>如果使用 new 调用某函数，该函数则担任一个特殊的角色，将函数的 this 值设置为正在构建的新对象。并且构造函数还默认返回这个新构建的对象（即 this）。这个返回的新对象认为是构建该对象的构造函数的实例。</p>
-<h3 id="typeof-操作符"><a href="#typeof-操作符" class="headerlink" title="typeof 操作符"></a>typeof 操作符</h3><p>typeof 操作符用于返回正在使用值的类型。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNull = <span class="literal">null</span>;         <span class="comment">// typeof myNull : object</span></div><div class="line"><span class="keyword">var</span> myUndefined = <span class="literal">null</span>;    <span class="comment">// undefined</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'str'</span>;           <span class="comment">// string</span></div><div class="line"><span class="keyword">var</span> str = <span class="built_in">String</span>(<span class="string">'str'</span>);   <span class="comment">// string, 没有 new，不会返回对象</span></div><div class="line"><span class="keyword">var</span> num = <span class="number">1</span>;               <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> num = <span class="built_in">Number</span>(<span class="string">'1'</span>);     <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> bol = <span class="literal">true</span>;            <span class="comment">// boolean</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> num = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="string">'1'</span>); <span class="comment">// object, new</span></div><div class="line"><span class="keyword">var</span> str = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'a'</span>); <span class="comment">// object, new</span></div></pre></td></tr></table></figure></p>
-<h3 id="contructor属性"><a href="#contructor属性" class="headerlink" title="contructor属性"></a>contructor属性</h3><p>碰到用 new 操作符实例化出来的对象，typeof 就无能为力了。这时，可以用 constructor 属性。</p>
-<table>
-<thead>
-<tr>
-<th>obj</th>
-<th>obj.constructor</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>obj = new Number(‘21’);</td>
-<td>Number</td>
-</tr>
-<tr>
-<td>obj = 1;</td>
-<td>Number</td>
-</tr>
-<tr>
-<td>obj = new String(‘abc’);</td>
-<td>String</td>
-</tr>
-<tr>
-<td>obj = ‘abc’</td>
-<td>String</td>
-</tr>
-<tr>
-<td>obj = true;</td>
-<td>Boolean</td>
-</tr>
-<tr>
-<td>obj = new Object();</td>
-<td>Object</td>
-</tr>
-<tr>
-<td>obj = {};</td>
-<td>Object</td>
-</tr>
-<tr>
-<td>obj = new Array();</td>
-<td>Array</td>
-</tr>
-<tr>
-<td>obj = new Function();</td>
-<td>Function</td>
-</tr>
-<tr>
-<td>obj = function(){ }; //字面量方式</td>
-<td>Function</td>
-</tr>
-</tbody>
-</table>
-<h3 id="instanceof-操作符"><a href="#instanceof-操作符" class="headerlink" title="instanceof 操作符"></a>instanceof 操作符</h3><p>instanceof 操作符可以验证指定对象是否是某个构造函数的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">instanceObj <span class="keyword">instanceof</span> ConstructorFunction</div></pre></td></tr></table></figure></p>
-<p>任何对象 instanceof Object 总是返回 true。</p>
-<p><code>instanceof 只适用于 new 构造函数创建返回的复杂对象和实例</code></p>
-<h2 id="对象与属性"><a href="#对象与属性" class="headerlink" title="对象与属性"></a>对象与属性</h2><h3 id="删除对象属性"><a href="#删除对象属性" class="headerlink" title="删除对象属性"></a>删除对象属性</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = &#123; <span class="attr">bar</span>: <span class="string">'bar'</span> &#125;;</div><div class="line"><span class="keyword">delete</span> foo.bar;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'bar'</span> <span class="keyword">in</span> foo); <span class="comment">// false,in 操作符不仅不仅能检查对象自身的属性而且能检查通过原型链继承过来的属性</span></div></pre></td></tr></table></figure>
-<p>##head 对象</p>
-<h3 id="什么是-head-对象"><a href="#什么是-head-对象" class="headerlink" title="什么是 head 对象"></a>什么是 head 对象</h3><p>JavaScript 代码本身必须包含在对象内部。比如，在 Web 浏览器环境中编写 JavaScript 代码时，JavaScript 被包含在 window 对象内，并在其内部执行。这个 window 对象被认为实 “head” 对象。</p>
-<p>head 对象是由 JavaScript 在幕后创建，用于封装用户自定义代码，并容纳 JavaScript 预定义的原生代码。在编写 Javascript 代码时，它将被编写在 head 对象的上下文中。</p>
-<h3 id="head-对象内的全局函数"><a href="#head-对象内的全局函数" class="headerlink" title="head 对象内的全局函数"></a>head 对象内的全局函数</h3><ul>
-<li>decodeURL()</li>
-<li>decodeURLComponent()</li>
-<li>encodeURI()</li>
-<li>encodeURIComponent()</li>
-<li>eval()</li>
-<li>isFinite()</li>
-<li>isNaN()</li>
-<li>parseFloat()</li>
-<li>parseInt()</li>
-</ul>
+      <title><![CDATA[CSS3 的 transition 和 animation]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2014-08-10-transition&animation/</url>
+      <content type="html"><![CDATA[<p>##transition<br>transition 属性是<br>transition-property,<br>transition-duration,<br>transition-timing-function,<br>transition-delay<br>的简称,用于设定一个元素的两个状态,不同的状态可以用伪类，比如:hover, :active 或者是通过 javascript 动态设定。IE10+支持。</p>
+<p>所以 transition 的初始值为：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transition-delay</span>: 0<span class="selector-tag">s</span>;</div><div class="line"><span class="selector-tag">transition-duration</span>: 0<span class="selector-tag">s</span>;</div><div class="line"><span class="selector-tag">transition-property</span>: <span class="selector-tag">all</span>;</div><div class="line"><span class="selector-tag">transition-timing-function</span>: <span class="selector-tag">ease</span>;</div></pre></td></tr></table></figure></p>
+<p>###用法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">  <span class="attribute">transition</span>: &lt;property&gt; &lt;duration&gt;    &lt;timing-function&gt; &lt;delay&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>并且有事件可以监测 transition 结束<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">el.addEventListener(<span class="string">"transitionend"</span>,updateTransition,<span class="literal">true</span>);</div><div class="line"></div><div class="line"><span class="comment">//in webkit</span></div><div class="line">el.addEventListener(<span class="string">"webkitTransitionEnd"</span>,updateTransition,<span class="literal">true</span>);</div></pre></td></tr></table></figure></p>
+<p>###实例<br>HTML<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--  DEMO 1: Fade Block --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"fade"</span>&gt;</span></div><div class="line">     move here  !</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"nudge"</span>&gt;</span></div><div class="line">    mouse on me </div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"bounce"</span>&gt;</span>Place mouse on  me i will bounce!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"spin"</span>&gt;</span>Place mouse on  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i will spin<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"accordion"</span> <span class="attr">class</span>=<span class="string">"accordion"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#first"</span>&gt;</span>This is first tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"first"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#second"</span>&gt;</span>This is second tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"second"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	</div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#third"</span>&gt;</span>This is third tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"third"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">DEMO 1: Fade Block</div><div class="line">*/</div><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">    <span class="attribute">margin-bottom</span>: <span class="number">50px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#fade</span> &#123;</div><div class="line">    <span class="comment">/*opacity:1;</span></div><div class="line">    -webkit-transition: opacity 10s liner 10s;*/</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">transition-property</span>: font-size;</div><div class="line">  <span class="attribute">transition-duration</span>: <span class="number">0.5s</span>;</div><div class="line">  <span class="attribute">transition-delay</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#fade</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">36px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/* DEMO2 */</span></div><div class="line"><span class="selector-id">#nudge</span>&#123;</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-transition-property</span>: color,</div><div class="line">        background-color,padding-left;</div><div class="line">    <span class="attribute">-webkit-transition-duration</span>: <span class="number">500ms</span>,<span class="number">500ms</span>, <span class="number">500ms</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#nudge</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>: <span class="number">#efefef</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#333</span>;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">50px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#bounce</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">    <span class="attribute">-webkit-animation-name</span>:bounce;</div><div class="line">    <span class="attribute">-webkit-animation-duration</span>:<span class="number">1s</span>;</div><div class="line">    <span class="attribute">-webkit-animation-iteration-count</span>:<span class="number">2</span>;</div><div class="line">    <span class="attribute">-webkit-animation-direction</span>:alternate</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> bounce &#123;</div><div class="line">    <span class="selector-tag">from</span>&#123;<span class="attribute">margin-left</span>:<span class="number">0</span>;&#125;</div><div class="line">    <span class="selector-tag">to</span>&#123;<span class="attribute">margin-left</span>:<span class="number">250px</span>;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#spin</span>&#123;</div><div class="line">    <span class="attribute">-webkit-transition</span>: -webkit-transform <span class="number">10s</span> ease-in;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#spin</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(36000deg);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">a</span>&#123;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">padding</span>:<span class="number">5px</span> <span class="number">10px</span>;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#000</span>;</div><div class="line">    </div><div class="line">    <span class="comment">/*可以去掉链接的下划线等修饰效果*/</span></div><div class="line">    <span class="attribute">text-decoration</span>:none;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#999</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">div</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#cda</span>;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#222</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">div</span> <span class="selector-tag">p</span>&#123;</div><div class="line">    <span class="attribute">padding</span>:<span class="number">20px</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="selector-id">#accordion</span> <span class="selector-tag">div</span>&#123;</div><div class="line">    <span class="comment">/*先隐藏起来*/</span></div><div class="line">    <span class="attribute">height</span>:<span class="number">0</span>;</div><div class="line">    <span class="attribute">overflow</span>:hidden;</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-transition</span>:height <span class="number">600ms</span> ease;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#accordion</span> <span class="selector-tag">div</span><span class="selector-pseudo">:target</span>&#123;</div><div class="line">    <span class="attribute">height</span>:<span class="number">110px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>##animation<br>animation 属性是如下这些属性的简写<br>animation-name: none<br>animation-duration: 0s<br>animation-timing-function: ease<br>animation-delay: 0s<br>animation-iteration-count: 1<br>animation-direction: normal<br>animation-fill-mode: none</p>
+<p>###用法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">animation</span>:</div><div class="line">	<span class="selector-tag">animation-name</span></div><div class="line">    <span class="selector-tag">time</span>(<span class="selector-tag">duration</span>)</div><div class="line">    <span class="selector-tag">timing-function</span></div><div class="line">    <span class="selector-tag">time</span>(<span class="selector-tag">delay</span>)</div><div class="line">    <span class="selector-tag">animation-iteration-count</span>( 结束之前的循环次数)</div><div class="line">    <span class="selector-tag">single-animation-direction</span> </div><div class="line">    <span class="comment">/*&#123;</span></div><div class="line">    	animation-direction: normal (每次从正方向开始)</div><div class="line">		animation-direction: reverse （每次从反方向开始）</div><div class="line">		animation-direction: alternate （正反往复）</div><div class="line">    &#125;*/</div><div class="line">    <span class="selector-tag">single-animation-fill-mode</span></div></pre></td></tr></table></figure></p>
+<p>###实例<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"view_port"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"polling_message"</span>&gt;</span></div><div class="line">        Listener for dispatches     </div><div class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"cylon_eye"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.polling_message</span> &#123;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">margin-right</span>:<span class="number">2%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.view_port</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: black;</div><div class="line">    <span class="attribute">height</span>: <span class="number">50px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">overflow</span>: hidden;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.cylon_eye</span> &#123;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">80%</span>;</div><div class="line">    <span class="attribute">background-color</span>: red;</div><div class="line">    </div><div class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(to right, rgba(0, 0, 0, 0.9) <span class="number">25%</span>, <span class="built_in">rgba</span>(0, 0, 0, 0.1) <span class="number">50%</span>, <span class="built_in">rgba</span>(0, 0, 0, 0.9) <span class="number">75%</span>);</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">       <span class="attribute">-moz-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">         <span class="attribute">-o-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">            <span class="attribute">animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">moz</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">o</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -1551,52 +1524,79 @@
     </entry>
     
     <entry>
-      <title><![CDATA[javascript并发模型和事件循环(Event Loop)]]></title>
-      <url>http://yardfarmer.github.io/2017/02/01/2014-08-10-javascript%20%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B%E5%92%8C%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</url>
-      <content type="html"><![CDATA[<p>JavaScript的”并发模型”是基于事件循环的.这个并发模型有别与Java的多线程,javascript的并发是单线程的.<br>Javascript 中有个重要一块，Event Loop，能把单线程的 JavaScript 使出 多线程的感觉。</p>
-<blockquote>
-<p>“Event Loop是一个程序结构，用于等待和发送消息和事件。（a programming construct that waits for and dispatches events or messages in a program.）”</p>
-</blockquote>
-<p>简单的说，就是在程序中（不一定是浏览器）中跑两个线程，一个负责程序本身的运行，作为主线程； 另一个负责主线程与其他线程的的通信，被称为“Event Loop 线程” 。  每当遇到异步的 setTimeOut ，setInterval 这些异步任务，交给 EventLoop 线程，然后自己往后运行，等到主线程运行完后，再去 Event Loop 线程拿结果。</p>
-<p>这种模型人称 “asynchronous” 或 “non-blocking” 模行。 </p>
-<p>我简单的画了一个 javascript 的执行图,我们通过图,逐步分析.<br><a href="http://www.cnblogs.com/yakun/p/3802725.html" target="_blank" rel="external">原图见我的博客</a></p>
-<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>函数调用时所用的执行环境栈<br>当js方法被调用时,会进入一个执行环境(execution context),如果有另外一个方法被调用了(或者自身递归调用),会新建一个新的执行环境,并且代码的执行会进入到这个新的执行环境.函数调用返回的时候重新回到原来的执行环境. 由此,代码执行的过程便形成了一个执行环境栈,江湖人称 “stack”;</p>
-<h2 id="执行环境-上下文"><a href="#执行环境-上下文" class="headerlink" title="执行环境(上下文)"></a>执行环境(上下文)</h2><p>execution context 是一个由ECMA定义的抽象的概念,所有的javascript代码都是在 execution context 执行环境中执行的.执行环境即执行上下文是一种对象，代码在执行上下文环境中执行。可以通过 this 关键字访问执行上下文，this 是对当前执行环境对象的引用。 一般情况下，</p>
-<blockquote>
-<p>如果代码不存在一个用户自定义的对象或函数中， 那么它将处于全局上下文环境。</p>
-</blockquote>
-<p>全局执行环境是最外层的一个执行环境.在Web浏览器中,全局执行环境认为是window对象.因此所有全局变量和函数都是作为window对象的属性和方法创建的.</p>
-<p>全局的代码(inline中执行的代码,通常包括js文件,html页面,加载的)在全局执行环境中执行.每个方法调用都有一个与之关联的执行环境.</p>
-<p>某个执行环境中的所有代码执行完毕后,该执行环境被销毁,保存在其中的所有变量和函数定义也随之销毁. 全局执行环境直到页面关闭时才被销毁.</p>
-<p>每个函数都有自己的执行环境,当执行流进入一个函数时,Javascript 创建一个新的执行上下文，并进入该函的执行上下文。函数的执行环境就会被推入环境栈中. 而在函数执行之后,栈将其环境栈弹出,把控制权返回给之前的执行环境.Javascript 中的执行流正是由这个方便的机制的控制着.</p>
-<p>当代码在一个执行环境中执行时,会创建变量对象的一个作用域链(scope chain).<br>作用域链的用途,确保当前执行环境能有序(不明白就接着看)的访问所能获取的变量和函数.</p>
-<p>作用域链的前端,始终都是当前执行的代码所在的执行环境的变量对象.</p>
-<p>即当前作用域没有,外层作用域兜着.</p>
-<p>执行环境被创建时会有次序的进行一些工作.</p>
-<ol>
-<li><p>首先,在方法的执行环境中,Activation 活动对象被创建.活动对象另有一套实现机制.可以认为是对象,但又很特殊,没有prototype,不能在代码中直接引用到.</p>
-</li>
-<li><p>下一步,在方法调用创建执行环境的时候,会创建 argument 对象(类数组对象,含有传进来的参数,length,callee),活动对象中会有一个”argument”同名属性来引用这个argument对象.</p>
-</li>
-<li><p>再下一步,执行环境会被指定一个作用域.作用域由承载对象的列表(或链)组成.当代码在一个执行环境中执行,会创建变量对象的一个作用域链(scope chain).作用域链的前端,始终都是当前执行的代码所在执行环境的变量对象(和上面提到的 Activation 活动对象是一个对象). 如果这个环境是函数(javascript 环境只有函数和全局环境这两种), 则将其活动对象作为变量对象使用,活动对象在最开始时只包含一个arguments对象.</p>
-</li>
-</ol>
-<p>作用域链中下一个变量对象来自当前代码的外层环境.以此类推,直到到达最外层的全局执行环境,这样便构成了一条从底到上的作用域链.全局执行环境的变量对象始终都是作用域链的最后一个对象.<br>标示符解析是沿着作用域链一级一级的搜索标示符的过程.搜索过程始终都是从作用域链的最前端开始,然后主逐级向后回溯. </p>
-<h4 id="当进入执行环境"><a href="#当进入执行环境" class="headerlink" title="当进入执行环境"></a>当进入执行环境</h4><p>当进入执行环境(代码即将但仍未执行时),变量对象也就是活动对象已经包含了以下这些属性:</p>
-<ol>
-<li>函数的所有形参,由名称和对应值组成变量对象的属性.</li>
-<li>执行环境所在函数内部的所有子函数声明,由名称和对应值(函数对象 function object)组成变量对象的属性.如果变量对象内已存在同名属性,那么会被替换所有的变量声明.</li>
-<li>由名称和对应值(undefined)组成变量对象的属性,如果变量名称跟已经声明的形式参数或函数相同，则变量声明不会干扰已经存在的这类属性.</li>
-</ol>
-<p>需要说明的是,每个执行环境都有this,this的值取决于调用者和所执行代码的类型,this值是在进入执行环境时就已经确定的. 取值与执行环境相关联,并且在执行环境运行期间是不能被修改的.</p>
-<blockquote>
-<p>this 执行上下文中的一个属性. </p>
-</blockquote>
-<p> 在全局代码中,this始终是全局对象本身.</p>
-<p>在通常的函数调用中,this是由函数的调用者提供的,即被调用函数的父执行环境提供的.this值取决于函数调用的方式.</p>
-<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆是一个对象互联的网络。用数学术语说就是“图”。图由节点及其之间的边构成。节点和边都是可被标记的：节点（对象）用对象构造器的名称标记，边则由属性名称标记。<br>从一个对象到另一个的边序列被叫做路径（path）。通常我们只对那些不重复经过同一节点两次的简单路径（simple path）感兴趣。<br>我们把垃圾收集器根节点到某个指定对象的路径叫做retaining path。如果不存在这样的路径，则该对象被称作无法达到的（unreachable），应在垃圾收集过程中被处置。</p>
-<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>在web浏览器中,当事件发生时如果该事件有相应的监听器,则该消息会被及时的加进消息队列,如果没有监听器,该事件会被丢失.<br>javascript运行时伴随一个待处理的消息(也就是任务)队列,每个消息都关联了相关的处理函数,当函数的执行栈为空时,即当前没有正在执行的函数,那么,队列会从中挑出一个去处理.处理过程包括调用相关的函数(不用担心处理函数的作用域问题,因为在javascript中,作用域是词法化作用域,是方法在定义的时候已经确定的,与调用无关.作用域链创建早于方法调用,得益于此,我们方能使用闭包),处理完成后,如果栈为空,则再次尝试从队列中挑选可处理的事件或任务. 从中可以很容易窥探到 setInterval,setTimeout 是怎么进行异步执行的了.<br>这,就是事件循环,event loop.</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析,javascript是不存在并发的,单线程何谈并发? 这只是说说了<em>非阻塞</em>.</p>
+      <title><![CDATA[javascript启示录书摘]]></title>
+      <url>http://yardfarmer.github.io/2017/02/01/2014-08-10-javascript%E5%90%AF%E7%A4%BA%E5%BD%95%E4%B9%A6%E6%91%98/</url>
+      <content type="html"><![CDATA[<h2 id="JavaScript-对象"><a href="#JavaScript-对象" class="headerlink" title="JavaScript 对象"></a>JavaScript 对象</h2><h3 id="JavaScript-构造函数"><a href="#JavaScript-构造函数" class="headerlink" title="JavaScript 构造函数"></a>JavaScript 构造函数</h3><p>如果使用 new 调用某函数，该函数则担任一个特殊的角色，将函数的 this 值设置为正在构建的新对象。并且构造函数还默认返回这个新构建的对象（即 this）。这个返回的新对象认为是构建该对象的构造函数的实例。</p>
+<h3 id="typeof-操作符"><a href="#typeof-操作符" class="headerlink" title="typeof 操作符"></a>typeof 操作符</h3><p>typeof 操作符用于返回正在使用值的类型。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNull = <span class="literal">null</span>;         <span class="comment">// typeof myNull : object</span></div><div class="line"><span class="keyword">var</span> myUndefined = <span class="literal">null</span>;    <span class="comment">// undefined</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'str'</span>;           <span class="comment">// string</span></div><div class="line"><span class="keyword">var</span> str = <span class="built_in">String</span>(<span class="string">'str'</span>);   <span class="comment">// string, 没有 new，不会返回对象</span></div><div class="line"><span class="keyword">var</span> num = <span class="number">1</span>;               <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> num = <span class="built_in">Number</span>(<span class="string">'1'</span>);     <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> bol = <span class="literal">true</span>;            <span class="comment">// boolean</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> num = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="string">'1'</span>); <span class="comment">// object, new</span></div><div class="line"><span class="keyword">var</span> str = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'a'</span>); <span class="comment">// object, new</span></div></pre></td></tr></table></figure></p>
+<h3 id="contructor属性"><a href="#contructor属性" class="headerlink" title="contructor属性"></a>contructor属性</h3><p>碰到用 new 操作符实例化出来的对象，typeof 就无能为力了。这时，可以用 constructor 属性。</p>
+<table>
+<thead>
+<tr>
+<th>obj</th>
+<th>obj.constructor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>obj = new Number(‘21’);</td>
+<td>Number</td>
+</tr>
+<tr>
+<td>obj = 1;</td>
+<td>Number</td>
+</tr>
+<tr>
+<td>obj = new String(‘abc’);</td>
+<td>String</td>
+</tr>
+<tr>
+<td>obj = ‘abc’</td>
+<td>String</td>
+</tr>
+<tr>
+<td>obj = true;</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>obj = new Object();</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>obj = {};</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>obj = new Array();</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>obj = new Function();</td>
+<td>Function</td>
+</tr>
+<tr>
+<td>obj = function(){ }; //字面量方式</td>
+<td>Function</td>
+</tr>
+</tbody>
+</table>
+<h3 id="instanceof-操作符"><a href="#instanceof-操作符" class="headerlink" title="instanceof 操作符"></a>instanceof 操作符</h3><p>instanceof 操作符可以验证指定对象是否是某个构造函数的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">instanceObj <span class="keyword">instanceof</span> ConstructorFunction</div></pre></td></tr></table></figure></p>
+<p>任何对象 instanceof Object 总是返回 true。</p>
+<p><code>instanceof 只适用于 new 构造函数创建返回的复杂对象和实例</code></p>
+<h2 id="对象与属性"><a href="#对象与属性" class="headerlink" title="对象与属性"></a>对象与属性</h2><h3 id="删除对象属性"><a href="#删除对象属性" class="headerlink" title="删除对象属性"></a>删除对象属性</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = &#123; <span class="attr">bar</span>: <span class="string">'bar'</span> &#125;;</div><div class="line"><span class="keyword">delete</span> foo.bar;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'bar'</span> <span class="keyword">in</span> foo); <span class="comment">// false,in 操作符不仅不仅能检查对象自身的属性而且能检查通过原型链继承过来的属性</span></div></pre></td></tr></table></figure>
+<p>##head 对象</p>
+<h3 id="什么是-head-对象"><a href="#什么是-head-对象" class="headerlink" title="什么是 head 对象"></a>什么是 head 对象</h3><p>JavaScript 代码本身必须包含在对象内部。比如，在 Web 浏览器环境中编写 JavaScript 代码时，JavaScript 被包含在 window 对象内，并在其内部执行。这个 window 对象被认为实 “head” 对象。</p>
+<p>head 对象是由 JavaScript 在幕后创建，用于封装用户自定义代码，并容纳 JavaScript 预定义的原生代码。在编写 Javascript 代码时，它将被编写在 head 对象的上下文中。</p>
+<h3 id="head-对象内的全局函数"><a href="#head-对象内的全局函数" class="headerlink" title="head 对象内的全局函数"></a>head 对象内的全局函数</h3><ul>
+<li>decodeURL()</li>
+<li>decodeURLComponent()</li>
+<li>encodeURI()</li>
+<li>encodeURIComponent()</li>
+<li>eval()</li>
+<li>isFinite()</li>
+<li>isNaN()</li>
+<li>parseFloat()</li>
+<li>parseInt()</li>
+</ul>
 ]]></content>
     </entry>
     
@@ -1882,7 +1882,7 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">src</span><span class="selector-class">.pipe</span>(<span class="selector-tag">dst</span>)</div><div class="line"><span class="selector-class">.pipe</span>(<span class="selector-tag">dst</span>)</div></pre></td></tr></table></figure>
 <p>将会返回dst因此你可以链式调用多个流:</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-class">.pipe</span>(<span class="selector-tag">b</span>)<span class="selector-class">.pipe</span>(<span class="selector-tag">c</span>)<span class="selector-class">.pipe</span>(<span class="selector-tag">d</span>)</div></pre></td></tr></table></figure>
-<p>上面的代码也可以等价为：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a.pipe(b)<span class="comment">;</span></div><div class="line">b.pipe(c)<span class="comment">;</span></div><div class="line">c.pipe(d)<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>上面的代码也可以等价为：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-class">.pipe</span>(<span class="selector-tag">b</span>);</div><div class="line"><span class="selector-tag">b</span><span class="selector-class">.pipe</span>(<span class="selector-tag">c</span>);</div><div class="line"><span class="selector-tag">c</span><span class="selector-class">.pipe</span>(<span class="selector-tag">d</span>);</div></pre></td></tr></table></figure></p>
 <p>类似 unix 中编写流代码很类似：<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a | <span class="type">b</span> | <span class="type">c</span> | <span class="type">d</span></div></pre></td></tr></table></figure></p>
 <p>###readable流</p>
 <p><code>Readable</code> 流可以产出数据，你可以将这些数据传送到一个 <code>writable</code>，<code>transform</code> 或者 <code>duplex</code> 流中，只需要调用<code>pipe()</code>方法:</p>
@@ -1980,7 +1980,7 @@ function b64_to_utf8(str) {
 <p>加入设置一个元素 width: 100px， 是设置元素跨越了 200 个 css 元素。 200个 css 像素相当于多少个物理像素取决于屏幕特性和用户的缩放行为。放大的越大，一个 css 像素覆盖的物理像素的就越多。</p>
 <p>##2. 页面缩放<br>假设一个桌面端浏览器的宽度是 1024px， 这意味着桌面上有 1024个 css 像素。</p>
 <p>##3. 设备像素比<br>javascript 中有一个属性 <code>window.devicePixelRatio</code>, css 中也有 <code>device-pixel-ratio</code> 属性，称为设备像素比(Device Pixel Ratio, DPR),<br>设备像素和理想视口的比。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meat <span class="built_in">name</span>=<span class="string">"viewport"</span> content=<span class="string">"width=device-width"</span>&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meat</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span>&gt;</span></div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -3394,6 +3394,20 @@ $.unique(array); // 去除array 中的重复元素，该方法只对DOM Element 
     </entry>
     
     <entry>
+      <title><![CDATA[mvc-backbone]]></title>
+      <url>http://yardfarmer.github.io/2014/10/31/2013-11-15-%E5%B0%9D%E8%AF%95%E5%B1%B1%E5%AF%A8Backbone/</url>
+      <content type="html"><![CDATA[<p>学习了 BackBone.js, 为了更加深刻的理解，尝试山寨之。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[尝试山寨Backbone]]></title>
+      <url>http://yardfarmer.github.io/2014/10/31/2014-11-03-mvc-backbone/</url>
+      <content type="html"><![CDATA[<p>前几天梳理了下 MVC 的知识,准备好基础,现在开始学习 BackBone.js 。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[mvc之投石问路]]></title>
       <url>http://yardfarmer.github.io/2014/10/31/2014-10-31-mvc/</url>
       <content type="html"><![CDATA[<h2 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h2><p>MVC 是一种设计模式，它将应用划分为3 个部分：数据（模型）、展现层（视图）和用户交互层（控制器）。换句话说，一个事件的发生是这样的过程：<br>1． 用户和应用产生交互。<br>2． 控制器的事件处理器被触发。<br>3． 控制器从模型中请求数据，并将其交给视图。<br>4． 视图将数据呈现给用户。</p>
@@ -3412,20 +3426,6 @@ $.unique(array); // 去除array 中的重复元素，该方法只对DOM Element 
 </blockquote>
 <p>##控制器<br>控制器是模型和视图之间的纽带。控制器从视图获得事件和输入，对它们进行处理（很可能包含模型），并相应地更新视图。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Controller = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 使用匿名函数来封装一个作用域</span></div><div class="line">(Controller.users = <span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">var</span> nameClick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">/* ... */</span></div><div class="line">	&#125;;</div><div class="line"></div><div class="line">	<span class="comment">// 在页面加载时绑定事件监听</span></div><div class="line">	$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		$(<span class="string">"#view .name"</span>).click(nameClick);</div><div class="line">	&#125;);</div><div class="line"></div><div class="line">&#125;)(jQuery);</div></pre></td></tr></table></figure>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[mvc-backbone]]></title>
-      <url>http://yardfarmer.github.io/2014/10/31/2013-11-15-%E5%B0%9D%E8%AF%95%E5%B1%B1%E5%AF%A8Backbone/</url>
-      <content type="html"><![CDATA[<p>学习了 BackBone.js, 为了更加深刻的理解，尝试山寨之。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[尝试山寨Backbone]]></title>
-      <url>http://yardfarmer.github.io/2014/10/31/2014-11-03-mvc-backbone/</url>
-      <content type="html"><![CDATA[<p>前几天梳理了下 MVC 的知识,准备好基础,现在开始学习 BackBone.js 。</p>
 ]]></content>
     </entry>
     
@@ -3652,6 +3652,19 @@ $(document).ready(function() {
     </entry>
     
     <entry>
+      <title><![CDATA[隐形的翅膀]]></title>
+      <url>http://yardfarmer.github.io/2014/10/23/2014-10-23-swing/</url>
+      <content type="html"><![CDATA[<p>每一次都在徘徊孤单中坚强</p>
+<p>每一次就算受伤害也不闪泪光</p>
+<p>不去想他们拥有美丽的太阳</p>
+<p>带我飞，给我希望</p>
+<p>我终于翱翔，穿过云朵不害怕</p>
+<p>我看见每天的夕阳都会由变化</p>
+<p>我终于看到， 所有梦想都开花</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[regexp_reference]]></title>
       <url>http://yardfarmer.github.io/2014/10/23/2014-10-31-regexp/</url>
       <content type="html"><![CDATA[<h2 id="基础符号"><a href="#基础符号" class="headerlink" title="基础符号"></a>基础符号</h2><p>字符串字面值（string literal），来匹配目标字符串的。所谓字符串字面值，就是字面上看到的值.</p>
@@ -3723,19 +3736,6 @@ $(document).ready(function() {
 <p>a<strong>b</strong>c</p>
 <p>aa<strong>b</strong>d</p>
 <h3 id="反后顾-反后顾不适用于-javascript"><a href="#反后顾-反后顾不适用于-javascript" class="headerlink" title="反后顾(反后顾不适用于 javascript)"></a>反后顾(反后顾不适用于 javascript)</h3><p>(?&lt;!a)b</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[隐形的翅膀]]></title>
-      <url>http://yardfarmer.github.io/2014/10/23/2014-10-23-swing/</url>
-      <content type="html"><![CDATA[<p>每一次都在徘徊孤单中坚强</p>
-<p>每一次就算受伤害也不闪泪光</p>
-<p>不去想他们拥有美丽的太阳</p>
-<p>带我飞，给我希望</p>
-<p>我终于翱翔，穿过云朵不害怕</p>
-<p>我看见每天的夕阳都会由变化</p>
-<p>我终于看到， 所有梦想都开花</p>
 ]]></content>
     </entry>
     
@@ -3955,7 +3955,7 @@ completion     output completion bash script
 <h2 id="准备oracle的安装目标目录"><a href="#准备oracle的安装目标目录" class="headerlink" title="准备oracle的安装目标目录"></a>准备oracle的安装目标目录</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost oracle]<span class="selector-id">#mkdir</span> –<span class="selector-tag">p</span> /opt/oracle</div></pre></td></tr></table></figure>
 <p>安装目标目录是用户想将oracle安装到哪个位置的目录，本次我们将oracle安装到/opt/oracle目录中，以下为目录创建命令。</p>
 <h2 id="创建oracle相关用户和用户组"><a href="#创建oracle相关用户和用户组" class="headerlink" title="创建oracle相关用户和用户组"></a>创建oracle相关用户和用户组</h2><p>oracle不能在root帐户下进行安装，所以需要为oracle的安装专门创建一个用户，同时需要创建dba和oinstall的用户组。</p>
-<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root<span class="symbol">@localhost</span> oracle]<span class="meta">#groupadd dba</span></div><div class="line">[root<span class="symbol">@localhost</span> oracle]<span class="meta">#groupadd oinstall</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-attr">[root@localhost oracle]</span><span class="selector-id">#groupadd</span> <span class="selector-tag">dba</span></div><div class="line"><span class="selector-attr">[root@localhost oracle]</span><span class="selector-id">#groupadd</span> <span class="selector-tag">oinstall</span></div></pre></td></tr></table></figure>
 <p>以下命令将创建dba和oinstall用户组：<br>以下命令将创建oracle用户，并设置密码</p>
 <figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[root@localhost oracle]<span class="comment">#useradd -g oinstall -G dba oracle</span></div><div class="line"></div><div class="line">[root@localhost oracle]<span class="comment">#passwd oracle</span></div><div class="line"></div><div class="line">Changing password <span class="keyword">for</span> user oracle.</div><div class="line"></div><div class="line">New UNIX password: [在此键入密码]</div><div class="line"></div><div class="line">BAD PASSWORD: <span class="literal">it</span> <span class="keyword">is</span> based <span class="literal">on</span> a dictionary word</div><div class="line"></div><div class="line">Retype <span class="keyword">new</span> UNIX password: [在此再次键入密码]</div><div class="line"></div><div class="line">passwd: all authentication tokens updated successfully.</div></pre></td></tr></table></figure>
 <p>以下命令将oracle安装目录（/opt/oracle）赋予oracle用户oinstall用户组</p>
@@ -4012,6 +4012,14 @@ completion     output completion bash script
     </entry>
     
     <entry>
+      <title><![CDATA[linux修改hostname]]></title>
+      <url>http://yardfarmer.github.io/2014/08/01/2014-07-31-linux%E4%BF%AE%E6%94%B9hostname/</url>
+      <content type="html"><![CDATA[<p>最近鼓捣Oracle，记录些技巧</p>
+<h2 id="修改hostname"><a href="#修改hostname" class="headerlink" title="修改hostname"></a>修改hostname</h2><figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="vala"><span class="meta"># vim /ect/hosts              </span></span></div><div class="line"><span class="meta"># vim /etc/sysconfig/network  修改hostname</span></div><div class="line"><span class="meta"># service network restart     重启网络服务</span></div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[linux常用工具]]></title>
       <url>http://yardfarmer.github.io/2014/08/01/2014-08-04-linux-air-command/</url>
       <content type="html"><![CDATA[<p>使用时</p>
@@ -4028,14 +4036,6 @@ completion     output completion bash script
 </blockquote>
 <p> If no utility is specified, env prints out the names and values of the variables in the environment, with one name=value pair per line.</p>
 <p>如果使用参数 i, 设定环境为制定的环境,排除其他默认参数的影响<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">env -i [<span class="keyword">name</span>=<span class="keyword">value</span>] java -jar xx</div></pre></td></tr></table></figure></p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[linux修改hostname]]></title>
-      <url>http://yardfarmer.github.io/2014/08/01/2014-07-31-linux%E4%BF%AE%E6%94%B9hostname/</url>
-      <content type="html"><![CDATA[<p>最近鼓捣Oracle，记录些技巧</p>
-<h2 id="修改hostname"><a href="#修改hostname" class="headerlink" title="修改hostname"></a>修改hostname</h2><figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="vala"><span class="meta"># vim /ect/hosts              </span></span></div><div class="line"><span class="meta"># vim /etc/sysconfig/network  修改hostname</span></div><div class="line"><span class="meta"># service network restart     重启网络服务</span></div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
@@ -5076,7 +5076,7 @@ scrollWidth scrollHeight scrollLeft scrollTop /
 <p>Plugin ‘Valloric/MatchTagAlways’,格式通常是 作者名/插件名,插件可以去 github 搜.</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> nocompatible              <span class="comment">" be iMproved, required</span></div><div class="line"><span class="keyword">filetype</span> off                  <span class="comment">" required</span></div><div class="line"></div><div class="line"><span class="comment">" set the runtime path to include Vundle and initialize</span></div><div class="line"><span class="keyword">set</span> rtp+=~/.<span class="keyword">vim</span>/bundle/Vundle.<span class="keyword">vim</span></div><div class="line"></div><div class="line"><span class="keyword">call</span> vundle#begin()</div><div class="line"><span class="comment">" alternatively, pass a path where Vundle should install plugins</span></div><div class="line"><span class="comment">"call vundle#begin('~/some/path/here')</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">" let Vundle manage Vundle, required</span></div><div class="line">Plugin <span class="string">'gmarik/Vundle.vim'</span></div><div class="line"></div><div class="line"><span class="comment">" The following are examples of different formats supported.</span></div><div class="line"><span class="comment">" Keep Plugin commands between vundle#begin/end.</span></div><div class="line"></div><div class="line"><span class="comment">" plugin on GitHub repo</span></div><div class="line">Plugin <span class="string">'tpope/vim-fugitive'</span></div><div class="line">Plugin <span class="string">'git://git.wincent.com/command-t.git'</span></div><div class="line">Plugin <span class="string">'rstacruz/sparkup'</span>, &#123;<span class="string">'rtp'</span>: <span class="string">'vim/'</span>&#125;</div><div class="line"></div><div class="line"><span class="comment">" Avoid a name conflict with L9</span></div><div class="line"><span class="comment">" Plugin 'user/L9', &#123;'name': 'newL9'&#125;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">" Tags Match Plugin</span></div><div class="line">Plugin <span class="string">'Valloric/MatchTagAlways'</span></div><div class="line"></div><div class="line"><span class="comment">" All of your Plugins must be added before the following line</span></div><div class="line"></div><div class="line"><span class="keyword">call</span> vundle#end()            <span class="comment">" required</span></div><div class="line"><span class="keyword">filetype</span> plugin <span class="built_in">indent</span> <span class="keyword">on</span>    <span class="comment">" required</span></div><div class="line"></div><div class="line"><span class="comment">" To ignore plugin indent changes, instead use:</span></div><div class="line"><span class="comment">"filetype plugin on</span></div><div class="line"></div><div class="line"><span class="comment">" Brief help</span></div><div class="line"><span class="comment">" :PluginList       - lists configured plugins</span></div><div class="line"><span class="comment">" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate</span></div><div class="line"><span class="comment">" :PluginSearch foo - searches for foo; append `!` to refresh local cache</span></div><div class="line"><span class="comment">" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal</span></div><div class="line"><span class="comment">"</span></div><div class="line"><span class="comment">" see :h vundle for more details or wiki for FAQ</span></div><div class="line"><span class="comment">" Put your non-Plugin stuff after this line</span></div></pre></td></tr></table></figure>
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>开启 Vim, 执行:</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">:PluginInstall</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-pseudo">:PluginInstall</span></div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     

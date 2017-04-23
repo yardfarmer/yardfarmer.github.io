@@ -436,7 +436,7 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">src</span><span class="selector-class">.pipe</span>(<span class="selector-tag">dst</span>)</div><div class="line"><span class="selector-class">.pipe</span>(<span class="selector-tag">dst</span>)</div></pre></td></tr></table></figure>
 <p>将会返回dst因此你可以链式调用多个流:</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-class">.pipe</span>(<span class="selector-tag">b</span>)<span class="selector-class">.pipe</span>(<span class="selector-tag">c</span>)<span class="selector-class">.pipe</span>(<span class="selector-tag">d</span>)</div></pre></td></tr></table></figure>
-<p>上面的代码也可以等价为：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a.pipe(b)<span class="comment">;</span></div><div class="line">b.pipe(c)<span class="comment">;</span></div><div class="line">c.pipe(d)<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>上面的代码也可以等价为：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-class">.pipe</span>(<span class="selector-tag">b</span>);</div><div class="line"><span class="selector-tag">b</span><span class="selector-class">.pipe</span>(<span class="selector-tag">c</span>);</div><div class="line"><span class="selector-tag">c</span><span class="selector-class">.pipe</span>(<span class="selector-tag">d</span>);</div></pre></td></tr></table></figure></p>
 <p>类似 unix 中编写流代码很类似：<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a | <span class="type">b</span> | <span class="type">c</span> | <span class="type">d</span></div></pre></td></tr></table></figure></p>
 <p>###readable流</p>
 <p><code>Readable</code> 流可以产出数据，你可以将这些数据传送到一个 <code>writable</code>，<code>transform</code> 或者 <code>duplex</code> 流中，只需要调用<code>pipe()</code>方法:</p>
@@ -579,7 +579,7 @@ function b64_to_utf8(str) {
 <p>加入设置一个元素 width: 100px， 是设置元素跨越了 200 个 css 元素。 200个 css 像素相当于多少个物理像素取决于屏幕特性和用户的缩放行为。放大的越大，一个 css 像素覆盖的物理像素的就越多。</p>
 <p>##2. 页面缩放<br>假设一个桌面端浏览器的宽度是 1024px， 这意味着桌面上有 1024个 css 像素。</p>
 <p>##3. 设备像素比<br>javascript 中有一个属性 <code>window.devicePixelRatio</code>, css 中也有 <code>device-pixel-ratio</code> 属性，称为设备像素比(Device Pixel Ratio, DPR),<br>设备像素和理想视口的比。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meat <span class="built_in">name</span>=<span class="string">"viewport"</span> content=<span class="string">"width=device-width"</span>&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meat</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span>&gt;</span></div></pre></td></tr></table></figure>
 
 	
 	</div>
@@ -684,45 +684,45 @@ function b64_to_utf8(str) {
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
-		
-			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
-		
-			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
-		
-			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
-		
-			<li><a href="/tags/hg/">hg<span>1</span></a></li>
-		
-			<li><a href="/tags/framework/">framework<span>1</span></a></li>
-		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
-		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
-		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
-		
-			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
-		
-			<li><a href="/tags/library/">library<span>3</span></a></li>
-		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+			<li><a href="/tags/think/">think<span>1</span></a></li>
 		
 			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
 		
-			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
+		
+			<li><a href="/tags/build/">build<span>2</span></a></li>
 		
 			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+			<li><a href="/tags/document/">document<span>1</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/linux/">linux<span>6</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+		
+			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+		
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -738,7 +738,7 @@ function b64_to_utf8(str) {
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
+        <a href="/2017/02/01/2012-08-03-XMLHttpRequest发送put,delete请求/" ><i class="fa fa-file-o"></i>XMLHttpRequest发送put,delete请求</a>
       </li>
     
       <li>
@@ -746,7 +746,7 @@ function b64_to_utf8(str) {
       </li>
     
       <li>
-        <a href="/2017/02/01/2012-08-03-页面性能的几个评测点/" ><i class="fa fa-file-o"></i>页面性能的几个评测点</a>
+        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
       </li>
     
       <li>
