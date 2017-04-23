@@ -1,0 +1,35 @@
+.home-header {
+  display: flex;
+  height: 62px;
+  align-items: center;
+  background-color: #0957EF;
+}
+.home-header a {
+  text-decoration: none;
+}
+.home-header a {
+  text-decoration: none;
+}
+.nav-item {
+  display: flex;
+  justify-content: center;
+  width: 80px;
+  height: 62px;
+  line-height: 62px;
+  font-size: 16px;
+  color: #ccc;
+  transition: color ease .3s;
+}
+.logo {
+  width: 200px;
+  color: #fff;
+}
+.selected {
+  color: #fff;
+}
+
+ 
+.home-header .nav-item:hover {
+  background-color: #1377c9;
+}
+
