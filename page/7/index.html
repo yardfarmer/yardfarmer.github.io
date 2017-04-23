@@ -106,8 +106,8 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2014-12-27 </div>
-			<div class="article-title"><a href="/2014/12/27/2014-12-27-brick/" >brick</a></div>						
+			<div class="date"> 2014-11-02 </div>
+			<div class="article-title"><a href="/2014/11/02/2014-11-02-css 中的度量/" >css中的单位</a></div>						
 		</h3>
 	
 
@@ -116,264 +116,22 @@
   <div class="row">
 	
 	
-		<p>先占坑。。<br><a href="https://mozbrick.github.io/blog/" target="_blank" rel="external">https://mozbrick.github.io/blog/</a></p>
-
-	
-	</div>
-  <a type="button" href="/2014/12/27/2014-12-27-brick/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-12-25 </div>
-			<div class="article-title"><a href="/2014/12/25/2014-12-25-git/" >git</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#分布式版本管理的优点</p>
-<p>最初的克隆时间较长,特别是历史记录很长的时候,但最终这个本地镜像备份会带来很多优势.一个显而易见的好处是,当产看一个旧版本时不需要和中心服务器通信.</p>
-<h1 id="基本技巧"><a href="#基本技巧" class="headerlink" title="基本技巧"></a>基本技巧</h1><h2 id="git-文件的三种状态"><a href="#git-文件的三种状态" class="headerlink" title="git 文件的三种状态"></a>git 文件的三种状态</h2><ol>
-<li>暂存 staged </li>
-<li>修改 modify</li>
-<li>已提交</li>
-</ol>
-<p>记录当前状态<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git init</div><div class="line">git add .</div><div class="line">git commit -m <span class="string">"my commit description"</span></div></pre></td></tr></table></figure></p>
-<p>回退原来编辑的地方,会退到上次版本提交后的最初状态<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard</div></pre></td></tr></table></figure></p>
-<p>操作是针对本地版本库中已存在文件的操作, 针对已存在本地版本的文件的修改会完全回退,不管是否已经 <code>git add</code>过,<br>针对新加入的文件, add 之前的文件不会删除掉(untracked file: 尚未加入版本控制), add 之后的文件会被抹掉.</p>
-<p>git add 操作开始跟踪文件,但是还没有提交版本库, 类似 hibernate 中的持久态, 具有 id,具有 session 管理.<br>在 commit 之前还没有进入到托管的游离态(所以只有 commit 之前可以进行 git reset 操作).<br>add 之前的文件可以看作是 transient 瞬态, 通过 git add 便把无管理的文件进入到持久态, 受到 git 管控.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git add NEWFILES</div></pre></td></tr></table></figure>
-<p>删除, 将文件从本地目录，缓存区中删除,提交后才会在本地仓库中删除。</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">git</span> rm OLDFILES <span class="comment">#</span></div></pre></td></tr></table></figure>
-<p>重命名, 不能进行无版本控制的文件,git 还管控不到</p>
-<figure class="highlight cos"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">mv</span> OLDFILES NEWFILES</div></pre></td></tr></table></figure>
-<p>看日志</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">log</span></div></pre></td></tr></table></figure>
-<p>彻底恢复到指定版本,并且从记录里永久删除掉所有的后续记录</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">reset</span> <span class="comment">--hard SHA1_HASH</span></div></pre></td></tr></table></figure>
-<p>简单的恢复到以前的某个状态,穿越回去还能回来:</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">git</span> checkout SHA1_HASH</div></pre></td></tr></table></figure>
-<p>checkout 可以回到过去,并且可以保存在过去状态上的更改.但这会开辟新的分支.</p>
-<p>回到现实</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout <span class="literal">master</span></div></pre></td></tr></table></figure>
-<h2 id="处理分支"><a href="#处理分支" class="headerlink" title="处理分支"></a>处理分支</h2><p>查看分支<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">git branch</span></div></pre></td></tr></table></figure></p>
-<p>建立分支<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -<span class="selector-tag">b</span> branchName</div></pre></td></tr></table></figure></p>
-<p>关于建立分支,实质上是 checkout 到一个某个状态后, git 自动把你放到一个新的,未命名的分支,<br>这个分支可以用<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -<span class="selector-tag">b</span> branchName</div></pre></td></tr></table></figure></p>
-<p>进行对该分支命名.</p>
-<p>回到主分支<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout <span class="literal">master</span></div></pre></td></tr></table></figure></p>
-<p>切换到某分支<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">git checkout someBranch</span></div></pre></td></tr></table></figure></p>
-<p>使用分支工作</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git checkout -b draft  <span class="comment"># 建立分支</span></div><div class="line"><span class="built_in">do</span> some work <span class="keyword">in</span> <span class="keyword">the</span> branch: draft <span class="keyword">and</span> commmit  <span class="comment"># 在分支上工作</span></div><div class="line">git checkout master <span class="comment"># 回到分支 master</span></div><div class="line">git <span class="built_in">merge</span> draft <span class="comment"># 将 draft 分支所做更改合并到主分支</span></div><div class="line">git branch -d draft <span class="comment"># 不再需要这个分支</span></div></pre></td></tr></table></figure>
-
-	
-	</div>
-  <a type="button" href="/2014/12/25/2014-12-25-git/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-12-02 </div>
-			<div class="article-title"><a href="/2014/12/02/2014-12-02-纯对象事件/" >js 纯对象事件</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<blockquote>
-<p>如果给单纯的对象加入事件,怎么做?</p>
-</blockquote>
-<p>我想到了 jQ, addEventListener, emmit …<br>惭愧！</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> PubSub = &#123;</div><div class="line">	<span class="attr">subscribe</span>: <span class="function"><span class="keyword">function</span>(<span class="params">ev, callback</span>) </span>&#123;</div><div class="line">		<span class="comment">// 创建 _callbacks 对象,除非已有</span></div><div class="line">		<span class="keyword">var</span> calls = <span class="keyword">this</span>._callbacks || (<span class="keyword">this</span>._callbacks = &#123;&#125;);</div><div class="line">		(<span class="keyword">this</span>._callbacks[ev] || (<span class="keyword">this</span>._callbacks[ev] = [])).push(callback);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">publish</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>,<span class="number">0</span>);</div><div class="line"></div><div class="line">		<span class="comment">// 拿出第一个参数, 因为第一个参数用于事件名称</span></div><div class="line">		<span class="keyword">var</span> ev = args.shift();</div><div class="line"></div><div class="line">		<span class="keyword">var</span> list, calls, i, lst;</div><div class="line">		<span class="comment">// 不存在该事件,则返回</span></div><div class="line">		<span class="keyword">if</span> (!(calls = <span class="keyword">this</span>._callbacks)) <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">		<span class="keyword">if</span> (!(list = <span class="keyword">this</span>._callbacks[ev])) <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>( i = <span class="number">0</span>, lst = list.length; i &lt; lst; i++ ) &#123;</div><div class="line">			list[i].apply(<span class="keyword">this</span>, args);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-	
-	</div>
-  <a type="button" href="/2014/12/02/2014-12-02-纯对象事件/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-11-16 </div>
-			<div class="article-title"><a href="/2014/11/16/2014-11-16-deferred/" >jQueryDeferred对象</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>deferred对象代表了将要完成的某种操作，并提供了一些方法，帮助用户使用。它是jQuery对Promises接口的实现。jQuery的所有Ajax操作函数，默认返回的就是一个deferred对象。</p>
-<p>简单说，Promises是异步操作的通用接口，扮演代理人（proxy）的角色，将异步操作包装成具有同步操作特性的特殊对象。异步操作的典型例子就是Ajax操作、网页动画、web worker等等。</p>
-<p>由于JavaScript单线程的特点，如果某个操作耗时很长，其他操作就必需排队等待。为了避免整个程序失去响应，通常的解决方法是将那些排在后面的操作，写成“回调函数”（callback）的形式。这样做虽然可以解决问题，但是有一些显著缺点：</p>
-<ul>
-<li>回调函数往往写成函数参数的形式，形成所谓的“持续传递风格”（即参数就是下一步操作，Continuation-passing style），导致函数的输入和输出非常混乱，整个程序的可阅读性差；</li>
-<li>回调函数往往只能指定一个，如果有多个操作，就需要改写回调函数。</li>
-<li>除了正常的报错机制，错误还可能通过回调函数的形式返回，增加了除错和调试的难度。</li>
-<li>正常的函数输入和输出可以区分得很清楚，回调函数使得函数的输出不再重要。</li>
-</ul>
-<p>Promises就是为了解决这些问题而提出的，它的主要目的就是取代回调函数，成为非同步操作的解决方案。它的核心思想就是让非同步操作返回一个对象，其他操作都针对这个对象来完成。比如，假定ajax操作返回一个Promise对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> promise = get(<span class="string">'http://www.example.com'</span>);</div></pre></td></tr></table></figure>
-<p>然后，Promise对象有一个then方法，可以用来指定回调函数。一旦非同步操作完成，就调用指定的回调函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">promise.then(<span class="function"><span class="keyword">function</span> (<span class="params">content</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(content)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>可以将上面两段代码合并起来，这样程序的流程看得更清楚。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">get(<span class="string">'http://www.example.com'</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params">content</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(content)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>在1.5版之前，jQuery的Ajax操作采用回调函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax(&#123;</div><div class="line">    <span class="attr">url</span>:<span class="string">"/echo/json/"</span>,</div><div class="line">    <span class="attr">success</span>: <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span></div><div class="line">    &#123;</div><div class="line">       <span class="built_in">console</span>.info(response.name);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>1.5版之后，Ajax操作直接返回Promise对象，这意味着可以用then方法指定回调函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax(&#123;</div><div class="line">    <span class="attr">url</span>: <span class="string">"/echo/json/"</span>,</div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.info(response.name);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h2 id="deferred对象的方法"><a href="#deferred对象的方法" class="headerlink" title="deferred对象的方法"></a>deferred对象的方法</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p><strong>（1）生成deferred对象</strong></p>
-<p>第一步是通过$.Deferred()方法，生成一个deferred对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> deferred = $.Deferred();</div></pre></td></tr></table></figure>
-<p><strong>（2）deferred对象的状态</strong></p>
-<p>deferred对象有三种状态。</p>
-<ul>
-<li>pending：表示操作还没有完成。</li>
-<li>resolved：表示操作成功。</li>
-<li>rejected：表示操作失败。</li>
-</ul>
-<p>state方法用来返回deferred对象当前状态。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.Deferred().state() <span class="comment">// 'pending'</span></div><div class="line">$.Deferred().resolve().state() <span class="comment">// 'resolved'</span></div><div class="line">$.Deferred().reject().state() <span class="comment">// 'rejected'</span></div></pre></td></tr></table></figure>
-<p><strong>（3）改变状态的方法</strong></p>
-<p>resolve方法将deferred对象的状态从pending改为resolved，reject方法则将状态从pending改为rejected。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> deferred = $.Deferred();</div><div class="line"></div><div class="line">deferred.resolve(<span class="string">"hello world"</span>);</div></pre></td></tr></table></figure>
-<p>resolve方法的参数，用来传递给回调函数。</p>
-<p><strong>（4）绑定回调函数</strong></p>
-<p>deferred对象在状态改变时，会触发回调函数。 </p>
-<p>done方法指定状态变为resolved（操作成功）时的回调函数；fail方法指定状态变为rejected（操作失败）时的回调函数；always方法指定，不管状态变为resolved或rejected，都会触发的方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> deferred = $.Deferred();</div><div class="line"></div><div class="line">deferred.done(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line">   <span class="built_in">console</span>.log(value);</div><div class="line">&#125;).resolve(<span class="string">'hello world'</span>);</div><div class="line"><span class="comment">// hello world</span></div></pre></td></tr></table></figure>
-<p>上述三种方法都返回的原有的deferred对象，因此可以采用链式写法，在后面再链接别的方法（包括done和fail在内）。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.Deferred().done(f1).fail(f2).always(f3);</div></pre></td></tr></table></figure>
-<h3 id="notify-和-progress"><a href="#notify-和-progress" class="headerlink" title="notify() 和 progress()"></a>notify() 和 progress()</h3><p>progress()用来指定一个回调函数，当调用notify()方法时，该回调函数将执行。它的用意是提供一个接口，使得在非同步操作执行过程中，可以执行某些操作，比如定期返回进度条的进度。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> userProgress = $.Deferred();</div><div class="line">   <span class="keyword">var</span> $profileFields = $(<span class="string">"input"</span>);</div><div class="line">   <span class="keyword">var</span> totalFields = $profileFields.length</div><div class="line">       </div><div class="line">   userProgress.progress(<span class="function"><span class="keyword">function</span> (<span class="params">filledFields</span>) </span>&#123;</div><div class="line">       <span class="keyword">var</span> pctComplete = (filledFields/totalFields)*<span class="number">100</span>;</div><div class="line">       $(<span class="string">"#progress"</span>).html(pctComplete.toFixed(<span class="number">0</span>));</div><div class="line">   &#125;); </div><div class="line"></div><div class="line">   userProgress.done(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">       $(<span class="string">"#thanks"</span>).html(<span class="string">"Thanks for completing your profile!"</span>).show();</div><div class="line">   &#125;);</div><div class="line">   </div><div class="line">   $(<span class="string">"input"</span>).on(<span class="string">"change"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">       <span class="keyword">var</span> filledFields = $profileFields.filter(<span class="string">"[value!='']"</span>).length;</div><div class="line">       userProgress.notify(filledFields);</div><div class="line">       <span class="keyword">if</span> (filledFields == totalFields) &#123;</div><div class="line">           userProgress.resolve();</div><div class="line">       &#125;</div><div class="line">   &#125;);</div></pre></td></tr></table></figure>
-<h3 id="then方法"><a href="#then方法" class="headerlink" title="then方法"></a>then方法</h3><p><strong>（1）概述</strong></p>
-<p>then方法的作用也是指定回调函数，它可以接受三个参数，也就是三个回调函数。第一个参数是resolve时调用的回调函数（相当于done方法），第二个参数是reject时调用的回调函数（相当于fail方法），第三个参数是progress()方法调用的回调函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">deferred.then( doneFilter [, failFilter ] [, progressFilter ] )</div></pre></td></tr></table></figure>
-<p><strong>（2）返回值</strong></p>
-<p>在jQuery 1.8之前，then()只是.done().fail()写法的语法糖，两种写法是等价的。在jQuery 1.8之后，then()返回一个新的promise对象，而done()返回的是原有的deferred对象。如果then()指定的回调函数有返回值，该返回值会作为参数，传入后面的回调函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> defer = jQuery.Deferred();</div><div class="line"></div><div class="line">defer.done(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> a * b;</div><div class="line">&#125;).done(<span class="function"><span class="keyword">function</span>(<span class="params"> result </span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"result = "</span> + result);</div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"> a, b </span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> a * b;</div><div class="line">&#125;).done(<span class="function"><span class="keyword">function</span>(<span class="params"> result </span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"result = "</span> + result);</div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"> a, b </span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> a * b;</div><div class="line">&#125;).done(<span class="function"><span class="keyword">function</span>(<span class="params"> result </span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"result = "</span> + result);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">defer.resolve( <span class="number">2</span>, <span class="number">3</span> );</div></pre></td></tr></table></figure>
-<p>在jQuery 1.8版本之前，上面代码的结果是：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">result = <span class="number">2</span> </div><div class="line">result = <span class="number">2</span> </div><div class="line">result = <span class="number">2</span></div></pre></td></tr></table></figure>
-<p>在jQuery 1.8版本之后，返回结果是</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">result = <span class="number">2</span> </div><div class="line">result = <span class="number">6</span> </div><div class="line">result = <span class="literal">NaN</span></div></pre></td></tr></table></figure>
-<p>这一点需要特别引起注意。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.ajax( url1, &#123; <span class="attr">dataType</span>: <span class="string">"json"</span> &#125; )</div><div class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params"> data </span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> $.ajax( url2, &#123; <span class="attr">data</span>: &#123; <span class="attr">user</span>: data.userId &#125; &#125; );</div><div class="line">&#125;).done(<span class="function"><span class="keyword">function</span>(<span class="params"> data </span>) </span>&#123;</div><div class="line">  <span class="comment">// 从url2获取的数据</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码最后那个done方法，处理的是从url2获取的数据，而不是从url1获取的数据。</p>
-<p><strong>（3）对返回值的修改</strong></p>
-<p>利用then()会修改返回值这个特性，我们可以在调用其他回调函数之前，对前一步操作返回的值进行处理。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> post = $.post(<span class="string">"/echo/json/"</span>)</div><div class="line">	.then(<span class="function"><span class="keyword">function</span>(<span class="params">p</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> p.firstName;</div><div class="line">	&#125;);</div><div class="line"></div><div class="line">post.done(<span class="function"><span class="keyword">function</span>(<span class="params">r</span>)</span>&#123; <span class="built_in">console</span>.log(r); &#125;);</div></pre></td></tr></table></figure>
-<p>上面代码先使用then()方法，从返回的数据中取出所需要的字段（firstName），所以后面的操作就可以只处理这个字段了。</p>
-<p>有时，Ajax操作返回json字符串里面有一个error属性，表示发生错误。这个时候，传统的方法只能是通过done()来判断是否发生错误。通过then()方法，可以让deferred对象调用fail()方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> myDeferred = $.post(<span class="string">'/echo/json/'</span>, &#123;<span class="attr">json</span>:<span class="built_in">JSON</span>.stringify(&#123;<span class="string">'error'</span>:<span class="literal">true</span>&#125;)&#125;)</div><div class="line">    .then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (response.error) &#123;</div><div class="line">                <span class="keyword">return</span> $.Deferred().reject(response);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> response;</div><div class="line">        &#125;,<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> $.Deferred().reject(&#123;<span class="attr">error</span>:<span class="literal">true</span>&#125;);</div><div class="line">        &#125;</div><div class="line">    );</div><div class="line"></div><div class="line">myDeferred.done(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</div><div class="line">        $(<span class="string">"#status"</span>).html(<span class="string">"Success!"</span>);</div><div class="line">    &#125;).fail(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</div><div class="line">        $(<span class="string">"#status"</span>).html(<span class="string">"An error occurred"</span>);</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
-<p>上面代码中，不管是通信出错，或者服务器返回一个错误，都会调用reject方法，返回一个新的deferred对象，状态为rejected，因此就会触发fail方法指定的回调函数。</p>
-<p>关于error的处理，jQuery的deferred对象与其他实现Promises规范的函数库有一个重大不同。就是说，如果deferred对象执行过程中，抛出一个非Promises对象的错误，那么将不会被后继的then方法指定的rejected回调函数捕获，而会一直传播到应用程序层面。为了代码行为与Promises规范保持一致，建议出错时，总是使用reject方法返回错误。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d = $.Deferred()  </div><div class="line">d.then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  </div><div class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'err'</span>)</div><div class="line">&#125;).fail(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'fail'</span>)</div><div class="line">&#125;)</div><div class="line">d.resolve()</div><div class="line"><span class="comment">// Error: err</span></div></pre></td></tr></table></figure>
-<p>上面代码中，then的回调函数抛出一个错误，按照Promises规范，应该被fail方法的回调函数捕获，但是jQuery的部署是上升到应用程序的层面。</p>
-<p><strong>（4）回调函数的返回值</strong></p>
-<p>如果回调函数返回deferred对象，则then方法的返回值将是对应这个返回值的promise对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> d1 = $.Deferred();</div><div class="line"></div><div class="line"><span class="keyword">var</span> promise = $.when(<span class="string">'Hello'</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">h</span>)</span>&#123;  </div><div class="line">  <span class="keyword">return</span> $.when(h,d1);</div><div class="line">&#125;)</div><div class="line"></div><div class="line">promise.done(<span class="function"><span class="keyword">function</span> (<span class="params">s1,s2</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(s1);</div><div class="line">	<span class="built_in">console</span>.log(s2);</div><div class="line">&#125;)</div><div class="line"></div><div class="line">d1.resolve(<span class="string">'World'</span>)</div><div class="line"><span class="comment">// Hello</span></div><div class="line"><span class="comment">// World</span></div></pre></td></tr></table></figure>
-<p>上面代码中，done方法的回调函数，正常情况下只能接受一个参数。但是由于then方法的回调函数，返回一个when方法生成的deferred对象，导致它可以接受两个参数。</p>
-<h3 id="pipe方法"><a href="#pipe方法" class="headerlink" title="pipe方法"></a>pipe方法</h3><p>pipe方法接受一个函数作为参数，表示在调用then方法、done方法、fail方法、always方法指定的回调函数之前，先运行pipe方法指定的回调函数。它通常用来对服务器返回的数据做初步处理。</p>
-<h3 id="与Promise-A-规格的差异"><a href="#与Promise-A-规格的差异" class="headerlink" title="与Promise A+规格的差异"></a>与Promise A+规格的差异</h3><p>Promise事实上的标准是社区提出的Promise A+规格，jQuery的实现并不完全符合Promise A+，主要是对错误的处理。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> promise2 = promise1.then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"boom!"</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码在回调函数中抛出一个错误，Promise A+规定此时Promise实例的状态变为reject，该错误被下一个catch方法指定的回调函数捕获。但是，jQuery的Deferred对象此时不会改变状态，亦不会触发回调函数，该错误一般情况下会被window.onerror捕获。换句话说，在Deferred对象中，总是必须使用reject方法来改变状态。</p>
-<h2 id="promise对象"><a href="#promise对象" class="headerlink" title="promise对象"></a>promise对象</h2><p><strong>（1）概念</strong></p>
-<p>一般情况下，从外部改变第三方完成的异步操作（比如Ajax）的状态是毫无意义的。为了防止用户这样做，可以在deferred对象的基础上，返回一个针对它的promise对象。</p>
-<p>简单说，promise对象就是不能改变状态的deferred对象，也就是deferred的只读版。或者更通俗地理解成，promise是一个对将要完成的任务的承诺，排除了其他人破坏这个承诺的可能性，只能等待承诺方给出结果。</p>
-<p>你可以通过promise对象，为原始的deferred对象添加回调函数，查询它的状态，但是无法改变它的状态，也就是说<strong>promise对象不允许你调用resolve和reject方法</strong>。</p>
-<p><strong>（2）生成promise对象</strong></p>
-<p>deferred对象的promise方法，用来生成对应的promise对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPromise</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> $.Deferred().promise();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">try</span>&#123;</div><div class="line">    getPromise().resolve(<span class="string">"a"</span>);</div><div class="line">&#125; <span class="keyword">catch</span>(err) &#123;</div><div class="line">    <span class="built_in">console</span>.log(err);</div><div class="line">&#125;</div><div class="line"><span class="comment">// TypeError</span></div></pre></td></tr></table></figure>
-<p>上面代码对promise对象，调用resolve方法，结果报错。</p>
-<p>jQuery的ajax() 方法返回的就是一个promise对象。此外，Animation类操作也可以使用promise方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$(<span class="string">'body'</span>).toggle(<span class="string">'blinds'</span>).promise().then(</div><div class="line">  <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'body'</span>).toggle(<span class="string">'blinds'</span>)</div><div class="line">  &#125;</div><div class="line">)</div></pre></td></tr></table></figure>
-<h2 id="辅助方法"><a href="#辅助方法" class="headerlink" title="辅助方法"></a>辅助方法</h2><p>deferred对象还有一系列辅助方法，使它更方便使用。</p>
-<h3 id="when-方法"><a href="#when-方法" class="headerlink" title="$.when()方法"></a>$.when()方法</h3><p>$.when()接受多个deferred对象作为参数，当它们全部运行成功后，才调用resolved状态的回调函数，但只要其中有一个失败，就调用rejected状态的回调函数。它相当于将多个非同步操作，合并成一个。实质上，when方法为多个deferred对象，返回一个单一的promise对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.when(</div><div class="line">    $.ajax( <span class="string">"/main.php"</span> ),</div><div class="line">    $.ajax( <span class="string">"/modules.php"</span> ),</div><div class="line">    $.ajax( <span class="string">"/lists.php"</span> )</div><div class="line">).then(successFunc, failureFunc);</div></pre></td></tr></table></figure>
-<p>上面代码表示，要等到三个ajax操作都结束以后，才执行then方法指定的回调函数。</p>
-<p>when方法里面要执行多少个操作，回调函数就有多少个参数，对应前面每一个操作的返回结果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.when(</div><div class="line">    $.ajax( <span class="string">"/main.php"</span> ),</div><div class="line">    $.ajax( <span class="string">"/modules.php"</span> ),</div><div class="line">    $.ajax( <span class="string">"/lists.php"</span> )</div><div class="line">).then(<span class="function"><span class="keyword">function</span> (<span class="params">resp1, resp2, resp3</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(resp1);</div><div class="line">	<span class="built_in">console</span>.log(resp2);</div><div class="line">	<span class="built_in">console</span>.log(resp3);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码的回调函数有三个参数，resp1、resp2和resp3，依次对应前面三个ajax操作的返回结果。</p>
-<p>如果when方法的参数不是deferred或promise对象，则直接作为回调函数的参数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">d = $.Deferred()  </div><div class="line">$.when(d, <span class="string">'World'</span>).done(<span class="function"><span class="keyword">function</span> (<span class="params">s1, s2</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(s1);</div><div class="line">	<span class="built_in">console</span>.log(s2);</div><div class="line">&#125;)</div><div class="line"></div><div class="line">d.resolve(<span class="string">'Hello'</span>) </div><div class="line"><span class="comment">// Hello </span></div><div class="line"><span class="comment">// World</span></div></pre></td></tr></table></figure>
-<p>上面代码中，when的第二个参数是一个字符串，则直接作为回调函数的第二个参数。</p>
-<p>此外，如果when方法的参数都不是deferred或promise对象，那么when方法的回调函数将立即运行。</p>
-<h2 id="使用实例"><a href="#使用实例" class="headerlink" title="使用实例"></a>使用实例</h2><h3 id="wait方法"><a href="#wait方法" class="headerlink" title="wait方法"></a>wait方法</h3><p>我们可以用deferred对象写一个wait方法，表示等待多少毫秒后再执行。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.wait = <span class="function"><span class="keyword">function</span>(<span class="params">time</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> $.Deferred(<span class="function"><span class="keyword">function</span>(<span class="params">dfd</span>) </span>&#123;</div><div class="line">    setTimeout(dfd.resolve, time);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用方法如下。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$.wait(<span class="number">5000</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"Hello from the future!"</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="改写setTimeout"><a href="#改写setTimeout" class="headerlink" title="改写setTimeout"></a>改写setTimeout</h3><p>在上面的wait方法的基础上，还可以改写setTimeout方法，让其返回一个deferred对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomethingLater</span>(<span class="params">fn, time</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> dfd = $.Deferred();</div><div class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    dfd.resolve(fn());</div><div class="line">  &#125;, time || <span class="number">0</span>);</div><div class="line">  <span class="keyword">return</span> dfd.promise();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> promise = doSomethingLater(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log( <span class="string">'已经延迟执行'</span> );</div><div class="line">&#125;, <span class="number">100</span>);</div></pre></td></tr></table></figure>
-<h3 id="自定义操作使用deferred接口"><a href="#自定义操作使用deferred接口" class="headerlink" title="自定义操作使用deferred接口"></a>自定义操作使用deferred接口</h3><p>我们可以利用deferred接口，使得任意操作都可以用done()和fail()指定回调函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Twitter = &#123;</div><div class="line">  <span class="attr">search</span>:<span class="function"><span class="keyword">function</span>(<span class="params">query</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> dfd = $.Deferred();</div><div class="line">    $.ajax(&#123;</div><div class="line">     <span class="attr">url</span>:<span class="string">"http://search.twitter.com/search.json"</span>,</div><div class="line">     <span class="attr">data</span>:&#123;<span class="attr">q</span>:query&#125;,</div><div class="line">     <span class="attr">dataType</span>:<span class="string">'jsonp'</span>,</div><div class="line">     <span class="attr">success</span>:dfd.resolve</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> dfd.promise();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用方法如下。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Twitter.search(<span class="string">'javaScript'</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  alert(data.results[<span class="number">0</span>].text);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>deferred对象的另一个优势是可以附加多个回调函数。下面的例子使用了上面所改写的setTimeout函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params">arg</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> dfd = $.Deferred();</div><div class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    dfd.reject(<span class="string">"Sorry, something went wrong."</span>);</div><div class="line">  &#125;);</div><div class="line">  <span class="keyword">return</span> dfd;</div><div class="line">&#125;</div><div class="line"></div><div class="line">doSomething(<span class="string">"uh oh"</span>).done(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"Won't happen, we're erroring here!"</span>);</div><div class="line">&#125;).fail(<span class="function"><span class="keyword">function</span>(<span class="params">message</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(message);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li>Matt Baker, <a href="http://eng.wealthfront.com/2012/12/jquerydeferred-is-most-important-client.html" target="_blank" rel="external">jQuery.Deferred is the most important client-side tool you have</a></li>
-<li><a href="http://www.intridea.com/blog/2011/2/8/fun-with-jquery-deferred" target="_blank" rel="external">Fun With jQuery Deferred</a></li>
-<li>Bryan Klimt, <a href="http://blog.parse.com/2013/01/29/whats-so-great-about-javascript-promises/" target="_blank" rel="external">What’s so great about JavaScript Promises?</a></li>
-<li>José F. Romaniello, <a href="http://joseoncode.com/2011/09/26/a-walkthrough-jquery-deferred-and-promise/" target="_blank" rel="external">Understanding JQuery.Deferred and Promise</a></li>
-<li>Julian Aubourg, Addy Osmani, <a href="http://msdn.microsoft.com/en-us/magazine/gg723713.aspx" target="_blank" rel="external">Creating Responsive Applications Using jQuery Deferred and Promises</a></li>
-<li>Graham Jenson, <a href="http://maori.geek.nz/post/i_promise_this_will_be_short" target="_blank" rel="external">JQuery Promises and Deferreds: I promise this will be short</a></li>
-<li>Q module document, <a href="https://github.com/kriskowal/q/wiki/Coming-from-jQuery" target="_blank" rel="external">Coming from jQuery</a> </li>
-</ul>
-
-	
-	</div>
-  <a type="button" href="/2014/11/16/2014-11-16-deferred/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-11-12 </div>
-			<div class="article-title"><a href="/2014/11/12/2014-11-22-无交互行为内容的闪烁FUBC/" >无交互行为内容的闪烁FOUC</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#无交互行为内容的闪烁FOUC</p>
-<p>今天了解了一个新的名词叫做 FOUC 浏览器样式闪烁，之前也听说过一些类似的东西，比如样式突变等等，但这东西竟然有学名的。</p>
-<p>###什么是FOUC?</p>
-<p>如果使用import方法对CSS进行导入,会导致某些页面在 Windows 下的<code>IE</code>出现一些奇怪的现象:以无样式显示页面内容的瞬间闪烁,这种现象称之为文档样式短暂失效(Flash of Unstyled Content),简称为FOUC。</p>
-<p>出现的原因大致为：</p>
+		<h2 id="angle"><a href="#angle" class="headerlink" title="angle"></a>angle</h2><p>angle 者，角也。<br>积极的角度代表(right angles)，负角度代表(left angles)。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">background</span><span class="selector-pseudo">:-moz-linear-gradient(10deg</span>,<span class="selector-tag">red</span>,<span class="selector-tag">green</span>,<span class="selector-tag">yellow</span>);</div></pre></td></tr></table></figure>
+<p>角度为水平方向逆时针向上旋转10°</p>
+<p>当指定的角度，请记住，它是一个由水平线与渐变线产生的的角度，逆时针方向。因此，使用0deg将产生一个左到右横向梯度，而90度将创建一个从底部到顶部的垂直渐变。</p>
+<h2 id="webkit-gradient"><a href="#webkit-gradient" class="headerlink" title="webkit-gradient"></a>webkit-gradient</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">webkit核心浏览器下的的基本语法如下：</div><div class="line">-webkit-gradient(type, start_point, end_point, / stop...) </div><div class="line">-webkit-gradient(type, inner_center, inner_radius, outer_center, outer_radius, / stop...)</div><div class="line"></div><div class="line"></div><div class="line">参数</div><div class="line">参数类型	简要说明</div><div class="line">type	渐变的类型，可以是线性渐变(linear)或是径向渐变(radial)</div><div class="line">start_point	渐变图像中渐变的起始点</div><div class="line">end_point	渐变图像中渐变的结束点</div><div class="line">stop	color-stop()方法，指定渐变进程中特定的颜色</div><div class="line">inner_center	内部中心点，径向渐变起始圆环</div><div class="line">inner_radius	内部半径，径向渐变起始圆</div><div class="line">outer_center	外部渐变结束圆的中心点</div><div class="line">outer_radius	外部渐变结束圆的半径</div></pre></td></tr></table></figure>
+<p>关于参数的具体说明</p>
 <ol>
-<li>使用import方法导入样式表。</li>
-<li>将样式表放在页面底部</li>
-<li>有几个样式表，放在html结构的不同位置。</li>
+<li>start_point 和 end_point</li>
+<li>划一条渐变线，会有起始点和结束点，这个起始点和结束点就对应这里的start_point和end_point参数</li>
 </ol>
-<p>其实原理很清楚：当样式表晚于结构性html加载，当加载到此样式表时，页面将停止之前的渲染。此样式表被下载和解析后，将重新渲染页面，也就出现了短暂的花屏现象。</p>
-<p>一般的解决方法：<strong>使用LINK标签将样式表放在文档head中</strong>。</p>
-<h3 id="在其他技术中，同样存在-FOUC："><a href="#在其他技术中，同样存在-FOUC：" class="headerlink" title="在其他技术中，同样存在 FOUC："></a>在其他技术中，同样存在 FOUC：</h3><h4 id="requirejs"><a href="#requirejs" class="headerlink" title="requirejs"></a>requirejs</h4><p>使用 requireJs,加载器来加载页面时，也会出现一部分没有交互行为的内容快速闪过（FOUC），比如在JavaScript 执行之前会有一部分无样式的页面原始内容闪烁一下。如果不依赖JavaScript 来修改初始页面的样式， 问题其实并不严重。但如果依赖JavaScript 来操作样式，则需要将样式提取出来放入初 始化CSS 之中，比如隐藏一些元素或展示一个加载指示器，提示页面正在加载中。 </p>
-<h4 id="polymer"><a href="#polymer" class="headerlink" title="polymer"></a>polymer</h4><p>在 custom elements 更新 之前可能显示错乱。 为了缓解 FOUC 问题, Polymer 提供了一个 polyfill 解决方案，配合 :unresolved 伪类 使用。 对于简单的 app，你可以为 body 添加 unresolved 属性。这将在页面初始化时隐藏页面直到所有的 elements 被更新才显示。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">unresolved</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- 或者,更具体些 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">unresolved</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>start_point(x1,x2)，end_point(x2,y2)，这里的 x,y 对应左上角为起点的坐标，<br>此处的x,y参数表示与CSS中的background-position是一致的，可以使像素值，或是百分比值或是left,top,right,bottom。</p>
+<p>当x1等于x2，y1不等于y2，实现垂直渐变，调整y1，y2的值可以调整渐变半径大小；<br>当y1等于y2，x1不等于x2，实现水平渐变，调整x1，x2的值可以调整渐变半径大小；<br>当y1不等于y2，x1不等于x2，实现角度渐变，当x1,x2,y1,y2取值为极值的时候接近垂直渐变或水平渐变；<br>当x1等于x2，y1等于y2，实现没有渐变，取from色，即 <strong>from(颜色值)</strong> ；</p>
 
 	
 	</div>
-  <a type="button" href="/2014/11/12/2014-11-22-无交互行为内容的闪烁FUBC/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2014/11/02/2014-11-02-css 中的度量/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -381,8 +139,8 @@
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2014-11-12 </div>
-			<div class="article-title"><a href="/2014/11/12/2014-11-12-CSS代码段笔记/" >CSS代码段笔记</a></div>						
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-08-21-jquery基本用法/" >jquery 基础用法</a></div>						
 		</h3>
 	
 
@@ -391,73 +149,614 @@
   <div class="row">
 	
 	
-		<h3 id="内层div充满外层div"><a href="#内层div充满外层div" class="headerlink" title="内层div充满外层div"></a>内层div充满外层div</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>1.内层div充满外层div<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">	<span class="selector-tag">inner_div</span>&#123;</div><div class="line">		<span class="attribute">position</span>: absolute;</div><div class="line">		<span class="attribute">top</span>:<span class="number">0</span>;</div><div class="line">		<span class="attribute">right</span>:<span class="number">0</span>;</div><div class="line">		<span class="attribute">bottom</span>:<span class="number">0</span>;</div><div class="line">		<span class="attribute">left</span>:<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>如果单纯充满外层，淡出 with/height: 100%也可做到，但是这其它元素就不可以覆盖到上面了，absolute 不在正常的瀑布流中.</p>
-<h3 id="渐变的用法"><a href="#渐变的用法" class="headerlink" title="渐变的用法"></a>渐变的用法</h3><pre><code>linear-gradient {color startAt,color endAt},{color startAt,color endAt},{...}, 
+		<p>整理了这些作为下阶段读源码前的知识储备，同时分享给大家。共勉。</p>
+<h2 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h2><p>jQuery 框架提供了很多方法，但大致上可以分为3 大类：</p>
+<ol>
+<li>获取jQuery 对象的方法</li>
+<li>在jQuery 对象间跳转的方法</li>
+<li>获取jQuery 对象后调用的方法</li>
+</ol>
+<h3 id="获取-jQuery-对象"><a href="#获取-jQuery-对象" class="headerlink" title="获取 jQuery 对象"></a>获取 jQuery 对象</h3><p>是怎样获取jQuery 对象。大致来说，是通过最核心的<code>$()</code>方法，将页面上的元素（或者在页面上不存在的 html 片段）包装成 jQuery 对象。<br><code>$()方法</code>里面支持的语法又包括：</p>
+<ol>
+<li>分别是表达式（包括类表达式.，id 表达式#，元素表达式等）</li>
+<li>符号（包括后代符号space，next 符号+等)</li>
+<li>过滤器（包括:过滤器和[]过滤器）</li>
+<li>现在显然还有更多</li>
+</ol>
+<p>通过以上组合，通过选择器 <code>$()</code> 可”查询“得到 jQuery 对象（或者jQuery 对象的集合）。</p>
+<h3 id="对象跳转"><a href="#对象跳转" class="headerlink" title="对象跳转"></a>对象跳转</h3><p>是在jQuery 对象间的跳转。也就是说，已经得到了一个jQuery 对象，但并不是想要的，那么可以通过一系列的跳转方法，比如<em>parent()、next()、children()、find()</em>等，或者过滤筛选的方法，比如<em>eq、filter()、not()</em>等，来得到最终想要操作的jQuery 对象。</p>
+<p>用跳转和过滤方式得到的jQuery 结果，往往通过比较复杂的表达式组合，可以达到同样的目的。<br>比如说 <code>$(&quot;div&quot;).eq(3)</code>，也可以用<code>$(&quot;div:eq(3)&quot;)</code> 达到同样的目的。<br>又比如说<code>$(&quot;div&quot;).find(&quot;span&quot;)</code>，可以用<code>$(&quot;div span&quot;)</code>取到同样的元素。</p>
+<p>方法是很灵活的，要根据具体的情况来选择。根据经验来说，HTML 页面写得越规范，使用 jQuery 就越简单。</p>
+<p>还有一种情况，在得到了jQuery()对象之后，想要判断其是否满足条件，那么可以调用 ==is()、hasClass()==等方法，返回一个boolean 值，进行后续的判断。这类方法也可以归到这类。</p>
+<h3 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h3><p>在获取准确的 jQuery 对象之后，调用其上的各种方法，来进行操作。这一步反而是比较简单的了。<br>后面就是对 jQuery 框架各种方法的简要介绍。</p>
+<h3 id="常用API"><a href="#常用API" class="headerlink" title="常用API"></a>常用API</h3><p>####$(…);</p>
+<pre><code>/**
+ *  一切的核心，可以跟4 种参数。
+ */
+$();
+
+/**
+ *  返回jQuery 对象或者jQuery 对象的集合
+ *  比如$(&quot;#id&quot;)、$(&quot;.class&quot;)
+ */
+$(expression);
+
+/**
+ *  返回jQuery 对象，或者jQuery 对象的集合
+ *  比如$(&quot;&lt;span&gt;hello world&lt;/span&gt;&quot;)
+ */
+$(html)
+
+/**
+ *  返回jQuery 对象，或者jQuery 对象的集合
+ *  比如$(document.body)
+ */
+$(element)
+
+/**
+ *  所有元素
+ */
+$(*)
+```
+</code></pre><h4 id="jQuery-对象获取"><a href="#jQuery-对象获取" class="headerlink" title="jQuery 对象获取"></a>jQuery 对象获取</h4><pre><code>```javascript
+
+/**
+ *  返回该jQuery 对象在集合中的索引
+ */
+jQuery.index(element);
+
+/**
+ *  遍历jQuery 对象集合，在每个对象上执行 callback 函数，
+ *  function callback(index, domElement){
+ *    this //DOMElement
+ *  };
+ */
+jQuery.each(function);
+
+/**
+ *  返回 jQuery 对象集合的大小
+ */
+jQuery.size();
+
+/**
+ *  相当于size()方法
+ */
+jQuery.length
+
+/**
+ *  获取原生 DomElement 对象的 Array,
+ *  即将 jQuery 对象转成 数组对象，
+ *  虽然 jQuery 对象也有 length 属性，且可用下标读写
+ *  但并非是数组对象。
+ */
+jQuery.get()
+
+/**
+ *  获取原生 DomElement 对象
+ */
+jQuery.get(index)
+
+/**
+ *  获取 jQuery 对象集合中的一个 jQuery 对象
+ */
+jQuery.eq(position)
+</code></pre><h4 id="Data-相关方法"><a href="#Data-相关方法" class="headerlink" title="Data 相关方法"></a>Data 相关方法</h4><p>在匹配的元素身上存值(store data)， <code>.data()</code> 方法允许在我们以一种安全的方式附加数据到 dom 元素，不会产生循环引用和内存泄露。</p>
+<pre><code>jQuery.data(name)        // 取值
+jQuery.data(name, value) // 赋值
+jQuery.removeData(name)  // 清理
+
+$( &quot;body&quot; ).data( &quot;foo&quot;, 52 );
+$( &quot;body&quot; ).data( &quot;bar&quot;, { myType: &quot;test&quot;, count: 40 } );
+$( &quot;body&quot; ).data( { baz: [ 1, 2, 3 ] } );
+$( &quot;body&quot; ).data( &quot;foo&quot; ); // 52
+$( &quot;body&quot; ).data(); // { foo: 52, bar: { myType: &quot;test&quot;, count: 40 }, baz: [ 1, 2, 3 ] }
+</code></pre><h4 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h4><pre><code>/**
+ *  多目标选择器
+ *  可以选择多个元素或者表达式，
+ *  包装成 jQuery 对象的集合
+ *  例子：$(&quot;div,span&quot;)
+ */
+
+$(&quot;table tr td&quot;); //multiple(selector1, selector2)
+
+$(&quot;#id &gt; span&quot;); //直接节点
+
+$(&quot;label + input&quot;) //next(prev, next) 同级的紧挨着的下一个
+
+$(&quot;#prev ~ div&quot;) // siblings(prev, siblings),同样要求是同级
+</code></pre><h4 id="基本的过滤器"><a href="#基本的过滤器" class="headerlink" title="基本的过滤器"></a>基本的过滤器</h4><pre><code>$(&quot;:header&quot;);     // 所有 header, &lt;h1&gt;~&lt;h6&gt;
+$(&quot;tr:odd&quot;);      // 选中所有奇数行
+$(&quot;tr:even&quot;);     // 选中所有偶数行
+$(&quot;:animated&quot;);   // 选中所有当前有特效的素
+$(&quot;div:animated&quot;);// 选中运行动画的
+$(&quot;tr:first&quot;);    // 选中第一行
+$(&quot;tr:last&quot;);     // 选中最后一行
+$(&quot;input:not(:checked)&quot;);  //选中所有没有“checked”
+$(&quot;td:gt(4)&quot;);    // 选中所有index 是4 之后的td
+$(&quot;td:lt(4)&quot;);    // 选中所有index 是4 之前的td
+
+$(&quot;td:eq(4)&quot;);    // 选中index 是 4 的td
+$(&quot;td&quot;).eq(4);    // 选中index 是 4 的td
+</code></pre><h4 id="内容过滤选择器"><a href="#内容过滤选择器" class="headerlink" title="内容过滤选择器"></a>内容过滤选择器</h4><pre><code>$(&quot;div:contains(&apos;John&apos;)&quot;); // 选中所有包含&quot;John&quot;的div
+$(&quot;td:empty&quot;);    // 选中所有内容为空的td
+$(&quot;div:has(p)&quot;);  // 选中包含有&lt;p&gt;元素的&lt;div&gt;元素，返回jQuery 对象集合
+
+$(&quot;td:parent&quot;);   //选中所有包含子节点的元素，包括文本也可以算是子节点
+</code></pre><h4 id="可见性过滤器"><a href="#可见性过滤器" class="headerlink" title="可见性过滤器"></a>可见性过滤器</h4><pre><code>$(&quot;span:hidden&quot;);  // 选中所有隐藏的&lt;span&gt;
+$(&quot;span:visible&quot;); // 选中所有可见的&lt;span&gt;
+</code></pre><p>关于可见性，这里需要额外说明的。在老版本的 jQuery 中 ==<code>visibility:hidden;</code>是认为不可见的==，我有证据，</p>
+<pre><code>Sizzle.selectors.filters.hidden = function(elem){
+    return &quot;hidden&quot; === elem.type ||
+        jQuery.css(elem, &quot;display&quot;) === &quot;none&quot; ||
+        jQuery.css(elem, &quot;visibility&quot;) === &quot;hidden&quot;;
+};
+`
+</code></pre><p>这段代码出自 <code>jquery-1.3.1.js</code>,然而到近代的版本中(在1.3.2就改了)</p>
+<pre><code>jQuery.expr.filters.hidden = function( elem ) {
+          var width = elem.offsetWidth,
+              height = elem.offsetHeight;
+          // 没有 visibility 什么事
+          return ( width === 0 &amp;&amp; height === 0 ) || (!jQuery.support.reliableHiddenOffsets &amp;&amp; ((elem.style &amp;&amp; elem.style.display) || jQuery.css( elem, &quot;display&quot; )) === &quot;none&quot;);
+      };
+</code></pre><p>简单的说就是：==如果元素占用空间了，就认为是可见的。==只要不是0的都算可见的。 </p>
+<p>所以，<code>visibility：hidden;</code> 或者 <code>opacity:0;</code> 由于占有空间，它们算事“可见”的。</p>
+<h4 id="属性过滤器"><a href="#属性过滤器" class="headerlink" title="属性过滤器"></a>属性过滤器</h4><pre><code>$(&quot;div[id]&quot;);   // 选中包含 id 属性的div
+$(&quot;input[name$=&apos;bc&apos;]&quot;);  // 选中 name 属性以 &apos;bc&apos; 结尾的 input
+$(&quot;input[name^=&apos;letter&apos;]&quot;); // 选中属性 name 是以&apos;letter&apos;开头的 input
+$(&quot;input[tag*=&apos;man&apos;]&quot;); // 属性tag里包含&apos;man&apos;
+$(&quot;input[abc=&apos;def&apos;]&quot;); // 属性 abc 的值为 &apos;def&apos;
+
+$(&quot;input[title!=&apos;722&apos;]&quot;);  // 选中属性 title 不包含&apos;722&apos;的
+$(&quot;input[id][gender$=&apos;man&apos;]&quot;); // 选中包含id 属性，和以&apos;man&apos;结尾的属性 gender 的&lt;input&gt;元素
+</code></pre><h4 id="孩子过滤器"><a href="#孩子过滤器" class="headerlink" title="孩子过滤器"></a>孩子过滤器</h4><pre><code>$(&quot;ul li:nth-child(2)&quot;); // 选中自身是&lt;ul&gt;元素的第二个子节点的&lt;li&gt;元素，注意这个计算是从 1 开始的，不是从0 开始
+$(&quot;div span:firstChild&quot;); // 选中自身是&lt;div&gt;元素的第一个子节点的&lt;span&gt;元素
+$(&quot;div span:lastChild&quot;); // 选中自身是&lt;div&gt;元素的最后一个子节点的&lt;span&gt;元素
+</code></pre><h4 id="表单过滤器"><a href="#表单过滤器" class="headerlink" title="表单过滤器"></a>表单过滤器</h4><pre><code>$(&quot;:button&quot;);   //所有 &lt;button&gt; 和 &lt;input type=&quot;button&quot;&gt; 元素
+$(&quot;form :checkbox&quot;)； // 选中所有&lt;form&gt;标签下的&lt;input type=&quot;checkbox&quot;&gt; 不过这样会比较慢
+
+$(&quot;input:checkbox&quot;)； // 推荐
+
+$(&quot;:file&quot;)； // 选中所有&lt;input type=&quot;file&quot;&gt;
+$(&quot;:hidden&quot;); // 选中所有隐藏元素，以及&lt;input type=&quot;hidden&quot;&gt;
+$(&quot;:input&quot;); // 选中所有&lt;input&gt;
+$(&quot;:text&quot;);  // 选中所有&lt;input type=&quot;text&quot;&gt;
+$(&quot;:password&quot;); // 选中所有&lt;input type=&quot;password&quot;&gt;
+$(&quot;:radio&quot;);    // 选中所有&lt;input type=&quot;radio&quot;&gt;
+$(&quot;input:radio&quot;);  // 最佳实践是这样
+
+$(&quot;:image&quot;)； // 选中所有&lt;input type=&quot;image&quot;&gt;
+$(&quot;:reset&quot;);  // 选中所有&lt;input type=&quot;reset&quot;&gt;
+$(&quot;:submit&quot;); // 选中所有&lt;input type=&quot;submit&quot;&gt;
+
+$(&quot;input:enabled&quot;); // 选中所有enabled 的&lt;input&gt;元素
+$(&quot;input:disabled&quot;); // 选中所有disabled 的&lt;input&gt;元素
+$(&quot;input:checked&quot;); // 选中所有 checked 的 checkbox
+$(&quot;input:selected&quot;); // 选中所有 selected 的&lt;option&gt;元素
+</code></pre><h4 id="属性相关的方法"><a href="#属性相关的方法" class="headerlink" title="属性相关的方法"></a>属性相关的方法</h4><pre><code>jQuery.removeAttr(name);
+jQuery.attr(name); // 返回属性的值，比如$(&quot;img&quot;).attr(&quot;src&quot;)
+jQuery.attr(key,value); // 这是设置属性的值
+jQuery.attr(properties); // 也是设置属性的值
+
+$(&quot;img&quot;).attr({
+    src: &quot;/images/hat.gif&quot;,
+    title: &quot;jQuery&quot;,
+    alt: &quot;jQuery Logo&quot;
+});
+
+jQuery.attr(key,function); // function 计算出的结果，赋给key
+
+// 在回调函数中
+function callback(index) {
+ // index == position in the jQuery object
+ // this means DOM Element
+}
+</code></pre><h4 id="类相关的操作"><a href="#类相关的操作" class="headerlink" title="类相关的操作"></a>类相关的操作</h4><pre><code>jQuery.toggleClass(class); // 反复加减 class
+jQuery.toggleClass(class,switch); // 增加一个 switch 表达式
+
+// 表达式计算后返回 class 名称
+$( &quot;div.foo&quot; ).toggleClass(function() {
+  if ( $( this ).parent().is( &quot;.bar&quot; ) ) {
+    return &quot;happy&quot;;
+  } else {
+    return &quot;sad&quot;;
+  }
+});
+
+jQuery.hasClass(class)； // 返回boolean
+jQuery.removeClass(class); // 去掉挂载的 class
+jQueyr.addClass(class)； // 加载 class
+</code></pre><h4 id="html相关的操作"><a href="#html相关的操作" class="headerlink" title="html相关的操作"></a>html相关的操作</h4><pre><code>jQuery.html()； // 返回包含的html 文本
+jQuery.html(val); // 用val 替换包含的 html 文本,输入的代码会被执行
+</code></pre><h4 id="文本相关的方法"><a href="#文本相关的方法" class="headerlink" title="文本相关的方法"></a>文本相关的方法</h4><pre><code>jQuery.text();  // 返回包含的纯文本，不会包括html 标签，比如&lt;span&gt;abcd&lt;/span&gt;，调用 .text() 方法，只会返回abcd，不会返回&lt;span&gt;abcd&lt;/span&gt;
+
+jQuery.text(val); // 用 val 替换包含的纯文本，和html(val)方法的区别在于，所有的内容会被看作是纯文本，不会作为html 标签进行处理，比如调用.text(&quot;&lt;span&gt;abcd&lt;/span&gt;&quot;)，&lt;span&gt; 和 &lt;/span&gt;不会被认为是html 标签，而是作为纯文本显示了。
+</code></pre><h4 id="值相关的操作"><a href="#值相关的操作" class="headerlink" title="值相关的操作"></a>值相关的操作</h4><pre><code>jQuery.val(); // 返回 string 或者array
+jQuery.val(val); // 设置 string 值
+jQuery.val(array); // 设置多个值，以上 3 个方法，主要都是用在表单标签里，如&lt;input type=&quot;text&quot;&gt;，&lt;input type=&quot;checkbox&quot;&gt;等
+</code></pre><h4 id="在jQuery-对象之间查找"><a href="#在jQuery-对象之间查找" class="headerlink" title="在jQuery 对象之间查找"></a>在jQuery 对象之间查找</h4><p>需要弄清： ==文本和节点是两回事，在 DOM 里就分开了。==<br>    jQuery.parent(expr); // 找父亲节点，可以传入expr 进行过滤,比如</p>
+<pre><code>$(&quot;span&quot;).parent();
+$(&quot;span&quot;).parent(&quot;. class&quot;); // 用表达式过滤
+
+jQuery.parents(expr); // 祖先元素，不限于父元素
+jQuery.children(expr); // 返回所有子节点(不包括文本)，和 parents()方法不一样的是，这个方法只会返回直接的孩子节点，不会返回所有的子孙节点
+
+jQuery.contents(); // 返回下面的所有内容，包括节点和文本。这个方法和 children()的区别就在于，包括空白文本，也会被作为一个jQuery 对象返回，children()则只会返回节点
+
+jQuery.prev(); // 返回上一个兄弟节点，不是所有的兄弟节点
+jQuery.prevAll(); // 返回所有之前的兄弟节点
+jQuery.next(); // 返回下一个兄弟节点，不是所有的兄弟节点 (+)
+jQuery.nextAll(); // 返回所有之后的兄弟节点(~)
+jQuery.siblings(); // 返回兄弟姐妹节点，不分前后
+jQuery.add(expr); // 往既有的jQuery 对象集合中增加新的jQuery 对象，例子：
+$(&quot;div&quot;).add(&quot;p&quot;);
+
+jQuery.find(expr); // 从当前的初始集合下去找,不会返回初始集合内容：
+$(&quot;body&quot;).find(&quot;div&quot;);
+// 等同于：
+jQuery.find(&quot;body div&quot;);
 
 
-&lt;style&gt;
-    elemnt{
-        background-image:-webkit-linear-gradient(
-            45deg, 
-            red 25%,
-            transparent 25%, transparent 50%,
-            red 50%, red 75%,
-            transparent 75%, transparent 100%
-            );
-    }
-&lt;/style&gt;
-</code></pre><h3 id="图片防下载，在图片上做个遮罩"><a href="#图片防下载，在图片上做个遮罩" class="headerlink" title="图片防下载，在图片上做个遮罩"></a>图片防下载，在图片上做个遮罩</h3><pre><code>&lt;div&gt;
-    &lt;div class=&apos;cover&apos;&gt;&lt;/div&gt;
-    &lt;img&gt;&lt;/img&gt;
+jQuery.filter(expr); // 从初始的jQuery 对象集合中筛选出一部分
+</code></pre><p>####串联方法</p>
+<pre><code>jQuery.andSelf();  // 把最后一次查询前一次的集合,也增加到最终结果集中,比如:
+
+$(&quot;div&quot;).find(&quot;p&quot;).andSelf(); 这样结果集中包括所有的&lt;p&gt;和&lt;div&gt;。如果是$(&quot;div&quot;).find(&quot;p&quot;),那就只有&lt;p&gt;，没有&lt;div&gt;
+
+jQuery.end(); // 把最后一次查询前一次的集合，作为最终结果集，比如
+$(&quot;p&quot;).find(&quot;span&quot;).end(); // 所有的&lt;p&gt;，没有&lt;span&gt;
+</code></pre><h4 id="DOM-文档操作方法"><a href="#DOM-文档操作方法" class="headerlink" title="DOM 文档操作方法"></a>DOM 文档操作方法</h4><pre><code>a.append(b); // b 加到 a 上
+$(&quot;div&quot;).append(&quot;&lt;span&gt;hello&lt;/span&gt;&quot;);
+
+a.appendTo(b); // a 加到 b 上
+$(&quot;&lt;span&gt;hello&lt;/span&gt;&quot;).appendTo(&quot;#div&quot;)； 
+
+$(&quot;span&quot;).appendTo(&quot;div&quot;); //隐藏的 move，移动元素
+
+/* 比如在：
+
+ &lt;div id=&apos;a&apos;&gt;a: &lt;span&gt; hello &lt;/span&gt; &lt;/div&gt;
+ &lt;div id=&apos;b&apos;&gt;b: &lt;/div&gt;
+
+ 经过
+
+ $(&apos;span&apos;).appendTo(&quot;#b&quot;);
+</code></pre><p> 结果会是正样：</p>
+<pre><code>a:
+b: hello
+</code></pre><p> 接下来，</p>
+<pre><code>jQuery.prepend(content); // 在选择元素的内部第一个位置插入
+
+
+a.prependTo(b); // a 插到 b 内部的排头位置
+
+jQuery.after(content); 注意是 content，在外部插入，插入到后面，比如
+$(&quot;#foo&quot;).after(&quot;&lt;span&gt;hello&lt;/span&gt;&quot;); // 参数是内容，不能是选择器
+
+jQuery.insertAfter(selector)；// 允许是选择器
+$(&quot;&lt;span&gt;hello&lt;/span&gt;&quot;).insertAfter(&quot;#foo&quot;);
+
+jQuery.before(content); // 在外部插入，插入到前面, 参数不是选择器
+
+jQuery.insertBefore(selector); // 外面插入
+
+jQuery.wrapInner(html); // 在内部插入标签，比如
+$(&quot;p&quot;).wrapInner(&quot;&lt;span&gt;&lt;/span&gt;&quot;);
+
+jQuery.wrap(html); // 在外部插入标签，比如
+$(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;); // 所有的 p 都会被各自的div 包裹
+
+jQuery.wrapAll(html); // 所选元素会被同一个大的 html 整个的全部包裹
+
+jQuery.replaceWith(content); 比如
+$(this).replaceWith(&quot;&lt;div&gt;&quot;+$(this).text()+&quot;&lt;/div&gt;&quot;);
+
+jQuery.replaceAll(selector);
+$(&quot;&lt;div&gt;hello&lt;/div&gt;&quot;).replaceAll(&quot;p&quot;);
+
+jQuery.empty();
+$(&quot;p&quot;).empty(); // 从娃娃做起，会把&lt;p&gt;下面的所有子节点清空,但不清理 p
+
+jQuery.remove(expr);
+$(&quot;p&quot;).remove(); // 从自身做起，会把所有&lt;p&gt;移除，可以用表达式做参数，进行过滤
+</code></pre><p>// 表面看跟 remove 做的一样，删除元素；<br>// 但是保留了元素中的数据或事件, 通过返回值返回，留存后用，<br>// 需要时候随时能补上去，绑定的数据事件不受影响。<br>    jQuery.detach();</p>
+<pre><code>jQuery.clone([withDataAndEvents ] ));
+</code></pre><p>使用案例</p>
+<p>在使用 append 的时候，隐约的我们发现了它具有移动的功效：</p>
+<pre><code>&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;hello&quot;&gt;Hello&lt;/div&gt;
+  &lt;div class=&quot;goodbye&quot;&gt;Goodbye&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;style&gt;
-    .cover {
-        position: absolute;
-        width:100%;
-        height:100%;
+$( &quot;.hello&quot; ).appendTo( &quot;.goodbye&quot; );
+</code></pre><p>结果变成了这样：</p>
+<pre><code>&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;goodbye&quot;&gt;
+    Goodbye
+    &lt;div class=&quot;hello&quot;&gt;Hello&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>如果我们的需求是额外的拷贝一份元素到目的地：</p>
+<pre><code>$( &quot;.hello&quot; ).clone().appendTo( &quot;.goodbye&quot; );
 
-        /*
-        positon:absolute;
-        top:0;
-        right:0;
-        bottom:0;
-        left:0;
-        */
-    }    
-&lt;/style&gt;
-</code></pre><h3 id="div-style"><a href="#div-style" class="headerlink" title="div.style"></a>div.style</h3><pre><code>&lt;script&gt;
-    div.style =&gt; CSSStyleDeclaration{}
-    div.classList =&gt; [&quot;a&quot;,&quot;b&quot;];  //元素应用的class
-    div.className =&gt; &quot;a b&quot;;      //应用的类名
-&lt;/script&gt;
-</code></pre><h3 id="border-的颜色"><a href="#border-的颜色" class="headerlink" title="border 的颜色"></a>border 的颜色</h3><pre><code>&lt;p&gt;
-    如果没有在 border 属性中指定，则默认采用前景色，
-    同字体一个颜色，字体默认黑色，
-    可通过color指定，所以这个color也适用于border;
-&lt;/p&gt;
-</code></pre><h3 id="clip-图片剪切显示"><a href="#clip-图片剪切显示" class="headerlink" title="clip 图片剪切显示"></a>clip 图片剪切显示</h3><pre><code>&lt;style&gt;
-img {
-    position: absolute; left:526px;
-    clip: rect(40px  200px  150px  30px);
-    /* non-standard syntax, but supported by all major browsers including Firefox and IE */
+这样会更方便，结果会是这样：
+
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;div class=&quot;hello&quot;&gt;Hello&lt;/div&gt;
+      &lt;div class=&quot;goodbye&quot;&gt; 
+        Goodbye 
+        &lt;div class=&quot;hello&quot;&gt;Hello&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+</code></pre><p>clone 的用法也分两种：</p>
+<pre><code>clone(true);  // 克隆，并且连带数据和绑定的事件
+clone()/clone(false); // 克隆，表面结构
+</code></pre><h4 id="CSS-相关方法"><a href="#CSS-相关方法" class="headerlink" title="CSS 相关方法"></a>CSS 相关方法</h4><pre><code>jQuery.css(name); // 获取一个 css 属性的值，比如
+$(&quot;p&quot;).css(&quot;color&quot;)
+
+jQuery.css(object); // 设置css 属性的值，比如
+$(&quot;p&quot;).css({
+     &quot;color&quot;:&quot;red&quot;,
+     &quot;border&quot;:&quot;1px red solid&quot;
+  });
+
+jQuery.css(name,value);
+$(&quot;p&quot;).css(&quot;color&quot;,&quot;red&quot;);
+</code></pre><h4 id="位置计算相关方法"><a href="#位置计算相关方法" class="headerlink" title="位置计算相关方法"></a>位置计算相关方法</h4><pre><code>jQuery.scrollLeft(); // 设置滚动条偏移，这个方法对可见元素或不可见元素都生效
+jQuery.scrollTop();  // 设置滚动条偏移，这个方法对可见元素或不可见元素都生效
+
+jQuery.offset();     // 计算偏移量，返回值有 2 个属性，分别是 top 和left
+
+jQuery.position();  // 计算位置，返回值也有2 个属性，top 和 left,返回：
+
+[object Object] {
+  left: 34.546875,
+  top: 11
 }
-&lt;/style&gt;
-</code></pre><p>window.innerHeight 有用的显示区域，视口的高度<br>window.outerHeight 浏览器窗口的高度，包括标题栏菜单栏等等。</p>
-<h2 id="transition"><a href="#transition" class="headerlink" title="transition"></a>transition</h2><pre><code>过度 transition: 
-        transition-property: 指定过度的 css 属性,
-        transition-duration: 指定完成过渡所需时间,
-        transition-timing-function: 指定过渡函数,
-        transition-delay: 指定过渡开始出现的延迟时间
-</code></pre><h2 id="结构性伪类"><a href="#结构性伪类" class="headerlink" title="结构性伪类"></a>结构性伪类</h2><p>:nth-of-type 和 :nth-child 类似, 不同的是它只计算父元素中指定的某种类型的子元素.</p>
-<pre><code>ul&gt;li:nth-of-type(3) {
-    background-color: orange;
-}
+</code></pre><p>这里需要额外补充：</p>
+<blockquote>
+<p>The .offset() method allows us to retrieve the current position of an element relative to the document. Contrast this with .position(), which retrieves the current position relative to the offset parent.</p>
+</blockquote>
+<p>简单来说就是：==offset 是相对于 document，而 position 相对于父元素。==</p>
+<h4 id="宽度和高度计算相关方法"><a href="#宽度和高度计算相关方法" class="headerlink" title="宽度和高度计算相关方法"></a>宽度和高度计算相关方法</h4><p>这组方法需要结合CSS 的盒子模型来理解，margin 始终不参与计算</p>
+<pre><code>jQuery.height();     // 计算的是 content
+jQuery.innerHeight();  // 计算的是 content+padding
+jQuery.outerHeight(); // 计算的是content+padding+border
+
+jQuery.width();
+jQuery.innerWidth();
+jQuery.outerWidth();
+</code></pre><h4 id="浏览器及特性检测"><a href="#浏览器及特性检测" class="headerlink" title="浏览器及特性检测"></a>浏览器及特性检测</h4><pre><code>$.support，可以检测当前浏览器是否支持下列属性，返回boolean。包括boxModel、cssFloat、
+opacity、tbody 等
+$.browser，检测当前浏览器类型，返回一个map，其中可能的值有safari、opera、msie、mozilla
+</code></pre><h4 id="数据缓存方法"><a href="#数据缓存方法" class="headerlink" title="数据缓存方法"></a>数据缓存方法</h4><p>// 该类方法是jQuery.data()方法和jQuery.removeData()的另一种形式，增加的elem 参数是DOM Element</p>
+<pre><code>$.data(elem, name);// 取出elem 上name 的值
+$.data(elem, name, value); // 设置elem,name为 value
+$.removeData(elem, name); //删除 elem 上的 name
+$.removeData(elem); // 删除elem 上的所有缓存数据
+</code></pre><h4 id="工具方法"><a href="#工具方法" class="headerlink" title="工具方法"></a>工具方法</h4><pre><code>$.isArray(obj); // 检测一个对象是否是数组
+$.isFunction(obj); // 检测一个对象是否是函数
+$.trim(str); // 去除string 的空格
+
+$.( value, array [, fromIndex ] )
+$.inArray(value, array); // 返回value 在array 中的下标， 如果没有找到则返回-1
+
+$.inArray(123, [&quot;john&quot;,1,123,&quot;f&quot;]); // return2
+
+$.unique(array); // 去除array 中的重复元素，该方法只对DOM Element 有效，对string 和 number 无效
+</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最后，由于篇幅限制，把最重要的 <code>事件绑定</code> 和 <code>ajax</code> 独立出来，并且也还没写完呢，先到这里。</p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-08-21-jquery基本用法/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2013-11-15-尝试山寨Backbone/" >mvc-backbone</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>学习了 BackBone.js, 为了更加深刻的理解，尝试山寨之。</p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/31/2013-11-15-尝试山寨Backbone/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-mvc/" >mvc之投石问路</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h2><p>MVC 是一种设计模式，它将应用划分为3 个部分：数据（模型）、展现层（视图）和用户交互层（控制器）。换句话说，一个事件的发生是这样的过程：<br>1． 用户和应用产生交互。<br>2． 控制器的事件处理器被触发。<br>3． 控制器从模型中请求数据，并将其交给视图。<br>4． 视图将数据呈现给用户。</p>
+<p>现在来看一个真实的例子</p>
+<p>1． 用户提交一个新的聊天消息。<br>2． 控制器的事件处理器被触发。<br>3． 控制器创建了一个新的聊天模型（Chat Model）记录。<br>4． 然后控制器更新视图。<br>5． 用户在聊天窗口看到新的聊天消息。</p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>模型用来存放应用的所有数据对象。比如，可能有一个User 模型，用以存放用户列表、他们的属性及所有与模型有关的逻辑。<br>模型不必知晓视图和控制器的细节，模型只需包含数据及直接和这些数据相关的逻辑。任何事件处理代码、视图模板，以及那些和模型无关的逻辑都应当隔离在模型之外。</p>
+<blockquote>
+<p>将模型和视图的代码混在一起，是违反MVC 架构原则的。模型是最应该从你的应用中解<br>耦出来的部分。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> user = User.find(<span class="string">'foo'</span>);</div><div class="line">user.destroy();</div></pre></td></tr></table></figure>
+<p>当控制器从服务器抓取数据或创建新的记录时，它就将数据包装成模型实例。</p>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>视图层是呈现给用户的，用户与之产生交互。在JavaScript 应用中，视图大都是由HTML、CSS 和JavaScript 模板组成的。</p>
+<p>实际上，和模型类似，视图也应当从应用的其他部分中解耦出来。视图不必知晓模型和控制器中的细节，它们是相互独立的。</p>
+<blockquote>
+<p>将逻辑混入视图之中是编程的大忌。</p>
+</blockquote>
+<p>##控制器<br>控制器是模型和视图之间的纽带。控制器从视图获得事件和输入，对它们进行处理（很可能包含模型），并相应地更新视图。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Controller = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 使用匿名函数来封装一个作用域</span></div><div class="line">(Controller.users = <span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">var</span> nameClick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">/* ... */</span></div><div class="line">	&#125;;</div><div class="line"></div><div class="line">	<span class="comment">// 在页面加载时绑定事件监听</span></div><div class="line">	$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		$(<span class="string">"#view .name"</span>).click(nameClick);</div><div class="line">	&#125;);</div><div class="line"></div><div class="line">&#125;)(jQuery);</div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-10-31-mvc/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-11-03-mvc-backbone/" >尝试山寨Backbone</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>前几天梳理了下 MVC 的知识,准备好基础,现在开始学习 BackBone.js 。</p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-11-03-mvc-backbone/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-ajax_deferred_promise/" >ajax</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最本质的 ajax 其实是这样的：</p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/Lnbvv/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+<p>jQuery 出现后，在发出Ajax请求时，jQuery会帮我们确定取得数据的最佳方式。可用的方式包括标准的XMLHttpRequest对象、ms的ActiveX对象XMLHTTP 或 script 标签。</p>
+<p>由于不同请求使用的数据传输方式可能不一样，那我们就需要一个公共的接口与这些通信交互。为此，jqXHR对象提供了这种接口在 XMLHttpRequest对象可用的情况下，封装该对象的行为；在XMLHttpRequest对象不可用的情况下，则尽可能模拟它。这个对象提供给我们的属性和方法包括：</p>
+<ul>
+<li>包含返回数据的 .responseText或.responseXML；</li>
+<li>包含状态码和状态描述的 .status和.statusText；</li>
+<li>操作与请求一起发送的HTTP头部的.setRequestHeader()；</li>
+<li>提早中断通信的.abort()</li>
+</ul>
+<p>jQuery的所有 Ajax 方法都会返回jqXHR对象，只要把这个对象保存起来，随后就可以方便地使用这些属性和方法。</p>
+<p>乍一看，调用.done()和.fail()与之前的写法相比并没有明显的好处。可是，这两个承诺方法的确是有好处的。第一，可以多次调用这两个方法，根据需要添加多个处理程序。</p>
+<p>第二，如果把调用$.ajax()的结果保存在一个变量中，那么就可以考虑代码的可读性，在后面再添加处理程序。</p>
+<p>第三，如果在添加处理程序的时候Ajax操作已经完成，就会立即调用该处理程序。</p>
+<p>第四，我们最好采用与jQuery库中其他代码一致的语法，这带来的好处不言而喻。</p>
+<hr>
+<h2 id="Promise-对象和Deferred-对象"><a href="#Promise-对象和Deferred-对象" class="headerlink" title="Promise 对象和Deferred 对象"></a>Promise 对象和Deferred 对象</h2><pre><code>// jQuery 1.4 
+// &quot;马上就要&quot;
+$.get(&apos;/mydata&apos;, {
+    success: onSuccess,
+    failure: onFailure,
+    always: onAlways
+});
+
+// jQuery 1.5
+// 分期交付
+var promise = $.get(&apos;/mydata&apos;);
+    promise.done(onSuccess);
+    promise.fail(onFailure);
+    promise.always(onAlways);
+</code></pre><p>jQuery 1.5 改变了 Ajax 那种“马上就要”的态度。我们喜爱的所有 Ajax 函数（$.ajax、$.get 及$.post）现在都会返回Promise（承诺）对象。</p>
+<p>Promise 对象代表一项有两种可能结果（成功或失败）的任务，它还持有多个回调，出现不同结果时会分别触发相应的回调。</p>
+<p>进度通知的存在并没有改变每个Promise 对象的最终状态为已执行或<br>已拒绝这一事实。（否则，Promise 对象将永远保持挂起状态。）但为<br>什么要这样呢？为什么不让Promise 对象随时变化成任意的状态，而<br>偏偏只有这两种状态呢？</p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/826p0n62/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/zpnpzga2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/toLdwsjv/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/1qmmro5o/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+<iframe width="100%" height="300" src="http://jsfiddle.net/codinglion/bfdpnnen/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-10-31-ajax_deferred_promise/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-linux_user_manage/" >linux 用户管理</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>创建一个用户 foo 这个用户只能在/home/foo 上面增加删除文件， foo 不能在其他目录加减文件</p>
+<pre><code>useradd -d /home/foo  -m foo
+[root@] # passwd jc
+
+chown foo -R /home/foo
+</code></pre><p>Linux 系统是一个多用户多任务的分时操作系统，用户在登录时键入正确的用户名和口令后，就能够进入系统和自己的主目录。</p>
+<p>用户账号的管理工作主要涉及到用户账号的添加、修改和删除。<br>添加用户账号就是在系统中创建一个新账号，然后为新账号分配用户号、用户组、主目录和登录Shell等资源。刚添加的账号是被锁定的，无法使用。</p>
+<h2 id="添加新的用户账号"><a href="#添加新的用户账号" class="headerlink" title="添加新的用户账号"></a>添加新的用户账号</h2><p>使用useradd命令，其语法如下：</p>
+<p>代码:<br>useradd 选项 用户名</p>
+<p>-c comment 指定一段注释性描述。<br>-d 目录 指定用户主目录，如果此目录不存在，则同时使用 ==-m ==选项，可以创建主目录。<br>-g 用户组 指定用户所属的用户组。<br>-G 用户组，用户组 指定用户所属的附加组。<br>-s Shell文件 指定用户的登录Shell。<br>-u 用户号 指定用户的用户号，如果同时有-o选项，则可以重复使用其他用户的标识号。</p>
+<pre><code># useradd –d /usr /sam -m sam
+</code></pre><p>此命令创建了一个用户sam，其中-d和-m选项用来为登录名sam产生一个主目录/usr/sam（/usr为默认的用户主目录所在的父目录）。</p>
+<pre><code># useradd -s /bin/sh  -g group –G adm,root gem
+</code></pre><p>此命令新建了一个用户gem，该用户的登录Shell是/bin/sh，它属于group用户组，同时又属于adm和root用户组，其中group用户组是其主组。</p>
+<h2 id="删除帐号"><a href="#删除帐号" class="headerlink" title="删除帐号"></a>删除帐号</h2><p>如果一个用户的账号不再使用，可以从系统中删除。删除用户账号就是要将/etc/passwd等系统文件中的该用户记录删除，必要时还删除用户的主目录。删除一个已有的用户账号使用userdel命令，其格式如下：</p>
+<p>代码:<br>userdel 选项 用户名</p>
+<p>常用的选项是-r，它的作用是把用户的主目录一起删除。</p>
+<p>代码:</p>
+<pre><code># userdel sam
+</code></pre><p>此命令删除用户sam在系统文件中（主要是/etc/passwd, /etc/shadow, /etc/group等）的记录，同时删除用户的主目录。</p>
+<h2 id="修改帐号"><a href="#修改帐号" class="headerlink" title="修改帐号"></a>修改帐号</h2><p>修改用户账号就是根据实际情况更改用户的有关属性，如用户号、主目录、用户组、登录Shell等。</p>
+<pre><code>usermod 选项 用户名
+</code></pre><p>常用的选项包括-c, -d, -m, -g, -G, -s, -u以及-o等，这些选项的意义与useradd命令中的选项一样，可以为用户指定新的资源值。另外，有些系统可以使用如下选项：</p>
+<p>-l 新用户名</p>
+<pre><code>#usermod -l urchin(新用户名称)  test(原来用户名称) 
+</code></pre><p>这个选项指定一个新的账号，即将原来的用户名改为新的用户名。</p>
+<pre><code># usermod -s /bin/ksh -d /home/z –g developer sam
+</code></pre><p>此命令将用户sam的登录Shell修改为ksh，主目录改为/home/z，用户组改为developer。</p>
+<h2 id="用户口令的管理"><a href="#用户口令的管理" class="headerlink" title="用户口令的管理"></a>用户口令的管理</h2><p>用户管理的一项重要内容是用户口令的管理。用户账号刚创建时没有口令，但是被系统锁定，无法使用，必须为其指定口令后才可以使用，即使是指定空口令。<br>指定和修改用户口令的Shell命令是passwd。超级用户可以为自己和其他用户指定口令，普通用户只能用它修改自己的口令。</p>
+<pre><code>passwd 选项 用户名
+</code></pre><p>-l 锁定口令，即禁用账号。<br>-u 口令解锁。<br>-d 使账号无口令。<br>-f 强迫用户下次登录时修改口令。<br>如果默认用户名，则修改当前用户的口令。</p>
+<p>假设当前用户是sam，则下面的命令修改该用户自己的口令：</p>
+<pre><code>$ passwd
+Old password:******
+New password:*******
+Re-enter new password:*******
+</code></pre><p>如果是超级用户，可以用下列形式指定任何用户的口令：</p>
+<pre><code># passwd sam
+New password:*******
+Re-enter new password:*******
 </code></pre>
 	
 	</div>
-  <a type="button" href="/2014/11/12/2014-11-12-CSS代码段笔记/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2014/10/31/2014-10-31-linux_user_manage/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -465,8 +764,8 @@ img {
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2014-11-12 </div>
-			<div class="article-title"><a href="/2014/11/12/2014-11-12-Hammerjs的使用/" >移动端技术积累</a></div>						
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-闭包和内存/" >为什么闭包会引起内存泄露</a></div>						
 		</h3>
 	
 
@@ -475,13 +774,87 @@ img {
   <div class="row">
 	
 	
-		<p>先占位置。</p>
-<h2 id="基本使用方法"><a href="#基本使用方法" class="headerlink" title="基本使用方法"></a>基本使用方法</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="keyword">var</span> hammer = <span class="keyword">new</span> Hammer(<span class="built_in">document</span>.getElementById(<span class="string">"container"</span>));</div><div class="line"></div><div class="line">hammer.on(<span class="string">'pan'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">ev</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"pan"</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">hammer.on(<span class="string">'tap'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">ev</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"tap-单击"</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">hammer.on(<span class="string">"doubletap"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">"onhold-双击"</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">hammer.on(<span class="string">'press'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">ev</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"press-长按"</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>hammer.js <a href="http://hammerjs.github.io/" target="_blank" rel="external">跨中断的事件解决方案</a></p>
+		<p>JavaScript使用一种称为垃圾收集的技术来管理分配给它的内存。这与C这样的底层语言不同，C要求使用多少借多少，用完再释放回去。其他语言，比如 Objective-C，实现了一个引用计数系统来辅助完成这些工作，我们能够了解到有多少个程序块使用了一个特定的内存段，因而可以在不需要时清除这些内存段。</p>
+<p>JavaScript是一种高级语言，它一般是通过后台来维护这种计数系统。</p>
+<p>当JavaScript代码生成一个新的内存驻留项时（比如一个对象或函数），系统就会为这个项留出一块内存空间。因为这个对象可能会被传递给很多函数，并且会被指定给很多变量，所以很多代码都会指向这个对象的内存空间。JavaScript会跟踪这些指针，当最后一个指针废弃不用时，这个对象占用的内存会被释放。</p>
+<pre><code>A ---------&gt; B ------------&gt; C
+</code></pre><p>例如对象A有一个属性指向B，而B也有一个属性指向C。即使当前作用域中只有对象A有效，但由于指针的关系所有3个对象都必须保留在内存中。当离开A的当前作用域时（例如代码执行到声明A的函数的末尾处），垃圾收集器就可以释放A占用的内存。此时，由于没有什么指向B，因此B可以释放，最后，C也可以释放。</p>
+<p>然而，当对象间的引用关系变得复杂时，处理起来也会更加困难。</p>
+<pre><code>A ---------&gt; B ------------&gt; C
+             ^、_ _ _ _ _ _ _|
+</code></pre><p>这里，我们又为对象C添加了一个引用B的属性。在这种情况下，当A释放时，仍然有来自C的指针指向B。这种引用循环需要由JavaScript进行特殊的处理，但必须考虑到整个循环与作用域中的其他变量已经处于隔离状态。</p>
+<p>从这里我们可以看到，闭包问题的本质是作用域的问题，我平时写的闭包大多出现在：</p>
+<h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>闭包可能会导致在不经意间创建循环引用。因为函数是必须保存在内存中的对象，所以位于函数执行上下文中的所有变量也需要保存在内存中：</p>
+<pre><code>function outerFn() {
+    var outerVar = {};
+    function innerFn() {
+        console.log(outerVar);
+    }
+    outerVar.fn = innerFn;
+    return innerFn;
+};
+</code></pre><p>这里创建了一个名为 outerVar 的对象，该对象在内部函数innerFn()中被引用。然后，为 outerVar 创建了一个指向 innerFn()的属性，之后返回了innerFn()。这样就在 innerFn() 上创建了一个引用outerVar的闭包，而outerVar又引用了innerFn()。</p>
+<p>这会导致变量在内存中存在的时间比想象得长，而且又不容易被发现。这还不算完，还有可能会出现比这种情况更隐蔽的引用循环：</p>
+<pre><code>function outerFn() {
+    var outerVar = {};
+    function innerFn() {
+        console.log(&apos;hello&apos;);
+    }
+    outerVar.fn = innerFn;
+    return innerFn;
+};
+</code></pre><p>这里我们修改了innerFn()，不再招惹 outerVar。但是，这样做仍然没有断开循环引用。<br>即使innerFn()不再勾引 outerVar，outerVar 也仍然位于innerFn()的封闭环境中。由于闭包的原因，位于 outerFn()中的所有变量都隐含地被 innerFn()所引用。我们再想一想，在 java 中的内部类不也是类似当前情况吗，内部类能够‘看’外部的 this。此时此刻，正如彼时彼刻，竟如此相像。因此，闭包会使意外地创建这些引用循环变得易如反掌。</p>
+<h3 id="DOM与JavaScript的循环"><a href="#DOM与JavaScript的循环" class="headerlink" title="DOM与JavaScript的循环"></a>DOM与JavaScript的循环</h3><p>虽然我很早就知道闭包，也在调试内存问题时在 chrome F12 里的 profile 是里看到 <code>closure reference</code>,但是并不清除这个问题的根源。因为上述情况通常不是什么问题，JavaScript能够检测到这些情况并在它们孤立时将其清除。</p>
+<p>最近看到关于这个问题的解释：在旧版本IE中存在一种难以处理的循环引用问题。</p>
+<blockquote>
+<p>当一个循环中同时包含DOM元素和常规JavaScript对象时，IE无法释放任何一个对象——因为这两类对象是由不同的内存管理程序负责管理的。</p>
+</blockquote>
+<p>除非关闭浏览器，否则这种循环在IE中永远得不到释放。为此，随着时间的推移，这可能会导致大量内存被无效地占用。</p>
+<p>导致这种循环的一个常见原因是简单的事件处理:</p>
+<pre><code>$(document).ready(function() {
+    var button = document.getElementById(&apos;button-1&apos;);
+        button.onclick = function() {
+            console.log(&apos;hello&apos;);
+            return false;
+        };
+});
+</code></pre><p>当指定单击事件处理程序时，就创建了一个在其封闭的环境中包含button变量的闭包。而且，现在的button也包含一个指向闭包（onclick属性自身）的引用。这样，就导致了在IE中即使离开当前页面也不会释放这个循环。<br>为了释放内存，就需要断开循环引用，例如关闭窗口,删除onclick属性。另外，也可以像下面这样重写代码来</p>
+<p>避免这种闭包：</p>
+<pre><code>function hello() {
+    console.log(&apos;hello&apos;);
+    return false;
+}
 
+$(document).ready(function() {
+    var button = document.getElementById(&apos;button-1&apos;);
+    button.onclick = hello;
+});
+</code></pre><p>因为hello()函数不再包含  button，引用就成了单向的（从button到hello）,不存的循环，所以就不会造成内存泄漏了。</p>
+<p>用jQuery化解引用循环</p>
+<p>下面，我们通过常规的jQuery结构来编写同样的代码：</p>
+<pre><code>$(document).ready(function() {
+    var $button = $(&apos;#button-1&apos;);
+        $button.click(function(event) {
+            event.preventDefault();
+            console.log(&apos;hello&apos;);
+        });
+});
+</code></pre><p>即使此时仍然会创建一个闭包，并且也会导致同前面一样的循环，但这里的代码却不会使 <code>IE</code> 发生内存泄漏。由于jQuery考虑到了内存泄漏的潜在危害，所以它会手动释放自己指定的所有事件处理程序。只要坚持使用jQuery的事件绑定方法，就无需为这种特定的常见原因导致的内存泄<br>漏而担心。</p>
+<p>但是，这并不意味着我们完全脱离了险境。当对DOM元素进行其他操作时，仍然要处处留心。只要是将JavaScript对象指定给DOM元素，就可能在旧版本IE中导致内存泄漏。jQuery只是有助于减少发生这种情况的可能性。</p>
+<p>有鉴于此，jQuery为我们提供了另一个避免这种泄漏的工具。用.data()方法，将信息附加到DOM元素。由于这里的数据并非直接保存在扩展属性中（jQuery使用一个内部对象并通过它创建的ID来保存这里所说的数<br>据），因此永远也不会构成引用循环，从而有效回避了内存泄漏问题。</p>
+<p>下面附上 jQuery 源码的相关说法：</p>
+<pre><code>// We have to handle DOM nodes and JS objects differently        
+   because IE6-7
+
+// can&apos;t GC object references properly across the DOM-JS boundary
+
+// Only DOM nodes need the global jQuery cache; JS object data is
+
+// attached directly to the object so GC can occur automatically
+</code></pre>
 	
 	</div>
-  <a type="button" href="/2014/11/12/2014-11-12-Hammerjs的使用/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2014/10/31/2014-10-31-闭包和内存/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -489,8 +862,8 @@ img {
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2014-11-10 </div>
-			<div class="article-title"><a href="/2014/11/10/2014-11-10-regexp-inaction/" >regexp-head-first</a></div>						
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-08-20-jquery-event-on/" >jQuery-event-on</a></div>						
 		</h3>
 	
 
@@ -499,244 +872,19 @@ img {
   <div class="row">
 	
 	
-		<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>正则表达式（regular expression）是一种表达文本模式的方法，常常用作按照“给定模式”匹配文本的工具，比如给定一个Email地址的模式，然后用来确定一个字符串是否为Email地址。JavaScript的正则表达式体系是参照Perl 5建立的。</p>
-<p>新建正则表达式有两种方法。一种是使用字面量，以斜杠表示开始和结束。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/xyz/</span>;</div></pre></td></tr></table></figure>
-<p>另一种是使用RegExp构造函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"xyz"</span>);</div></pre></td></tr></table></figure>
-<p>上面两种写法是等价的，都建立了一个内容为xyz的正则表达式对象。</p>
-<p>RegExp构造函数还可以接受第二个参数，表示修饰符（详细解释见下文）。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"xyz"</span>, <span class="string">"i"</span>);</div><div class="line"><span class="comment">// 等价于</span></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/xyz/i</span>;</div></pre></td></tr></table></figure>
-<p>这两种写法在运行时有一个细微的区别。采用字面量的写法，正则对象在代码载入时（即编译时）生成；采用构造函数的方法，正则对象在代码运行时生成。考虑到书写的便利和直观，实际应用中，基本上都采用字面量的写法。</p>
-<p>正则对象生成以后，有两种使用方式：</p>
-<ul>
-<li><p>使用正则对象本身的方法，将字符串作为参数，比如regex.test(string)。</p>
-</li>
-<li><p>使用字符串对象的方法，将正则对象作为参数，比如string.match(regex)。</p>
-</li>
-</ul>
-<p>下面逐一介绍这两种使用方式。</p>
-<h2 id="正则对象的属性和方法"><a href="#正则对象的属性和方法" class="headerlink" title="正则对象的属性和方法"></a>正则对象的属性和方法</h2><h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>正则对象的属性主要如下：</p>
-<ul>
-<li><p><strong>ignoreCase</strong>：返回一个布尔值，表示是否设置了i修饰符，该属性只读。</p>
-</li>
-<li><p><strong>global</strong>：返回一个布尔值，表示是否设置了g修饰符，该属性只读。</p>
-</li>
-<li><p><strong>lastIndex</strong>：返回下一次开始搜索的位置。该属性可读写，但是只在设置了g修饰符时有意义。</p>
-</li>
-<li><p><strong>source</strong>：返回正则表达式的字符串形式（不包括反斜杠），该属性只读。</p>
-</li>
-<li><p><strong>multiline</strong>：返回一个布尔值，表示是否设置了m修饰符，该属性只读。</p>
-</li>
-</ul>
-<p>下面是属性应用的实例。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/abc/igm</span>;</div><div class="line"></div><div class="line">r.ignoreCase <span class="comment">// true</span></div><div class="line">r.global <span class="comment">// true</span></div><div class="line">r.multiline <span class="comment">// true</span></div><div class="line">r.lastIndex <span class="comment">// 0</span></div><div class="line">r.source <span class="comment">// "abc"</span></div></pre></td></tr></table></figure>
-<h3 id="test方法"><a href="#test方法" class="headerlink" title="test方法"></a>test方法</h3><p>test方法返回布尔值，用来验证字符串是否符合某个模式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/cat/.test(<span class="string">'cats and dogs'</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>上面代码验证参数字符串之中是否包含cat，结果返回true。</p>
-<p>如果正则表达式带有g修饰符，则每一次test方法都从上一次结束的位置开始向后匹配。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/x/g</span>;</div><div class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</div><div class="line"></div><div class="line">r.lastIndex <span class="comment">// 0</span></div><div class="line">r.test(s) <span class="comment">// true</span></div><div class="line"></div><div class="line">r.lastIndex <span class="comment">// 2</span></div><div class="line">r.test(s) <span class="comment">// true</span></div><div class="line"></div><div class="line">r.lastIndex <span class="comment">// 4</span></div><div class="line">r.test(s) <span class="comment">// false</span></div></pre></td></tr></table></figure>
-<p>上面代码的正则对象使用了g修饰符，表示要记录搜索位置。接着，三次使用test方法，每一次开始搜索的位置都是上一次匹配的后一个位置。</p>
-<p>如果正则模式是一个空字符串，则匹配所有字符串。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">""</span>).test(<span class="string">"abc"</span>)</div><div class="line"><span class="comment">// true</span></div></pre></td></tr></table></figure>
-<h3 id="exec方法"><a href="#exec方法" class="headerlink" title="exec方法"></a>exec方法</h3><p>exec方法返回匹配结果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</div><div class="line"><span class="keyword">var</span> r1 = <span class="regexp">/x/</span>;</div><div class="line"><span class="keyword">var</span> r2 = <span class="regexp">/y/</span>;</div><div class="line"></div><div class="line">r1.exec(s) <span class="comment">// ["x"]</span></div><div class="line">r2.exec(s) <span class="comment">// null</span></div></pre></td></tr></table></figure>
-<p>上面代码表示，如果匹配成功，exec方法返回一个数组，里面是匹配结果。如果匹配失败，返回null。</p>
-<p>如果正则表示式包含圆括号，则返回的数组会包括多个元素。其中，第一个元素是整个匹配成功的结果，后面的元素就是圆括号对应的匹配成功的组，也就是说第二个元素就对应第一个括号，第三个元素对应第二个括号，以此类推。整个返回数组的length属性等于匹配成功的组数+1。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/_(x)/</span>;</div><div class="line"></div><div class="line">r.exec(s) <span class="comment">// ["_x", "x"]</span></div></pre></td></tr></table></figure>
-<p>上面代码的exex方法，返回一个数组。第一个元素是整个匹配的结果，第二个元素是圆括号匹配的结果。</p>
-<p>exec方法的返回数组还包含以下两个属性：</p>
-<ul>
-<li><strong>input</strong>：整个原字符串。</li>
-<li><strong>index</strong>：整个模式匹配成功的开始位置。</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/a(b+)a/</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = regex.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line"></div><div class="line">arr</div><div class="line"><span class="comment">// ["abbba", "bbb"]</span></div><div class="line"></div><div class="line">arr.index</div><div class="line"><span class="comment">// 1</span></div><div class="line"></div><div class="line">arr.input</div><div class="line"><span class="comment">// "_abbba_aba_"</span></div></pre></td></tr></table></figure>
-<p>上面代码中的index属性等于1，是因为从原字符串的第二个位置开始匹配成功。</p>
-<p>如果正则表达式加上g修饰符，则可以使用多次exec方法，下一次搜索的位置从上一次匹配成功结束的位置开始。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/a(b+)a/g</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a1 = r.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line">a1 <span class="comment">// ["abbba", "bbb"]</span></div><div class="line">a1.index <span class="comment">// 1</span></div><div class="line">r.lastIndex <span class="comment">// 6</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> a2 = r.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line">a2 <span class="comment">// ["aba", "b"]</span></div><div class="line">a2.index <span class="comment">// 7</span></div><div class="line">r.lastIndex <span class="comment">// 10</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> a3 = r.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line">a3 <span class="comment">// null</span></div><div class="line">a3.index <span class="comment">// TypeError: Cannot read property 'index' of null</span></div><div class="line">r.lastIndex <span class="comment">// 0</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> a4 = r.exec(<span class="string">"_abbba_aba_"</span>);</div><div class="line">a4 <span class="comment">// ["abbba", "bbb"]</span></div><div class="line">a4.index <span class="comment">// 1</span></div><div class="line">r.lastIndex <span class="comment">// 6</span></div></pre></td></tr></table></figure>
-<p>上面代码连续用了四次exec方法，前三次都是从上一次匹配结束的位置向后匹配。当第三次匹配结束以后，整个字符串已经到达尾部，正则对象的lastIndex属性重置为0，意味着第四次匹配将从头开始。</p>
-<p>利用g修饰符允许多次匹配的特点，可以用一个循环完成全部匹配。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/a(b+)a/g</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">"_abbba_aba_"</span>;</div><div class="line"></div><div class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</div><div class="line">	<span class="keyword">var</span> match = r.exec(s);</div><div class="line">	<span class="keyword">if</span> (!match) <span class="keyword">break</span>;</div><div class="line">	<span class="built_in">console</span>.log(match[<span class="number">1</span>]);</div><div class="line">&#125;</div><div class="line"><span class="comment">// bbb</span></div><div class="line"><span class="comment">// b</span></div></pre></td></tr></table></figure>
-<p>如果正则对象是一个空字符串，则exec方法会匹配成功，但返回的也是空字符串。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> r1 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">""</span>);</div><div class="line"><span class="keyword">var</span> a1 = r1.exec(<span class="string">"abc"</span>);</div><div class="line">a1 <span class="comment">// [""]</span></div><div class="line">a1.index <span class="comment">// 0</span></div><div class="line">r1.lastIndex <span class="comment">// 0 </span></div><div class="line"></div><div class="line"><span class="keyword">var</span> r2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"()"</span>);</div><div class="line"><span class="keyword">var</span> a2 = r2.exec(<span class="string">"abc"</span>);</div><div class="line">a2 <span class="comment">// ["", ""]</span></div><div class="line">a2.index <span class="comment">// 0</span></div><div class="line">r2.lastIndex <span class="comment">// 0</span></div></pre></td></tr></table></figure>
-<h2 id="字符串对象的方法"><a href="#字符串对象的方法" class="headerlink" title="字符串对象的方法"></a>字符串对象的方法</h2><p>字符串对象的方法之中，有4种与正则对象有关。</p>
-<ul>
-<li><p><strong>match</strong>：返回匹配的子字符串。</p>
-</li>
-<li><p><strong>search</strong>：按照给定的正则规则进行搜索。</p>
-</li>
-<li><p><strong>replace</strong>：按照给定的正则规则进行替换。</p>
-</li>
-<li><p><strong>split</strong>：按照给定规则进行字符串分割。</p>
-</li>
-</ul>
-<p>下面逐一介绍。</p>
-<h3 id="match方法"><a href="#match方法" class="headerlink" title="match方法"></a>match方法</h3><p>match方法对字符串进行正则匹配，返回匹配结果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</div><div class="line"><span class="keyword">var</span> r1 = <span class="regexp">/x/</span>;</div><div class="line"><span class="keyword">var</span> r2 = <span class="regexp">/y/</span>;</div><div class="line"></div><div class="line">s.match(r1) <span class="comment">// ["x"]</span></div><div class="line">s.match(r2) <span class="comment">// null</span></div></pre></td></tr></table></figure>
-<p>从上面代码可以看到，字符串的match方法与正则对象的exec方法非常类似：匹配成功返回一个数组，匹配失败返回null。</p>
-<p>如果正则表达式带有g修饰符，则该方法与正则对象的exec方法行为不同，会返回所有匹配成功的结果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> s = <span class="string">"abba"</span>;</div><div class="line"><span class="keyword">var</span> r = <span class="regexp">/a/g</span>;</div><div class="line"></div><div class="line">s.match(r) <span class="comment">// ["a", "a"]</span></div><div class="line">r.exec(s) <span class="comment">// ["a"]</span></div></pre></td></tr></table></figure>
-<h3 id="search方法"><a href="#search方法" class="headerlink" title="search方法"></a>search方法</h3><p>search方法返回第一个满足条件的匹配结果在整个字符串中的位置。如果没有任何匹配，则返回-1。该方法会忽略g参数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">'_x_x'</span>.search(<span class="regexp">/x/</span>)</div><div class="line"><span class="comment">// 1</span></div></pre></td></tr></table></figure>
-<h3 id="replace方法"><a href="#replace方法" class="headerlink" title="replace方法"></a>replace方法</h3><p>replace方法可以替换匹配的值，它接受两个参数，第一个是搜索模式，第二个是替换的内容。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">str.replace(search, replacement)</div></pre></td></tr></table></figure>
-<p>搜索模式如果不加g修饰符，就替换第一个匹配成功的值，否则替换所有匹配成功的值。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">"aaa"</span>.replace(<span class="string">"a"</span>, <span class="string">"b"</span>)</div><div class="line"><span class="comment">// "baa"</span></div><div class="line"></div><div class="line"><span class="string">"aaa"</span>.replace(<span class="regexp">/a/</span>, <span class="string">"b"</span>)</div><div class="line"><span class="comment">// "baa"</span></div><div class="line"></div><div class="line"><span class="string">"aaa"</span>.replace(<span class="regexp">/a/g</span>, <span class="string">"b"</span>)</div><div class="line"><span class="comment">// "bbb"</span></div><div class="line"></div><div class="line"><span class="comment">// 去掉两边的空格</span></div><div class="line"><span class="string">"   a    b   "</span>.replace(<span class="regexp">/(?:^\s+)|(?:[\s]+$)/g</span>,<span class="string">''</span>)</div><div class="line"><span class="comment">// "a   b"</span></div></pre></td></tr></table></figure>
-<p>replace方法的第二个参数可以使用美元符号$，(从匹配子串中提取替换使用的原料)用来指代所替换的内容。</p>
+		<p><strong>.on()</strong></p>
+<p><strong>.on(event,[,selector][,data],handler)</strong></p>
+<p>重点在于这里有个 selector，这个 selector 是对前面选择器的一个细化，选择的是前面选择器的子元素。</p>
+<p> 好方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> option = <span class="string">"loading"</span>;</div><div class="line"><span class="keyword">var</span> a = <span class="keyword">typeof</span> option == <span class="string">"object"</span> &amp;&amp; option;</div><div class="line"><span class="keyword">var</span> b = <span class="literal">true</span> &amp;&amp; option;  <span class="comment">// return "loading"</span></div><div class="line"><span class="keyword">var</span> c = <span class="literal">false</span> &amp;&amp; option; <span class="comment">// return false;</span></div></pre></td></tr></table></figure>
 <blockquote>
-<p>青出于蓝而胜于蓝</p>
+<p>Selector context is implemented with the .find() method;<br>therefore:</p>
 </blockquote>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby"> $&amp; 指代匹配的子字符串。</span></div><div class="line">-<span class="ruby"> $` 指代匹配结果前面的文本。</span></div><div class="line">-<span class="ruby"> $' 指代匹配结果后面的文本。</span></div><div class="line">-<span class="ruby"> $n 指代匹配成功的第n组内容，n从<span class="number">1</span>开始计数。</span></div><div class="line">-<span class="ruby"> $$ 指代美元符号$。</span></div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">"abc"</span>.replace(<span class="string">"b"</span>, <span class="string">"[$`-$&amp;-$']"</span>)</div><div class="line"><span class="comment">// "a[a-b-c]c"</span></div><div class="line"></div><div class="line"><span class="string">"hello world"</span>.replace(<span class="regexp">/(\w+)\s(\w+)/</span>,<span class="string">"$2 $1"</span>)</div><div class="line"><span class="comment">// "world hello"</span></div></pre></td></tr></table></figure>
-<p>第二个参数还可以是一个函数，将匹配内容替换为函数返回值。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">"3 and 5"</span>.replace(<span class="regexp">/[0-9]+/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">match</span>)</span>&#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">2</span> * match; &#125;)</div><div class="line"><span class="comment">// "6 and 10"</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="string">"The quick brown fox jumped over the lazy dog."</span>;</div><div class="line"><span class="keyword">var</span> pattern = <span class="regexp">/quick|brown|lazy/ig</span>;</div><div class="line">a.replace( pattern, <span class="function"><span class="keyword">function</span> <span class="title">replacer</span>(<span class="params">match</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> match.toUpperCase();</div><div class="line">&#125; );</div><div class="line"><span class="comment">// The QUICK BROWN fox jumped over the LAZY dog.</span></div></pre></td></tr></table></figure>
-<p>作为replace方法第二个参数的替换函数，可以接受多个参数。它的第一个参数是捕捉到的内容，第二个参数是捕捉到的组匹配（有多少个组匹配，就有多少个对应的参数）。此外，最后还可以添加两个参数，倒数第二个参数是捕捉到的内容在整个字符串中的位置（比如从第五个位置开始），最后一个参数是原字符串。下面是一个网页模板替换的例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> prices = &#123;</div><div class="line">    <span class="string">"pr_1"</span>: <span class="string">"$1.99"</span>,</div><div class="line">    <span class="string">"pr_2"</span>: <span class="string">"$9.99"</span>,</div><div class="line">    <span class="string">"pr_3"</span>: <span class="string">"$5.00"</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> template = <span class="string">".."</span>; <span class="comment">// some ecommerce page template</span></div><div class="line"></div><div class="line">template.replace(</div><div class="line">    <span class="regexp">/(&lt;span id=")(.*?)("&gt;)(&lt;\/span&gt;)/g</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">match,$<span class="number">1</span>,$<span class="number">2</span>,$<span class="number">3</span>,$<span class="number">4</span></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> $<span class="number">1</span> + $<span class="number">2</span> + $<span class="number">3</span> + prices[$<span class="number">2</span>] + $<span class="number">4</span>;</div><div class="line">    &#125;</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>上面代码的捕捉模式中，有四个括号，所以会产生四个组匹配，在匹配函数中用$1到$4表示。匹配函数的作用是将价格插入模板中。</p>
-<h3 id="split方法"><a href="#split方法" class="headerlink" title="split方法"></a>split方法</h3><p>split方法按照正则规则分割字符串，返回一个由分割后的各个部分组成的数组。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">str.split(separator, [limit])</div></pre></td></tr></table></figure>
-<p>该方法接受两个参数，第一个参数是分隔规则，第二个参数是返回数组的最大成员数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">'a,  b,c, d'</span>.split(<span class="string">','</span>) </div><div class="line"><span class="comment">// [ 'a', '  b', 'c', ' d' ]</span></div><div class="line"></div><div class="line"><span class="string">'a,  b,c, d'</span>.split(<span class="regexp">/, */</span>)</div><div class="line"><span class="comment">// [ 'a', 'b', 'c', 'd' ]</span></div><div class="line"></div><div class="line"><span class="string">'a,  b,c, d'</span>.split(<span class="regexp">/, */</span>, <span class="number">2</span>)</div><div class="line">[ <span class="string">'a'</span>, <span class="string">'b'</span> ]</div></pre></td></tr></table></figure>
-<p>上面代码使用正则表达式，去除了子字符串的逗号前面的空格。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">"aaa*a*"</span>.split(<span class="regexp">/a*/</span>)</div><div class="line"><span class="comment">// [ '', '*', '*' ]</span></div><div class="line"></div><div class="line"><span class="string">"aaa**a*"</span>.split(<span class="regexp">/a*/</span>)</div><div class="line"><span class="comment">// ["", "*", "*", "*"]</span></div></pre></td></tr></table></figure>
-<p>上面代码的分割规则是出现0次或多次的a，所以第一个分隔符是“aaa”，第二个分割符是“a”，将整个字符串分成三个部分。出现0次的a，意味着只要没有a就可以分割，实际上就是按字符分割。</p>
-<p>如果正则表达式带有括号，则括号匹配的部分也会作为数组成员返回。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">"aaa*a*"</span>.split(<span class="regexp">/(a*)/</span>)</div><div class="line"><span class="comment">// [ '', 'aaa', '*', 'a', '*' ]</span></div></pre></td></tr></table></figure>
-<p>上面代码的正则表达式使用了括号，第一个组匹配是“aaa”，第二个组匹配是“a”，它们都作为数组成员返回。</p>
-<p>下面是另一个组匹配的例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="string">'a,  b  ,  '</span>.split(<span class="regexp">/(,)/</span>)</div><div class="line"><span class="comment">// ["a", ",", "  b  ", ",", "  "]</span></div><div class="line"></div><div class="line"><span class="string">'a,  b  ,  '</span>.split(<span class="regexp">/ *(,) */</span>)</div><div class="line"><span class="comment">// ["a", ",", "b", ",", ""]</span></div></pre></td></tr></table></figure>
-<h2 id="匹配规则"><a href="#匹配规则" class="headerlink" title="匹配规则"></a>匹配规则</h2><p>正则表达式对字符串的匹配有很复杂的规则。下面一一介绍这些规则。</p>
-<h3 id="字面量字符和元字符"><a href="#字面量字符和元字符" class="headerlink" title="字面量字符和元字符"></a>字面量字符和元字符</h3><p>大部分字符在正则表达式中，就是字面的含义，比如/a/匹配a，/b/匹配b。它们都叫做“字面量字符”（literal characters）。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/dog/.test(<span class="string">"old dog"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>上面代码中正则表达式的dog，就是字面量字符，所以/dog/匹配old dog，因为它就表示d、o、g三个字母连在一起。</p>
-<p>除了字面量字符以外，还有一部分字符有特殊含义，不代表字面的意思。它们叫做“元字符”（metacharacters），主要有以下几个。</p>
-<p><strong>（1）点字符（.)</strong></p>
-<p>点字符（.）匹配除回车（\r）、换行(\n) 、行分隔符（\u2028）和段分隔符（\u2029）以外的所有字符。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/c.t/</div></pre></td></tr></table></figure>
-<p>上面代码中的c.t匹配c和t之间包含任意一个字符的情况，只要这三个字符在同一行，比如cat、c2t、c-t等等，但是不匹配coot。</p>
-<p><strong>（2）位置字符</strong></p>
-<p>位置字符用来提示字符所处的位置，主要有两个字符。</p>
-<ul>
-<li>^ 表示字符串的起首。</li>
-<li>$ 表示字符串的行尾。</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/^test/.test(<span class="string">"test123"</span>) <span class="comment">// true</span></div><div class="line">/test$/.test(<span class="string">"new test"</span>) <span class="comment">// true</span></div><div class="line">/^test$/.test(<span class="string">"test"</span>) <span class="comment">// true</span></div><div class="line">/^test$/.test(<span class="string">"test test"</span>) <span class="comment">// false</span></div></pre></td></tr></table></figure>
-<p><strong>（3）选择符（|）</strong></p>
-<p>竖线符号（|）在正则表达式中表示“或关系”（OR），即 cat|dog 表示匹配cat或dog。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/<span class="number">11</span>|<span class="number">22</span>/.test(<span class="string">"911"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<h3 id="字符类"><a href="#字符类" class="headerlink" title="字符类"></a>字符类</h3><p>字符类（class）表示有一系列字符可供选择，只要匹配其中一个就可以了。所有可供选择的字符都放在方括号内，比如[xyz] 表示x、y、z之中任选一个匹配。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/[abc]/.test(<span class="string">"hello world"</span>) <span class="comment">// false</span></div><div class="line">/[abc]/.test(<span class="string">"apple"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>上面代码表示，字符串hello world不包含abc这三个字母中的任一个，而字符串apple包含字母a。</p>
-<p>有两个字符在字符类中有特殊含义。</p>
-<p><strong>（1）脱字符（&#94;）</strong></p>
-<p>如果方括号内的第一个字符是[&#94;]，则表示除了字符类之中的字符，其他字符都可以匹配。比如，[&#94;xyz] 表示除了x、y、z之外都可以匹配。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/[^abc]/.test(<span class="string">"hello world"</span>) <span class="comment">// true</span></div><div class="line">/[^abc]/.test(<span class="string">"bbc"</span>) <span class="comment">// false</span></div></pre></td></tr></table></figure>
-<p>上面代码表示，字符串hello world不包含字母abc中的任一个，所以返回true；字符串bbc不包含abc以外的字母，所以返回false。</p>
-<blockquote>
-<p>注意，脱字符只有在字符类的第一个位置才有特殊含义，否则就是字面含义。</p>
-</blockquote>
-<p><strong>（2）连字符（-）</strong></p>
-<p>某些情况下，对于连续序列的字符，连字符（-）用来提供简写形式，表示字符的连续范围。比如，[abc]可以写成[a-c]，[0123456789]可以写成[0-9]，同理[A-Z]表示26个大写字母。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/a-z/.test(<span class="string">"b"</span>) <span class="comment">// false</span></div><div class="line">/[a-z]/.test(<span class="string">"b"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>上面代码中，当连字号（dash）不出现在方括号之中，就不具备简写的作用，只代表字面的含义，所以不匹配字符b。只有当连字号用在方括号之中，才表示连续的字符序列。</p>
-<p>以下都是合法的字符类简写形式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[<span class="number">0</span><span class="number">-9.</span>,]</div><div class="line">[<span class="number">0</span><span class="number">-9</span>a-fA-F]</div><div class="line">[a-zA-Z0<span class="number">-9</span>-]</div><div class="line">[<span class="number">1</span><span class="number">-31</span>]</div></pre></td></tr></table></figure>
-<p>上面代码中最后一个字符类[1-31]，不代表1到31，只代表1到3。</p>
-<blockquote>
-<p>注意，字符类的连字符必须在头尾两个字符中间，才有特殊含义，否则就是字面含义。</p>
-</blockquote>
-<h3 id="重复类"><a href="#重复类" class="headerlink" title="重复类"></a>重复类</h3><p>{} 表示模式的重复次数。{n}表示重复n次，{n,}表示至少重复n次，{n,m}表示重复不少于n次，不多于m次。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/lo&#123;<span class="number">2</span>&#125;k/.test(<span class="string">"look"</span>) <span class="comment">// true</span></div><div class="line">/lo&#123;<span class="number">2</span>,<span class="number">5</span>&#125;k/.test(<span class="string">"looook"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<h3 id="量词符"><a href="#量词符" class="headerlink" title="量词符"></a>量词符</h3><ul>
-<li>? 表示某个模式出现1次或0次，等同于{0, 1}。</li>
-<li>* 表示某个模式出现0次或多次，等同于 {0,}。</li>
-<li>+ 表示某个模式出现1次或多次，等同于 {1,}。</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/t?est/.test(<span class="string">"test"</span>) <span class="comment">// true</span></div><div class="line">/t?est/.test(<span class="string">"est"</span>) <span class="comment">// true</span></div><div class="line"></div><div class="line">/t+est/.test(<span class="string">"test"</span>) <span class="comment">// true</span></div><div class="line">/t+est/.test(<span class="string">"ttest"</span>) <span class="comment">// true</span></div><div class="line">/t+est/.test(<span class="string">"tttest"</span>) <span class="comment">// true</span></div><div class="line">/t+est/.test(<span class="string">"est"</span>) <span class="comment">// false</span></div><div class="line"></div><div class="line">/t*est/.test(<span class="string">"test"</span>) <span class="comment">// true</span></div><div class="line">/t*est/.test(<span class="string">"ttest"</span>) <span class="comment">// true</span></div><div class="line">/t*est/.test(<span class="string">"tttest"</span>) <span class="comment">// true</span></div><div class="line">/t*est/.test(<span class="string">"est"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>以上三个量词符，默认情况下的匹配规则都是贪婪模式，即最大可能匹配，直到下一个字符不满足匹配规则为止。比如，对于字符串“aaa”来说，/a+/将会匹配“aaa”，而不会匹配“aa”。为了将贪婪模式改为非贪婪模式，可以在量词符后面加一个问号，/a+?/将会只匹配“a”。</p>
-<h3 id="转义符"><a href="#转义符" class="headerlink" title="转义符"></a>转义符</h3><p>正则表达式中那些有特殊含义的字符，如果要匹配它们本身，就需要在它们前面要加上反斜杠。比如要匹配加号，就要写成\+。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/<span class="number">1</span>+<span class="number">1</span>/.test(<span class="string">"1+1"</span>)</div><div class="line"><span class="comment">// false</span></div><div class="line"></div><div class="line">/<span class="number">1</span>\+<span class="number">1</span>/.test(<span class="string">"1+1"</span>)</div><div class="line"><span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>正则模式中，需要用斜杠转义的，一共有12个字符：&#94;、.、[、$、(、)、|、*、+、?、{和 \。需要特别注意的是，如果使用RegExp方法生成正则对象，转义需要使用两个斜杠，因为字符串内部会先转义一次。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"1\+1"</span>)).test(<span class="string">"1+1"</span>) <span class="comment">// false</span></div><div class="line">(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"1\\+1"</span>)).test(<span class="string">"1+1"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><p>修饰符（modifier）表示模式的附加规则，放在正则模式的最尾部。</p>
-<p><strong>（1）g修饰符</strong></p>
-<p>默认情况下，第一次匹配成功后，正则对象就停止向下匹配了。g修饰符表示全局匹配（global），加上它以后，正则对象将匹配全部符合条件的结果，主要用于搜索和替换。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/b/</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> str = <span class="string">'abba'</span>;</div><div class="line"></div><div class="line">regex.test(str); <span class="comment">// true</span></div><div class="line">regex.test(str); <span class="comment">// true</span></div><div class="line">regex.test(str); <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>上面代码连续做了三次匹配，都返回true。它的含义是如果不加g修饰符，每次匹配时都是从字符串头部开始匹配。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/b/g</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> str = <span class="string">'abba'</span>;</div><div class="line"></div><div class="line">regex.test(str); <span class="comment">// true</span></div><div class="line">regex.test(str); <span class="comment">// true</span></div><div class="line">regex.test(str); <span class="comment">// false</span></div></pre></td></tr></table></figure>
-<p>上面代码中，因为字符串“abba”只有两个“b”，所以前两次匹配结果为true，第三次匹配结果为false。它的含义是加上g修饰符以后，每次匹配都是从上一次匹配成功处开始往后匹配。</p>
-<p><strong>（2）i修饰符</strong></p>
-<p>默认情况下，正则对象区分字母的大小写，加上i修饰符以后表示忽略大小写（ignorecase）。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/abc/.test(<span class="string">"ABC"</span>) <span class="comment">// false</span></div><div class="line">/abc/i.test(<span class="string">"ABC"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>上面代码表示，加了i修饰符以后，不考虑大小写，所以模式abc匹配字符串ABC。</p>
-<p><strong>（3）m修饰符</strong></p>
-<p>有时，字符串的头部或尾部可能会有换行符。默认情况下，正则对象会将换行符当作算入字符串的开头或结尾。m修饰符表示多行模式（multiline），加上它以后，正则对象会忽略字符串头部或尾部的换行符，即&#94;和$会忽略换行符。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/world$/.test(<span class="string">"hello world\n"</span>) <span class="comment">// false</span></div><div class="line">/world$/m.test(<span class="string">"hello world\n"</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>上面的代码中，字符串结尾处有一个换行符。如果不加m修饰符，匹配不成功，因为字符串的结尾不是world；加上以后，换行符被省略，匹配成功。</p>
-<p>修饰符可以多个一起使用。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> regex = <span class="regexp">/test/ig</span>;</div></pre></td></tr></table></figure>
-<h3 id="预定义模式"><a href="#预定义模式" class="headerlink" title="预定义模式"></a>预定义模式</h3><p>预定义模式指的是某些常见模式的简写方式。</p>
-<ul>
-<li>\d 匹配0-9之间的任一数字，相当于[0-9]。</li>
-<li>\D 匹配所有0-9以外的字符，相当于[^0-9]。</li>
-<li>\w 匹配任意的字母、数字和下划线，相当于[A-Za-z0-9_]。</li>
-<li>\W 除所有字母、数字和下划线以外的字符，相当于/[&#94;A-Za-z0-9_]/ 。</li>
-<li>\s 匹配空格（包括制表符、空格符、断行符等），相等于[\t\r\n\v\f]。</li>
-<li>\S 匹配非空格的字符，相当于[&#94;\t\r\n\v\f]。</li>
-<li>\b 匹配词的边界。</li>
-<li>\B 匹配非词边界，即在词的内部。</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/\s\w*/.exec("hello world") // [" world"]</div><div class="line"></div><div class="line">/\bworld/.test("hello world") // true</div><div class="line">/\bworld/.test("hello-world") // true</div><div class="line">/\bworld/.test("helloworld") // false</div><div class="line"></div><div class="line">/\Bworld/.test("hello-world") // false</div><div class="line">/\Bworld/.test("helloworld") // true</div></pre></td></tr></table></figure>
-<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><p>正则对象对一些不能打印的特殊字符，提供了表达形式。</p>
-<ul>
-<li>\cX 表示 Ctrl-X</li>
-<li>[\b] 匹配退格键(U+0008)，不要与\b混淆。</li>
-<li>\n 匹配换行键。</li>
-<li>\r 匹配回车键。</li>
-<li>\t 匹配制表符tab（U+0009）。</li>
-<li>\v 匹配垂直制表符（U+000B）。</li>
-<li>\f 匹配换页符（U+000C）。</li>
-<li>\0 匹配null字符（U+0000）。</li>
-<li>\xhh 匹配一个以两位十六进制数表示的字符。</li>
-<li>\uhhhh 匹配一个以四位十六进制数表示的unicode字符。</li>
-</ul>
-<h3 id="组匹配"><a href="#组匹配" class="headerlink" title="组匹配"></a>组匹配</h3><p><strong>（1）概述</strong></p>
-<p>正则表达式的括号表示分组匹配，括号中的模式可以用来捕获分组的内容。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abcabc"</span>.match(<span class="regexp">/(.)b(.)/</span>);</div><div class="line">m </div><div class="line"><span class="comment">// ["abc", "a", "c"]</span></div></pre></td></tr></table></figure>
-<p>上面代码中，正则表达式/(.)b(.)/一共使用两个括号，第一个括号捕获a，第二个括号捕获c。</p>
-<p>注意，使用组匹配时，不宜同时使用g修饰符，否则match方法不会捕获分组的内容。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abcabc"</span>.match(<span class="regexp">/(.)b(.)/g</span>);</div><div class="line">m</div><div class="line"><span class="comment">// ["abc", "abc"]</span></div></pre></td></tr></table></figure>
-<p>上面代码使用带g修饰符的正则表达式，结果match方法只捕获了匹配整个表达式的部分。</p>
-<p>在正则表达式内部，可以用\n引用括号匹配的内容，n是从1开始的自然数，表示对应顺序的括号。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/(.)b(.)\<span class="number">1</span>b\<span class="number">2</span>/.test(<span class="string">"abcabc"</span>)</div><div class="line"><span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>上面的代码中，\1表示前一个括号匹配的内容（即“a”），\2表示第二个括号匹配的内容（即“b”）。</p>
-<p>组匹配非常有用，下面是一个匹配网页标签的例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> tagName = <span class="regexp">/&lt;([^&gt;]+)&gt;[^&lt;]*&lt;\/\1&gt;/</span>;</div><div class="line">tagName.exec(<span class="string">"&lt;b&gt;bold&lt;/b&gt;"</span>)[<span class="number">1</span>]</div><div class="line"><span class="comment">// 'b'</span></div></pre></td></tr></table></figure>
-<p><strong>（2）非捕获组</strong></p>
-<p>(?:x)称为非捕获组（Non-capturing group），表示不返回该组匹配的内容，即匹配的结果中不计入这个括号。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abc"</span>.match(<span class="regexp">/(?:.)b(.)/</span>);</div><div class="line"></div><div class="line">m[<span class="number">1</span>]</div><div class="line"><span class="comment">// "c"</span></div></pre></td></tr></table></figure>
-<p>上面代码中的模式，一共使用了两个括号。其中第一个括号是非捕获组，所以返回的第一个被捕获的组是第二个括号所匹配的“c”。</p>
-<p>下面是用来分解网址的正则表达式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> url = <span class="regexp">/(http|ftp):\/\/([^/\r\n]+)(\/[^\r\n]*)?/</span>;</div><div class="line"></div><div class="line">url.exec(<span class="string">"http://google.com/"</span>);</div><div class="line"><span class="comment">// ["http://google.com/", "http", "google.com", "/"]</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> url = <span class="regexp">/(?:http|ftp):\/\/([^/\r\n]+)(\/[^\r\n]*)?/</span>;</div><div class="line"></div><div class="line">url.exec(<span class="string">"http://google.com/"</span>);</div><div class="line"><span class="comment">// ["http://google.com/", "google.com", "/"]</span></div></pre></td></tr></table></figure>
-<p>上面的代码中，前一个正则表达式是正常匹配，第一个括号返回网络协议；后一个正则表达式是非捕获匹配，返回结果中不包括网络协议。</p>
-<p><strong>（3）先行断言</strong></p>
-<p>x(?=y)称为先行断言（Positive look-ahead），x只有在y前面才匹配，y不会被计入返回结果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abc"</span>.match(<span class="regexp">/b(?=c)/</span>);</div><div class="line">m </div><div class="line"><span class="comment">// "b"</span></div></pre></td></tr></table></figure>
-<p>上面的代码使用了先行断言，b在c前面所以被匹配，但是括号对应的c不会被返回。</p>
-<p><strong>（4）后行断言</strong></p>
-<p>x(?!y)称为后行断言（Negative look-ahead），x只有不在y前面才匹配，y不会被计入返回结果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="string">"abd"</span>.match(<span class="regexp">/b(?!c)/</span>);</div><div class="line">m</div><div class="line"><span class="comment">// ["b"]</span></div></pre></td></tr></table></figure>
-<p>上面的代码使用了后行断言，b不在c前面所以被匹配，而且括号对应的d不会被返回。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li>Axel Rauschmayer, <a href="http://www.2ality.com/2011/04/javascript-overview-of-regular.html" target="_blank" rel="external">JavaScript: an overview of the regular expression API</a></li>
-<li>Mozilla Developer Network, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank" rel="external">Regular Expressions</a></li>
-<li>Axel Rauschmayer, <a href="http://www.2ality.com/2013/08/regexp-g.html" target="_blank" rel="external">The flag /g of JavaScript’s regular expressions</a></li>
-<li>Sam Hughes, <a href="http://qntm.org/files/re/re.html" target="_blank" rel="external">Learn regular expressions in about 55 minutes</a></li>
-</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">   $( <span class="string">"li.item-ii"</span> ).find( <span class="string">"li"</span> ) </div><div class="line"><span class="comment">// is equivalent to </span></div><div class="line">   $( <span class="string">"li"</span>, <span class="string">"li.item-ii"</span> ).</div></pre></td></tr></table></figure>
 
 	
 	</div>
-  <a type="button" href="/2014/11/10/2014-11-10-regexp-inaction/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2014/10/31/2014-08-20-jquery-event-on/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -744,8 +892,8 @@ img {
 	
 	<!-- display as entry -->	
 		<h3 class="title">
-			<div class="date"> 2014-11-09 </div>
-			<div class="article-title"><a href="/2014/11/09/2014-11-09-length==+length/" >length==+length</a></div>						
+			<div class="date"> 2014-10-23 </div>
+			<div class="article-title"><a href="/2014/10/23/2014-10-23-看待不完美/" >不完美</a></div>						
 		</h3>
 	
 
@@ -754,53 +902,30 @@ img {
   <div class="row">
 	
 	
-		<p>读 underscroe 源码的时候看到了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> length = obj.length;</div><div class="line"></div><div class="line"> <span class="keyword">if</span> (length === +length) &#123;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<p>符号会尝试把后面的 length 转成数字，比如 +”1” =&gt; 1, 同样 -“1” =&gt; -1</p>
-<p>所以，+length 的目的就是如果 length 不是数字的化，就要转成数字。</p>
+		<h1 id="不完美"><a href="#不完美" class="headerlink" title="不完美"></a>不完美</h1><p>黄金是不完美的，</p>
+<p>钻石是不完美的，</p>
+<p>它们都不纯。</p>
+<p>手机不是完美的，</p>
+<p>平板不是完美的，</p>
+<p>他们太小了，他们没有键盘。</p>
+<p>书本是不完美的，太沉，没法搜索，</p>
+<p>pdf 也是不完美的，看它们的设备太少。</p>
+<p>vim 是不完美的，小问题太多。</p>
+<p>我，我自己也是不完美的，</p>
+<p>对！</p>
+<p>通通不完美！</p>
+<p>然而，什么东西又是完美的呢？</p>
+<p>眼睛里放的总是不完美，那么天空是暗淡的，</p>
+<p>可我要的又是什么呢？</p>
+<p>我要的就是使用我身边不完美的东西，</p>
+<p>去创造出属于我的同样不完美的完美。</p>
 <blockquote>
-<p>NaN === NaN 返回false</p>
-<p>null === null 返回 true</p>
+<p>2014年10月23日 跑步归来有感</p>
 </blockquote>
-<p>但这还不是最终目的:</p>
-<ol>
-<li><p>如果 length 赋值为 undefined，</p>
-<p>因为 +undefined =&gt; NaN, 并且 NaN 不等 NaN</p>
-<p>所以 length==+length 可以排除 length 为 undefinde 的情况.</p>
-</li>
-<li><p>如果 length 赋值为 null，</p>
-<p>因为 +null =&gt; 0,  从而，null === 0 同样返回false</p>
-<p>所以 length==+length 可以排除 length 为 null 的情况.</p>
-</li>
-</ol>
-<p>最终实现了 只有 length 是 <strong>数字</strong> 或者 <strong>数字字符串</strong> 的目的。</p>
 
 	
 	</div>
-  <a type="button" href="/2014/11/09/2014-11-09-length==+length/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-11-09 </div>
-			<div class="article-title"><a href="/2014/11/09/2014-11-09-javascript协议限定符/" >javascript协议限定符</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>javascript: URL可以用在可以使用常规URL的任意地方, 比如<a>标记的href属性，</a></p>
-<p><form>的action属性，甚至window.open() 方法的参数.</form></p>
-
-	
-	</div>
-  <a type="button" href="/2014/11/09/2014-11-09-javascript协议限定符/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2014/10/23/2014-10-23-看待不完美/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -845,15 +970,17 @@ img {
 		<h4>分类</h4>
 		<ul class="tag_box inline list-unstyled">
 		
-			<li><a href="/categories/Sports/Baseball/">Baseball<span>2</span></a></li>
-		
-			<li><a href="/categories/Sports/">Sports<span>2</span></a></li>
-		
 			<li><a href="/categories/bom/">bom<span>1</span></a></li>
+		
+			<li><a href="/categories/css/code/">code<span>1</span></a></li>
 		
 			<li><a href="/categories/collection/">collection<span>1</span></a></li>
 		
-			<li><a href="/categories/css/">css<span>1</span></a></li>
+			<li><a href="/categories/css/">css<span>2</span></a></li>
+		
+			<li><a href="/categories/tools/debug/">debug<span>1</span></a></li>
+		
+			<li><a href="/categories/default/">default<span>1</span></a></li>
 		
 			<li><a href="/categories/http/">http<span>1</span></a></li>
 		
@@ -863,6 +990,8 @@ img {
 		
 			<li><a href="/categories/jquery/">jquery<span>1</span></a></li>
 		
+			<li><a href="/categories/js/">js<span>1</span></a></li>
+		
 			<li><a href="/categories/library/">library<span>2</span></a></li>
 		
 			<li><a href="/categories/note/">note<span>1</span></a></li>
@@ -870,6 +999,8 @@ img {
 			<li><a href="/categories/note-vim/">note vim<span>2</span></a></li>
 		
 			<li><a href="/categories/tool/">tool<span>3</span></a></li>
+		
+			<li><a href="/categories/tools/">tools<span>1</span></a></li>
 		
 		</ul>
 	</div>
@@ -880,48 +1011,48 @@ img {
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
-			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
-		
-			<li><a href="/tags/hg/">hg<span>1</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>4</span></a></li>
-		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+			<li><a href="/tags/linux/">linux<span>5</span></a></li>
 		
 			<li><a href="/tags/demo/">demo<span>1</span></a></li>
 		
 			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
 		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
-		
-			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
-		
 			<li><a href="/tags/module/">module<span>2</span></a></li>
 		
-			<li><a href="/tags/build/">build<span>1</span></a></li>
+			<li><a href="/tags/git/">git<span>4</span></a></li>
 		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+		
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
+		
+			<li><a href="/tags/shell/">shell<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/tags/js/">js<span>1</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>3</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
 		
 			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
 		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
-		
 			<li><a href="/tags/library/">library<span>3</span></a></li>
 		
-			<li><a href="/tags/css/">css<span>7</span></a></li>
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
 		
-			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+			<li><a href="/tags/code/">code<span>2</span></a></li>
 		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
 		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/design-pattern/">design pattern<span>1</span></a></li>
 		
 		
-		   <li><a href="/tags">...<span>39</span></a></li>
+		   <li><a href="/tags">...<span>41</span></a></li>
 		 
 		</ul>
 	</div>
@@ -934,23 +1065,23 @@ img {
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/04/23/javascript/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/css书写规范/" ><i class="fa fa-file-o"></i>css 编写习惯</a>
       </li>
     
       <li>
-        <a href="/2017/04/23/设计模式简介/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/消除函数的术语歧义/" ><i class="fa fa-file-o"></i>消除函数的术语歧义</a>
       </li>
     
       <li>
-        <a href="/2017/04/23/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/脚本的第一行/" ><i class="fa fa-file-o"></i>脚本语言的第一行</a>
       </li>
     
       <li>
-        <a href="/2017/04/23/前端新人入门/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/设计模式简介/" ><i class="fa fa-file-o"></i>设计模式简介</a>
       </li>
     
       <li>
-        <a href="/2017/04/23/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/2013-11-09-requirejs/" ><i class="fa fa-file-o"></i></a>
       </li>
     
   </ul>

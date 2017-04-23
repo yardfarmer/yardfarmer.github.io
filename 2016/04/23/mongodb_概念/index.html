@@ -1,0 +1,470 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MongoDB | output stream</title>
+  <meta name="author" content="yakun.cyk">
+  
+  <meta name="description" content="主要内容可能关于 web 技术，感慨心得...">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="MongoDB"/>
+  <meta property="og:site_name" content="output stream"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	    <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+	  <a class="navbar-brand" href="/">output stream</a>
+      <div class="collapse navbar-collapse nav-menu">
+		    <ul class="nav navbar-nav">
+    		  
+    		  <li>
+    			 <a href="/demos" title="Demos.">
+            <i class="fa fa-flask"></i>Demos
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/archives" title="All the articles.">
+            <i class="fa fa-archive"></i>归档
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/about" title="About me.">
+            <i class="fa fa-user"></i>关于我
+    			 </a>
+    		  </li>
+    		  
+    		  <li>
+    			 <a href="/#" title="Search Posts.">
+            <i class="fa fa-search"></i>搜索
+    			 </a>
+    		  </li>
+    		  
+    		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">		
+			<h1> MongoDB</h1>
+		</div>		
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>#mongodb 概念</p>
+<p>mongodb 的基本概念是 <strong>文档,集合,数据库</strong></p>
+<p>##数据库<br>一个 mongodb 可以建立<strong>多个</strong>数据库, 默认的数据库是 <strong>db</strong>,该数据库存储在 <strong>data</strong> 目录中.</p>
+<p><em>show dbs</em> 可以显示所有数据的列表.</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mongo</div><div class="line"></div><div class="line"><span class="keyword">show</span> dbs <span class="meta">#显示所有的数据库</span></div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="keyword">local</span> <span class="meta">#连接到指定的数据库</span></div><div class="line"></div><div class="line">mongod —config /usr/<span class="keyword">local</span>/etc/mongod.conf <span class="meta">#启动</span></div></pre></td></tr></table></figure>
+<p>##文档<br><strong>文档</strong>是 mongodb 最核心的概念, 是核心单元, 可以将<strong>文档类比成关系型数据库中的每一行数据</strong>.</p>
+<p><strong>多个键值对放在一起就是文档.</strong>, mongodb 使用的是类似 json 的 <strong>bson</strong>存储数据. bson 就是在 json 的基础上增加了一些数据类型.</p>
+<p>文档:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attribute">site</span>: <span class="string">'sjkljas.com'</span>&#125;</div></pre></td></tr></table></figure>
+<p>通常, “object(对象)” 术语指一个文件. 文件类似于 RDBMS 的记录, 集合( collection) 可以 crud.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">RDBMS</th>
+<th style="text-align:left">MongoDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Table</td>
+<td style="text-align:left">Collection</td>
+</tr>
+<tr>
+<td style="text-align:left">Column</td>
+<td style="text-align:left">key </td>
+</tr>
+<tr>
+<td style="text-align:left">Value</td>
+<td style="text-align:left">value</td>
+</tr>
+<tr>
+<td style="text-align:left">Records/Rows</td>
+<td style="text-align:left">Document/Object</td>
+</tr>
+</tbody>
+</table>
+<p>下面是 MongoDB 中的几种数据类型</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">数据类型</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">string</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">integer</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">double</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">null</td>
+<td style="text-align:left">不是0,也不是空</td>
+</tr>
+<tr>
+<td style="text-align:left">array</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">object</td>
+<td style="text-align:left">对象型,,程序中被使用的实体. 可以是一个值,变量,函数,或者数据结构</td>
+</tr>
+<tr>
+<td style="text-align:left">timestamp</td>
+<td style="text-align:left">timestamp存储为64位的值，只运行一个mongod时可以确保是唯一的。前32位保存的是UTC时间，单位是秒，后32为是在这一秒内的计数值，从0开始，每新建一个MongoTimestamp对象就加一</td>
+</tr>
+<tr>
+<td style="text-align:left">Internationalized Strings</td>
+<td style="text-align:left">utf8 字符串</td>
+</tr>
+<tr>
+<td style="text-align:left">Object IDs</td>
+<td style="text-align:left">_id, _id值可以是任何类型,最常见的做法是使用ObjectId类型</td>
+</tr>
+</tbody>
+</table>
+<p>在mongodb中的集合是无模式的，也就是说集合中存储的,文档的结构可以是不同的，比如下面的两个文档可以同时存入到一个集合中：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attr">"name"</span>:<span class="string">"mengxiangyue"</span>&#125; &#123;<span class="attr">"Name"</span>:<span class="string">"mengxiangyue"</span>,<span class="attr">"sex"</span>:<span class="string">"nan"</span>&#125;</div></pre></td></tr></table></figure>
+<p>##MongoDB连接命令格式<br>使用用户名和密码连接到MongoDB服务器，你必须使用 <strong>‘username:password@hostname/dbname’ </strong>格式，’username’为用户名，’password’ 为密码。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">mongodb:</span><span class="comment">//username:pass@localhost/</span></div></pre></td></tr></table></figure>
+<p>###参数选项说明<br>标准格式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongodb://[<span class="string">username:password@</span>]host1[<span class="string">:port1</span>]   [<span class="string">,host2[:port2</span>],...[<span class="string">,hostN[:portN</span>]]][/[database]   [?options]]</div></pre></td></tr></table></figure>
+<p>标准的连接格式包含了多个选项(options)，如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>First Header</th>
+<th>Second Header</th>
+<th>Third Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content Cell</td>
+<td>Content Cell</td>
+<td>Content Cell</td>
+</tr>
+<tr>
+<td>Content Cell</td>
+<td>Content Cell</td>
+<td>Content Cell</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>replicaSet=name</td>
+<td>验证replica set的名称。 Impliesconnect=replicaSet.</td>
+</tr>
+<tr>
+<td>slaveOk=true,false</td>
+<td>true:在connect=direct模式下，驱动会连接第一台机器，即使这台服务器不是主。在connect=replicaSet模式下，驱动会发送所有的写请求到主并且把读取操作分布在其他从服务器。false: 在 connect=direct模式下，驱动会自动找寻主服务器. 在connect=replicaSet 模式下，驱动仅仅连接主服务器，并且所有的读写命令都连接到主服务器。</td>
+</tr>
+<tr>
+<td>safe=true,false</td>
+<td>true: 在执行更新操作之后，驱动都会发送getLastError命令来确保更新成功。(还要参考 wtimeoutMS). false: 在每次更新之后，驱动不会发送getLastError来确保更新成功。</td>
+</tr>
+<tr>
+<td>w=n</td>
+<td>驱动添加 { w : n } 到getLastError命令. 应用于safe=true。</td>
+</tr>
+<tr>
+<td>wtimeoutMS=ms</td>
+<td>驱动添加 { wtimeout : ms } 到 getlasterror 命令. 应用于safe=true.</td>
+</tr>
+<tr>
+<td>fsync=true,false</td>
+<td>true: 驱动添加 { fsync : true } 到 getlasterror 命令.应用于 safe=true. false: 驱动不会添加到getLastError命令中。</td>
+</tr>
+<tr>
+<td>journal=true,false</td>
+<td>如果设置wie true, 同步到 journal (在提交到数据库前写入到实体中). 应用于 safe=true</td>
+</tr>
+<tr>
+<td>connectTimeoutMS=ms</td>
+<td>可以打开连接的时间。</td>
+</tr>
+<tr>
+<td>socketTimeoutMS=ms</td>
+<td>发送和接受sockets的时间。</td>
+</tr>
+</tbody>
+</table>
+<p><a href="http://www.w3cschool.cc/mongodb/mongodb-insert.html" title="Title" target="_blank" rel="external">数据操作等更多内容</a></p>
+<p>###mongodb 类型操作符</p>
+<p>$type 根据类型值查找</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db<span class="selector-class">.testtable</span><span class="selector-class">.find</span>(&#123;<span class="string">"extra.friends"</span> : &#123;<span class="variable">$type</span> : <span class="number">3</span>&#125;&#125;)</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>$type 值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Double</td>
+<td>1</td>
+</tr>
+<tr>
+<td>String</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Binary data</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Object id</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2016/04/23/es6_generator/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/demos"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2015/10/23/软件设计原则/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2016-04-23 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/default/">default<span>1</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/default/">default<span>2</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2017 yakun.cyk
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- <script src="/js/search.js"></script>  -->
+
+<!-- 
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+ -->
+
+<!-- 
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+ -->
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+        opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+
+    <input type="text" class="cb-search-content" id="cb-search-content" style="position: fixed; top: 60px" placeholder="文章标题 日期 标签" />
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png"  id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- <div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png"  id="cb-search-btn"  title="双击ctrl试一下"/>
+</div> -->
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+</body>
+   </html>

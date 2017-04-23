@@ -107,284 +107,6 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-04-23 </div>
-			<div class="article-title"><a href="/2017/04/23/2013-08-10-重布局和重绘/" >前端优化的小范围记录</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h2 id="HTML-方面"><a href="#HTML-方面" class="headerlink" title="HTML 方面"></a>HTML 方面</h2><h3 id="重布局和重绘"><a href="#重布局和重绘" class="headerlink" title="重布局和重绘"></a>重布局和重绘</h3><p>重布局和重绘，是 web 页面中最常见的重量级操作。当浏览器需要更新它的呈现模型时，就会发生重布局和重绘。只要加载页面就会发生一次重布局和重绘(浏览器在加载页面时必须至少绘制一次页面）, 但在动态页面的应用中，会发生很多次的重布局和重绘。</p>
-<ul>
-<li>当改变样式时候，而不该页面的几何布局，将发生重绘。隐藏一个元素，或者改变一个元素的背景色时，都将导致一次重绘</li>
-<li>当对页面的结构进行更新时，将导致重布局。从文档中移除元素，或者将元素添加到文档中、改变元素的大小或者改变元素的某些属性，都将导致页面重布局，重布局的代价比重绘大，它涉及到使用当前的 DOM、CSS 的定义，重新计算页面的几何结构。</li>
-</ul>
-<h3 id="优化措施"><a href="#优化措施" class="headerlink" title="优化措施"></a>优化措施</h3><p> 最少次数的更新 DOM</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">table</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'one append, one dom cost'</span>)</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">		$(<span class="string">"#main table"</span>).append(<span class="string">"&lt;tr&gt;&lt;td&gt;append to row: &lt;/td&gt;&lt;td&gt;"</span> + i + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'one append, one dom cost'</span>);</div><div class="line">	<span class="comment">// =&gt; one append, one dom cost: 4952.122ms </span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="keyword">var</span> tableRows = <span class="string">""</span>;</div><div class="line">	<span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ ) &#123;</div><div class="line">		tableRows += <span class="string">"&lt;tr&gt;&lt;td&gt;accumulate and append, now is at :&lt;/td&gt;&lt;td&gt;"</span>+ i +<span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">    $(<span class="string">"#main table"</span>).append(tableRows);</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="comment">// =&gt; accumulate and append cost: 117.491ms</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>采用一次想操作 dom 的方法比每次都操作 dom 快了 42 倍。<br><img src="./images/codesnip_20141229215927.png" alt="显著对比"></p>
-<h2 id="JS-方面"><a href="#JS-方面" class="headerlink" title="JS 方面"></a>JS 方面</h2><h3 id="缓存计算值"><a href="#缓存计算值" class="headerlink" title="缓存计算值"></a>缓存计算值</h3><h3 id="恰当的适用循环"><a href="#恰当的适用循环" class="headerlink" title="恰当的适用循环"></a>恰当的适用循环</h3><ul>
-<li>for (最快的)</li>
-<li>$.each(item)</li>
-<li><p>Array.forEach(item,index)</p>
-<p>  后两种采用回调的方式，涉及到准备执行上下文,进栈出栈的操作，并且由于所有的操作都在函数进行， 当引用了外部作用域的变量，循环体中的代码会反复的在作用链中向上查找。传统的 for 循环在包含它的上下文中执行，没有创建新的执行上下文的负担，同时循环外的变量依然保持在当前作用域中，省去了作用域的向上查找。 </p>
-</li>
-</ul>
-<h2 id="CSS-方面"><a href="#CSS-方面" class="headerlink" title="CSS 方面"></a>CSS 方面</h2><h3 id="高效的使用选择器"><a href="#高效的使用选择器" class="headerlink" title="高效的使用选择器"></a>高效的使用选择器</h3><ul>
-<li>解析引擎自右向左的计算每条规则</li>
-<li>尽可能的使用具体化的选择器，id 好于 tag</li>
-<li><p>避免不必要的冗余</p>
-<p>  无论哪种浏览器，适用 id 选择器或单个类选择器都是选择元素最快的方式。</p>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#id"</span>)</div><div class="line">$(<span class="string">".class"</span>)</div><div class="line"></div><div class="line"><span class="comment">//  以下为反模式</span></div><div class="line">$(<span class="string">"section div div div &gt; div #id"</span>)</div><div class="line">$(<span class="string">"section div div div &gt; div .class"</span>)</div><div class="line">$(<span class="string">"section div div div p:not('.class')"</span>)</div></pre></td></tr></table></figure>
-<p>适当的使用选择器上下文，如果上下文就是费了九牛加二虎的力气选出来的，不如不加</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".classname"</span>)</div><div class="line"></div><div class="line">$(<span class="string">".classname"</span>,<span class="string">"#id"</span>)  <span class="comment">// 添加一个简单明确的上下文比搜索整个 dom 快些</span></div></pre></td></tr></table></figure>
-<h2 id="HTTP-方向"><a href="#HTTP-方向" class="headerlink" title="HTTP 方向"></a>HTTP 方向</h2><ol>
-<li>cookie</li>
-<li>多域名</li>
-</ol>
-
-	
-	</div>
-  <a type="button" href="/2017/04/23/2013-08-10-重布局和重绘/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-04-23 </div>
-			<div class="article-title"><a href="/2017/04/23/mongodb_概念/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#mongodb 概念</p>
-<p>mongodb 的基本概念是 <strong>文档,集合,数据库</strong></p>
-<p>##数据库<br>一个 mongodb 可以建立<strong>多个</strong>数据库, 默认的数据库是 <strong>db</strong>,该数据库存储在 <strong>data</strong> 目录中.</p>
-<p><em>show dbs</em> 可以显示所有数据的列表.</p>
-<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mongo</div><div class="line"></div><div class="line"><span class="keyword">show</span> dbs <span class="meta">#显示所有的数据库</span></div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="keyword">local</span> <span class="meta">#连接到指定的数据库</span></div><div class="line"></div><div class="line">mongod —config /usr/<span class="keyword">local</span>/etc/mongod.conf <span class="meta">#启动</span></div></pre></td></tr></table></figure>
-<p>##文档<br><strong>文档</strong>是 mongodb 最核心的概念, 是核心单元, 可以将<strong>文档类比成关系型数据库中的每一行数据</strong>.</p>
-<p><strong>多个键值对放在一起就是文档.</strong>, mongodb 使用的是类似 json 的 <strong>bson</strong>存储数据. bson 就是在 json 的基础上增加了一些数据类型.</p>
-<p>文档:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attribute">site</span>: <span class="string">'sjkljas.com'</span>&#125;</div></pre></td></tr></table></figure>
-<p>通常, “object(对象)” 术语指一个文件. 文件类似于 RDBMS 的记录, 集合( collection) 可以 crud.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">RDBMS</th>
-<th style="text-align:left">MongoDB</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Table</td>
-<td style="text-align:left">Collection</td>
-</tr>
-<tr>
-<td style="text-align:left">Column</td>
-<td style="text-align:left">key </td>
-</tr>
-<tr>
-<td style="text-align:left">Value</td>
-<td style="text-align:left">value</td>
-</tr>
-<tr>
-<td style="text-align:left">Records/Rows</td>
-<td style="text-align:left">Document/Object</td>
-</tr>
-</tbody>
-</table>
-<p>下面是 MongoDB 中的几种数据类型</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">数据类型</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">string</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">integer</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">boolean</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">double</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">null</td>
-<td style="text-align:left">不是0,也不是空</td>
-</tr>
-<tr>
-<td style="text-align:left">array</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">object</td>
-<td style="text-align:left">对象型,,程序中被使用的实体. 可以是一个值,变量,函数,或者数据结构</td>
-</tr>
-<tr>
-<td style="text-align:left">timestamp</td>
-<td style="text-align:left">timestamp存储为64位的值，只运行一个mongod时可以确保是唯一的。前32位保存的是UTC时间，单位是秒，后32为是在这一秒内的计数值，从0开始，每新建一个MongoTimestamp对象就加一</td>
-</tr>
-<tr>
-<td style="text-align:left">Internationalized Strings</td>
-<td style="text-align:left">utf8 字符串</td>
-</tr>
-<tr>
-<td style="text-align:left">Object IDs</td>
-<td style="text-align:left">_id, _id值可以是任何类型,最常见的做法是使用ObjectId类型</td>
-</tr>
-</tbody>
-</table>
-<p>在mongodb中的集合是无模式的，也就是说集合中存储的,文档的结构可以是不同的，比如下面的两个文档可以同时存入到一个集合中：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attr">"name"</span>:<span class="string">"mengxiangyue"</span>&#125; &#123;<span class="attr">"Name"</span>:<span class="string">"mengxiangyue"</span>,<span class="attr">"sex"</span>:<span class="string">"nan"</span>&#125;</div></pre></td></tr></table></figure>
-<p>##MongoDB连接命令格式<br>使用用户名和密码连接到MongoDB服务器，你必须使用 <strong>‘username:password@hostname/dbname’ </strong>格式，’username’为用户名，’password’ 为密码。</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">mongodb:</span><span class="comment">//username:pass@localhost/</span></div></pre></td></tr></table></figure>
-<p>###参数选项说明<br>标准格式：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongodb://[<span class="string">username:password@</span>]host1[<span class="string">:port1</span>]   [<span class="string">,host2[:port2</span>],...[<span class="string">,hostN[:portN</span>]]][/[database]   [?options]]</div></pre></td></tr></table></figure>
-<p>标准的连接格式包含了多个选项(options)，如下所示：</p>
-<table>
-<thead>
-<tr>
-<th>First Header</th>
-<th>Second Header</th>
-<th>Third Header</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Content Cell</td>
-<td>Content Cell</td>
-<td>Content Cell</td>
-</tr>
-<tr>
-<td>Content Cell</td>
-<td>Content Cell</td>
-<td>Content Cell</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>replicaSet=name</td>
-<td>验证replica set的名称。 Impliesconnect=replicaSet.</td>
-</tr>
-<tr>
-<td>slaveOk=true,false</td>
-<td>true:在connect=direct模式下，驱动会连接第一台机器，即使这台服务器不是主。在connect=replicaSet模式下，驱动会发送所有的写请求到主并且把读取操作分布在其他从服务器。false: 在 connect=direct模式下，驱动会自动找寻主服务器. 在connect=replicaSet 模式下，驱动仅仅连接主服务器，并且所有的读写命令都连接到主服务器。</td>
-</tr>
-<tr>
-<td>safe=true,false</td>
-<td>true: 在执行更新操作之后，驱动都会发送getLastError命令来确保更新成功。(还要参考 wtimeoutMS). false: 在每次更新之后，驱动不会发送getLastError来确保更新成功。</td>
-</tr>
-<tr>
-<td>w=n</td>
-<td>驱动添加 { w : n } 到getLastError命令. 应用于safe=true。</td>
-</tr>
-<tr>
-<td>wtimeoutMS=ms</td>
-<td>驱动添加 { wtimeout : ms } 到 getlasterror 命令. 应用于safe=true.</td>
-</tr>
-<tr>
-<td>fsync=true,false</td>
-<td>true: 驱动添加 { fsync : true } 到 getlasterror 命令.应用于 safe=true. false: 驱动不会添加到getLastError命令中。</td>
-</tr>
-<tr>
-<td>journal=true,false</td>
-<td>如果设置wie true, 同步到 journal (在提交到数据库前写入到实体中). 应用于 safe=true</td>
-</tr>
-<tr>
-<td>connectTimeoutMS=ms</td>
-<td>可以打开连接的时间。</td>
-</tr>
-<tr>
-<td>socketTimeoutMS=ms</td>
-<td>发送和接受sockets的时间。</td>
-</tr>
-</tbody>
-</table>
-<p><a href="http://www.w3cschool.cc/mongodb/mongodb-insert.html" title="Title" target="_blank" rel="external">数据操作等更多内容</a></p>
-<p>###mongodb 类型操作符</p>
-<p>$type 根据类型值查找</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db<span class="selector-class">.testtable</span><span class="selector-class">.find</span>(&#123;<span class="string">"extra.friends"</span> : &#123;<span class="variable">$type</span> : <span class="number">3</span>&#125;&#125;)</div></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>$type 值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Double</td>
-<td>1</td>
-</tr>
-<tr>
-<td>String</td>
-<td>2</td>
-</tr>
-<tr>
-<td>Object</td>
-<td>3</td>
-</tr>
-<tr>
-<td>Array</td>
-<td>4</td>
-</tr>
-<tr>
-<td>Binary data</td>
-<td>5</td>
-</tr>
-<tr>
-<td>Object id</td>
-<td>7</td>
-</tr>
-<tr>
-<td>Boolean</td>
-<td>8</td>
-</tr>
-<tr>
-<td>Date</td>
-<td>9</td>
-</tr>
-</tbody>
-</table>
-
-	
-	</div>
-  <a type="button" href="/2017/04/23/mongodb_概念/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-04-23 </div>
 			<div class="article-title"><a href="/2017/04/23/2013-08-21-karma下测试异步载入的js文件/" >karma下测试异步载入的js文件</a></div>						
 		</h3>
 	
@@ -409,6 +131,443 @@
 	
 	</div>
   <a type="button" href="/2017/04/23/2013-08-21-karma下测试异步载入的js文件/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-04-23 </div>
+			<div class="article-title"><a href="/2017/04/23/2014-08-10-javascript启示录书摘/" >javascript启示录书摘</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="JavaScript-对象"><a href="#JavaScript-对象" class="headerlink" title="JavaScript 对象"></a>JavaScript 对象</h2><h3 id="JavaScript-构造函数"><a href="#JavaScript-构造函数" class="headerlink" title="JavaScript 构造函数"></a>JavaScript 构造函数</h3><p>如果使用 new 调用某函数，该函数则担任一个特殊的角色，将函数的 this 值设置为正在构建的新对象。并且构造函数还默认返回这个新构建的对象（即 this）。这个返回的新对象认为是构建该对象的构造函数的实例。</p>
+<h3 id="typeof-操作符"><a href="#typeof-操作符" class="headerlink" title="typeof 操作符"></a>typeof 操作符</h3><p>typeof 操作符用于返回正在使用值的类型。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNull = <span class="literal">null</span>;         <span class="comment">// typeof myNull : object</span></div><div class="line"><span class="keyword">var</span> myUndefined = <span class="literal">null</span>;    <span class="comment">// undefined</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'str'</span>;           <span class="comment">// string</span></div><div class="line"><span class="keyword">var</span> str = <span class="built_in">String</span>(<span class="string">'str'</span>);   <span class="comment">// string, 没有 new，不会返回对象</span></div><div class="line"><span class="keyword">var</span> num = <span class="number">1</span>;               <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> num = <span class="built_in">Number</span>(<span class="string">'1'</span>);     <span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> bol = <span class="literal">true</span>;            <span class="comment">// boolean</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> num = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="string">'1'</span>); <span class="comment">// object, new</span></div><div class="line"><span class="keyword">var</span> str = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'a'</span>); <span class="comment">// object, new</span></div></pre></td></tr></table></figure></p>
+<h3 id="contructor属性"><a href="#contructor属性" class="headerlink" title="contructor属性"></a>contructor属性</h3><p>碰到用 new 操作符实例化出来的对象，typeof 就无能为力了。这时，可以用 constructor 属性。</p>
+<table>
+<thead>
+<tr>
+<th>obj</th>
+<th>obj.constructor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>obj = new Number(‘21’);</td>
+<td>Number</td>
+</tr>
+<tr>
+<td>obj = 1;</td>
+<td>Number</td>
+</tr>
+<tr>
+<td>obj = new String(‘abc’);</td>
+<td>String</td>
+</tr>
+<tr>
+<td>obj = ‘abc’</td>
+<td>String</td>
+</tr>
+<tr>
+<td>obj = true;</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>obj = new Object();</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>obj = {};</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>obj = new Array();</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>obj = new Function();</td>
+<td>Function</td>
+</tr>
+<tr>
+<td>obj = function(){ }; //字面量方式</td>
+<td>Function</td>
+</tr>
+</tbody>
+</table>
+<h3 id="instanceof-操作符"><a href="#instanceof-操作符" class="headerlink" title="instanceof 操作符"></a>instanceof 操作符</h3><p>instanceof 操作符可以验证指定对象是否是某个构造函数的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">instanceObj <span class="keyword">instanceof</span> ConstructorFunction</div></pre></td></tr></table></figure></p>
+<p>任何对象 instanceof Object 总是返回 true。</p>
+<p><code>instanceof 只适用于 new 构造函数创建返回的复杂对象和实例</code></p>
+<h2 id="对象与属性"><a href="#对象与属性" class="headerlink" title="对象与属性"></a>对象与属性</h2><h3 id="删除对象属性"><a href="#删除对象属性" class="headerlink" title="删除对象属性"></a>删除对象属性</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = &#123; <span class="attr">bar</span>: <span class="string">'bar'</span> &#125;;</div><div class="line"><span class="keyword">delete</span> foo.bar;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'bar'</span> <span class="keyword">in</span> foo); <span class="comment">// false,in 操作符不仅不仅能检查对象自身的属性而且能检查通过原型链继承过来的属性</span></div></pre></td></tr></table></figure>
+<p>##head 对象</p>
+<h3 id="什么是-head-对象"><a href="#什么是-head-对象" class="headerlink" title="什么是 head 对象"></a>什么是 head 对象</h3><p>JavaScript 代码本身必须包含在对象内部。比如，在 Web 浏览器环境中编写 JavaScript 代码时，JavaScript 被包含在 window 对象内，并在其内部执行。这个 window 对象被认为实 “head” 对象。</p>
+<p>head 对象是由 JavaScript 在幕后创建，用于封装用户自定义代码，并容纳 JavaScript 预定义的原生代码。在编写 Javascript 代码时，它将被编写在 head 对象的上下文中。</p>
+<h3 id="head-对象内的全局函数"><a href="#head-对象内的全局函数" class="headerlink" title="head 对象内的全局函数"></a>head 对象内的全局函数</h3><ul>
+<li>decodeURL()</li>
+<li>decodeURLComponent()</li>
+<li>encodeURI()</li>
+<li>encodeURIComponent()</li>
+<li>eval()</li>
+<li>isFinite()</li>
+<li>isNaN()</li>
+<li>parseFloat()</li>
+<li>parseInt()</li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2017/04/23/2014-08-10-javascript启示录书摘/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-04-23 </div>
+			<div class="article-title"><a href="/2017/04/23/koa_node/" ></a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>#koa node</p>
+<ol>
+<li><p>koa 的中间件执行时，遇到 <code>yield next</code>, 关键字时,会被传递到下游中间件(downstream), yield next 捕获不到下一个中间件时, 逆序返回继续执行代码(upstream). <strong>入栈 出栈</strong></p>
+</li>
+<li><p>一个或多个 Koa 应用可以被加载到一块 组成一个更大的包含一个 HTTP server 的应用.</p>
+</li>
+<li></li>
+</ol>
+
+	
+	</div>
+  <a type="button" href="/2017/04/23/koa_node/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-04-23 </div>
+			<div class="article-title"><a href="/2017/04/23/2013-08-20-javascript的几种使用多行字符串的方式/" >javascript的几种使用多行字符串的方式</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>JS里并没有标准的多行字符串的表示方法，但是在用模板的时候，为了保证模板的可阅读性，我们又不可避免的使用多行字符串，所以出现了各种搞法，这里以一段jade的模板作为示例，简单总结和对比一下。</p>
+<h2 id="字符串相加"><a href="#字符串相加" class="headerlink" title="字符串相加"></a>字符串相加</h2><p>这是最容易理解也很常用的一种形式，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">''</span>+</div><div class="line">    <span class="string">'!!! 5'</span> +</div><div class="line">    <span class="string">'html'</span> +</div><div class="line">    <span class="string">'  include header'</span> +</div><div class="line">    <span class="string">'  body'</span> +</div><div class="line">    <span class="string">'    //if IE 6'</span> +</div><div class="line">    <span class="string">'        .alert.alert-error'</span> +</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> +</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> +</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> +</div><div class="line">    <span class="string">'    include head'</span> +</div><div class="line">    <span class="string">'    .container'</span> +</div><div class="line">    <span class="string">'        .row-fluid'</span> +</div><div class="line">    <span class="string">'            .span8'</span> +</div><div class="line">    <span class="string">'                block main'</span> +</div><div class="line">    <span class="string">'                include pagerbar'</span> +</div><div class="line">    <span class="string">'            .span4'</span> +</div><div class="line">    <span class="string">'                include sidebar'</span> +</div><div class="line">    <span class="string">'    include footer'</span> +</div><div class="line">    <span class="string">'    include script'</span></div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>易理解，简单，可靠 </li>
+<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
+<li>大量的<code>+</code>号看上去满天星,大量的<code>&#39;</code>和<code>&quot;</code>, 丑陋</li>
+</ul>
+<h2 id="反斜线"><a href="#反斜线" class="headerlink" title="反斜线"></a>反斜线</h2><p>这个叫续行符, 这个并非一种很常见的方式, 但是一旦用上了，还是很容易上瘾，只需要加一个字符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">'\</span></div><div class="line">    !!! 5\</div><div class="line">    html\</div><div class="line">      include header\</div><div class="line">      body\</div><div class="line">        //if IE 6\</div><div class="line">            .alert.alert-error\</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器\</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载\</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载\</div><div class="line">        include head\</div><div class="line">        .container\</div><div class="line">            .row-fluid\</div><div class="line">                .span8\</div><div class="line">                    block main\</div><div class="line">                    include pagerbar\</div><div class="line">                .span4\</div><div class="line">                    include sidebar\</div><div class="line">        include footer\</div><div class="line">        include script'</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>简单,每一行只需要有多一个<code>\</code></li>
+<li>高效！在大部分的浏览器上，这种方式都是最快的，看这个<a href="http://jsperf.com/zp-string-concatenation/6" target="_blank" rel="external">效率对比</a></li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>致命缺陷，每一行的<code>\</code>必须不可以有空格，否则直接脚本错误 </li>
+<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
+<li>尽管绝大部分的js引擎都支持它，但是它并不是ECMAScript的一部分(我并没有研究规范，这句话是从<a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml?showone=Multiline_string_literals#Multiline_string_literals" target="_blank" rel="external">google的编码规范</a>翻译过来的)</li>
+</ul>
+<h2 id="字符串数组join"><a href="#字符串数组join" class="headerlink" title="字符串数组join"></a>字符串数组join</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = [</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>].join(<span class="string">'\n'</span>);</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>真正意义上的多行字符串 </li>
+<li>易理解，简单，可靠 </li>
+<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
+</ul>
+<h2 id="String-prototype-concat"><a href="#String-prototype-concat" class="headerlink" title="String.prototype.concat"></a>String.prototype.concat</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = <span class="built_in">String</span>.prototype.concat.call(</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>);</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>不常用，事实上字符串的concat方法远没有<code>+</code>号常见</li>
+<li>易理解，简单，可靠 </li>
+<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>并不是真正意义上的多行字符串 </li>
+<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
+</ul>
+<h2 id="heredoc"><a href="#heredoc" class="headerlink" title="heredoc"></a>heredoc</h2><p>这是一种很有技巧的解决办法, 利用了function的toString方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">heredoc</span>(<span class="params">fn</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> fn.toString().split(<span class="string">'\n'</span>).slice(<span class="number">1</span>,<span class="number">-1</span>).join(<span class="string">'\n'</span>) + <span class="string">'\n'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> tmpl = heredoc(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="comment">/*</span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line"> */&#125;);</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>模板字符串内不必写多余的任何字符，干净，简单 </li>
+<li>真正意义上的多行字符串, 有<code>\n</code>哦 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>不可以在单个字符串中添加js逻辑 </li>
+<li>容易被压缩器压缩掉，yui compressor可以通过<code>/*!</code>来避免被压缩掉，<a href="https://github.com/mishoo/UglifyJS2" target="_blank" rel="external">uglifyjs</a>和<a href="https://developers.google.com/closure/compiler/" target="_blank" rel="external">gcc</a>也可以通过选项配置不删除特定的注释，这个不是大问题</li>
+</ul>
+<h2 id="coffeescript"><a href="#coffeescript" class="headerlink" title="coffeescript"></a>coffeescript</h2><p>相当于换了一个语言，其实这种语言上缺少的功能，通过<a href="http://coffeescript.org/#strings" target="_blank" rel="external">coffeescript</a>这种以js为编译目标的语言来实现是一种非常棒的选择。    </p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var tmpl = <span class="string">""" </span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line">    """</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>易理解，简单，可靠 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>需要了解coffeescript </li>
+<li>整个文件都需要用coffeescript来写</li>
+</ul>
+<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><p>ES6的有一个新的特性，<a href="http://wiki.ecmascript.org/doku.php?id=harmony:quasis" target="_blank" rel="external">Template Strings</a>, 这是语言层面上第一次实现了多行字符串, 在<a href="https://www.google.com/intl/en/chrome/browser/canary.html" target="_blank" rel="external">chrome canary</a>里打开<code>Enable Experimental JavaScript</code>就可以使用这个特性，另外<a href="http://www.typescriptlang.org/" target="_blank" rel="external">typescript</a>也会支持这种方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = </div><div class="line">   <span class="string">`!!! 5</span></div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script`</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>易理解，原生支持 </li>
+<li>真正的多行字符串</li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>JS引擎支持有限 </li>
+</ul>
+<p>##总结</p>
+<p>看了这么些写法，如何选择？如果你用的是coffeescript，放心大胆的使用它支持的多行字符串写法；如果是在客户端，同时你解决了你的压缩器去掉注释的问题，推荐使用heredoc；如果你无法解决压缩器的问题，使用反斜线连接吧，每行只需要加一个字符。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/04/23/2013-08-20-javascript的几种使用多行字符串的方式/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-04-23 </div>
+			<div class="article-title"><a href="/2017/04/23/2014-06-10-jquery 与 AMD/" >jquery1.11.x 集成了 AMD</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>  AMD 加入到了 jQuery, jQuery 把源码切分成各个逻辑模块.</p>
+<ol>
+<li>ready 整合成依赖 Deferred 的模块.</li>
+<li>有些模块被切分成一些更加利于维护的片段.</li>
+<li>var 文件夹指定的模块只包含共享的变量声明.<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"> global, factory </span>) </span>&#123;</div><div class="line">	</div><div class="line">    <span class="keyword">if</span>( <span class="keyword">typeof</span> <span class="built_in">module</span> === <span class="string">"object"</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">module</span>.exports === <span class="string">"object"</span> ) &#123;</div><div class="line">	</div><div class="line">        <span class="comment">// 对于CommonJS的和CommonJs的类似环境中, 如果存在一个适当的window,</span></div><div class="line">        <span class="comment">// 则执行global工厂方法,获取jQuery对象;</span></div><div class="line">        <span class="comment">// 在那些天生不拥有window,document的环境中,比如Node.js,</span></div><div class="line">        <span class="comment">// 弄了个jQuery做的factory伺候module.exports;</span></div><div class="line">        <span class="comment">// 这个突出了建立一个真正window的需求</span></div><div class="line">        <span class="comment">// e.g var jQuery = require("jquery")(window);</span></div><div class="line">	</div><div class="line">        <span class="built_in">module</span>.exports = global.document ? factory( global, <span class="literal">true</span>) : <span class="function"><span class="keyword">function</span>(<span class="params"> w </span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span>( !w.document )&#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">" jQuery requires a window with a document"</span> );</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> factory( w );</div><div class="line">        &#125;;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        factory( global );</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">&#125;(<span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">"undefined"</span> ? <span class="built_in">window</span> : <span class="keyword">this</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> window, noGlobal </span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> jQuery = &#123;&#125;;</div><div class="line">    <span class="keyword">return</span> jQuery;</div><div class="line">&#125;));</div></pre></td></tr></table></figure></li>
+</ol>
+
+	
+	</div>
+  <a type="button" href="/2017/04/23/2014-06-10-jquery 与 AMD/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-04-23 </div>
+			<div class="article-title"><a href="/2017/04/23/2014-06-17-正则在手,天下我有/" >正则在手,天下我有</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h4 id="jQuery-是个啥-jQuery是个javascript的封装库-jQuery-靠啥牛逼-靠正则"><a href="#jQuery-是个啥-jQuery是个javascript的封装库-jQuery-靠啥牛逼-靠正则" class="headerlink" title="jQuery 是个啥? jQuery是个javascript的封装库. jQuery 靠啥牛逼? 靠正则."></a>jQuery 是个啥? jQuery是个javascript的封装库. jQuery 靠啥牛逼? 靠正则.</h4><p>// 说明 这些正则里充斥了大量 (?:) 这货,<br>// 简单费磨叽句话: ()代表分组,就是多字符匹配,团结的像一个似的.<br>// 分组还有个作用:捕获. 就是说()匹配的内容, 会给个号码然后将其缓存起来, 后面的表达式语句能使用号码引用匹配到的文本(见号如见匹配文本)<br>// 像oracle里的 with</p>
+<p>// 再说点题外话:关于行结束符<br>// mac:    r     回车<br>// unix:   n     换行<br>// window: rn   回车换行<br>// 换行符起源于机械打字机,当打字机的笔尖走到行末时,有两个动作,<br>// 回车,return到行首,接着n,换到下一行</p>
+<p>// 三分组,外层为第一层分组, 因采用(?:) 匹配但不捕获,没有分组好, 所有最终拿到手的只有两组分组.<br>// 最外层分组匹配的是选择器selector,可为html标签,或id选择器.<br>// 分组1匹配标签名,标签内的字符串,不带左右尖括号.<br>// 分组2匹配id选择器名,不带#号.</p>
+<p>var quickExpr = /^(?:<a href="#">^#\&lt;</a><em>(\&lt;<a href="#">wW</a>+>)<a href="#">^></a></em>$|#(<a href="#">w-</a>*)$)/ </p>
+<p>// 匹配任意非空字符,空格,tab,回车等统统不匹配<br>var rnotwhite = /S/</p>
+<p>// Used for trimming whitespace<br>// 匹配以空白符开始的行<br>var trimLeft = /^s+/<br>// 匹配以空白符结尾的行,阿里的笔试题就有这个<br>var trimRight = /s+$/</p>
+<p>// Match a standalone tag<br>// w 匹配数字字母下划线<br>// 第二个分组匹配不捕获(它调用了第一组的捕获内容)没了分组号,最终只剩第一个分组号,用于匹配标签名<br>// 这货匹配一组单独标签,闭合单标签或闭合双标签<br>var rsingleTag = /^\&lt;(w+)s*/?>(?:\)?$/</p>
+<p>// JSON RegExp</p>
+<p>// 匹配任意多个  ],:和空格,干啥使得后面再说<br>var rvalidchars = /^<a href="#">],:s</a>*$/</p>
+<p>//<br>var rvalidescape = /\(?:<a href="#">“\/bfnrt</a>|u<a href="#">0-9a-fA-F</a>4)/g</p>
+<p>// 匹配JSON合理的取值<br>// “<a href="#">^”\nr</a><em>“ 匹配被双引号包着的字符 双引号抱着的内容不能有(双引号,换行符,回车符,转义符)<br>// 也匹配为 true或false或null的值<br>// -?d+(?:.d</em>)?(?:<a href="#">eE</a><a href="#">+-</a>?d+)<br>// 可匹配负值,可匹配带小数的,还匹配科学计数法<br>// 强大!<br>var rvalidtokens = /“<a href="#">^”\nr</a><em>“|true|false|null|-?d+(?:.d</em>)?(?:<a href="#">eE</a><a href="#">+-</a>?d+)?/g</p>
+<p>// 匹配  [  或 , [ 或 :<a href="#"> </a><br>// (?:^|:|,) 这货差点让我看走眼 匹配三个 空或:或,<br>// ^ 匹配字符串的开始,紧接着就是或,所以它匹配空<br>// 这个表达式看起来像 json的左括号<br>var rvalidbraces = /(?:^|:|,)(?:s*[)+/g</p>
+<p>// Useragent RegExp<br>// UserAgent 就是浏览器的洋名</p>
+<p>// webkit/ab.c<br>var rwebkit = /(webkit)<a href="#"> /</a>(<a href="#">w.</a>+)/</p>
+<p>var ropera = /(opera)(?:.*version)?<a href="#"> /</a>(<a href="#">w.</a>+)/,</p>
+<p>var rmsie = /(msie) (<a href="#">w.</a>+)/,</p>
+<p>// “Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:29.0) Gecko/20100101 Firefox/29.0”<br>var rmozilla = /(mozilla)(?:.*? rv:(<a href="#">w.</a>+))?/,</p>
+<p>// Matches dashed string for camelizing<br>var rdashAlpha = /-(<a href="#">a-z</a>|<a href="#">0-9</a>)/ig</p>
+<p>// 微软前缀<br>var rmsPrefix = /^-ms-/,</p>
+<p>// 匹配大括号和中括号,中间内容不限<br>var rbrace = /^(?:{.<em>}|[.</em>])$/</p>
+<p>var rmultiDash = /(<a href="#">A-Z</a>)/g</p>
+<p>// 匹配换行,回车,制表符<br>var rclass = /<a href="#">ntr</a>/g</p>
+<p>// 匹配空格<br>var rspace = /s+/</p>
+<p>//匹配回车<br>var rreturn = /r/g,</p>
+<p>var rtype = /^(?:button|input)$/i,</p>
+<p>// 能被focus的, 即按tab可focus的,涨姿势了<br>var rfocusable = /^(?:button|input|object|select|textarea)$/i,</p>
+<p>var rclickable = /^a(?:rea)?$/i,</p>
+<p>// 取值为布尔值的<br>var rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i,</p>
+<p>// form元素<br>var rformElems = /^(?:textarea|input|select)$/i,</p>
+<p>var rtypenamespace = /^(<a href="#">^.</a>*)?(?:.(.+))?$/</p>
+<p>var rhoverHack = /bhover(.S+)?b/,</p>
+<p>var rkeyEvent = /^key/,</p>
+<p>// 点击事件 mouse或contextmenu再无前缀,click可有<br>var rmouseEvent = /^(?:mouse|contextmenu)|click/</p>
+<p>var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/,</p>
+<p>var rquickIs = /^(w*)(?:#(<a href="#">w-</a>+))?(?:.(<a href="#">w-</a>+))?$/,</p>
+<p>// 这里是sezzle中的核心,待续<br>// 大块儿头<br>var chunker = /((?:((?:(<a href="#">^()</a>+)|<a href="#">^()</a>+)+)|<a href="#">(?:[[^[]</a><em>]|<a href="#">‘“</a><a href="#">^’”</a></em><a href="#">‘“</a>|<a href="#">^[]’”</a>+)+]|\.|[^ >+,([\](#)+)+|<a href="#">>+</a>)(s<em>,s</em>)?((?:.|r|n)*)/g,</p>
+<p>ID: /#((?:<a href="#">wu00c0-uFFFF-</a>|\.)+)/,</p>
+<p>CLASS: /.((?:<a href="#">wu00c0-uFFFF-</a>|\.)+)/,<br>NAME: /[name=<a href="#">‘“</a><em>((?:<a href="#">wu00c0-uFFFF-</a>|\.)+)<a href="#">‘“</a></em>]/,<br>ATTR: /[s<em>((?:<a href="#">wu00c0-uFFFF-</a>|\.)+)s</em>(?:(S?=)s<em>(?:(<a href="#">‘“</a>)(.</em>?)3|(#?(?:<a href="#">wu00c0-uFFFF-</a>|\.)<em>)|)|)s</em>]/,<br>TAG: /^((?:<a href="#">wu00c0-uFFFF*-</a>|\.)+)/,<br>CHILD: /:(only|nth|last|first)-child(?:(s<em>(even|odd|(?:<a href="#">+-</a>?d+|(?:<a href="#">+-</a>?d</em>)?ns<em>(?:<a href="#">+-</a>s</em>d+)?))s<em>))?/,<br>POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:((d</em>)))?(?=<a href="#">^-</a>|$)/,<br>PSEUDO: /:((?:<a href="#">wu00c0-uFFFF-</a>|\.)+)(?:((<a href="#">‘“</a>?)((?:(<a href="#">^)</a>+)|<a href="#">^()</a>*)+)2))?/</p>
+<p>var runtil = /Until$/</p>
+<p>var rparentsprev = /^(?:parents|prevUntil|prevAll)/,</p>
+<p>// Note: This RegExp should be improved, or likely pulled from Sizzle<br>var rmultiselector = /,/</p>
+<p>var isSimple = /^.[^:#<a href="#">.,</a>*$/,</p>
+<p>// h5标签全家福<br>var nodeNames = “abbr|article|aside|audio|canvas|datalist|details|figcaption|figure|footer|” +<br>“header|hgroup|mark|meter|nav|output|progress|section|summary|time|video”;     </p>
+<p>// 匹配jQuery的”uuid”<br>var rinlinejQuery = / jQueryd+=”(?:d+|null)”/g</p>
+<p>var rleadingWhitespace = /^s+/</p>
+<p>// good: (?!exp)    匹配后面跟的不是exp的位置<br>var rxhtmlTag = /\&lt;(?!area|br|col|embed|hr|img|input|link|meta|param)((<a href="#">w:</a>+)<a href="#">^></a>*)/>/ig</p>
+<p>var rtagName = /\&lt;(<a href="#">w:</a>+)/<br>var rtbody = /\&lt;tbody/i<br>var rhtml = /\&lt;|&amp;#?w+;/ // \&lt; 或者 &nbsp; &#xxx;<br>var rnoInnerhtml = /\&lt;(?:script|style)/i</p>
+<p>// html代码中不能含有这些标签,加入dom缓存<br>var rnocache = /\&lt;(?:script|object|embed|option|style)/i,       </p>
+<p>// checked=”checked” or checked<br>var rchecked = /checkeds<em>(?:<a href="#">^=</a>|=s</em>.checked.)/i</p>
+<p>var rscriptType = //(java|ecma)script/i<br>var rcleanScript = /^s*\&lt;!(?:[CDATA[|–)/</p>
+<p>var var ralpha = /alpha(<a href="#">^)</a><em>)/i<br>var ropacity = /opacity=(<a href="#">^)</a></em>)/</p>
+<p>// fixed for IE9, see #8346<br>var rupper = /(<a href="#">A-Z</a>|^ms)/g<br>var rnumpx = /^-?d+(?:px)?$/i</p>
+<p>var rnum = /^-?d/,<br>var rrelNum = /^(<a href="#">-+</a>)=(<a href="#">-+.de</a>+)/,</p>
+<p>// 编码后的空格<br>var r20 = /%20/g,<br>var rbracket = /[]$/,</p>
+<p>// 表示 r,n 或 rn<br>var rCRLF = /r?n/g,</p>
+<p>var rhash = /#.*$/,</p>
+<p>// IE leaves an r character at EOL<br>var rheaders = /^(.<em>?):<a href="#"> t</a></em>(<a href="#">^rn</a>*)r?$/mg, </p>
+<p>// 可输入的标签<br>var rinput = /^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i</p>
+<p>// #7653, #8125, #8152: local protocol detection<br>// 访问本地资源时,浏览器地址栏可使用的schema<br>var rlocalProtocol = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/</p>
+<p>var rnoContent = /^(?:GET|HEAD)$/</p>
+<p>//匹配 //<br>var rprotocol = /^///<br>var rquery = /?/</p>
+<p>// b代表单词的开头或结尾,也就是单词的分界处<br>var rscript = /\<scriptb[^\<](#)*(?:(?!\< script\="">)\&lt;<a href="#">^\&lt;</a><em>)</em>\/gi</scriptb[^\<](#)*(?:(?!\<></p>
+<p>var rselectTextarea = /^(?:select|textarea)/i<br>var rspacesAjax = /s+/<br>var rts = /(<a href="#">?&amp;</a>)_=<a href="#">^&amp;</a><em>/<br>var rurl = /^(<a href="#">w+.-</a>+:)(?://(<a href="#">^/?#:</a></em>)(?(d+))?)?/</p>
+<p>var rfxtypes = /^(?:toggle|show|hide)$/<br>var rfxnum = /^(<a href="#">+-</a>=)?(<a href="#">d+.-</a>+)(<a href="#">a-z%</a>*)$/i</p>
+<p>var rtable = /^t(?:able|d|h)$/i<br>var rroot = /^(?:body|html)$/i;</p>
+
+	
+	</div>
+  <a type="button" href="/2017/04/23/2014-06-17-正则在手,天下我有/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-04-23 </div>
+			<div class="article-title"><a href="/2017/04/23/2014-08-10-探究 html5/" >探究 html5</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>##classList<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">div.classList.remove(<span class="string">"className"</span>);</div><div class="line">div.classList.add(<span class="string">"className"</span>);</div><div class="line"></div><div class="line"><span class="comment">/*toggle会切换状态*/</span></div><div class="line">div.classList.toggle(<span class="string">""</span>);</div><div class="line">div.classList.</div></pre></td></tr></table></figure></p>
+<p>##canvas</p>
+<p>##contenteditable<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tag</span> <span class="attr">contenteditable</span> &gt;</span><span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tag</span> <span class="attr">contenteditable</span>=<span class="string">"true"</span>&gt;</span><span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>##db.transaction<br>transaction 事务性,同进同退</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> db = openDatabase(<span class="string">'foo'</span>, <span class="string">'1.0'</span>, <span class="string">'foo'</span>, <span class="number">2</span> * <span class="number">1024</span>);</div><div class="line">db.transaction(<span class="function"><span class="keyword">function</span> (<span class="params">tx</span>) </span>&#123;  </div><div class="line">  tx.executeSql(<span class="string">'CREATE TABLE IF NOT EXISTS foo (id unique, text)'</span>);</div><div class="line">  <span class="comment">// 如果下面这条失败,上面的也会回退</span></div><div class="line">  tx.executeSql(<span class="string">'INSERT INTO foo (id, text) VALUES (1, "foobar")'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<hr>
+<p>##dataset<br>超级好的 dataset 属性</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"user"</span> <span class="attr">data-id</span>=<span class="string">"123456"</span> <span class="attr">data-user</span>=<span class="string">"cyk"</span>&gt;</span></div><div class="line">  dataset demo.</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">	<span class="keyword">var</span> el = <span class="built_in">document</span>.querySelector(<span class="string">"#user"</span>);</div><div class="line">	<span class="built_in">console</span>.log(el.id);</div><div class="line">	<span class="built_in">console</span>.log(el.dataset.id);</div><div class="line">	<span class="built_in">console</span>.log(el.dataset.user);</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<h2 id="drag-drop-amp-DataTansfer"><a href="#drag-drop-amp-DataTansfer" class="headerlink" title="drag/drop &amp; DataTansfer"></a>drag/drop &amp; DataTansfer</h2><p><em>DataTransfer</em>对象是用于承载drag和drop操作过程的数据的.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> addEvent(el, <span class="string">'dragstart'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line"> 	  <span class="comment">// only dropEffect='copy' will be dropable </span></div><div class="line">    e.dataTransfer.effectAllowed = <span class="string">'copyMove'</span>; </div><div class="line">    <span class="comment">// required otherwise doesn't work</span></div><div class="line">    e.dataTransfer.setData(<span class="string">'Text'</span>, <span class="keyword">this</span>.id); </div><div class="line">  &#125;);</div><div class="line"></div><div class="line">addEvent(bin, <span class="string">'dragover'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (e.preventDefault) e.preventDefault(); <span class="comment">// allows us to drop</span></div><div class="line">  <span class="keyword">this</span>.className = <span class="string">'over'</span>;</div><div class="line">  e.dataTransfer.dropEffect = <span class="string">'copy'</span>;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2017/04/23/2014-08-10-探究 html5/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-04-23 </div>
+			<div class="article-title"><a href="/2017/04/23/2014-08-10-javascript 并发模型和事件循环/" >javascript并发模型和事件循环(Event Loop)</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>JavaScript的”并发模型”是基于事件循环的.这个并发模型有别与Java的多线程,javascript的并发是单线程的.<br>Javascript 中有个重要一块，Event Loop，能把单线程的 JavaScript 使出 多线程的感觉。</p>
+<blockquote>
+<p>“Event Loop是一个程序结构，用于等待和发送消息和事件。（a programming construct that waits for and dispatches events or messages in a program.）”</p>
+</blockquote>
+<p>简单的说，就是在程序中（不一定是浏览器）中跑两个线程，一个负责程序本身的运行，作为主线程； 另一个负责主线程与其他线程的的通信，被称为“Event Loop 线程” 。  每当遇到异步的 setTimeOut ，setInterval 这些异步任务，交给 EventLoop 线程，然后自己往后运行，等到主线程运行完后，再去 Event Loop 线程拿结果。</p>
+<p>这种模型人称 “asynchronous” 或 “non-blocking” 模行。 </p>
+<p>我简单的画了一个 javascript 的执行图,我们通过图,逐步分析.<br><a href="http://www.cnblogs.com/yakun/p/3802725.html" target="_blank" rel="external">原图见我的博客</a></p>
+<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>函数调用时所用的执行环境栈<br>当js方法被调用时,会进入一个执行环境(execution context),如果有另外一个方法被调用了(或者自身递归调用),会新建一个新的执行环境,并且代码的执行会进入到这个新的执行环境.函数调用返回的时候重新回到原来的执行环境. 由此,代码执行的过程便形成了一个执行环境栈,江湖人称 “stack”;</p>
+<h2 id="执行环境-上下文"><a href="#执行环境-上下文" class="headerlink" title="执行环境(上下文)"></a>执行环境(上下文)</h2><p>execution context 是一个由ECMA定义的抽象的概念,所有的javascript代码都是在 execution context 执行环境中执行的.执行环境即执行上下文是一种对象，代码在执行上下文环境中执行。可以通过 this 关键字访问执行上下文，this 是对当前执行环境对象的引用。 一般情况下，</p>
+<blockquote>
+<p>如果代码不存在一个用户自定义的对象或函数中， 那么它将处于全局上下文环境。</p>
+</blockquote>
+<p>全局执行环境是最外层的一个执行环境.在Web浏览器中,全局执行环境认为是window对象.因此所有全局变量和函数都是作为window对象的属性和方法创建的.</p>
+<p>全局的代码(inline中执行的代码,通常包括js文件,html页面,加载的)在全局执行环境中执行.每个方法调用都有一个与之关联的执行环境.</p>
+<p>某个执行环境中的所有代码执行完毕后,该执行环境被销毁,保存在其中的所有变量和函数定义也随之销毁. 全局执行环境直到页面关闭时才被销毁.</p>
+<p>每个函数都有自己的执行环境,当执行流进入一个函数时,Javascript 创建一个新的执行上下文，并进入该函的执行上下文。函数的执行环境就会被推入环境栈中. 而在函数执行之后,栈将其环境栈弹出,把控制权返回给之前的执行环境.Javascript 中的执行流正是由这个方便的机制的控制着.</p>
+<p>当代码在一个执行环境中执行时,会创建变量对象的一个作用域链(scope chain).<br>作用域链的用途,确保当前执行环境能有序(不明白就接着看)的访问所能获取的变量和函数.</p>
+<p>作用域链的前端,始终都是当前执行的代码所在的执行环境的变量对象.</p>
+<p>即当前作用域没有,外层作用域兜着.</p>
+<p>执行环境被创建时会有次序的进行一些工作.</p>
+<ol>
+<li><p>首先,在方法的执行环境中,Activation 活动对象被创建.活动对象另有一套实现机制.可以认为是对象,但又很特殊,没有prototype,不能在代码中直接引用到.</p>
+</li>
+<li><p>下一步,在方法调用创建执行环境的时候,会创建 argument 对象(类数组对象,含有传进来的参数,length,callee),活动对象中会有一个”argument”同名属性来引用这个argument对象.</p>
+</li>
+<li><p>再下一步,执行环境会被指定一个作用域.作用域由承载对象的列表(或链)组成.当代码在一个执行环境中执行,会创建变量对象的一个作用域链(scope chain).作用域链的前端,始终都是当前执行的代码所在执行环境的变量对象(和上面提到的 Activation 活动对象是一个对象). 如果这个环境是函数(javascript 环境只有函数和全局环境这两种), 则将其活动对象作为变量对象使用,活动对象在最开始时只包含一个arguments对象.</p>
+</li>
+</ol>
+<p>作用域链中下一个变量对象来自当前代码的外层环境.以此类推,直到到达最外层的全局执行环境,这样便构成了一条从底到上的作用域链.全局执行环境的变量对象始终都是作用域链的最后一个对象.<br>标示符解析是沿着作用域链一级一级的搜索标示符的过程.搜索过程始终都是从作用域链的最前端开始,然后主逐级向后回溯. </p>
+<h4 id="当进入执行环境"><a href="#当进入执行环境" class="headerlink" title="当进入执行环境"></a>当进入执行环境</h4><p>当进入执行环境(代码即将但仍未执行时),变量对象也就是活动对象已经包含了以下这些属性:</p>
+<ol>
+<li>函数的所有形参,由名称和对应值组成变量对象的属性.</li>
+<li>执行环境所在函数内部的所有子函数声明,由名称和对应值(函数对象 function object)组成变量对象的属性.如果变量对象内已存在同名属性,那么会被替换所有的变量声明.</li>
+<li>由名称和对应值(undefined)组成变量对象的属性,如果变量名称跟已经声明的形式参数或函数相同，则变量声明不会干扰已经存在的这类属性.</li>
+</ol>
+<p>需要说明的是,每个执行环境都有this,this的值取决于调用者和所执行代码的类型,this值是在进入执行环境时就已经确定的. 取值与执行环境相关联,并且在执行环境运行期间是不能被修改的.</p>
+<blockquote>
+<p>this 执行上下文中的一个属性. </p>
+</blockquote>
+<p> 在全局代码中,this始终是全局对象本身.</p>
+<p>在通常的函数调用中,this是由函数的调用者提供的,即被调用函数的父执行环境提供的.this值取决于函数调用的方式.</p>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆是一个对象互联的网络。用数学术语说就是“图”。图由节点及其之间的边构成。节点和边都是可被标记的：节点（对象）用对象构造器的名称标记，边则由属性名称标记。<br>从一个对象到另一个的边序列被叫做路径（path）。通常我们只对那些不重复经过同一节点两次的简单路径（simple path）感兴趣。<br>我们把垃圾收集器根节点到某个指定对象的路径叫做retaining path。如果不存在这样的路径，则该对象被称作无法达到的（unreachable），应在垃圾收集过程中被处置。</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>在web浏览器中,当事件发生时如果该事件有相应的监听器,则该消息会被及时的加进消息队列,如果没有监听器,该事件会被丢失.<br>javascript运行时伴随一个待处理的消息(也就是任务)队列,每个消息都关联了相关的处理函数,当函数的执行栈为空时,即当前没有正在执行的函数,那么,队列会从中挑出一个去处理.处理过程包括调用相关的函数(不用担心处理函数的作用域问题,因为在javascript中,作用域是词法化作用域,是方法在定义的时候已经确定的,与调用无关.作用域链创建早于方法调用,得益于此,我们方能使用闭包),处理完成后,如果栈为空,则再次尝试从队列中挑选可处理的事件或任务. 从中可以很容易窥探到 setInterval,setTimeout 是怎么进行异步执行的了.<br>这,就是事件循环,event loop.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析,javascript是不存在并发的,单线程何谈并发? 这只是说说了<em>非阻塞</em>.</p>
+
+	
+	</div>
+  <a type="button" href="/2017/04/23/2014-08-10-javascript 并发模型和事件循环/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -456,7 +615,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-04-23 </div>
-			<div class="article-title"><a href="/2017/04/23/neat的使用/" ></a></div>						
+			<div class="article-title"><a href="/2017/04/23/2014-08-10-transition&animation/" >CSS3 的 transition 和 animation</a></div>						
 		</h3>
 	
 
@@ -465,305 +624,20 @@
   <div class="row">
 	
 	
-		<p>#开发环境</p>
-<p>##一. neat</p>
-<p>###gulp 的使用</p>
-<ol>
-<li><p><strong>gulp </strong> 需要自己去安装, <code>npm install gulp</code>, 然后 gulpfile.js 文件放入根目录.</p>
-</li>
-<li><p>安装模板</p>
-<pre><code>sudo neat install @ali/generator-apm
-</code></pre></li>
-</ol>
-<p>###yo 的使用</p>
-<p>在 neat.fdm 的根目录 </p>
-<pre><code>sudo tnpm install generator-polymer
-</code></pre><p>##二. apm</p>
-<p>是1688开发的<strong>组件</strong>平台, 推荐 <strong>commonjs</strong> 语法来写组件</p>
+		<p>##transition<br>transition 属性是<br>transition-property,<br>transition-duration,<br>transition-timing-function,<br>transition-delay<br>的简称,用于设定一个元素的两个状态,不同的状态可以用伪类，比如:hover, :active 或者是通过 javascript 动态设定。IE10+支持。</p>
+<p>所以 transition 的初始值为：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transition-delay</span>: 0<span class="selector-tag">s</span>;</div><div class="line"><span class="selector-tag">transition-duration</span>: 0<span class="selector-tag">s</span>;</div><div class="line"><span class="selector-tag">transition-property</span>: <span class="selector-tag">all</span>;</div><div class="line"><span class="selector-tag">transition-timing-function</span>: <span class="selector-tag">ease</span>;</div></pre></td></tr></table></figure></p>
+<p>###用法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">  <span class="attribute">transition</span>: &lt;property&gt; &lt;duration&gt;    &lt;timing-function&gt; &lt;delay&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>并且有事件可以监测 transition 结束<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">el.addEventListener(<span class="string">"transitionend"</span>,updateTransition,<span class="literal">true</span>);</div><div class="line"></div><div class="line"><span class="comment">//in webkit</span></div><div class="line">el.addEventListener(<span class="string">"webkitTransitionEnd"</span>,updateTransition,<span class="literal">true</span>);</div></pre></td></tr></table></figure></p>
+<p>###实例<br>HTML<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--  DEMO 1: Fade Block --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"fade"</span>&gt;</span></div><div class="line">     move here  !</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"nudge"</span>&gt;</span></div><div class="line">    mouse on me </div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"bounce"</span>&gt;</span>Place mouse on  me i will bounce!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"spin"</span>&gt;</span>Place mouse on  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i won  me i will spin<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"accordion"</span> <span class="attr">class</span>=<span class="string">"accordion"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#first"</span>&gt;</span>This is first tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"first"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#second"</span>&gt;</span>This is second tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"second"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	</div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#third"</span>&gt;</span>This is third tab<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"third"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>Lorem ipsum <span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">DEMO 1: Fade Block</div><div class="line">*/</div><div class="line"><span class="selector-tag">div</span> &#123;</div><div class="line">    <span class="attribute">margin-bottom</span>: <span class="number">50px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#fade</span> &#123;</div><div class="line">    <span class="comment">/*opacity:1;</span></div><div class="line">    -webkit-transition: opacity 10s liner 10s;*/</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">transition-property</span>: font-size;</div><div class="line">  <span class="attribute">transition-duration</span>: <span class="number">0.5s</span>;</div><div class="line">  <span class="attribute">transition-delay</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#fade</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">36px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/* DEMO2 */</span></div><div class="line"><span class="selector-id">#nudge</span>&#123;</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-transition-property</span>: color,</div><div class="line">        background-color,padding-left;</div><div class="line">    <span class="attribute">-webkit-transition-duration</span>: <span class="number">500ms</span>,<span class="number">500ms</span>, <span class="number">500ms</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#nudge</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>: <span class="number">#efefef</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#333</span>;</div><div class="line">    <span class="attribute">padding-left</span>: <span class="number">50px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#bounce</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">    <span class="attribute">-webkit-animation-name</span>:bounce;</div><div class="line">    <span class="attribute">-webkit-animation-duration</span>:<span class="number">1s</span>;</div><div class="line">    <span class="attribute">-webkit-animation-iteration-count</span>:<span class="number">2</span>;</div><div class="line">    <span class="attribute">-webkit-animation-direction</span>:alternate</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> bounce &#123;</div><div class="line">    <span class="selector-tag">from</span>&#123;<span class="attribute">margin-left</span>:<span class="number">0</span>;&#125;</div><div class="line">    <span class="selector-tag">to</span>&#123;<span class="attribute">margin-left</span>:<span class="number">250px</span>;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-id">#spin</span>&#123;</div><div class="line">    <span class="attribute">-webkit-transition</span>: -webkit-transform <span class="number">10s</span> ease-in;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#spin</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(36000deg);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">a</span>&#123;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">padding</span>:<span class="number">5px</span> <span class="number">10px</span>;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#000</span>;</div><div class="line">    </div><div class="line">    <span class="comment">/*可以去掉链接的下划线等修饰效果*/</span></div><div class="line">    <span class="attribute">text-decoration</span>:none;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#999</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">div</span>&#123;</div><div class="line">    <span class="attribute">background-color</span>:<span class="number">#cda</span>;</div><div class="line">    <span class="attribute">color</span>:<span class="number">#222</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.accordion</span> <span class="selector-tag">div</span> <span class="selector-tag">p</span>&#123;</div><div class="line">    <span class="attribute">padding</span>:<span class="number">20px</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="selector-id">#accordion</span> <span class="selector-tag">div</span>&#123;</div><div class="line">    <span class="comment">/*先隐藏起来*/</span></div><div class="line">    <span class="attribute">height</span>:<span class="number">0</span>;</div><div class="line">    <span class="attribute">overflow</span>:hidden;</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-transition</span>:height <span class="number">600ms</span> ease;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#accordion</span> <span class="selector-tag">div</span><span class="selector-pseudo">:target</span>&#123;</div><div class="line">    <span class="attribute">height</span>:<span class="number">110px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>##animation<br>animation 属性是如下这些属性的简写<br>animation-name: none<br>animation-duration: 0s<br>animation-timing-function: ease<br>animation-delay: 0s<br>animation-iteration-count: 1<br>animation-direction: normal<br>animation-fill-mode: none</p>
+<p>###用法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">animation</span>:</div><div class="line">	<span class="selector-tag">animation-name</span></div><div class="line">    <span class="selector-tag">time</span>(<span class="selector-tag">duration</span>)</div><div class="line">    <span class="selector-tag">timing-function</span></div><div class="line">    <span class="selector-tag">time</span>(<span class="selector-tag">delay</span>)</div><div class="line">    <span class="selector-tag">animation-iteration-count</span>( 结束之前的循环次数)</div><div class="line">    <span class="selector-tag">single-animation-direction</span> </div><div class="line">    <span class="comment">/*&#123;</span></div><div class="line">    	animation-direction: normal (每次从正方向开始)</div><div class="line">		animation-direction: reverse （每次从反方向开始）</div><div class="line">		animation-direction: alternate （正反往复）</div><div class="line">    &#125;*/</div><div class="line">    <span class="selector-tag">single-animation-fill-mode</span></div></pre></td></tr></table></figure></p>
+<p>###实例<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"view_port"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"polling_message"</span>&gt;</span></div><div class="line">        Listener for dispatches     </div><div class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"cylon_eye"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.polling_message</span> &#123;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">margin-right</span>:<span class="number">2%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.view_port</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: black;</div><div class="line">    <span class="attribute">height</span>: <span class="number">50px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">overflow</span>: hidden;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.cylon_eye</span> &#123;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">80%</span>;</div><div class="line">    <span class="attribute">background-color</span>: red;</div><div class="line">    </div><div class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(to right, rgba(0, 0, 0, 0.9) <span class="number">25%</span>, <span class="built_in">rgba</span>(0, 0, 0, 0.1) <span class="number">50%</span>, <span class="built_in">rgba</span>(0, 0, 0, 0.9) <span class="number">75%</span>);</div><div class="line">    </div><div class="line">    <span class="attribute">-webkit-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">       <span class="attribute">-moz-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">         <span class="attribute">-o-animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">            <span class="attribute">animation</span>: move_eye <span class="number">4s</span> linear <span class="number">0s</span> infinite alternate;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">moz</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">o</span>-<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@<span class="keyword">keyframes</span> move_eye &#123;</div><div class="line">    <span class="selector-tag">from</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:-<span class="number">20%</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">to</span> &#123;</div><div class="line">        <span class="attribute">margin-left</span>:<span class="number">100%</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
 	
 	</div>
-  <a type="button" href="/2017/04/23/neat的使用/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-04-23 </div>
-			<div class="article-title"><a href="/2017/04/23/koa_node/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#koa node</p>
-<ol>
-<li><p>koa 的中间件执行时，遇到 <code>yield next</code>, 关键字时,会被传递到下游中间件(downstream), yield next 捕获不到下一个中间件时, 逆序返回继续执行代码(upstream). <strong>入栈 出栈</strong></p>
-</li>
-<li><p>一个或多个 Koa 应用可以被加载到一块 组成一个更大的包含一个 HTTP server 的应用.</p>
-</li>
-<li></li>
-</ol>
-
-	
-	</div>
-  <a type="button" href="/2017/04/23/koa_node/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-04-23 </div>
-			<div class="article-title"><a href="/2017/04/23/2013-11-09-requirejs/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<hr>
-<p>layout: post<br>date: 2013-11-09  21:11:13 +0800</p>
-<h2 id="title-RequireJS小结"><a href="#title-RequireJS小结" class="headerlink" title="title: RequireJS小结"></a>title: RequireJS小结</h2><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>RequireJS是一个工具库，主要用于客户端的模块管理。它可以让客户端的代码分成一个个模块，实现异步或动态加载，从而提高代码的性能和可维护性。它的模块管理遵守<a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank" rel="external">AMD规范</a>（Asynchronous Module Definition）。</p>
-<p>RequireJS的基本思想是，通过define方法，将代码定义为模块；通过require方法，实现代码的模块加载。</p>
-<p>首先，将require.js嵌入网页，然后就能在网页中进行模块化编程了。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script data-main=<span class="string">"scripts/main"</span> src=<span class="string">"scripts/require.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
-<p>上面代码的data-main属性不可省略，用于指定主代码所在的脚本文件，在上例中为scripts子目录下的main.js文件。用户自定义的代码就放在这个main.js文件中。</p>
-<h3 id="define方法：定义模块"><a href="#define方法：定义模块" class="headerlink" title="define方法：定义模块"></a>define方法：定义模块</h3><p>define方法用于定义模块，RequireJS要求每个模块放在一个单独的文件里。</p>
-<p>按照是否依赖其他模块，可以分成两种情况讨论。第一种情况是定义独立模块，即所定义的模块不依赖其他模块；第二种情况是定义非独立模块，即所定义的模块依赖于其他模块。</p>
-<p><strong>（1）独立模块</strong></p>
-<p>如果被定义的模块是一个独立模块，不需要依赖任何其他模块，可以直接用define方法生成。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(&#123;</div><div class="line">    <span class="attr">method1</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</div><div class="line">    <span class="attr">method2</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码生成了一个拥有method1、method2两个方法的模块。</p>
-<p>另一种等价的写法是，把对象写成一个函数，该函数的返回值就是输出的模块。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">return</span> &#123;</div><div class="line">	    <span class="attr">method1</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</div><div class="line">		<span class="attr">method2</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>后一种写法的自由度更高一点，可以在函数体内写一些模块初始化代码。</p>
-<p>值得指出的是，define定义的模块可以返回任何值，不限于对象。</p>
-<p><strong>（2）非独立模块</strong></p>
-<p>如果被定义的模块需要依赖其他模块，则define方法必须采用下面的格式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'module1'</span>, <span class="string">'module2'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">m1, m2</span>) </span>&#123;</div><div class="line">   ...</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>define方法的第一个参数是一个数组，它的成员是当前模块所依赖的模块。比如，[‘module1’, ‘module2’]表示我们定义的这个新模块依赖于module1模块和module2模块，只有先加载这两个模块，新模块才能正常运行。一般情况下，module1模块和module2模块指的是，当前目录下的module1.js文件和module2.js文件，等同于写成[‘./module1’, ‘./module2’]。</p>
-<p>define方法的第二个参数是一个函数，当前面数组的所有成员加载成功后，它将被调用。它的参数与数组的成员一一对应，比如function(m1, m2)就表示，这个函数的第一个参数m1对应module1模块，第二个参数m2对应module2模块。这个函数必须返回一个对象，供其他模块调用。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'module1'</span>, <span class="string">'module2'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">m1, m2</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">method</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            m1.methodA();</div><div class="line">			m2.methodB();</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码表示新模块返回一个对象，该对象的method方法就是外部调用的接口，menthod方法内部调用了m1模块的methodA方法和m2模块的methodB方法。</p>
-<p>需要注意的是，回调函数必须返回一个对象，这个对象就是你定义的模块。</p>
-<p>如果依赖的模块很多，参数与模块一一对应的写法非常麻烦。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define(</div><div class="line">    [       <span class="string">'dep1'</span>, <span class="string">'dep2'</span>, <span class="string">'dep3'</span>, <span class="string">'dep4'</span>, <span class="string">'dep5'</span>, <span class="string">'dep6'</span>, <span class="string">'dep7'</span>, <span class="string">'dep8'</span>],</div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">dep1,   dep2,   dep3,   dep4,   dep5,   dep6,   dep7,   dep8</span>)</span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>为了避免像上面代码那样繁琐的写法，RequireJS提供一种更简单的写法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">define(</div><div class="line">    <span class="function"><span class="keyword">function</span> (<span class="params">require</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> dep1 = <span class="built_in">require</span>(<span class="string">'dep1'</span>),</div><div class="line">            dep2 = <span class="built_in">require</span>(<span class="string">'dep2'</span>),</div><div class="line">            dep3 = <span class="built_in">require</span>(<span class="string">'dep3'</span>),</div><div class="line">            dep4 = <span class="built_in">require</span>(<span class="string">'dep4'</span>),</div><div class="line">            dep5 = <span class="built_in">require</span>(<span class="string">'dep5'</span>),</div><div class="line">            dep6 = <span class="built_in">require</span>(<span class="string">'dep6'</span>),</div><div class="line">            dep7 = <span class="built_in">require</span>(<span class="string">'dep7'</span>),</div><div class="line">            dep8 = <span class="built_in">require</span>(<span class="string">'dep8'</span>);</div><div class="line">            ...</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>下面是一个define实际运用的例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'math'</span>, <span class="string">'graph'</span>], </div><div class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"> math, graph </span>) </span>&#123;</div><div class="line">		<span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">plot</span>: <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>)</span>&#123;</div><div class="line">                <span class="keyword">return</span> graph.drawPie(math.randomGrid(x,y));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>上面代码定义的模块依赖math和graph两个库，然后返回一个具有plot接口的对象。</p>
-<blockquote>
-<p> RequireJS的模块语法允许它尽快地加载多个模块， 虽然加载的顺序不定，但依赖的顺序最终是正确的。</p>
-</blockquote>
-<p>另一个实际的例子是，通过判断浏览器是否为IE，而选择加载zepto或jQuery。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define((<span class="string">'__proto__'</span> <span class="keyword">in</span> &#123;&#125; ? [<span class="string">'zepto'</span>] : [<span class="string">'jquery'</span>]), <span class="function"><span class="keyword">function</span>(<span class="params">$</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> $;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码定义了一个中间模块，该模块先判断浏览器是否支持<strong>proto</strong>属性（除了IE，其他浏览器都支持），如果返回true，就加载zepto库，否则加载jQuery库。</p>
-<h3 id="require方法：调用模块"><a href="#require方法：调用模块" class="headerlink" title="require方法：调用模块"></a>require方法：调用模块</h3><p>require方法用于调用模块。它的参数与define方法类似。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>([<span class="string">'foo'</span>, <span class="string">'bar'</span>], <span class="function"><span class="keyword">function</span> (<span class="params"> foo, bar </span>) </span>&#123;</div><div class="line">        foo.doSomething();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面方法表示加载foo和bar两个模块，当这两个模块都加载成功后，执行一个回调函数。该回调函数就用来完成具体的任务。</p>
-<p>require方法的第一个参数，是一个表示依赖关系的数组。这个数组可以写得很灵活，请看下面的例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>( [ <span class="built_in">window</span>.JSON ? <span class="literal">undefined</span> : <span class="string">'util/json2'</span> ], <span class="function"><span class="keyword">function</span> (<span class="params"> JSON </span>) </span>&#123;</div><div class="line">  <span class="built_in">JSON</span> = <span class="built_in">JSON</span> || <span class="built_in">window</span>.JSON;</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log( <span class="built_in">JSON</span>.parse( <span class="string">'&#123; "JSON" : "HERE" &#125;'</span> ) );</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码加载JSON模块时，首先判断浏览器是否原生支持JSON对象。如果是的，则将undefined传入回调函数，否则加载util目录下的json2模块。</p>
-<p>require方法也可以用在define方法内部。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">require</span>) </span>&#123;</div><div class="line">   <span class="keyword">var</span> otherModule = <span class="built_in">require</span>(<span class="string">'otherModule'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>下面的例子显示了如何动态加载模块。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"> require </span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> isReady = <span class="literal">false</span>, foobar;</div><div class="line"> </div><div class="line">    <span class="built_in">require</span>([<span class="string">'foo'</span>, <span class="string">'bar'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">foo, bar</span>) </span>&#123;</div><div class="line">        isReady = <span class="literal">true</span>;</div><div class="line">        foobar = foo() + bar();</div><div class="line">    &#125;);</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">isReady</span>: isReady,</div><div class="line">        <span class="attr">foobar</span>: foobar</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码所定义的模块，内部加载了foo和bar两个模块，在没有加载完成前，isReady属性值为false，加载完成后就变成了true。因此，可以根据isReady属性的值，决定下一步的动作。</p>
-<p>下面的例子是模块的输出结果是一个promise对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'lib/Deferred'</span>], <span class="function"><span class="keyword">function</span>(<span class="params"> Deferred </span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> defer = <span class="keyword">new</span> Deferred(); </div><div class="line">    <span class="built_in">require</span>([<span class="string">'lib/templates/?index.html'</span>,<span class="string">'lib/data/?stats'</span>],</div><div class="line">        <span class="function"><span class="keyword">function</span>(<span class="params"> template, data </span>)</span>&#123;</div><div class="line">            defer.resolve(&#123; <span class="attr">template</span>: template, <span class="attr">data</span>:data &#125;);</div><div class="line">        &#125;</div><div class="line">    );</div><div class="line">    <span class="keyword">return</span> defer.promise();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码的define方法返回一个promise对象，可以在该对象的then方法，指定下一步的动作。</p>
-<p>如果服务器端采用JSONP模式，则可以直接在require中调用，方法是指定JSONP的callback参数为define。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>( [ </div><div class="line">    <span class="string">"http://someapi.com/foo?callback=define"</span></div><div class="line">], <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>require方法允许添加第三个参数，即错误处理的回调函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>(</div><div class="line">    [ <span class="string">"backbone"</span> ], </div><div class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"> Backbone </span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> Backbone.View.extend(&#123; <span class="comment">/* ... */</span> &#125;);</div><div class="line">    &#125;, </div><div class="line">    <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">		<span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>require方法的第三个参数，即处理错误的回调函数，接受一个error对象作为参数。</p>
-<p>require对象还允许指定一个全局性的Error事件的监听函数。所有没有被上面的方法捕获的错误，都会被触发这个监听函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">requirejs.onError = <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<h3 id="AMD模式小结"><a href="#AMD模式小结" class="headerlink" title="AMD模式小结"></a>AMD模式小结</h3><p>define和require这两个定义模块、调用模块的方法，合称为AMD模式。它的模块定义的方法非常清晰，不会污染全局环境，能够清楚地显示依赖关系。</p>
-<p>AMD模式可以用于浏览器环境，并且允许非同步加载模块，也可以根据需要动态加载模块。</p>
-<h2 id="配置require-js：config方法"><a href="#配置require-js：config方法" class="headerlink" title="配置require.js：config方法"></a>配置require.js：config方法</h2><p>require方法本身也是一个对象，它带有一个config方法，用来配置require.js运行参数。config方法接受一个对象作为参数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span>: &#123;</div><div class="line">        <span class="attr">jquery</span>: [</div><div class="line">            <span class="string">'//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js'</span>,</div><div class="line">            <span class="string">'lib/jquery'</span></div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>config方法的参数对象有以下主要成员：</p>
-<p><strong>（1）paths</strong></p>
-<p>paths参数指定各个模块的位置。这个位置可以是同一个服务器上的相对位置，也可以是外部网址。可以为每个模块定义多个位置，如果第一个位置加载失败，则加载第二个位置，上面的示例就表示如果CDN加载失败，则加载服务器上的备用脚本。需要注意的是，指定本地文件路径时，可以省略文件最后的js后缀名。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>([<span class="string">"jquery"</span>], <span class="function"><span class="keyword">function</span>(<span class="params">$</span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码加载jquery模块，因为jquery的路径已经在paths参数中定义了，所以就会到事先设定的位置下载。</p>
-<p><strong>（2）baseUrl</strong></p>
-<p>baseUrl参数指定本地模块位置的基准目录，即本地模块的路径是相对于哪个目录的。该属性通常由require.js加载时的data-main属性指定。</p>
-<p><strong>（3）shim</strong></p>
-<p>有些库不是AMD兼容的，这时就需要指定shim属性的值。shim可以理解成“垫片”，用来帮助require.js加载非AMD规范的库。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span>: &#123;</div><div class="line">        <span class="string">"backbone"</span>: <span class="string">"vendor/backbone"</span>,</div><div class="line">        <span class="string">"underscore"</span>: <span class="string">"vendor/underscore"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">shim</span>: &#123;</div><div class="line">        <span class="string">"backbone"</span>: &#123;</div><div class="line">            <span class="attr">deps</span>: [ <span class="string">"underscore"</span> ],</div><div class="line">            <span class="attr">exports</span>: <span class="string">"Backbone"</span></div><div class="line">        &#125;,</div><div class="line">        <span class="string">"underscore"</span>: &#123;</div><div class="line">            <span class="attr">exports</span>: <span class="string">"_"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码中的backbone和underscore就是非AMD规范的库。shim指定它们的依赖关系（backbone依赖于underscore），以及输出符号（backbone为“Backbone”，underscore为“_”）。</p>
-<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><p>RequireJS允许使用插件，加载各种格式的数据。完整的插件清单可以查看<a href="https://github.com/jrburke/requirejs/wiki/Plugins" target="_blank" rel="external">官方网站</a>。</p>
-<p>下面是插入文本数据所使用的text插件的例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define([</div><div class="line">    <span class="string">'backbone'</span>,</div><div class="line">    <span class="string">'text!templates.html'</span></div><div class="line">], <span class="function"><span class="keyword">function</span>(<span class="params"> Backbone, template </span>)</span>&#123;</div><div class="line">   <span class="comment">// ...</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码加载的第一个模块是backbone，第二个模块则是一个文本，用’text!’表示。该文本作为字符串，存放在回调函数的template变量中。</p>
-<h2 id="优化器r-js"><a href="#优化器r-js" class="headerlink" title="优化器r.js"></a>优化器r.js</h2><p>RequireJS提供一个基于node.js的命令行工具r.js，用来压缩多个js文件。它的主要作用是将多个模块文件压缩合并成一个脚本文件，以减少网页的HTTP请求数。</p>
-<p>第一步是安装r.js（假设已经安装了node.js）。</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm <span class="keyword">install</span> -g requirejs</div></pre></td></tr></table></figure>
-<p>然后，使用的时候，直接在命令行键入以下格式的命令。</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">node</span> <span class="title">r</span>.js -o <span class="tag">&lt;arguments&gt;</span></div></pre></td></tr></table></figure>
-<p>&lt;argument&gt;表示命令运行时，所需要的一系列参数，比如像下面这样：</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">node</span> <span class="title">r</span>.js -o <span class="attr">baseUrl=</span>. <span class="attr">name=</span>main <span class="attr">out=</span>main-built.js</div></pre></td></tr></table></figure>
-<p>除了直接在命令行提供参数设置，也可以将参数写入一个文件，假定文件名为build.js。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(&#123;</div><div class="line">    <span class="attr">baseUrl</span>: <span class="string">"."</span>,</div><div class="line">    <span class="attr">name</span>: <span class="string">"main"</span>,</div><div class="line">    <span class="attr">out</span>: <span class="string">"main-built.js"</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>然后，在命令行下用r.js运行这个参数文件，就OK了，不需要其他步骤了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node r.js -o build.js</div></pre></td></tr></table></figure>
-<p>下面是一个参数文件的范例，假定位置就在根目录下，文件名为build.js。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(&#123;</div><div class="line">    <span class="attr">appDir</span>: <span class="string">'./'</span>,</div><div class="line">    <span class="attr">baseUrl</span>: <span class="string">'./js'</span>,</div><div class="line">    <span class="attr">dir</span>: <span class="string">'./dist'</span>,</div><div class="line">    <span class="attr">modules</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">'main'</span></div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    <span class="attr">fileExclusionRegExp</span>: <span class="regexp">/^(r|build)\.js$/</span>,</div><div class="line">    <span class="attr">optimizeCss</span>: <span class="string">'standard'</span>,</div><div class="line">    <span class="attr">removeCombined</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">paths</span>: &#123;</div><div class="line">        <span class="attr">jquery</span>: <span class="string">'lib/jquery'</span>,</div><div class="line">        <span class="attr">underscore</span>: <span class="string">'lib/underscore'</span>,</div><div class="line">        <span class="attr">backbone</span>: <span class="string">'lib/backbone/backbone'</span>,</div><div class="line">        <span class="attr">backboneLocalstorage</span>: <span class="string">'lib/backbone/backbone.localStorage'</span>,</div><div class="line">        <span class="attr">text</span>: <span class="string">'lib/require/text'</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">shim</span>: &#123;</div><div class="line">        <span class="attr">underscore</span>: &#123;</div><div class="line">            <span class="attr">exports</span>: <span class="string">'_'</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">backbone</span>: &#123;</div><div class="line">            <span class="attr">deps</span>: [</div><div class="line">                <span class="string">'underscore'</span>,</div><div class="line">                <span class="string">'jquery'</span></div><div class="line">            ],</div><div class="line">            <span class="attr">exports</span>: <span class="string">'Backbone'</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">backboneLocalstorage</span>: &#123;</div><div class="line">            <span class="attr">deps</span>: [<span class="string">'backbone'</span>],</div><div class="line">            <span class="attr">exports</span>: <span class="string">'Store'</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>上面代码将多个模块压缩合并成一个main.js。</p>
-<p>参数文件的主要成员解释如下：</p>
-<ul>
-<li><p><strong>appDir</strong>：项目目录，相对于参数文件的位置。</p>
-</li>
-<li><p><strong>baseUrl</strong>：js文件的位置。</p>
-</li>
-<li><p><strong>dir</strong>：输出目录。</p>
-</li>
-<li><p><strong>modules</strong>：一个包含对象的数组，每个对象就是一个要被优化的模块。</p>
-</li>
-<li><p><strong>fileExclusionRegExp</strong>：凡是匹配这个正则表达式的文件名，都不会被拷贝到输出目录。</p>
-</li>
-<li><p><strong>optimizeCss</strong>: 自动压缩CSS文件，可取的值包括“none”, “standard”, “standard.keepLines”, “standard.keepComments”, “standard.keepComments.keepLines”。</p>
-</li>
-<li><p><strong>removeCombined</strong>：如果为true，合并后的原文件将不保留在输出目录中。</p>
-</li>
-<li><p><strong>paths</strong>：各个模块的相对路径，可以省略js后缀名。</p>
-</li>
-<li><p><strong>shim</strong>：配置依赖性关系。如果某一个模块不是AMD模式定义的，就可以用shim属性指定模块的依赖性关系和输出值。</p>
-</li>
-<li><p><strong>generateSourceMaps</strong>：是否要生成source map文件。</p>
-</li>
-</ul>
-<p>更详细的解释可以参考<a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js" target="_blank" rel="external">官方文档</a>。</p>
-<p>运行优化命令后，可以前往dist目录查看优化后的文件。</p>
-<p>下面是另一个build.js的例子。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(&#123;</div><div class="line">    <span class="attr">mainConfigFile</span> : <span class="string">"js/main.js"</span>,</div><div class="line">    <span class="attr">baseUrl</span>: <span class="string">"js"</span>,</div><div class="line">    <span class="attr">removeCombined</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">findNestedDependencies</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">dir</span>: <span class="string">"dist"</span>,</div><div class="line">    <span class="attr">modules</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">"main"</span>,</div><div class="line">            <span class="attr">exclude</span>: [</div><div class="line">                <span class="string">"infrastructure"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">"infrastructure"</span></div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>上面代码将模块文件压缩合并成两个文件，第一个是main.js（指定排除infrastructure.js），第二个则是infrastructure.js。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li>NaorYe, <a href="http://www.webdeveasy.com/optimize-requirejs-projects/" target="_blank" rel="external">Optimize (Concatenate and Minify) RequireJS Projects</a></li>
-<li>Jonathan Creamer, <a href="http://tech.pro/tutorial/1300/deep-dive-into-requirejs" target="_blank" rel="external">Deep dive into Require.js</a></li>
-<li>Addy Osmani, <a href="http://addyosmani.com/writing-modular-js/" target="_blank" rel="external">Writing Modular JavaScript With AMD, CommonJS &amp; ES Harmony</a> </li>
-<li>Jim Cowart, <a href="http://tech.pro/blog/1561/five-helpful-tips-when-using-requirejs" target="_blank" rel="external">Five Helpful Tips When Using RequireJS</a> </li>
-<li>Jim Cowart, <a href="http://tech.pro/blog/1639/using-rjs-to-optimize-your-requirejs-project" target="_blank" rel="external">Using r.js to Optimize Your RequireJS Project</a></li>
-</ul>
-
-	
-	</div>
-  <a type="button" href="/2017/04/23/2013-11-09-requirejs/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-04-23 </div>
-			<div class="article-title"><a href="/2017/04/23/脚本的第一行/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>##!/usr/bin/evn</p>
-<blockquote>
-<p>脚本语言的第一行，目的就是指出，你想要你的这个文件中的代码用什么可执行程序去运行它</p>
-</blockquote>
-<ol>
-<li>#!/usr/bin/python 是告诉操作系统执行这个脚本的时候，调用 <code>/usr/bin</code> 下的python解释器；</li>
-</ol>
-<ol>
-<li><p>#!/usr/bin/env python这种用法是为了防止操作系统用户没有将python装在默认的 <code>/usr/bin</code>路径里。当系统看到这一行的时候，首先会到env设置里查找python的安装路径，再调用对应路径下的解释器程序完成操作。</p>
-</li>
-<li><p>#!/usr/bin/python 相当于写死了python路径;</p>
-</li>
-<li><p>#!/usr/bin/env python 会去环境设置寻找python目录,推荐这种写法</p>
-</li>
-</ol>
-<p><code>/usr/bin/evn</code> 是脚本, 执行后输出:</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="attr">TERM_PROGRAM</span>=iTerm.app</div><div class="line"><span class="attr">SHELL</span>=/bin/bash</div><div class="line"><span class="attr">TERM</span>=xterm-<span class="number">256</span>color</div><div class="line"><span class="attr">CLICOLOR</span>=<span class="number">1</span></div><div class="line"><span class="attr">TMPDIR</span>=/var/folders/zn/b4xqz3bx74jb_ntcdpqk3v_c0000gn/T/</div><div class="line"><span class="attr">Apple_PubSub_Socket_Render</span>=/private/tmp/com.apple.launchd.nrRP4C3qd1/Render</div><div class="line"><span class="attr">USER</span>=yakuncyk</div><div class="line"><span class="attr">SSH_AUTH_SOCK</span>=/private/tmp/com.apple.launchd.ResNTqSfuD/Listeners</div><div class="line"><span class="attr">__CF_USER_TEXT_ENCODING</span>=<span class="number">0</span>x1F5:<span class="number">0</span>x19:<span class="number">0</span>x34</div><div class="line"><span class="attr">PATH</span>=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</div><div class="line"><span class="attr">PWD</span>=/Users/yakuncyk</div><div class="line"><span class="attr">LANG</span>=zh_CN.UTF-<span class="number">8</span></div><div class="line"><span class="attr">ITERM_PROFILE</span>=Default</div><div class="line"><span class="attr">XPC_FLAGS</span>=<span class="number">0</span>x0</div><div class="line"><span class="attr">XPC_SERVICE_NAME</span>=<span class="number">0</span></div><div class="line"><span class="attr">SHLVL</span>=<span class="number">1</span></div><div class="line"><span class="attr">HOME</span>=/Users/yakuncyk</div><div class="line"><span class="attr">ITERM_SESSION_ID</span>=w0t0p0</div><div class="line"><span class="attr">LOGNAME</span>=yakuncyk</div><div class="line"><span class="attr">_</span>=/usr/bin/env</div></pre></td></tr></table></figure>
-	
-	</div>
-  <a type="button" href="/2017/04/23/脚本的第一行/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-04-23 </div>
-			<div class="article-title"><a href="/2017/04/23/hello-world/" >Hello World</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-	
-	</div>
-  <a type="button" href="/2017/04/23/hello-world/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-04-23 </div>
-			<div class="article-title"><a href="/2017/04/23/filtbar_重构/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#filtbar 重构</p>
-<p>##当前欠缺</p>
-<ol>
-<li><p>违背开发封闭原则，即扩展是开放的，修改是封闭的。当前代码采用的逻辑恰好是通过修改加入新的功能，违背的封闭原则。</p>
-</li>
-<li><p>没有体现热插拔的设计思路，即没有层层嵌套，层层组合的思想， 应提供统一的接口， 方便宿主初始化渲染寄生组件</p>
-</li>
-<li></li>
-</ol>
-<p>##重构思路</p>
-<ol>
-<li>采用工厂模式，每个寄生组件的接口统一</li>
-<li>加入发布订阅</li>
-<li>统一事件管理</li>
-<li></li>
-</ol>
-
-	
-	</div>
-  <a type="button" href="/2017/04/23/filtbar_重构/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/04/23/2014-08-10-transition&animation/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -808,15 +682,17 @@
 		<h4>分类</h4>
 		<ul class="tag_box inline list-unstyled">
 		
-			<li><a href="/categories/Sports/Baseball/">Baseball<span>2</span></a></li>
-		
-			<li><a href="/categories/Sports/">Sports<span>2</span></a></li>
-		
 			<li><a href="/categories/bom/">bom<span>1</span></a></li>
+		
+			<li><a href="/categories/css/code/">code<span>1</span></a></li>
 		
 			<li><a href="/categories/collection/">collection<span>1</span></a></li>
 		
-			<li><a href="/categories/css/">css<span>1</span></a></li>
+			<li><a href="/categories/css/">css<span>2</span></a></li>
+		
+			<li><a href="/categories/tools/debug/">debug<span>1</span></a></li>
+		
+			<li><a href="/categories/default/">default<span>1</span></a></li>
 		
 			<li><a href="/categories/http/">http<span>1</span></a></li>
 		
@@ -826,6 +702,8 @@
 		
 			<li><a href="/categories/jquery/">jquery<span>1</span></a></li>
 		
+			<li><a href="/categories/js/">js<span>1</span></a></li>
+		
 			<li><a href="/categories/library/">library<span>2</span></a></li>
 		
 			<li><a href="/categories/note/">note<span>1</span></a></li>
@@ -833,6 +711,8 @@
 			<li><a href="/categories/note-vim/">note vim<span>2</span></a></li>
 		
 			<li><a href="/categories/tool/">tool<span>3</span></a></li>
+		
+			<li><a href="/categories/tools/">tools<span>1</span></a></li>
 		
 		</ul>
 	</div>
@@ -843,48 +723,48 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
-		
-			<li><a href="/tags/framework/">framework<span>1</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
 			<li><a href="/tags/browser/">browser<span>3</span></a></li>
 		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
-		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
-		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
-		
-			<li><a href="/tags/css/">css<span>7</span></a></li>
-		
-			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>4</span></a></li>
-		
-			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
-		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>1</span></a></li>
-		
-			<li><a href="/tags/test/">test<span>2</span></a></li>
-		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
-		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
-		
-			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
-		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+			<li><a href="/tags/library/">library<span>3</span></a></li>
 		
 			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
 		
+			<li><a href="/tags/design-pattern/">design pattern<span>1</span></a></li>
 		
-		   <li><a href="/tags">...<span>39</span></a></li>
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
+		
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/Genymotion/">Genymotion<span>1</span></a></li>
+		
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+		
+			<li><a href="/tags/default/">default<span>2</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/js/">js<span>1</span></a></li>
+		
+			<li><a href="/tags/linux/">linux<span>5</span></a></li>
+		
+			<li><a href="/tags/code/">code<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+		
+			<li><a href="/tags/shell/">shell<span>1</span></a></li>
+		
+			<li><a href="/tags/http/">http<span>2</span></a></li>
+		
+		
+		   <li><a href="/tags">...<span>41</span></a></li>
 		 
 		</ul>
 	</div>
@@ -897,23 +777,23 @@
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/04/23/javascript/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/css书写规范/" ><i class="fa fa-file-o"></i>css 编写习惯</a>
       </li>
     
       <li>
-        <a href="/2017/04/23/设计模式简介/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/消除函数的术语歧义/" ><i class="fa fa-file-o"></i>消除函数的术语歧义</a>
       </li>
     
       <li>
-        <a href="/2017/04/23/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/脚本的第一行/" ><i class="fa fa-file-o"></i>脚本语言的第一行</a>
       </li>
     
       <li>
-        <a href="/2017/04/23/前端新人入门/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/设计模式简介/" ><i class="fa fa-file-o"></i>设计模式简介</a>
       </li>
     
       <li>
-        <a href="/2017/04/23/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/2013-11-09-requirejs/" ><i class="fa fa-file-o"></i></a>
       </li>
     
   </ul>

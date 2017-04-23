@@ -110,8 +110,8 @@
 	  <p>#js 的码</p>
 <p>#1. btoa, atob</p>
 <p>WindowBase64.btoa()</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(stringToEncode);</div></pre></td></tr></table></figure>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(<span class="string">"Hello, world"</span>); <span class="comment">// encode a string</span></div><div class="line"><span class="keyword">var</span> decodedData = <span class="built_in">window</span>.atob(encodedData); <span class="comment">// decode the string</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(stringToEncode);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(<span class="string">"Hello, world"</span>); <span class="comment">// encode a string</span></div><div class="line"><span class="keyword">var</span> decodedData = <span class="built_in">window</span>.atob(encodedData); <span class="comment">// decode the string</span></div></pre></td></tr></table></figure>
 <p>Notes<br>You can use this method to encode data which may otherwise cause communication problems, transmit it, then use the window.atob() method to decode the data again. For example, you can encode control characters such as ASCII values 0 through 31.</p>
 <p>btoa() is also available to XPCOM components implemented in JavaScript, even though window is not the global object in components.</p>
 <p>Unicode Strings<br>In most browsers, calling window.btoa() on a Unicode string will cause a Character Out Of Range exception.</p>
@@ -175,17 +175,6 @@ function b64_to_utf8(str) {
 
 	<!-- categories -->
     
-	<div class="meta-widget">
-	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
-    <ul id="categorys" class="tag_box list-unstyled collapse in">
-          
-  <li>
-    <li><a href="/categories/Sports/">Sports<span>2</span></a></li> <li><a href="/categories/Sports/Baseball/">Baseball<span>2</span></a></li>
-  </li>
-
-    </ul>
-	</div>
-	
 
 	<!-- tags -->
 	
@@ -193,7 +182,7 @@ function b64_to_utf8(str) {
 	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
     <ul id="tags" class="tag_box list-unstyled collapse in">	  
 	    
-  <li><a href="/tags/Injury/">Injury<span>2</span></a></li> <li><a href="/tags/Fight/">Fight<span>2</span></a></li> <li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+  <li><a href="/tags/js/">js<span>1</span></a></li>
     </ul>
 	</div>
 		
