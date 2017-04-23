@@ -107,165 +107,6 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2014-10-31 </div>
-			<div class="article-title"><a href="/2014/10/31/2014-10-31-linux_user_manage/" >linux 用户管理</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>创建一个用户 foo 这个用户只能在/home/foo 上面增加删除文件， foo 不能在其他目录加减文件</p>
-<pre><code>useradd -d /home/foo  -m foo
-[root@] # passwd jc
-
-chown foo -R /home/foo
-</code></pre><p>Linux 系统是一个多用户多任务的分时操作系统，用户在登录时键入正确的用户名和口令后，就能够进入系统和自己的主目录。</p>
-<p>用户账号的管理工作主要涉及到用户账号的添加、修改和删除。<br>添加用户账号就是在系统中创建一个新账号，然后为新账号分配用户号、用户组、主目录和登录Shell等资源。刚添加的账号是被锁定的，无法使用。</p>
-<h2 id="添加新的用户账号"><a href="#添加新的用户账号" class="headerlink" title="添加新的用户账号"></a>添加新的用户账号</h2><p>使用useradd命令，其语法如下：</p>
-<p>代码:<br>useradd 选项 用户名</p>
-<p>-c comment 指定一段注释性描述。<br>-d 目录 指定用户主目录，如果此目录不存在，则同时使用 ==-m ==选项，可以创建主目录。<br>-g 用户组 指定用户所属的用户组。<br>-G 用户组，用户组 指定用户所属的附加组。<br>-s Shell文件 指定用户的登录Shell。<br>-u 用户号 指定用户的用户号，如果同时有-o选项，则可以重复使用其他用户的标识号。</p>
-<pre><code># useradd –d /usr /sam -m sam
-</code></pre><p>此命令创建了一个用户sam，其中-d和-m选项用来为登录名sam产生一个主目录/usr/sam（/usr为默认的用户主目录所在的父目录）。</p>
-<pre><code># useradd -s /bin/sh  -g group –G adm,root gem
-</code></pre><p>此命令新建了一个用户gem，该用户的登录Shell是/bin/sh，它属于group用户组，同时又属于adm和root用户组，其中group用户组是其主组。</p>
-<h2 id="删除帐号"><a href="#删除帐号" class="headerlink" title="删除帐号"></a>删除帐号</h2><p>如果一个用户的账号不再使用，可以从系统中删除。删除用户账号就是要将/etc/passwd等系统文件中的该用户记录删除，必要时还删除用户的主目录。删除一个已有的用户账号使用userdel命令，其格式如下：</p>
-<p>代码:<br>userdel 选项 用户名</p>
-<p>常用的选项是-r，它的作用是把用户的主目录一起删除。</p>
-<p>代码:</p>
-<pre><code># userdel sam
-</code></pre><p>此命令删除用户sam在系统文件中（主要是/etc/passwd, /etc/shadow, /etc/group等）的记录，同时删除用户的主目录。</p>
-<h2 id="修改帐号"><a href="#修改帐号" class="headerlink" title="修改帐号"></a>修改帐号</h2><p>修改用户账号就是根据实际情况更改用户的有关属性，如用户号、主目录、用户组、登录Shell等。</p>
-<pre><code>usermod 选项 用户名
-</code></pre><p>常用的选项包括-c, -d, -m, -g, -G, -s, -u以及-o等，这些选项的意义与useradd命令中的选项一样，可以为用户指定新的资源值。另外，有些系统可以使用如下选项：</p>
-<p>-l 新用户名</p>
-<pre><code>#usermod -l urchin(新用户名称)  test(原来用户名称) 
-</code></pre><p>这个选项指定一个新的账号，即将原来的用户名改为新的用户名。</p>
-<pre><code># usermod -s /bin/ksh -d /home/z –g developer sam
-</code></pre><p>此命令将用户sam的登录Shell修改为ksh，主目录改为/home/z，用户组改为developer。</p>
-<h2 id="用户口令的管理"><a href="#用户口令的管理" class="headerlink" title="用户口令的管理"></a>用户口令的管理</h2><p>用户管理的一项重要内容是用户口令的管理。用户账号刚创建时没有口令，但是被系统锁定，无法使用，必须为其指定口令后才可以使用，即使是指定空口令。<br>指定和修改用户口令的Shell命令是passwd。超级用户可以为自己和其他用户指定口令，普通用户只能用它修改自己的口令。</p>
-<pre><code>passwd 选项 用户名
-</code></pre><p>-l 锁定口令，即禁用账号。<br>-u 口令解锁。<br>-d 使账号无口令。<br>-f 强迫用户下次登录时修改口令。<br>如果默认用户名，则修改当前用户的口令。</p>
-<p>假设当前用户是sam，则下面的命令修改该用户自己的口令：</p>
-<pre><code>$ passwd
-Old password:******
-New password:*******
-Re-enter new password:*******
-</code></pre><p>如果是超级用户，可以用下列形式指定任何用户的口令：</p>
-<pre><code># passwd sam
-New password:*******
-Re-enter new password:*******
-</code></pre>
-	
-	</div>
-  <a type="button" href="/2014/10/31/2014-10-31-linux_user_manage/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-10-31 </div>
-			<div class="article-title"><a href="/2014/10/31/2014-10-31-闭包和内存/" >为什么闭包会引起内存泄露</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>JavaScript使用一种称为垃圾收集的技术来管理分配给它的内存。这与C这样的底层语言不同，C要求使用多少借多少，用完再释放回去。其他语言，比如 Objective-C，实现了一个引用计数系统来辅助完成这些工作，我们能够了解到有多少个程序块使用了一个特定的内存段，因而可以在不需要时清除这些内存段。</p>
-<p>JavaScript是一种高级语言，它一般是通过后台来维护这种计数系统。</p>
-<p>当JavaScript代码生成一个新的内存驻留项时（比如一个对象或函数），系统就会为这个项留出一块内存空间。因为这个对象可能会被传递给很多函数，并且会被指定给很多变量，所以很多代码都会指向这个对象的内存空间。JavaScript会跟踪这些指针，当最后一个指针废弃不用时，这个对象占用的内存会被释放。</p>
-<pre><code>A ---------&gt; B ------------&gt; C
-</code></pre><p>例如对象A有一个属性指向B，而B也有一个属性指向C。即使当前作用域中只有对象A有效，但由于指针的关系所有3个对象都必须保留在内存中。当离开A的当前作用域时（例如代码执行到声明A的函数的末尾处），垃圾收集器就可以释放A占用的内存。此时，由于没有什么指向B，因此B可以释放，最后，C也可以释放。</p>
-<p>然而，当对象间的引用关系变得复杂时，处理起来也会更加困难。</p>
-<pre><code>A ---------&gt; B ------------&gt; C
-             ^、_ _ _ _ _ _ _|
-</code></pre><p>这里，我们又为对象C添加了一个引用B的属性。在这种情况下，当A释放时，仍然有来自C的指针指向B。这种引用循环需要由JavaScript进行特殊的处理，但必须考虑到整个循环与作用域中的其他变量已经处于隔离状态。</p>
-<p>从这里我们可以看到，闭包问题的本质是作用域的问题，我平时写的闭包大多出现在：</p>
-<h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>闭包可能会导致在不经意间创建循环引用。因为函数是必须保存在内存中的对象，所以位于函数执行上下文中的所有变量也需要保存在内存中：</p>
-<pre><code>function outerFn() {
-    var outerVar = {};
-    function innerFn() {
-        console.log(outerVar);
-    }
-    outerVar.fn = innerFn;
-    return innerFn;
-};
-</code></pre><p>这里创建了一个名为 outerVar 的对象，该对象在内部函数innerFn()中被引用。然后，为 outerVar 创建了一个指向 innerFn()的属性，之后返回了innerFn()。这样就在 innerFn() 上创建了一个引用outerVar的闭包，而outerVar又引用了innerFn()。</p>
-<p>这会导致变量在内存中存在的时间比想象得长，而且又不容易被发现。这还不算完，还有可能会出现比这种情况更隐蔽的引用循环：</p>
-<pre><code>function outerFn() {
-    var outerVar = {};
-    function innerFn() {
-        console.log(&apos;hello&apos;);
-    }
-    outerVar.fn = innerFn;
-    return innerFn;
-};
-</code></pre><p>这里我们修改了innerFn()，不再招惹 outerVar。但是，这样做仍然没有断开循环引用。<br>即使innerFn()不再勾引 outerVar，outerVar 也仍然位于innerFn()的封闭环境中。由于闭包的原因，位于 outerFn()中的所有变量都隐含地被 innerFn()所引用。我们再想一想，在 java 中的内部类不也是类似当前情况吗，内部类能够‘看’外部的 this。此时此刻，正如彼时彼刻，竟如此相像。因此，闭包会使意外地创建这些引用循环变得易如反掌。</p>
-<h3 id="DOM与JavaScript的循环"><a href="#DOM与JavaScript的循环" class="headerlink" title="DOM与JavaScript的循环"></a>DOM与JavaScript的循环</h3><p>虽然我很早就知道闭包，也在调试内存问题时在 chrome F12 里的 profile 是里看到 <code>closure reference</code>,但是并不清除这个问题的根源。因为上述情况通常不是什么问题，JavaScript能够检测到这些情况并在它们孤立时将其清除。</p>
-<p>最近看到关于这个问题的解释：在旧版本IE中存在一种难以处理的循环引用问题。</p>
-<blockquote>
-<p>当一个循环中同时包含DOM元素和常规JavaScript对象时，IE无法释放任何一个对象——因为这两类对象是由不同的内存管理程序负责管理的。</p>
-</blockquote>
-<p>除非关闭浏览器，否则这种循环在IE中永远得不到释放。为此，随着时间的推移，这可能会导致大量内存被无效地占用。</p>
-<p>导致这种循环的一个常见原因是简单的事件处理:</p>
-<pre><code>$(document).ready(function() {
-    var button = document.getElementById(&apos;button-1&apos;);
-        button.onclick = function() {
-            console.log(&apos;hello&apos;);
-            return false;
-        };
-});
-</code></pre><p>当指定单击事件处理程序时，就创建了一个在其封闭的环境中包含button变量的闭包。而且，现在的button也包含一个指向闭包（onclick属性自身）的引用。这样，就导致了在IE中即使离开当前页面也不会释放这个循环。<br>为了释放内存，就需要断开循环引用，例如关闭窗口,删除onclick属性。另外，也可以像下面这样重写代码来</p>
-<p>避免这种闭包：</p>
-<pre><code>function hello() {
-    console.log(&apos;hello&apos;);
-    return false;
-}
-
-$(document).ready(function() {
-    var button = document.getElementById(&apos;button-1&apos;);
-    button.onclick = hello;
-});
-</code></pre><p>因为hello()函数不再包含  button，引用就成了单向的（从button到hello）,不存的循环，所以就不会造成内存泄漏了。</p>
-<p>用jQuery化解引用循环</p>
-<p>下面，我们通过常规的jQuery结构来编写同样的代码：</p>
-<pre><code>$(document).ready(function() {
-    var $button = $(&apos;#button-1&apos;);
-        $button.click(function(event) {
-            event.preventDefault();
-            console.log(&apos;hello&apos;);
-        });
-});
-</code></pre><p>即使此时仍然会创建一个闭包，并且也会导致同前面一样的循环，但这里的代码却不会使 <code>IE</code> 发生内存泄漏。由于jQuery考虑到了内存泄漏的潜在危害，所以它会手动释放自己指定的所有事件处理程序。只要坚持使用jQuery的事件绑定方法，就无需为这种特定的常见原因导致的内存泄<br>漏而担心。</p>
-<p>但是，这并不意味着我们完全脱离了险境。当对DOM元素进行其他操作时，仍然要处处留心。只要是将JavaScript对象指定给DOM元素，就可能在旧版本IE中导致内存泄漏。jQuery只是有助于减少发生这种情况的可能性。</p>
-<p>有鉴于此，jQuery为我们提供了另一个避免这种泄漏的工具。用.data()方法，将信息附加到DOM元素。由于这里的数据并非直接保存在扩展属性中（jQuery使用一个内部对象并通过它创建的ID来保存这里所说的数<br>据），因此永远也不会构成引用循环，从而有效回避了内存泄漏问题。</p>
-<p>下面附上 jQuery 源码的相关说法：</p>
-<pre><code>// We have to handle DOM nodes and JS objects differently        
-   because IE6-7
-
-// can&apos;t GC object references properly across the DOM-JS boundary
-
-// Only DOM nodes need the global jQuery cache; JS object data is
-
-// attached directly to the object so GC can occur automatically
-</code></pre>
-	
-	</div>
-  <a type="button" href="/2014/10/31/2014-10-31-闭包和内存/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-10-31 </div>
 			<div class="article-title"><a href="/2014/10/31/2014-08-20-jquery-event-on/" >jQuery-event-on</a></div>						
 		</h3>
 	
@@ -296,7 +137,7 @@ $(document).ready(function() {
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2014-10-23 </div>
-			<div class="article-title"><a href="/2014/10/23/2014-10-23-swing/" >隐形的翅膀</a></div>						
+			<div class="article-title"><a href="/2014/10/23/2014-10-23-看待不完美/" >不完美</a></div>						
 		</h3>
 	
 
@@ -305,17 +146,30 @@ $(document).ready(function() {
   <div class="row">
 	
 	
-		<p>每一次都在徘徊孤单中坚强</p>
-<p>每一次就算受伤害也不闪泪光</p>
-<p>不去想他们拥有美丽的太阳</p>
-<p>带我飞，给我希望</p>
-<p>我终于翱翔，穿过云朵不害怕</p>
-<p>我看见每天的夕阳都会由变化</p>
-<p>我终于看到， 所有梦想都开花</p>
+		<h1 id="不完美"><a href="#不完美" class="headerlink" title="不完美"></a>不完美</h1><p>黄金是不完美的，</p>
+<p>钻石是不完美的，</p>
+<p>它们都不纯。</p>
+<p>手机不是完美的，</p>
+<p>平板不是完美的，</p>
+<p>他们太小了，他们没有键盘。</p>
+<p>书本是不完美的，太沉，没法搜索，</p>
+<p>pdf 也是不完美的，看它们的设备太少。</p>
+<p>vim 是不完美的，小问题太多。</p>
+<p>我，我自己也是不完美的，</p>
+<p>对！</p>
+<p>通通不完美！</p>
+<p>然而，什么东西又是完美的呢？</p>
+<p>眼睛里放的总是不完美，那么天空是暗淡的，</p>
+<p>可我要的又是什么呢？</p>
+<p>我要的就是使用我身边不完美的东西，</p>
+<p>去创造出属于我的同样不完美的完美。</p>
+<blockquote>
+<p>2014年10月23日 跑步归来有感</p>
+</blockquote>
 
 	
 	</div>
-  <a type="button" href="/2014/10/23/2014-10-23-swing/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2014/10/23/2014-10-23-看待不完美/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -414,7 +268,7 @@ $(document).ready(function() {
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2014-10-23 </div>
-			<div class="article-title"><a href="/2014/10/23/2014-10-23-看待不完美/" >不完美</a></div>						
+			<div class="article-title"><a href="/2014/10/23/2014-10-23-swing/" >隐形的翅膀</a></div>						
 		</h3>
 	
 
@@ -423,30 +277,17 @@ $(document).ready(function() {
   <div class="row">
 	
 	
-		<h1 id="不完美"><a href="#不完美" class="headerlink" title="不完美"></a>不完美</h1><p>黄金是不完美的，</p>
-<p>钻石是不完美的，</p>
-<p>它们都不纯。</p>
-<p>手机不是完美的，</p>
-<p>平板不是完美的，</p>
-<p>他们太小了，他们没有键盘。</p>
-<p>书本是不完美的，太沉，没法搜索，</p>
-<p>pdf 也是不完美的，看它们的设备太少。</p>
-<p>vim 是不完美的，小问题太多。</p>
-<p>我，我自己也是不完美的，</p>
-<p>对！</p>
-<p>通通不完美！</p>
-<p>然而，什么东西又是完美的呢？</p>
-<p>眼睛里放的总是不完美，那么天空是暗淡的，</p>
-<p>可我要的又是什么呢？</p>
-<p>我要的就是使用我身边不完美的东西，</p>
-<p>去创造出属于我的同样不完美的完美。</p>
-<blockquote>
-<p>2014年10月23日 跑步归来有感</p>
-</blockquote>
+		<p>每一次都在徘徊孤单中坚强</p>
+<p>每一次就算受伤害也不闪泪光</p>
+<p>不去想他们拥有美丽的太阳</p>
+<p>带我飞，给我希望</p>
+<p>我终于翱翔，穿过云朵不害怕</p>
+<p>我看见每天的夕阳都会由变化</p>
+<p>我终于看到， 所有梦想都开花</p>
 
 	
 	</div>
-  <a type="button" href="/2014/10/23/2014-10-23-看待不完美/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2014/10/23/2014-10-23-swing/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -569,6 +410,139 @@ $(document).ready(function() {
 </div>
 
 		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-01 </div>
+			<div class="article-title"><a href="/2014/10/01/2014-11-10-客户端库管理工具-spm/" >spm：客户端库管理工具</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<blockquote>
+<p>spm is a powerful and integrated static package manager designed for browser-side solutions including JavaScript, CSS and template.</p>
+</blockquote>
+<p>spm 中的组件都是以 CommonJs 的组织方式, 并且可以通过 seajs 加载运行.</p>
+<p>spm基于node.js，所以安装之前，必须先确保已安装node.js。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install spm -g</div></pre></td></tr></table></figure>
+<p>下面的命令可以更新或卸载 spm。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo npm update -g spm</div><div class="line">sudo npm uninstall -global spm</div></pre></td></tr></table></figure>
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="库的安装"><a href="#库的安装" class="headerlink" title="库的安装"></a>库的安装</h3><p>初始化 package</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir example</div><div class="line"><span class="built_in">cd</span> example</div><div class="line">spm init</div></pre></td></tr></table></figure>
+<p>spm install命令用于安装某个库，需要指明库的名字。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spm install backbone</div></pre></td></tr></table></figure>
+<p>Package Commands:</p>
+<pre><code>init           initialize a package
+login          login your account
+install        install a package
+publish        publish a package
+unpublish      unpublish a package
+tree           show dependencies tree
+info           information of a package
+search         search packages
+test           test a package
+doc            documentation manager
+build          build package
+completion     output completion bash script
+</code></pre><p>与 bower 不同的是， spm 增加了 <code>doc</code>，’build’ 功能, 通过 <code>build</code> 用于将编写的 CommonJS 模块编译后兼容多种的加载方式.</p>
+<p>build 同时能解决相对依赖和绝对依赖的问题。</p>
+<p>###spm build</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">-O [dir]  输出目录,默认为: dist</div><div class="line">-o [file] 输出文件名</div><div class="line"></div><div class="line"><span class="comment"># include 在 spm3.x 已经不再推荐</span></div><div class="line">--include [include]: 指定打包策略</div><div class="line">	- relative 打包相对依赖</div><div class="line">	- all 打包所有依赖</div><div class="line">	- standalone, 打包所有依赖并且自运行(不需要加载器, 比如在浏览器下直接放在 header 下)</div><div class="line"></div><div class="line">--standalone 不需要加载器,等同于 --include -standalone</div><div class="line">--sea 编译成 seajs 用的文件, 等同于老式的 --include[relative/all]</div></pre></td></tr></table></figure>
+<p>###package.json<br><code>spm</code> 使用和 <code>npm</code> 基本一致的 <code>package.json</code> 来描述组件.</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    ...</div><div class="line"></div><div class="line">    <span class="string">"spm"</span>: &#123;</div><div class="line">        <span class="string">"main"</span>: <span class="string">"calendar.js"</span>,</div><div class="line">        <span class="string">"dependencies"</span>: &#123;&#125;,</div><div class="line">        <span class="string">"devDependencies"</span>: &#123;&#125;,</div><div class="line">        <span class="string">"tests"</span>: <span class="string">"tests/*-spec.js"</span>,</div><div class="line">        <span class="string">"ignore"</span>: [</div><div class="line">            <span class="string">"dist"</span>,</div><div class="line">            <span class="string">"_site"</span></div><div class="line">        ],</div><div class="line">        <span class="string">"buildArgs"</span>: <span class="string">"--ignore jquery"</span></div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> dest</td>
+<td>输出目录, 默认为 dist</td>
+</tr>
+<tr>
+<td> include</td>
+<td>指定打包策略, 可选 –sea/–standalone 等方式</td>
+</tr>
+<tr>
+<td> ignore</td>
+<td>指定不进行 transport 的依赖</td>
+</tr>
+<tr>
+<td> skip</td>
+<td>指定不进行分析的依赖</td>
+</tr>
+<tr>
+<td> idleaing</td>
+<td>模块名前缀,默认为 /</td>
+</tr>
+<tr>
+<td> withDeps</td>
+<td>同时打包所有依赖, 默认为 false</td>
+</tr>
+</tbody>
+</table>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="http://spmjs.io/documentation/spm-commands" target="_blank" rel="external">spm.io</a></p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/01/2014-11-10-客户端库管理工具-spm/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-09-02 </div>
+			<div class="article-title"><a href="/2014/09/02/2014-09-02-modernizr/" >了解 Modernizr</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>为了渐进增强和特性检测，Modernizr 出场.</p>
+<p>首先，从modernizr.com下载这个库。下载的时候，可以选择所需要的模块。然后，将它插入HTML页面的头部，放在head标签之中。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">class</span>=<span class="string">"no-js"</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/modernizr.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="CSS的新增class"><a href="#CSS的新增class" class="headerlink" title="CSS的新增class"></a>CSS的新增class</h2><p>使用Modernizr以后，首先会把html元素的class替换掉。以chrome浏览器为例，新增的class大概是下面的样子。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">class</span>=<span class="string">"js no-touch postmessage history multiplebgs boxshadow opacity cssanimations csscolumns cssgradients csstransforms csstransitions fontface localstorage sessionstorage svg inlinesvg blobbuilder blob bloburls download formdata"</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>IE 7则是这样：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">class</span>=<span class="string">"js no-touch postmessage no-history no-multiplebgs no-boxshadow no-opacity no-cssanimations no-csscolumns no-cssgradients no-csstransforms no-csstransitions fontface localstorage sessionstorage no-svg no-inlinesvg wf-loading no-blobbuilder no-blob no-bloburls no-download no-formdata"</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>然后，就可以针对不同的CSS class，指定不同的样式。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="selector-class">.button</span> &#123;</div><div class="line">   <span class="attribute">background</span>: <span class="number">#000</span>;</div><div class="line">   <span class="attribute">opacity</span>: <span class="number">0.75</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.no-opacity</span> <span class="selector-class">.button</span> &#123;</div><div class="line">   <span class="attribute">background</span>: <span class="number">#444</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="JavaScript侦测"><a href="#JavaScript侦测" class="headerlink" title="JavaScript侦测"></a>JavaScript侦测</h2><p>除了提供新增的CSS class，Modernizr还提供JavaScript方法，用来侦测浏览器是否支持某个功能。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Modernizr.cssgradients; <span class="comment">//True in Chrome, False in IE7</span></div><div class="line"></div><div class="line">Modernizr.fontface; <span class="comment">//True in Chrome, True in IE7</span></div><div class="line"></div><div class="line">Modernizr.geolocation; <span class="comment">//True in Chrome, False in IE7</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> (Modernizr.canvas)&#123;</div><div class="line">	<span class="comment">// 支持canvas</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">   <span class="comment">// 不支持canvas</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (Modernizr.touch)&#123;</div><div class="line">	<span class="comment">// 支持触摸屏</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">   <span class="comment">// 不支持触摸屏</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="加载器"><a href="#加载器" class="headerlink" title="加载器"></a>加载器</h2><p>Modernizr允许根据Javascript侦测的不同结果，加载不同的脚本文件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Modernizr.load(&#123;</div><div class="line">  <span class="attr">test</span> :        Modernizr.localstorage,</div><div class="line">  <span class="attr">yep</span>  :        <span class="string">'localStorage.js'</span>,</div><div class="line">  <span class="attr">nope</span> :        <span class="string">'alt-storageSystem.js'</span>,</div><div class="line">  <span class="attr">complete</span> :    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; enableStorgeSaveUI();&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>Modernizr.load方法用来加载脚本。它的属性如下：</p>
+<ul>
+<li>test：用来测试浏览器是否支持某个属性。</li>
+<li>yep：如果浏览器支持该属性，加载的脚本。</li>
+<li>nope：如果浏览器不支持该属性，加载的脚本。</li>
+<li>complete：加载完成后，运行的JavaScript代码。</li>
+</ul>
+<p>可以指定在支持某个功能的情况，所要加载的JavaScript脚本和CSS样式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Modernizr.load(&#123;</div><div class="line">  <span class="attr">test</span> : Modernizr.touch,</div><div class="line">  <span class="attr">yep</span> :  [<span class="string">'js/touch.js'</span>, <span class="string">'css/touchStyles.css'</span>]</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li>Chris Griffith, <a href="http://www.adobe.com/devnet/html5/articles/up-and-running-with-modernizr.html" target="_blank" rel="external">Up and running with Modernizr</a></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2014/09/02/2014-09-02-modernizr/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
 
 		</div>
 
@@ -645,45 +619,45 @@ $(document).ready(function() {
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
 		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+			<li><a href="/tags/library/">library<span>3</span></a></li>
 		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+			<li><a href="/tags/default/">default<span>1</span></a></li>
+		
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>2</span></a></li>
+		
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
 		
 			<li><a href="/tags/hg/">hg<span>1</span></a></li>
 		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
 		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
 		
-			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
 		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+		
+			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
 		
 			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
 		
 			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
 		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
-		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
-		
-			<li><a href="/tags/demo/">demo<span>1</span></a></li>
-		
-			<li><a href="/tags/test/">test<span>2</span></a></li>
+			<li><a href="/tags/css/">css<span>7</span></a></li>
 		
 			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
-		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
-		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -699,23 +673,23 @@ $(document).ready(function() {
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
+        <a href="/2017/04/23/javascript/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/脚本的第一行/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/设计模式简介/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/前端新人入门/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
       </li>
     
   </ul>

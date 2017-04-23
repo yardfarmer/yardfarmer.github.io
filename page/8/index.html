@@ -107,70 +107,6 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2014-11-09 </div>
-			<div class="article-title"><a href="/2014/11/09/2014-11-09-length==+length/" >length==+length</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>读 underscroe 源码的时候看到了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> length = obj.length;</div><div class="line"></div><div class="line"> <span class="keyword">if</span> (length === +length) &#123;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<p>符号会尝试把后面的 length 转成数字，比如 +”1” =&gt; 1, 同样 -“1” =&gt; -1</p>
-<p>所以，+length 的目的就是如果 length 不是数字的化，就要转成数字。</p>
-<blockquote>
-<p>NaN === NaN 返回false</p>
-<p>null === null 返回 true</p>
-</blockquote>
-<p>但这还不是最终目的:</p>
-<ol>
-<li><p>如果 length 赋值为 undefined，</p>
-<p>因为 +undefined =&gt; NaN, 并且 NaN 不等 NaN</p>
-<p>所以 length==+length 可以排除 length 为 undefinde 的情况.</p>
-</li>
-<li><p>如果 length 赋值为 null，</p>
-<p>因为 +null =&gt; 0,  从而，null === 0 同样返回false</p>
-<p>所以 length==+length 可以排除 length 为 null 的情况.</p>
-</li>
-</ol>
-<p>最终实现了 只有 length 是 <strong>数字</strong> 或者 <strong>数字字符串</strong> 的目的。</p>
-
-	
-	</div>
-  <a type="button" href="/2014/11/09/2014-11-09-length==+length/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-11-09 </div>
-			<div class="article-title"><a href="/2014/11/09/2014-11-09-javascript协议限定符/" >javascript协议限定符</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>javascript: URL可以用在可以使用常规URL的任意地方, 比如<a>标记的href属性，</a></p>
-<p><form>的action属性，甚至window.open() 方法的参数.</form></p>
-
-	
-	</div>
-  <a type="button" href="/2014/11/09/2014-11-09-javascript协议限定符/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-11-09 </div>
 			<div class="article-title"><a href="/2014/11/09/2014-11-09-code-skill-collection/" >code-skill</a></div>						
 		</h3>
 	
@@ -716,28 +652,6 @@ $.unique(array); // 去除array 中的重复元素，该方法只对DOM Element 
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2014-10-31 </div>
-			<div class="article-title"><a href="/2014/10/31/2013-11-15-尝试山寨Backbone/" >mvc-backbone</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>学习了 BackBone.js, 为了更加深刻的理解，尝试山寨之。</p>
-
-	
-	</div>
-  <a type="button" href="/2014/10/31/2013-11-15-尝试山寨Backbone/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-10-31 </div>
 			<div class="article-title"><a href="/2014/10/31/2014-10-31-mvc/" >mvc之投石问路</a></div>						
 		</h3>
 	
@@ -767,6 +681,28 @@ $.unique(array); // 去除array 中的重复元素，该方法只对DOM Element 
 	
 	</div>
   <a type="button" href="/2014/10/31/2014-10-31-mvc/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2013-11-15-尝试山寨Backbone/" >mvc-backbone</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>学习了 BackBone.js, 为了更加深刻的理解，尝试山寨之。</p>
+
+	
+	</div>
+  <a type="button" href="/2014/10/31/2013-11-15-尝试山寨Backbone/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -834,6 +770,165 @@ var promise = $.get(&apos;/mydata&apos;);
 	
 	</div>
   <a type="button" href="/2014/10/31/2014-10-31-ajax_deferred_promise/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-linux_user_manage/" >linux 用户管理</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>创建一个用户 foo 这个用户只能在/home/foo 上面增加删除文件， foo 不能在其他目录加减文件</p>
+<pre><code>useradd -d /home/foo  -m foo
+[root@] # passwd jc
+
+chown foo -R /home/foo
+</code></pre><p>Linux 系统是一个多用户多任务的分时操作系统，用户在登录时键入正确的用户名和口令后，就能够进入系统和自己的主目录。</p>
+<p>用户账号的管理工作主要涉及到用户账号的添加、修改和删除。<br>添加用户账号就是在系统中创建一个新账号，然后为新账号分配用户号、用户组、主目录和登录Shell等资源。刚添加的账号是被锁定的，无法使用。</p>
+<h2 id="添加新的用户账号"><a href="#添加新的用户账号" class="headerlink" title="添加新的用户账号"></a>添加新的用户账号</h2><p>使用useradd命令，其语法如下：</p>
+<p>代码:<br>useradd 选项 用户名</p>
+<p>-c comment 指定一段注释性描述。<br>-d 目录 指定用户主目录，如果此目录不存在，则同时使用 ==-m ==选项，可以创建主目录。<br>-g 用户组 指定用户所属的用户组。<br>-G 用户组，用户组 指定用户所属的附加组。<br>-s Shell文件 指定用户的登录Shell。<br>-u 用户号 指定用户的用户号，如果同时有-o选项，则可以重复使用其他用户的标识号。</p>
+<pre><code># useradd –d /usr /sam -m sam
+</code></pre><p>此命令创建了一个用户sam，其中-d和-m选项用来为登录名sam产生一个主目录/usr/sam（/usr为默认的用户主目录所在的父目录）。</p>
+<pre><code># useradd -s /bin/sh  -g group –G adm,root gem
+</code></pre><p>此命令新建了一个用户gem，该用户的登录Shell是/bin/sh，它属于group用户组，同时又属于adm和root用户组，其中group用户组是其主组。</p>
+<h2 id="删除帐号"><a href="#删除帐号" class="headerlink" title="删除帐号"></a>删除帐号</h2><p>如果一个用户的账号不再使用，可以从系统中删除。删除用户账号就是要将/etc/passwd等系统文件中的该用户记录删除，必要时还删除用户的主目录。删除一个已有的用户账号使用userdel命令，其格式如下：</p>
+<p>代码:<br>userdel 选项 用户名</p>
+<p>常用的选项是-r，它的作用是把用户的主目录一起删除。</p>
+<p>代码:</p>
+<pre><code># userdel sam
+</code></pre><p>此命令删除用户sam在系统文件中（主要是/etc/passwd, /etc/shadow, /etc/group等）的记录，同时删除用户的主目录。</p>
+<h2 id="修改帐号"><a href="#修改帐号" class="headerlink" title="修改帐号"></a>修改帐号</h2><p>修改用户账号就是根据实际情况更改用户的有关属性，如用户号、主目录、用户组、登录Shell等。</p>
+<pre><code>usermod 选项 用户名
+</code></pre><p>常用的选项包括-c, -d, -m, -g, -G, -s, -u以及-o等，这些选项的意义与useradd命令中的选项一样，可以为用户指定新的资源值。另外，有些系统可以使用如下选项：</p>
+<p>-l 新用户名</p>
+<pre><code>#usermod -l urchin(新用户名称)  test(原来用户名称) 
+</code></pre><p>这个选项指定一个新的账号，即将原来的用户名改为新的用户名。</p>
+<pre><code># usermod -s /bin/ksh -d /home/z –g developer sam
+</code></pre><p>此命令将用户sam的登录Shell修改为ksh，主目录改为/home/z，用户组改为developer。</p>
+<h2 id="用户口令的管理"><a href="#用户口令的管理" class="headerlink" title="用户口令的管理"></a>用户口令的管理</h2><p>用户管理的一项重要内容是用户口令的管理。用户账号刚创建时没有口令，但是被系统锁定，无法使用，必须为其指定口令后才可以使用，即使是指定空口令。<br>指定和修改用户口令的Shell命令是passwd。超级用户可以为自己和其他用户指定口令，普通用户只能用它修改自己的口令。</p>
+<pre><code>passwd 选项 用户名
+</code></pre><p>-l 锁定口令，即禁用账号。<br>-u 口令解锁。<br>-d 使账号无口令。<br>-f 强迫用户下次登录时修改口令。<br>如果默认用户名，则修改当前用户的口令。</p>
+<p>假设当前用户是sam，则下面的命令修改该用户自己的口令：</p>
+<pre><code>$ passwd
+Old password:******
+New password:*******
+Re-enter new password:*******
+</code></pre><p>如果是超级用户，可以用下列形式指定任何用户的口令：</p>
+<pre><code># passwd sam
+New password:*******
+Re-enter new password:*******
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-10-31-linux_user_manage/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-闭包和内存/" >为什么闭包会引起内存泄露</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>JavaScript使用一种称为垃圾收集的技术来管理分配给它的内存。这与C这样的底层语言不同，C要求使用多少借多少，用完再释放回去。其他语言，比如 Objective-C，实现了一个引用计数系统来辅助完成这些工作，我们能够了解到有多少个程序块使用了一个特定的内存段，因而可以在不需要时清除这些内存段。</p>
+<p>JavaScript是一种高级语言，它一般是通过后台来维护这种计数系统。</p>
+<p>当JavaScript代码生成一个新的内存驻留项时（比如一个对象或函数），系统就会为这个项留出一块内存空间。因为这个对象可能会被传递给很多函数，并且会被指定给很多变量，所以很多代码都会指向这个对象的内存空间。JavaScript会跟踪这些指针，当最后一个指针废弃不用时，这个对象占用的内存会被释放。</p>
+<pre><code>A ---------&gt; B ------------&gt; C
+</code></pre><p>例如对象A有一个属性指向B，而B也有一个属性指向C。即使当前作用域中只有对象A有效，但由于指针的关系所有3个对象都必须保留在内存中。当离开A的当前作用域时（例如代码执行到声明A的函数的末尾处），垃圾收集器就可以释放A占用的内存。此时，由于没有什么指向B，因此B可以释放，最后，C也可以释放。</p>
+<p>然而，当对象间的引用关系变得复杂时，处理起来也会更加困难。</p>
+<pre><code>A ---------&gt; B ------------&gt; C
+             ^、_ _ _ _ _ _ _|
+</code></pre><p>这里，我们又为对象C添加了一个引用B的属性。在这种情况下，当A释放时，仍然有来自C的指针指向B。这种引用循环需要由JavaScript进行特殊的处理，但必须考虑到整个循环与作用域中的其他变量已经处于隔离状态。</p>
+<p>从这里我们可以看到，闭包问题的本质是作用域的问题，我平时写的闭包大多出现在：</p>
+<h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>闭包可能会导致在不经意间创建循环引用。因为函数是必须保存在内存中的对象，所以位于函数执行上下文中的所有变量也需要保存在内存中：</p>
+<pre><code>function outerFn() {
+    var outerVar = {};
+    function innerFn() {
+        console.log(outerVar);
+    }
+    outerVar.fn = innerFn;
+    return innerFn;
+};
+</code></pre><p>这里创建了一个名为 outerVar 的对象，该对象在内部函数innerFn()中被引用。然后，为 outerVar 创建了一个指向 innerFn()的属性，之后返回了innerFn()。这样就在 innerFn() 上创建了一个引用outerVar的闭包，而outerVar又引用了innerFn()。</p>
+<p>这会导致变量在内存中存在的时间比想象得长，而且又不容易被发现。这还不算完，还有可能会出现比这种情况更隐蔽的引用循环：</p>
+<pre><code>function outerFn() {
+    var outerVar = {};
+    function innerFn() {
+        console.log(&apos;hello&apos;);
+    }
+    outerVar.fn = innerFn;
+    return innerFn;
+};
+</code></pre><p>这里我们修改了innerFn()，不再招惹 outerVar。但是，这样做仍然没有断开循环引用。<br>即使innerFn()不再勾引 outerVar，outerVar 也仍然位于innerFn()的封闭环境中。由于闭包的原因，位于 outerFn()中的所有变量都隐含地被 innerFn()所引用。我们再想一想，在 java 中的内部类不也是类似当前情况吗，内部类能够‘看’外部的 this。此时此刻，正如彼时彼刻，竟如此相像。因此，闭包会使意外地创建这些引用循环变得易如反掌。</p>
+<h3 id="DOM与JavaScript的循环"><a href="#DOM与JavaScript的循环" class="headerlink" title="DOM与JavaScript的循环"></a>DOM与JavaScript的循环</h3><p>虽然我很早就知道闭包，也在调试内存问题时在 chrome F12 里的 profile 是里看到 <code>closure reference</code>,但是并不清除这个问题的根源。因为上述情况通常不是什么问题，JavaScript能够检测到这些情况并在它们孤立时将其清除。</p>
+<p>最近看到关于这个问题的解释：在旧版本IE中存在一种难以处理的循环引用问题。</p>
+<blockquote>
+<p>当一个循环中同时包含DOM元素和常规JavaScript对象时，IE无法释放任何一个对象——因为这两类对象是由不同的内存管理程序负责管理的。</p>
+</blockquote>
+<p>除非关闭浏览器，否则这种循环在IE中永远得不到释放。为此，随着时间的推移，这可能会导致大量内存被无效地占用。</p>
+<p>导致这种循环的一个常见原因是简单的事件处理:</p>
+<pre><code>$(document).ready(function() {
+    var button = document.getElementById(&apos;button-1&apos;);
+        button.onclick = function() {
+            console.log(&apos;hello&apos;);
+            return false;
+        };
+});
+</code></pre><p>当指定单击事件处理程序时，就创建了一个在其封闭的环境中包含button变量的闭包。而且，现在的button也包含一个指向闭包（onclick属性自身）的引用。这样，就导致了在IE中即使离开当前页面也不会释放这个循环。<br>为了释放内存，就需要断开循环引用，例如关闭窗口,删除onclick属性。另外，也可以像下面这样重写代码来</p>
+<p>避免这种闭包：</p>
+<pre><code>function hello() {
+    console.log(&apos;hello&apos;);
+    return false;
+}
+
+$(document).ready(function() {
+    var button = document.getElementById(&apos;button-1&apos;);
+    button.onclick = hello;
+});
+</code></pre><p>因为hello()函数不再包含  button，引用就成了单向的（从button到hello）,不存的循环，所以就不会造成内存泄漏了。</p>
+<p>用jQuery化解引用循环</p>
+<p>下面，我们通过常规的jQuery结构来编写同样的代码：</p>
+<pre><code>$(document).ready(function() {
+    var $button = $(&apos;#button-1&apos;);
+        $button.click(function(event) {
+            event.preventDefault();
+            console.log(&apos;hello&apos;);
+        });
+});
+</code></pre><p>即使此时仍然会创建一个闭包，并且也会导致同前面一样的循环，但这里的代码却不会使 <code>IE</code> 发生内存泄漏。由于jQuery考虑到了内存泄漏的潜在危害，所以它会手动释放自己指定的所有事件处理程序。只要坚持使用jQuery的事件绑定方法，就无需为这种特定的常见原因导致的内存泄<br>漏而担心。</p>
+<p>但是，这并不意味着我们完全脱离了险境。当对DOM元素进行其他操作时，仍然要处处留心。只要是将JavaScript对象指定给DOM元素，就可能在旧版本IE中导致内存泄漏。jQuery只是有助于减少发生这种情况的可能性。</p>
+<p>有鉴于此，jQuery为我们提供了另一个避免这种泄漏的工具。用.data()方法，将信息附加到DOM元素。由于这里的数据并非直接保存在扩展属性中（jQuery使用一个内部对象并通过它创建的ID来保存这里所说的数<br>据），因此永远也不会构成引用循环，从而有效回避了内存泄漏问题。</p>
+<p>下面附上 jQuery 源码的相关说法：</p>
+<pre><code>// We have to handle DOM nodes and JS objects differently        
+   because IE6-7
+
+// can&apos;t GC object references properly across the DOM-JS boundary
+
+// Only DOM nodes need the global jQuery cache; JS object data is
+
+// attached directly to the object so GC can occur automatically
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-10-31-闭包和内存/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -913,45 +1008,45 @@ var promise = $.get(&apos;/mydata&apos;);
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/library/">library<span>3</span></a></li>
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
 		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
-		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
-		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
 		
 			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
 		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
 		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
-		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
-		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
 		
 			<li><a href="/tags/tools/">tools<span>2</span></a></li>
 		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
 		
-			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
 		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
 		
 			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
 		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
 		
 			<li><a href="/tags/document/">document<span>1</span></a></li>
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+			<li><a href="/tags/build/">build<span>1</span></a></li>
 		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+			<li><a href="/tags/http/">http<span>2</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -967,23 +1062,23 @@ var promise = $.get(&apos;/mydata&apos;);
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
+        <a href="/2017/04/23/javascript/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/脚本的第一行/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/设计模式简介/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/前端新人入门/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/04/23/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
       </li>
     
   </ul>
