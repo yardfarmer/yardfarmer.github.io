@@ -107,7 +107,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/2014-07-19-正则捕获/" >正则,捕获</a></div>						
+			<div class="article-title"><a href="/2017/02/01/2014-08-07-改键/" >mac os 改键</a></div>						
 		</h3>
 	
 
@@ -116,43 +116,15 @@
   <div class="row">
 	
 	
-		<p>读jQuery源码，其中不可避免的要弄明白正则表达式，在此对非捕获组(non-capturing)进行了一些梳理。</p>
-<h3 id="关于捕获的一些主要用法"><a href="#关于捕获的一些主要用法" class="headerlink" title="关于捕获的一些主要用法"></a>关于捕获的一些主要用法</h3><ol>
-<li>(?:X)</li>
-<li>(?=X)</li>
-<li>(?\&lt;=X)</li>
-<li>(?!X)</li>
-<li>(?\&lt;!X)<h3 id="捕获"><a href="#捕获" class="headerlink" title="捕获"></a>捕获</h3>要书明白捕获，就要先从分组开始。重复单字符我们可以使用限定符，如果重复字符串，用什么呢？ 对！用小括号，小括号里包裹指定字表达式（子串），这就是分组。之后就可以限定这个子表示的重复次数了。<br>那么，什么是捕获呢？使用小括号指定一个子表达式后，匹配这个子表达式的文本（即匹配的内容）可以在表达式或者其他过程中接着用，怎么用呢？至少应该有个指针啥的引用它吧？ 对！默认情况下，每个分组（小括号）会自动<br>拥有一个组号,从左到右，以分组的左括号为标志，第一个出现的分组组号为1，后续递增。如果出现嵌套，<br>例如：<br>“aabcd”<br>采用正则<code>(a(b))(c)</code> match 结果入下：   </li>
-</ol>
-<table><br>  <tr><br>    <th>分组</th><br>    <th>捕获</th><br>  </tr><br>  <tr><br>    <td> $1(group1) </td><br>    <td> ab </td><br>  </tr><br>  <tr><br>    <td> $2(group2) </td><br>    <td> b </td><br>  </tr><br>  <tr><br>    <td> $3(group3) </td><br>    <td> c </td><br>  </tr><br></table>
-
-
-<p>继续涨姿势。</p>
-<p>一、(?:)非捕获组走起。<br>由下面一个例子引发对非捕获组的学习。</p>
-<p>有两个金额：6000￥ 和 1000$。<br>需求是得到金额和货币种类。<br>『废话少说，多用正则』：<br>(\d+)+([$￥])<br>输出结果为：<br><img src="%5Burl=https:/www.evernote.com/shard/s79/sh/4b10215c-80d9-4ff1-a543-ea2ad9f0576a/b8e4a1ea9702039f5542a0face50b7dc%5D%5Bimg%5Dhttps:/www.evernote.com/shard/s79/sh/4b10215c-80d9-4ff1-a543-ea2ad9f0576a/b8e4a1ea9702039f5542a0face50b7dc/deep/0/Untitled-RegExRX-3.png%5B/img%5D%5B/url%5D%5Burl=https:/www.evernote.com/shard/s79/sh/4b10215c-80d9-4ff1-a543-ea2ad9f0576a/b8e4a1ea9702039f5542a0face50b7dc%5DClick%20for%20large%20view%5B/url%5D%20-%20%5Bcolor=" alt=""></p>
-<p>OK,满足了要求。这里的正则分成了两个组，一个是(d+)，一个是(￥$)，前一个组($1)匹配金额，后一个组($2)匹配货币种类。</p>
-<p>现在，<em>需求变了</em>!! 我需要这个正则同时可以匹配浮点数小数点前面的整数。如10010.86￥，提炼出 10010 和 ￥。<br>那么正则如下：<br>    (\d+)(.?)(\d)([$￥])<br>这里用括号分了四组，所以要输出金额的整数部分和种类，要分别输了$1,$4了。如果输出部分和正则是分开的，我希望只修改正则而不去修改输出部分的代码，也就是还是用$1，$2作为输出。由此可以引出<em>非捕获组</em>(?:)。<br>把前面的正则修改为：<br>    (\d+)(?:.?)(?:\d+)([￥$])$<br>这样，还是用$1,$2做为输出，同样输出了 10010 和 ￥<br>这个正则的中间两个组用到的就是非捕获组（?:），它可以理解为只分组而不捕获。</p>
-<p>二、(?=)和(?\&lt;=) 前后查找<br>有的资料把它们叫做肯定式向前查找和肯定式向后查找；<br>有的资料也叫做肯定顺序环视和肯定逆序环视。</p>
-<p>1、直接看下面的例子：<br>    [0-9a-z]{2}(?=aa)<br>    var str = “12332aa438aaf”; </p>
-<p></p><p>Match List:</p><p></p>
-<table><br>    <tr><br>    <td>1</td><br>    <td>32</td><br>  </tr><br>  <tr><br>    <td>2</td><br>    <td>38</td><br>  </tr><br></table>
-
-<p>这个正则的意思是：匹配这么一个字符串，它要满足：是两位字符（数字，或字母），且后面紧跟着两个a。<br>分析一下：<br>32aa  这个子串满足这个条件，所以可以匹配到，又因为 (?=) 的部分是不捕获的，所以输出的只是 32，不包括aa。同理 38aa 也匹配这个正则，而输出仅是 38。</p>
-<p>再深入看一下:<br>当str第一次匹配成功输出 32 后，程序要继续向后查找是否还有匹配的其它子串。那么这时应该从 32aa 的后一位开始向后查找，还是从 32 的后一位呢？也就是从索引 5 开始还是从 7 开始呢？有人可能想到是从 32aa 的下一位开始往后找，因为 32aa 匹配了正则，所以下一位当然是它的后面也就是从 4 开始。但实际上是从 32 的后一位也就是第一个 a 开始往后找。原因还是 (?=) 是非捕获的。<br>查阅API文档是这么注释的：</p>
+		<p>最近着迷于vim,<code>Vim使用技巧</code>推荐重新映射大小写转换键</p>
 <blockquote>
-<p>(?=X) X, via zero-width positive lookahead</p>
+<p>在现代键盘上，<code>&lt;Esc&gt;</code>可以省很多力气，尤其是Vim对<code>&lt;Esc&gt;</code>键用的这么频繁。不过最好好把大小写转换键映射为<code>&lt;Ctrl&gt;</code>键。<code>&lt;C-[&gt;</code> 的功能和 <esc> 键相同，如果 <code>&lt;Ctrl&gt;</code> 键触手可及，那么这一组合键用起来也会很容易。</esc></p>
 </blockquote>
-<p>可见zero-width（零宽度）说的就是这个意思。</p>
-<p>现在，把字符串写的更有意思些：str = “aaaaaaaa”;<br>看一下它的输出： aa aa aa<br>分析一下：<br>这个字符串一共有8个a。<br>第一次匹配比较容易找到，那就是前四个：aaaa ,当然第三和第四个 a 是不捕获的，所以输出是第一和第二个a；<br>接着继续查找，这时是从第三个a开始，三到六，这4个a区配到了，所以输出第三和第四个a；<br>接着继续查找，这时是从第五个a开始，五到八，这4个a区配到了，所以输出第五和第六个a；<br>接着往后查找，这时是从第七个a开始，显然，第七和第八个a,不满足正则的匹配条件，查找结束。<br>我们再延伸一下，刚说的情况的是(?=)放在捕获的字符串后面，它如果放在前面又是什么结果呢？<br>例子换成：</p>
-<pre><code>(?=hopeful)hope  
-</code></pre><p>它的输出是hope。<br>正则的意思是：是否能匹配hopeful,如果能，则捕获hopeful中的hope。当然继续向后查找匹配的子串，是从f开始。<br>比较一下可以看出，(?=hopeful)hope 和 hope(?=ful),两个正则的效果其实是一样的。</p>
-<p>2、下面说一下 (?\&lt;=)<br>把正则改一下，<br>    (?&lt;=aa)[0-9a-z]{2};<br>字符串还是str = “12332aa438aaf”;<br>它的输出：43。<br>这个正则的意思是：匹配这么一个字符串，它要满足：是两位字符（数字或字母），且前面紧跟的是两个字母 a。</p>
-<p>同样，深入一下，把str换成str = “aaaaaaaa”;看一下输出是什么，同样也是：aa aa aa<br>分析一下：<br>第一次匹配不用说，是前四个a，输出的是第三和第四个a;<br>继续向后查找，从第五个a开始，程序发现，第五个和第六个a满足，因为是两位字符，且满足前面紧跟着两个a(第三和第四个a)。所以匹配成功，输出第五个和第六个a;<br>继续向后查找，从第七个a开始，程序发现，第七个和第八个a满足，因为是两位字符，且满足前面紧跟着两个a(第五和第六个a)。所以匹配成功，输出第七和第八个a。查找结束。</p>
-<p>三、(?!)和(?\&lt;!) 逆袭!<br>从外观上看，和前面一组很相似，区别就是把 ‘=’ 换成了 ‘!’<br>那么意义刚好也是相反的。<br><code>[0-9a-z]{2}(?!aa)</code>意思是：匹配两个字符，且后面紧跟着的不是aa<br><code>(?&lt;!aa)[0-9a-z]{2}</code>意思是：匹配两个字符，且前面紧跟着的不是aa<br>用法和前面讲的差不多，这里不再详述。</p>
+<p>我用的改建软件是 karabiner 和 seil。</p>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/2014-07-19-正则捕获/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2014-08-07-改键/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -464,7 +436,7 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">src</span><span class="selector-class">.pipe</span>(<span class="selector-tag">dst</span>)</div><div class="line"><span class="selector-class">.pipe</span>(<span class="selector-tag">dst</span>)</div></pre></td></tr></table></figure>
 <p>将会返回dst因此你可以链式调用多个流:</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-class">.pipe</span>(<span class="selector-tag">b</span>)<span class="selector-class">.pipe</span>(<span class="selector-tag">c</span>)<span class="selector-class">.pipe</span>(<span class="selector-tag">d</span>)</div></pre></td></tr></table></figure>
-<p>上面的代码也可以等价为：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-class">.pipe</span>(<span class="selector-tag">b</span>);</div><div class="line"><span class="selector-tag">b</span><span class="selector-class">.pipe</span>(<span class="selector-tag">c</span>);</div><div class="line"><span class="selector-tag">c</span><span class="selector-class">.pipe</span>(<span class="selector-tag">d</span>);</div></pre></td></tr></table></figure></p>
+<p>上面的代码也可以等价为：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a.pipe(b)<span class="comment">;</span></div><div class="line">b.pipe(c)<span class="comment">;</span></div><div class="line">c.pipe(d)<span class="comment">;</span></div></pre></td></tr></table></figure></p>
 <p>类似 unix 中编写流代码很类似：<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a | <span class="type">b</span> | <span class="type">c</span> | <span class="type">d</span></div></pre></td></tr></table></figure></p>
 <p>###readable流</p>
 <p><code>Readable</code> 流可以产出数据，你可以将这些数据传送到一个 <code>writable</code>，<code>transform</code> 或者 <code>duplex</code> 流中，只需要调用<code>pipe()</code>方法:</p>
@@ -607,7 +579,7 @@ function b64_to_utf8(str) {
 <p>加入设置一个元素 width: 100px， 是设置元素跨越了 200 个 css 元素。 200个 css 像素相当于多少个物理像素取决于屏幕特性和用户的缩放行为。放大的越大，一个 css 像素覆盖的物理像素的就越多。</p>
 <p>##2. 页面缩放<br>假设一个桌面端浏览器的宽度是 1024px， 这意味着桌面上有 1024个 css 像素。</p>
 <p>##3. 设备像素比<br>javascript 中有一个属性 <code>window.devicePixelRatio</code>, css 中也有 <code>device-pixel-ratio</code> 属性，称为设备像素比(Device Pixel Ratio, DPR),<br>设备像素和理想视口的比。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meat</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meat <span class="built_in">name</span>=<span class="string">"viewport"</span> content=<span class="string">"width=device-width"</span>&gt;</div></pre></td></tr></table></figure>
 
 	
 	</div>
@@ -712,45 +684,45 @@ function b64_to_utf8(str) {
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+			<li><a href="/tags/test/">test<span>2</span></a></li>
 		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
-		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
-		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
-		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
-		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
-		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
-		
-			<li><a href="/tags/framework/">framework<span>1</span></a></li>
-		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
-		
-			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
-		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
 		
 			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
 		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
+			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+		
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
+		
+			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
+		
+			<li><a href="/tags/library/">library<span>3</span></a></li>
+		
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
+		
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/think/">think<span>1</span></a></li>
+		
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -766,7 +738,7 @@ function b64_to_utf8(str) {
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/02/01/2012-08-03-XMLHttpRequest发送put,delete请求/" ><i class="fa fa-file-o"></i>XMLHttpRequest发送put,delete请求</a>
+        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
       </li>
     
       <li>

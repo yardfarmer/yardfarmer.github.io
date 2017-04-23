@@ -398,7 +398,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/css编写规范/" ></a></div>						
+			<div class="article-title"><a href="/2017/02/01/2013-12-29-利用git快速部署远程服务器/" >使用git部署远程服务器</a></div>						
 		</h3>
 	
 
@@ -407,57 +407,27 @@
   <div class="row">
 	
 	
-		<p>#css编写规范</p>
-<h2 id="css-书写顺序"><a href="#css-书写顺序" class="headerlink" title="css 书写顺序"></a>css 书写顺序</h2><p>尽量按照特定顺序编写规则，这将确保你充分发挥 CSS 中第一个 C 的意义：<strong>cascade</strong>，层叠。</p>
-<p>一份规划良好的 CSS 应当按照如下排列：</p>
-<ol>
-<li>Reset 万物之根源</li>
-<li>元素类型 没有 class 的 h1、ul 等</li>
-<li>对象以及抽象内容 最一般、最基础的设计模式</li>
-<li>子元素 由对象延伸出来的所有拓展及其子元素</li>
-<li>修补 针对异常状态</li>
-</ol>
-<blockquote>
-<p>显示 &gt; 盒模型 &gt; 文本</p>
-</blockquote>
-<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/*========================</div><div class="line">/*显示*/</div><div class="line">display |<span class="type">| visibility</span></div><div class="line">list-style : list-style-type |<span class="type">| list</span>-style-position |<span class="type">| list</span>-style-image</div><div class="line">position</div><div class="line"><span class="built_in">top</span> |<span class="type">| right</span> |<span class="type">| bottom</span> |<span class="type">| left</span></div><div class="line">z-index</div><div class="line"><span class="built_in">clear</span></div><div class="line">float</div><div class="line">/*盒模型*/</div><div class="line">width</div><div class="line">max-width |<span class="type">| min</span>-width</div><div class="line">height</div><div class="line">max-height |<span class="type">| min</span>-height</div><div class="line">overflow |<span class="type">| clip</span></div><div class="line">margin : margin-<span class="built_in">top</span> |<span class="type">| margin</span>-<span class="built_in">right</span> |<span class="type">| margin</span>-<span class="built_in">bottom</span> |<span class="type">| margin</span>-<span class="built_in">left</span></div><div class="line">padding : padding-<span class="built_in">top</span> |<span class="type">| padding</span>-<span class="built_in">right</span> |<span class="type">| padding</span>-<span class="built_in">bottom</span> |<span class="type">| padding</span>-<span class="built_in">left</span></div><div class="line">outline : outline-color |<span class="type">| outline</span>-style |<span class="type">| outline</span>-width</div><div class="line">border</div><div class="line">background : background-color |<span class="type">| background</span>-image |<span class="type">| background</span>-<span class="built_in">repeat</span> |<span class="type">| background</span>-attachment |<span class="type">| background</span>-position</div><div class="line">/*文本*/</div><div class="line">color</div><div class="line">font : font-style |<span class="type">| font</span>-variant |<span class="type">| font</span>-weight |<span class="type">| font</span>-size |<span class="type">|    line</span>-height |<span class="type">| font</span>-family</div><div class="line">font : caption | <span class="type">icon</span> | <span class="type">menu</span> | <span class="type">message</span>-box | <span class="type">small</span>-caption |    <span class="type">status</span>-bar</div><div class="line">text-overflow</div><div class="line">text-align</div><div class="line">text-indent</div><div class="line">line-height</div><div class="line">white-space</div><div class="line">vertical-align</div><div class="line">cursor</div><div class="line">========================*/</div></pre></td></tr></table></figure>
-	
-	</div>
-  <a type="button" href="/2017/02/01/css编写规范/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/es6_generator/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#es6 generator</p>
-<blockquote>
-<p>当调用 generator 函数的时候， 该函数并不会执行，而是返回一个遍历器(可以理解成暂停执行)</p>
-</blockquote>
-<p>以后， 每次调用这个遍历器的 next 方法，就从函数体的<strong>头部或者上一次停下来的地方</strong>开始执行（恢复).</p>
-<p>generator 函数使用 iterator 接口，每次调用 next 方法的返回值就是一个标准的 iterator 返回值: <code>{value: xxx, done: boolean}</code></p>
-<p>##典型应用</p>
-<p>###1.ajax<br><figure class="highlight qml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">var</span> result = <span class="keyword">yield</span> request(<span class="string">"http://some.url"</span>);</div><div class="line">  <span class="built_in">var</span> resp = <span class="built_in">JSON</span>.parse(result);</div><div class="line">    <span class="built_in">console</span>.log(resp.value);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">  makeAjaxCall(<span class="built_in">url</span>, <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</div><div class="line">    it.next(response); <span class="comment">// 把值带回去</span></div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">var</span> it = main();</div><div class="line">it.next();</div></pre></td></tr></table></figure></p>
-<p>注意，makeAjaxCall函数中的next方法，必须加上response参数，因为yield语句构成的表达式，本身是没有值的，总是等于undefined。</p>
-<p>###2.流程控制</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">step1(<span class="name">function</span> (<span class="name">value1</span>) &#123;</div><div class="line">  step2(<span class="name">value1</span>, function(<span class="name">value2</span>) &#123;</div><div class="line">    step3(<span class="name">value2</span>, function(<span class="name">value3</span>) &#123;</div><div class="line">      step4(<span class="name">value3</span>, function(<span class="name">value4</span>) &#123;</div><div class="line">        // Do something with value4</div><div class="line">      &#125;)<span class="comment">;</span></div><div class="line">    &#125;)<span class="comment">;</span></div><div class="line">  &#125;)<span class="comment">;</span></div><div class="line">&#125;)<span class="comment">;</span></div></pre></td></tr></table></figure>
-<p>使用 promise</p>
-<figure class="highlight scilab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Q.fcall(step1)</div><div class="line">.<span class="keyword">then</span>(step2)</div><div class="line">.<span class="keyword">then</span>(step3)</div><div class="line">.<span class="keyword">then</span>(step4)</div><div class="line">.<span class="keyword">then</span>(<span class="function"><span class="keyword">function</span> <span class="params">(value4)</span> &#123;</span></div><div class="line">    <span class="comment">// Do something with value4</span></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span> <span class="params">(error)</span> &#123;</span></div><div class="line">    <span class="comment">// Handle any error from step1 through step4</span></div><div class="line">&#125;)</div><div class="line">.done();</div></pre></td></tr></table></figure>
+		<p>本地开发完成后，通常会在服务器上部署，坦白的说我见过并且用过 <code>vnc + winscp + hg pull/update</code> 方式, 可悲的是需要在四台服务器上全部执行一遍.</p>
+<p>后来采用 ssh + pull, 但并是仍然比较繁琐. 上面的问题可以通过<code>ssh</code>直接远程执行命令来解决，但是需要写一些<code>shell</code>脚本…</p>
+<p>在学习 git 时候,发现了 git 具有 ‘hook’机制, 使用版本版本管理工具的<code>hook</code>!  其实其他版本工具,如 <code>svn</code>、<code>git</code>、<code>hg</code>都是有相应的<code>hook</code>的， 原理大同小异。下面是Git详细的思路。</p>
+<h2 id="Git-Hook"><a href="#Git-Hook" class="headerlink" title="Git Hook"></a>Git Hook</h2><p>和其他版本控制系统一样，在某些关键节点，Git 可以调用自定义脚本。分为两组挂钩：客户端和服务器端。客户端挂钩用于客户端的操作，如提交和合并。服务器端挂钩用于 Git 服务器端的操作，如接收被推送的提交。可以随意地使用这些挂钩。</p>
+<h2 id="安装一个挂钩"><a href="#安装一个挂钩" class="headerlink" title="安装一个挂钩"></a>安装一个挂钩</h2><p>挂钩都被存储在 Git 目录下的 hooks 子目录中，即大部分项目中的 .git/hooks。 Git 默认会放置一些脚本样本在这个目录中，除了可以作为挂钩使用，这些样本本身是可以独立使用的。所有的样本都是 shell 脚本，不过，任何正确命名的可执行脚本都可以正常使用 — 可以用Ruby或Python，或其他。这些样本名都是以 .sample 结尾，因此，你必须重新命名。</p>
+<p>把一个正确命名且可执行的文件放入 Git 目录下的hooks子目录中，可以激活该挂钩脚本，因此，之后他一直会被 Git 调用。随后会讲解主要的挂钩脚本。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.git/hooks \</div><div class="line">			├──	<span class="keyword">update</span> # 更新时执行</div><div class="line">			├──	commit-msg # 提交</div><div class="line">			├──	applypatch-msg.<span class="keyword">sample</span> # 带有<span class="keyword">sample</span>缀,不执行</div><div class="line">			├──	<span class="keyword">post</span>-<span class="keyword">update</span>.<span class="keyword">sample</span></div><div class="line">		  ...</div></pre></td></tr></table></figure>
+<h2 id="服务器端操作"><a href="#服务器端操作" class="headerlink" title="服务器端操作"></a>服务器端操作</h2><p>首先创建一个裸库(empty Git repository)，为什么是裸库？因为这个库不是真正用来修改的，我们也不允许在服务器上修改代码，我们只是把它当作一个代码中转的地方</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> gitroot</div><div class="line"><span class="built_in">mkdir</span> projectname</div><div class="line"><span class="built_in">cd</span> projectname</div><div class="line">git init --bare</div></pre></td></tr></table></figure>
+<p>可以看到它的目录结构与普通版本库存在差异：把原本在 .git 文件夹的内容移到了根目录，去掉了 .git 文件夹。</p>
+<p>添加我们的 <code>hook</code></p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /hooks</div><div class="line">touch <span class="keyword">post</span>-receive</div></pre></td></tr></table></figure>
+<p>编辑<code>post-receive</code>的内容为下面的，其中<code>sites/projectname</code>，是我们存放代码地方</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">env -i git archive <span class="keyword">master</span> <span class="title">| tar</span> -x -C /sites/projectname </div><div class="line">echo <span class="string">"远程更新完毕"</span></div></pre></td></tr></table></figure>
+<h2 id="本地git的操作"><a href="#本地git的操作" class="headerlink" title="本地git的操作"></a>本地git的操作</h2><p>本地我们只需要添加一个远程库，在需要部署的时候 <code>push</code> 到远程库就行了,下面我们添加了一个名为<code>publish</code>的远程库</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git remote add publish username@xx<span class="selector-class">.xx</span><span class="selector-class">.xx</span><span class="selector-class">.xx</span>:/home/gitroot/projectname</div><div class="line">git push publish master</div></pre></td></tr></table></figure>
+<h2 id="可以强化的地方"><a href="#可以强化的地方" class="headerlink" title="可以强化的地方"></a>可以强化的地方</h2><p>还可以添加静态资源版本更新,服务器重启,代码编译等等</p>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/es6_generator/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2013-12-29-利用git快速部署远程服务器/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -542,7 +512,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/closest与 parents 的区别/" ></a></div>						
+			<div class="article-title"><a href="/2017/02/01/es6_generator/" ></a></div>						
 		</h3>
 	
 
@@ -551,34 +521,57 @@
   <div class="row">
 	
 	
-		<p>#closest()与parents()的区别</p>
-<table>
-<thead>
-<tr>
-<th>.closest()</th>
-<th>.parents()</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>开始于当前元素</td>
-<td>开始于父元素</td>
-</tr>
-<tr>
-<td>在 DOM 树中向上遍历，直到找到了与提供的选择器相匹配的元素</td>
-<td>向上遍历DOM树到文档的根元素，每个祖先元素加入到临时集合，如果提供一个选择器，则会使用该选择器在集合中进行过滤</td>
-<td></td>
-</tr>
-<tr>
-<td>返回包含零个或一个元素的jQuery对象</td>
-<td>返回包含零个，一个或多个元素的jQuery对象</td>
-</tr>
-</tbody>
-</table>
+		<p>#es6 generator</p>
+<blockquote>
+<p>当调用 generator 函数的时候， 该函数并不会执行，而是返回一个遍历器(可以理解成暂停执行)</p>
+</blockquote>
+<p>以后， 每次调用这个遍历器的 next 方法，就从函数体的<strong>头部或者上一次停下来的地方</strong>开始执行（恢复).</p>
+<p>generator 函数使用 iterator 接口，每次调用 next 方法的返回值就是一个标准的 iterator 返回值: <code>{value: xxx, done: boolean}</code></p>
+<p>##典型应用</p>
+<p>###1.ajax<br><figure class="highlight qml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">var</span> result = <span class="keyword">yield</span> request(<span class="string">"http://some.url"</span>);</div><div class="line">  <span class="built_in">var</span> resp = <span class="built_in">JSON</span>.parse(result);</div><div class="line">    <span class="built_in">console</span>.log(resp.value);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">  makeAjaxCall(<span class="built_in">url</span>, <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</div><div class="line">    it.next(response); <span class="comment">// 把值带回去</span></div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">var</span> it = main();</div><div class="line">it.next();</div></pre></td></tr></table></figure></p>
+<p>注意，makeAjaxCall函数中的next方法，必须加上response参数，因为yield语句构成的表达式，本身是没有值的，总是等于undefined。</p>
+<p>###2.流程控制</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">step1(<span class="name">function</span> (<span class="name">value1</span>) &#123;</div><div class="line">  step2(<span class="name">value1</span>, function(<span class="name">value2</span>) &#123;</div><div class="line">    step3(<span class="name">value2</span>, function(<span class="name">value3</span>) &#123;</div><div class="line">      step4(<span class="name">value3</span>, function(<span class="name">value4</span>) &#123;</div><div class="line">        // Do something with value4</div><div class="line">      &#125;)<span class="comment">;</span></div><div class="line">    &#125;)<span class="comment">;</span></div><div class="line">  &#125;)<span class="comment">;</span></div><div class="line">&#125;)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>使用 promise</p>
+<figure class="highlight scilab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Q.fcall(step1)</div><div class="line">.<span class="keyword">then</span>(step2)</div><div class="line">.<span class="keyword">then</span>(step3)</div><div class="line">.<span class="keyword">then</span>(step4)</div><div class="line">.<span class="keyword">then</span>(<span class="function"><span class="keyword">function</span> <span class="params">(value4)</span> &#123;</span></div><div class="line">    <span class="comment">// Do something with value4</span></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span> <span class="params">(error)</span> &#123;</span></div><div class="line">    <span class="comment">// Handle any error from step1 through step4</span></div><div class="line">&#125;)</div><div class="line">.done();</div></pre></td></tr></table></figure>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/closest与 parents 的区别/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/es6_generator/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/css编写规范/" ></a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>#css编写规范</p>
+<h2 id="css-书写顺序"><a href="#css-书写顺序" class="headerlink" title="css 书写顺序"></a>css 书写顺序</h2><p>尽量按照特定顺序编写规则，这将确保你充分发挥 CSS 中第一个 C 的意义：<strong>cascade</strong>，层叠。</p>
+<p>一份规划良好的 CSS 应当按照如下排列：</p>
+<ol>
+<li>Reset 万物之根源</li>
+<li>元素类型 没有 class 的 h1、ul 等</li>
+<li>对象以及抽象内容 最一般、最基础的设计模式</li>
+<li>子元素 由对象延伸出来的所有拓展及其子元素</li>
+<li>修补 针对异常状态</li>
+</ol>
+<blockquote>
+<p>显示 &gt; 盒模型 &gt; 文本</p>
+</blockquote>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/*========================</div><div class="line">/*显示*/</div><div class="line">display |<span class="type">| visibility</span></div><div class="line">list-style : list-style-type |<span class="type">| list</span>-style-position |<span class="type">| list</span>-style-image</div><div class="line">position</div><div class="line"><span class="built_in">top</span> |<span class="type">| right</span> |<span class="type">| bottom</span> |<span class="type">| left</span></div><div class="line">z-index</div><div class="line"><span class="built_in">clear</span></div><div class="line">float</div><div class="line">/*盒模型*/</div><div class="line">width</div><div class="line">max-width |<span class="type">| min</span>-width</div><div class="line">height</div><div class="line">max-height |<span class="type">| min</span>-height</div><div class="line">overflow |<span class="type">| clip</span></div><div class="line">margin : margin-<span class="built_in">top</span> |<span class="type">| margin</span>-<span class="built_in">right</span> |<span class="type">| margin</span>-<span class="built_in">bottom</span> |<span class="type">| margin</span>-<span class="built_in">left</span></div><div class="line">padding : padding-<span class="built_in">top</span> |<span class="type">| padding</span>-<span class="built_in">right</span> |<span class="type">| padding</span>-<span class="built_in">bottom</span> |<span class="type">| padding</span>-<span class="built_in">left</span></div><div class="line">outline : outline-color |<span class="type">| outline</span>-style |<span class="type">| outline</span>-width</div><div class="line">border</div><div class="line">background : background-color |<span class="type">| background</span>-image |<span class="type">| background</span>-<span class="built_in">repeat</span> |<span class="type">| background</span>-attachment |<span class="type">| background</span>-position</div><div class="line">/*文本*/</div><div class="line">color</div><div class="line">font : font-style |<span class="type">| font</span>-variant |<span class="type">| font</span>-weight |<span class="type">| font</span>-size |<span class="type">|    line</span>-height |<span class="type">| font</span>-family</div><div class="line">font : caption | <span class="type">icon</span> | <span class="type">menu</span> | <span class="type">message</span>-box | <span class="type">small</span>-caption |    <span class="type">status</span>-bar</div><div class="line">text-overflow</div><div class="line">text-align</div><div class="line">text-indent</div><div class="line">line-height</div><div class="line">white-space</div><div class="line">vertical-align</div><div class="line">cursor</div><div class="line">========================*/</div></pre></td></tr></table></figure>
+	
+	</div>
+  <a type="button" href="/2017/02/01/css编写规范/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -658,45 +651,45 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
+			<li><a href="/tags/default/">default<span>1</span></a></li>
+		
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
 		
 			<li><a href="/tags/vim/">vim<span>3</span></a></li>
 		
 			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
 		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
 		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
-		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
-		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
-		
-			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
-		
-			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
-		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+			<li><a href="/tags/linux/">linux<span>6</span></a></li>
 		
 			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
 		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
-		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
 		
 			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
 		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
+			<li><a href="/tags/html5/">html5<span>1</span></a></li>
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
 		
-			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
+			<li><a href="/tags/library/">library<span>3</span></a></li>
 		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
 		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+			<li><a href="/tags/build/">build<span>2</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -712,7 +705,7 @@
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/02/01/2012-08-03-XMLHttpRequest发送put,delete请求/" ><i class="fa fa-file-o"></i>XMLHttpRequest发送put,delete请求</a>
+        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
       </li>
     
       <li>

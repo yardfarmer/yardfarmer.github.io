@@ -107,78 +107,6 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/what_is_true/" >实际情况是什么样的</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>不去亲身体验，是感受不到身临其境的感受的。 考虑了很久的事，不踏出门槛，可能永远也体验不到真实的情况。 晚上出门走走，发现往日喧嚣杂乱的街道变得明亮，清净而又不时弥漫芳香。因为时机，环境变了，人心里『第一感受』 并不总是那么准确。</p>
-
-	
-	</div>
-  <a type="button" href="/2017/02/01/what_is_true/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/2013-08-10-重布局和重绘/" >前端优化的小范围记录</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h2 id="HTML-方面"><a href="#HTML-方面" class="headerlink" title="HTML 方面"></a>HTML 方面</h2><h3 id="重布局和重绘"><a href="#重布局和重绘" class="headerlink" title="重布局和重绘"></a>重布局和重绘</h3><p>重布局和重绘，是 web 页面中最常见的重量级操作。当浏览器需要更新它的呈现模型时，就会发生重布局和重绘。只要加载页面就会发生一次重布局和重绘(浏览器在加载页面时必须至少绘制一次页面）, 但在动态页面的应用中，会发生很多次的重布局和重绘。</p>
-<ul>
-<li>当改变样式时候，而不该页面的几何布局，将发生重绘。隐藏一个元素，或者改变一个元素的背景色时，都将导致一次重绘</li>
-<li>当对页面的结构进行更新时，将导致重布局。从文档中移除元素，或者将元素添加到文档中、改变元素的大小或者改变元素的某些属性，都将导致页面重布局，重布局的代价比重绘大，它涉及到使用当前的 DOM、CSS 的定义，重新计算页面的几何结构。</li>
-</ul>
-<h3 id="优化措施"><a href="#优化措施" class="headerlink" title="优化措施"></a>优化措施</h3><p> 最少次数的更新 DOM</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">table</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'one append, one dom cost'</span>)</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">		$(<span class="string">"#main table"</span>).append(<span class="string">"&lt;tr&gt;&lt;td&gt;append to row: &lt;/td&gt;&lt;td&gt;"</span> + i + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'one append, one dom cost'</span>);</div><div class="line">	<span class="comment">// =&gt; one append, one dom cost: 4952.122ms </span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="keyword">var</span> tableRows = <span class="string">""</span>;</div><div class="line">	<span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ ) &#123;</div><div class="line">		tableRows += <span class="string">"&lt;tr&gt;&lt;td&gt;accumulate and append, now is at :&lt;/td&gt;&lt;td&gt;"</span>+ i +<span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">    $(<span class="string">"#main table"</span>).append(tableRows);</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="comment">// =&gt; accumulate and append cost: 117.491ms</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>采用一次想操作 dom 的方法比每次都操作 dom 快了 42 倍。<br><img src="./images/codesnip_20141229215927.png" alt="显著对比"></p>
-<h2 id="JS-方面"><a href="#JS-方面" class="headerlink" title="JS 方面"></a>JS 方面</h2><h3 id="缓存计算值"><a href="#缓存计算值" class="headerlink" title="缓存计算值"></a>缓存计算值</h3><h3 id="恰当的适用循环"><a href="#恰当的适用循环" class="headerlink" title="恰当的适用循环"></a>恰当的适用循环</h3><ul>
-<li>for (最快的)</li>
-<li>$.each(item)</li>
-<li><p>Array.forEach(item,index)</p>
-<p>  后两种采用回调的方式，涉及到准备执行上下文,进栈出栈的操作，并且由于所有的操作都在函数进行， 当引用了外部作用域的变量，循环体中的代码会反复的在作用链中向上查找。传统的 for 循环在包含它的上下文中执行，没有创建新的执行上下文的负担，同时循环外的变量依然保持在当前作用域中，省去了作用域的向上查找。 </p>
-</li>
-</ul>
-<h2 id="CSS-方面"><a href="#CSS-方面" class="headerlink" title="CSS 方面"></a>CSS 方面</h2><h3 id="高效的使用选择器"><a href="#高效的使用选择器" class="headerlink" title="高效的使用选择器"></a>高效的使用选择器</h3><ul>
-<li>解析引擎自右向左的计算每条规则</li>
-<li>尽可能的使用具体化的选择器，id 好于 tag</li>
-<li><p>避免不必要的冗余</p>
-<p>  无论哪种浏览器，适用 id 选择器或单个类选择器都是选择元素最快的方式。</p>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#id"</span>)</div><div class="line">$(<span class="string">".class"</span>)</div><div class="line"></div><div class="line"><span class="comment">//  以下为反模式</span></div><div class="line">$(<span class="string">"section div div div &gt; div #id"</span>)</div><div class="line">$(<span class="string">"section div div div &gt; div .class"</span>)</div><div class="line">$(<span class="string">"section div div div p:not('.class')"</span>)</div></pre></td></tr></table></figure>
-<p>适当的使用选择器上下文，如果上下文就是费了九牛加二虎的力气选出来的，不如不加</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".classname"</span>)</div><div class="line"></div><div class="line">$(<span class="string">".classname"</span>,<span class="string">"#id"</span>)  <span class="comment">// 添加一个简单明确的上下文比搜索整个 dom 快些</span></div></pre></td></tr></table></figure>
-<h2 id="HTTP-方向"><a href="#HTTP-方向" class="headerlink" title="HTTP 方向"></a>HTTP 方向</h2><ol>
-<li>cookie</li>
-<li>多域名</li>
-</ol>
-
-	
-	</div>
-  <a type="button" href="/2017/02/01/2013-08-10-重布局和重绘/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
 			<div class="article-title"><a href="/2017/02/01/2013-01-09.jquery工具方法/" >jQuery工具方法</a></div>						
 		</h3>
 	
@@ -376,7 +304,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/2013-08-21-karma下测试异步载入的js文件/" >karma下测试异步载入的js文件</a></div>						
+			<div class="article-title"><a href="/2017/02/01/2013-07-17-Git修改历史提交的信息/" >Git修改历史提交的信息</a></div>						
 		</h3>
 	
 
@@ -385,21 +313,14 @@
   <div class="row">
 	
 	
-		<p>默认情况下<a href="http://karma-runner.github.io/" target="_blank" rel="external">karma</a>是把所有的需要测试文件载入到测试页面，如果我们要对一个jsonp方法或者一个模块载入方法进行测试，它会给出一个找不到文件的提示，原因是karma的本地服务器会把需要测试的文件放在<code>/base/*</code>下，这个搞起来也很方便, 两步就搞定</p>
-<ul>
-<li>设置karma的conf文件里的<code>files</code></li>
-<li>对需要测试的方法进行mock，如果是本地请求路径，加上<code>/base/</code></li>
-</ul>
-<h2 id="需要测试的方法"><a href="#需要测试的方法" class="headerlink" title="需要测试的方法"></a>需要测试的方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span> (<span class="params">url, success, charset</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> node = doc.createElement(<span class="string">'script'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (charset) &#123;</div><div class="line">        node.charset = charset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line">    node.onreadystatechange = node.onload = node.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(node.readyState)) &#123;</div><div class="line">            node.onload = node.onerror = node.onreadystatechange = <span class="literal">null</span>;</div><div class="line"></div><div class="line">            success.call(node);</div><div class="line">            node = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    node.async = <span class="literal">true</span>;</div><div class="line">    node.src = url;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> head = documentElement.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>] || doc.documentElement;</div><div class="line">    head.insertBefore(node, head.firstChild);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="karma-conf-js"><a href="#karma-conf-js" class="headerlink" title="karma.conf.js"></a>karma.conf.js</h2><p>测试的代码写在tests/mainSpec.js里，我们要载入tests/loader/1.js，修改karma的配置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">... other config code ...</div><div class="line"></div><div class="line">        files: [</div><div class="line">                <span class="comment">//保证loader下的文件可以访问,但是又不会直接引用到页面上</span></div><div class="line">                &#123; <span class="attr">pattern</span>: <span class="string">'tests/loader/*.js'</span>, <span class="attr">included</span>: <span class="literal">false</span> &#125;, </div><div class="line">                <span class="string">'tests/lib/jquery-1.7.2.min.js'</span>,</div><div class="line">                <span class="string">'tests/lib/expect.js'</span>,</div><div class="line">                <span class="string">'tests/configData.js'</span>,</div><div class="line">                <span class="string">'src/loader.js'</span>,</div><div class="line">                <span class="string">'tests/**/*Spec.js'</span></div><div class="line">        ],</div><div class="line">... other config code ...</div></pre></td></tr></table></figure>
-<h2 id="mainSpec-js里的改造"><a href="#mainSpec-js里的改造" class="headerlink" title="mainSpec.js里的改造"></a>mainSpec.js里的改造</h2><p>需要在karma的环境中，改造一下loadScript方法，其它环境中可以忽略</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.__karma__) &#123; <span class="comment">//只处理在karma的环境中</span></div><div class="line">    <span class="keyword">var</span> __loadScript = loadScript;</div><div class="line">    loadScript= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">        <span class="comment">//只处理本地路径 </span></div><div class="line">        <span class="keyword">if</span> (args[<span class="number">0</span>].indexOf(<span class="string">'http://'</span>) == <span class="number">-1</span>) &#123;</div><div class="line">            args[<span class="number">0</span>] = <span class="string">'/base/tests/'</span> + args[<span class="number">0</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        __loadScript.apply(<span class="literal">null</span>, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后写一句最近非常大的一个感悟：没有测试代码的代码都是狗屎代码！</p>
+		<p>##起因<br>公司内部使用的gitlab分支上可以使用未注册的用户提交，但是在master分支上必须是注册用户，就算是提交分支成功了，再往master合并的时候也会出错，所以只能修改历史提交纪录</p>
+<p>##解决<br>本质上就是使用<code>git filter-branch</code>，<a href="https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html" target="_blank" rel="external">这里</a>是这个命令的详细文档，另外github上提供了一个脚本</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line"> </div><div class="line">git filter-branch --env-filter '</div><div class="line"> </div><div class="line">an="$GIT_AUTHOR_NAME"</div><div class="line">am="$GIT_AUTHOR_EMAIL"</div><div class="line">cn="$GIT_COMMITTER_NAME"</div><div class="line">cm="$GIT_COMMITTER_EMAIL"</div><div class="line"> </div><div class="line">if [ "$GIT_COMMITTER_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    cn="Your New Committer Name"</div><div class="line">    cm="Your New Committer Email"</div><div class="line">fi</div><div class="line">if [ "$GIT_AUTHOR_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    an="Your New Author Name"</div><div class="line">    am="Your New Author Email"</div><div class="line">fi</div><div class="line"> </div><div class="line">export GIT_AUTHOR_NAME="$an"</div><div class="line">export GIT_AUTHOR_EMAIL="$am"</div><div class="line">export GIT_COMMITTER_NAME="$cn"</div><div class="line">export GIT_COMMITTER_EMAIL="$cm"</div><div class="line">'</div></pre></td></tr></table></figure>
+<p><a href="https://help.github.com/articles/changing-author-info" target="_blank" rel="external">地址</a>，注意如果你把cm或者am换成中文的，一定要保证脚本文件是utf-8编码的，否则注释中容易出现乱码</p>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/2013-08-21-karma下测试异步载入的js文件/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2013-07-17-Git修改历史提交的信息/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -443,6 +364,88 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-08-10-重布局和重绘/" >前端优化的小范围记录</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="HTML-方面"><a href="#HTML-方面" class="headerlink" title="HTML 方面"></a>HTML 方面</h2><h3 id="重布局和重绘"><a href="#重布局和重绘" class="headerlink" title="重布局和重绘"></a>重布局和重绘</h3><p>重布局和重绘，是 web 页面中最常见的重量级操作。当浏览器需要更新它的呈现模型时，就会发生重布局和重绘。只要加载页面就会发生一次重布局和重绘(浏览器在加载页面时必须至少绘制一次页面）, 但在动态页面的应用中，会发生很多次的重布局和重绘。</p>
+<ul>
+<li>当改变样式时候，而不该页面的几何布局，将发生重绘。隐藏一个元素，或者改变一个元素的背景色时，都将导致一次重绘</li>
+<li>当对页面的结构进行更新时，将导致重布局。从文档中移除元素，或者将元素添加到文档中、改变元素的大小或者改变元素的某些属性，都将导致页面重布局，重布局的代价比重绘大，它涉及到使用当前的 DOM、CSS 的定义，重新计算页面的几何结构。</li>
+</ul>
+<h3 id="优化措施"><a href="#优化措施" class="headerlink" title="优化措施"></a>优化措施</h3><p> 最少次数的更新 DOM</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">table</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'one append, one dom cost'</span>)</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">		$(<span class="string">"#main table"</span>).append(<span class="string">"&lt;tr&gt;&lt;td&gt;append to row: &lt;/td&gt;&lt;td&gt;"</span> + i + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'one append, one dom cost'</span>);</div><div class="line">	<span class="comment">// =&gt; one append, one dom cost: 4952.122ms </span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="keyword">var</span> tableRows = <span class="string">""</span>;</div><div class="line">	<span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ ) &#123;</div><div class="line">		tableRows += <span class="string">"&lt;tr&gt;&lt;td&gt;accumulate and append, now is at :&lt;/td&gt;&lt;td&gt;"</span>+ i +<span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">    $(<span class="string">"#main table"</span>).append(tableRows);</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="comment">// =&gt; accumulate and append cost: 117.491ms</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>采用一次想操作 dom 的方法比每次都操作 dom 快了 42 倍。<br><img src="./images/codesnip_20141229215927.png" alt="显著对比"></p>
+<h2 id="JS-方面"><a href="#JS-方面" class="headerlink" title="JS 方面"></a>JS 方面</h2><h3 id="缓存计算值"><a href="#缓存计算值" class="headerlink" title="缓存计算值"></a>缓存计算值</h3><h3 id="恰当的适用循环"><a href="#恰当的适用循环" class="headerlink" title="恰当的适用循环"></a>恰当的适用循环</h3><ul>
+<li>for (最快的)</li>
+<li>$.each(item)</li>
+<li><p>Array.forEach(item,index)</p>
+<p>  后两种采用回调的方式，涉及到准备执行上下文,进栈出栈的操作，并且由于所有的操作都在函数进行， 当引用了外部作用域的变量，循环体中的代码会反复的在作用链中向上查找。传统的 for 循环在包含它的上下文中执行，没有创建新的执行上下文的负担，同时循环外的变量依然保持在当前作用域中，省去了作用域的向上查找。 </p>
+</li>
+</ul>
+<h2 id="CSS-方面"><a href="#CSS-方面" class="headerlink" title="CSS 方面"></a>CSS 方面</h2><h3 id="高效的使用选择器"><a href="#高效的使用选择器" class="headerlink" title="高效的使用选择器"></a>高效的使用选择器</h3><ul>
+<li>解析引擎自右向左的计算每条规则</li>
+<li>尽可能的使用具体化的选择器，id 好于 tag</li>
+<li><p>避免不必要的冗余</p>
+<p>  无论哪种浏览器，适用 id 选择器或单个类选择器都是选择元素最快的方式。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#id"</span>)</div><div class="line">$(<span class="string">".class"</span>)</div><div class="line"></div><div class="line"><span class="comment">//  以下为反模式</span></div><div class="line">$(<span class="string">"section div div div &gt; div #id"</span>)</div><div class="line">$(<span class="string">"section div div div &gt; div .class"</span>)</div><div class="line">$(<span class="string">"section div div div p:not('.class')"</span>)</div></pre></td></tr></table></figure>
+<p>适当的使用选择器上下文，如果上下文就是费了九牛加二虎的力气选出来的，不如不加</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".classname"</span>)</div><div class="line"></div><div class="line">$(<span class="string">".classname"</span>,<span class="string">"#id"</span>)  <span class="comment">// 添加一个简单明确的上下文比搜索整个 dom 快些</span></div></pre></td></tr></table></figure>
+<h2 id="HTTP-方向"><a href="#HTTP-方向" class="headerlink" title="HTTP 方向"></a>HTTP 方向</h2><ol>
+<li>cookie</li>
+<li>多域名</li>
+</ol>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-08-10-重布局和重绘/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-08-21-karma下测试异步载入的js文件/" >karma下测试异步载入的js文件</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>默认情况下<a href="http://karma-runner.github.io/" target="_blank" rel="external">karma</a>是把所有的需要测试文件载入到测试页面，如果我们要对一个jsonp方法或者一个模块载入方法进行测试，它会给出一个找不到文件的提示，原因是karma的本地服务器会把需要测试的文件放在<code>/base/*</code>下，这个搞起来也很方便, 两步就搞定</p>
+<ul>
+<li>设置karma的conf文件里的<code>files</code></li>
+<li>对需要测试的方法进行mock，如果是本地请求路径，加上<code>/base/</code></li>
+</ul>
+<h2 id="需要测试的方法"><a href="#需要测试的方法" class="headerlink" title="需要测试的方法"></a>需要测试的方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span> (<span class="params">url, success, charset</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> node = doc.createElement(<span class="string">'script'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (charset) &#123;</div><div class="line">        node.charset = charset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line">    node.onreadystatechange = node.onload = node.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(node.readyState)) &#123;</div><div class="line">            node.onload = node.onerror = node.onreadystatechange = <span class="literal">null</span>;</div><div class="line"></div><div class="line">            success.call(node);</div><div class="line">            node = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    node.async = <span class="literal">true</span>;</div><div class="line">    node.src = url;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> head = documentElement.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>] || doc.documentElement;</div><div class="line">    head.insertBefore(node, head.firstChild);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="karma-conf-js"><a href="#karma-conf-js" class="headerlink" title="karma.conf.js"></a>karma.conf.js</h2><p>测试的代码写在tests/mainSpec.js里，我们要载入tests/loader/1.js，修改karma的配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">... other config code ...</div><div class="line"></div><div class="line">        files: [</div><div class="line">                <span class="comment">//保证loader下的文件可以访问,但是又不会直接引用到页面上</span></div><div class="line">                &#123; <span class="attr">pattern</span>: <span class="string">'tests/loader/*.js'</span>, <span class="attr">included</span>: <span class="literal">false</span> &#125;, </div><div class="line">                <span class="string">'tests/lib/jquery-1.7.2.min.js'</span>,</div><div class="line">                <span class="string">'tests/lib/expect.js'</span>,</div><div class="line">                <span class="string">'tests/configData.js'</span>,</div><div class="line">                <span class="string">'src/loader.js'</span>,</div><div class="line">                <span class="string">'tests/**/*Spec.js'</span></div><div class="line">        ],</div><div class="line">... other config code ...</div></pre></td></tr></table></figure>
+<h2 id="mainSpec-js里的改造"><a href="#mainSpec-js里的改造" class="headerlink" title="mainSpec.js里的改造"></a>mainSpec.js里的改造</h2><p>需要在karma的环境中，改造一下loadScript方法，其它环境中可以忽略</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.__karma__) &#123; <span class="comment">//只处理在karma的环境中</span></div><div class="line">    <span class="keyword">var</span> __loadScript = loadScript;</div><div class="line">    loadScript= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">        <span class="comment">//只处理本地路径 </span></div><div class="line">        <span class="keyword">if</span> (args[<span class="number">0</span>].indexOf(<span class="string">'http://'</span>) == <span class="number">-1</span>) &#123;</div><div class="line">            args[<span class="number">0</span>] = <span class="string">'/base/tests/'</span> + args[<span class="number">0</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        __loadScript.apply(<span class="literal">null</span>, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后写一句最近非常大的一个感悟：没有测试代码的代码都是狗屎代码！</p>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-08-21-karma下测试异步载入的js文件/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
 			<div class="article-title"><a href="/2017/02/01/2013-10-06-利用github的api显示当前文章的历史记录/" >利用github的api显示当前文章的历史记录</a></div>						
 		</h3>
 	
@@ -467,6 +470,187 @@
 	
 	</div>
   <a type="button" href="/2017/02/01/2013-10-06-利用github的api显示当前文章的历史记录/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-08-20-javascript的几种使用多行字符串的方式/" >javascript的几种使用多行字符串的方式</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>JS里并没有标准的多行字符串的表示方法，但是在用模板的时候，为了保证模板的可阅读性，我们又不可避免的使用多行字符串，所以出现了各种搞法，这里以一段jade的模板作为示例，简单总结和对比一下。</p>
+<h2 id="字符串相加"><a href="#字符串相加" class="headerlink" title="字符串相加"></a>字符串相加</h2><p>这是最容易理解也很常用的一种形式，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">''</span>+</div><div class="line">    <span class="string">'!!! 5'</span> +</div><div class="line">    <span class="string">'html'</span> +</div><div class="line">    <span class="string">'  include header'</span> +</div><div class="line">    <span class="string">'  body'</span> +</div><div class="line">    <span class="string">'    //if IE 6'</span> +</div><div class="line">    <span class="string">'        .alert.alert-error'</span> +</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> +</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> +</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> +</div><div class="line">    <span class="string">'    include head'</span> +</div><div class="line">    <span class="string">'    .container'</span> +</div><div class="line">    <span class="string">'        .row-fluid'</span> +</div><div class="line">    <span class="string">'            .span8'</span> +</div><div class="line">    <span class="string">'                block main'</span> +</div><div class="line">    <span class="string">'                include pagerbar'</span> +</div><div class="line">    <span class="string">'            .span4'</span> +</div><div class="line">    <span class="string">'                include sidebar'</span> +</div><div class="line">    <span class="string">'    include footer'</span> +</div><div class="line">    <span class="string">'    include script'</span></div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>易理解，简单，可靠 </li>
+<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
+<li>大量的<code>+</code>号看上去满天星,大量的<code>&#39;</code>和<code>&quot;</code>, 丑陋</li>
+</ul>
+<h2 id="反斜线"><a href="#反斜线" class="headerlink" title="反斜线"></a>反斜线</h2><p>这个叫续行符, 这个并非一种很常见的方式, 但是一旦用上了，还是很容易上瘾，只需要加一个字符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">'\</span></div><div class="line">    !!! 5\</div><div class="line">    html\</div><div class="line">      include header\</div><div class="line">      body\</div><div class="line">        //if IE 6\</div><div class="line">            .alert.alert-error\</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器\</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载\</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载\</div><div class="line">        include head\</div><div class="line">        .container\</div><div class="line">            .row-fluid\</div><div class="line">                .span8\</div><div class="line">                    block main\</div><div class="line">                    include pagerbar\</div><div class="line">                .span4\</div><div class="line">                    include sidebar\</div><div class="line">        include footer\</div><div class="line">        include script'</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>简单,每一行只需要有多一个<code>\</code></li>
+<li>高效！在大部分的浏览器上，这种方式都是最快的，看这个<a href="http://jsperf.com/zp-string-concatenation/6" target="_blank" rel="external">效率对比</a></li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>致命缺陷，每一行的<code>\</code>必须不可以有空格，否则直接脚本错误 </li>
+<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
+<li>尽管绝大部分的js引擎都支持它，但是它并不是ECMAScript的一部分(我并没有研究规范，这句话是从<a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml?showone=Multiline_string_literals#Multiline_string_literals" target="_blank" rel="external">google的编码规范</a>翻译过来的)</li>
+</ul>
+<h2 id="字符串数组join"><a href="#字符串数组join" class="headerlink" title="字符串数组join"></a>字符串数组join</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = [</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>].join(<span class="string">'\n'</span>);</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>真正意义上的多行字符串 </li>
+<li>易理解，简单，可靠 </li>
+<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
+</ul>
+<h2 id="String-prototype-concat"><a href="#String-prototype-concat" class="headerlink" title="String.prototype.concat"></a>String.prototype.concat</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = <span class="built_in">String</span>.prototype.concat.call(</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>);</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>不常用，事实上字符串的concat方法远没有<code>+</code>号常见</li>
+<li>易理解，简单，可靠 </li>
+<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>并不是真正意义上的多行字符串 </li>
+<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
+</ul>
+<h2 id="heredoc"><a href="#heredoc" class="headerlink" title="heredoc"></a>heredoc</h2><p>这是一种很有技巧的解决办法, 利用了function的toString方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">heredoc</span>(<span class="params">fn</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> fn.toString().split(<span class="string">'\n'</span>).slice(<span class="number">1</span>,<span class="number">-1</span>).join(<span class="string">'\n'</span>) + <span class="string">'\n'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> tmpl = heredoc(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="comment">/*</span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line"> */&#125;);</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>模板字符串内不必写多余的任何字符，干净，简单 </li>
+<li>真正意义上的多行字符串, 有<code>\n</code>哦 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>不可以在单个字符串中添加js逻辑 </li>
+<li>容易被压缩器压缩掉，yui compressor可以通过<code>/*!</code>来避免被压缩掉，<a href="https://github.com/mishoo/UglifyJS2" target="_blank" rel="external">uglifyjs</a>和<a href="https://developers.google.com/closure/compiler/" target="_blank" rel="external">gcc</a>也可以通过选项配置不删除特定的注释，这个不是大问题</li>
+</ul>
+<h2 id="coffeescript"><a href="#coffeescript" class="headerlink" title="coffeescript"></a>coffeescript</h2><p>相当于换了一个语言，其实这种语言上缺少的功能，通过<a href="http://coffeescript.org/#strings" target="_blank" rel="external">coffeescript</a>这种以js为编译目标的语言来实现是一种非常棒的选择。    </p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var tmpl = <span class="string">""" </span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line">    """</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>易理解，简单，可靠 </li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>需要了解coffeescript </li>
+<li>整个文件都需要用coffeescript来写</li>
+</ul>
+<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><p>ES6的有一个新的特性，<a href="http://wiki.ecmascript.org/doku.php?id=harmony:quasis" target="_blank" rel="external">Template Strings</a>, 这是语言层面上第一次实现了多行字符串, 在<a href="https://www.google.com/intl/en/chrome/browser/canary.html" target="_blank" rel="external">chrome canary</a>里打开<code>Enable Experimental JavaScript</code>就可以使用这个特性，另外<a href="http://www.typescriptlang.org/" target="_blank" rel="external">typescript</a>也会支持这种方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = </div><div class="line">   <span class="string">`!!! 5</span></div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script`</div></pre></td></tr></table></figure>
+<p>优点:</p>
+<ul>
+<li>易理解，原生支持 </li>
+<li>真正的多行字符串</li>
+</ul>
+<p>缺点 :</p>
+<ul>
+<li>JS引擎支持有限 </li>
+</ul>
+<p>##总结</p>
+<p>看了这么些写法，如何选择？如果你用的是coffeescript，放心大胆的使用它支持的多行字符串写法；如果是在客户端，同时你解决了你的压缩器去掉注释的问题，推荐使用heredoc；如果你无法解决压缩器的问题，使用反斜线连接吧，每行只需要加一个字符。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-08-20-javascript的几种使用多行字符串的方式/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/neat的使用/" ></a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>#开发环境</p>
+<p>##一. neat</p>
+<p>###gulp 的使用</p>
+<ol>
+<li><p><strong>gulp </strong> 需要自己去安装, <code>npm install gulp</code>, 然后 gulpfile.js 文件放入根目录.</p>
+</li>
+<li><p>安装模板</p>
+<pre><code>sudo neat install @ali/generator-apm
+</code></pre></li>
+</ol>
+<p>###yo 的使用</p>
+<p>在 neat.fdm 的根目录 </p>
+<pre><code>sudo tnpm install generator-polymer
+</code></pre><p>##二. apm</p>
+<p>是1688开发的<strong>组件</strong>平台, 推荐 <strong>commonjs</strong> 语法来写组件</p>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/neat的使用/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-11-13-如何在karma里载入html文件进行测试/" >如何在karma里载入html文件进行测试</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>因为要测试代码在iframe里的运行情况，必须载入一个html文件，然后判断该文件里的js执行情况，在karma里无法直接载入一个html文件，同时由于路径的变更，测试同样跑不过，下面是详述原因和解决办法</p>
+<h2 id="需要测试的场景"><a href="#需要测试的场景" class="headerlink" title="需要测试的场景"></a>需要测试的场景</h2><p>当前工程的目录结构如下</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── Gruntfile<span class="selector-class">.js</span></div><div class="line">├── karma<span class="selector-class">.conf</span><span class="selector-class">.js</span></div><div class="line">├── package<span class="selector-class">.json</span></div><div class="line">├── src</div><div class="line">│   ├── source<span class="selector-class">.js</span></div><div class="line">├── test</div><div class="line">│   ├── iframes</div><div class="line">│   │   ├── hello<span class="selector-class">.html</span></div><div class="line">│   ├── lib</div><div class="line">│   ├── mainSpec<span class="selector-class">.js</span></div><div class="line">│   └── runner.html</div></pre></td></tr></table></figure>
+<p>在mainSpec.js里写入一个iframe到当前<code>document</code>下，路径为<code>iframes/hello.html</code>,<br><code>hello.html</code>里会引入<code>souce.js</code>，然后进行一些操作，<code>mainSpec.js</code><br>再对写入iframe进行检测，判断执行结果</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>有两个问题需要解决</p>
+<ul>
+<li>karma会把html文件当作js载入，也就是它会使用一个script标签把文件载入 </li>
+<li>karma对于html文件使用html-js预处理，页面中输出的是一个hello.html.js</li>
+</ul>
+<p>在karma.conf.js里配置一下files对象解决问题1, served默认是true,也可以不加的，详细可以<a href="http://karma-runner.github.io/0.10/config/files.html" target="_blank" rel="external">官方文档</a></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="string">files:</span> [</div><div class="line">             <span class="string">'test/lib/**/*.js'</span>,</div><div class="line">             <span class="string">'src/source.js'</span>,</div><div class="line">             <span class="string">'test/mainSpec.js'</span>,</div><div class="line">             &#123; <span class="string">pattern:</span> <span class="string">'test/iframes/*'</span>, <span class="string">included:</span> <span class="literal">false</span>, <span class="string">served:</span> <span class="literal">true</span> &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<p>在karma.conf.js里覆盖掉默认的html-js预处理</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="string">preprocessors:</span> &#123;</div><div class="line">    <span class="string">'test/iframes/*'</span>: [<span class="string">''</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="路径的问题"><a href="#路径的问题" class="headerlink" title="路径的问题"></a>路径的问题</h2><p>看样子是正常了，运行一下<code>karma run</code>，还是报错，我们写入的路径是<code>./iframes/hello.html</code>，<br>这是由于karma默认的执行路径是<code>http://localhost:9876/debug.html</code>，写入的路径会变成<code>http://localhost:9876/iframes/hello.html</code>，而karma会把当前目录放在<code>/base/</code>下(<a href="/2013/08/21/karma%E4%B8%8B%E6%B5%8B%E8%AF%95%E5%BC%82%E6%AD%A5%E8%BD%BD%E5%85%A5%E7%9A%84js%E6%96%87%E4%BB%B6.html">这里介绍过</a>)，很明显会404。</p>
+<p>可以很直接的把写入的路径变成<code>/base/test/iframes/hello.html</code>，但是这样，这个测试就严重依赖karma了，你可能注意到test目录下还有一个runner.html，这个文件我们可以手工运行，如果写成了前面的这个路径，手工运行就完全不行。为了保证runner.html的正常工作,我们必须使用相对路径。</p>
+<p>改造一下mainSpec.js，区别对待karma环境和普通环境中载入的iframe的路径</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPath</span>(<span class="params">path</span>) </span>&#123;</div><div class="line">       <span class="keyword">if</span> (<span class="built_in">window</span>.__karma__) &#123;</div><div class="line">           <span class="keyword">return</span> path.replace(<span class="regexp">/\.\//</span>, <span class="string">'/base/test/'</span>)</div><div class="line">       &#125; <span class="keyword">else</span> &#123;</div><div class="line">           <span class="keyword">return</span> path</div><div class="line">       &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//写入文件的时候</span></div><div class="line">...</div><div class="line">iframe.src = getPath(<span class="string">'./iframes/hello.html'</span>)</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>这样之后我们的代码就可以正常的在karma和普通环境中跑测试了。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-11-13-如何在karma里载入html文件进行测试/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -698,187 +882,6 @@
 </div>
 
 		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/2013-11-13-如何在karma里载入html文件进行测试/" >如何在karma里载入html文件进行测试</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>因为要测试代码在iframe里的运行情况，必须载入一个html文件，然后判断该文件里的js执行情况，在karma里无法直接载入一个html文件，同时由于路径的变更，测试同样跑不过，下面是详述原因和解决办法</p>
-<h2 id="需要测试的场景"><a href="#需要测试的场景" class="headerlink" title="需要测试的场景"></a>需要测试的场景</h2><p>当前工程的目录结构如下</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── Gruntfile<span class="selector-class">.js</span></div><div class="line">├── karma<span class="selector-class">.conf</span><span class="selector-class">.js</span></div><div class="line">├── package<span class="selector-class">.json</span></div><div class="line">├── src</div><div class="line">│   ├── source<span class="selector-class">.js</span></div><div class="line">├── test</div><div class="line">│   ├── iframes</div><div class="line">│   │   ├── hello<span class="selector-class">.html</span></div><div class="line">│   ├── lib</div><div class="line">│   ├── mainSpec<span class="selector-class">.js</span></div><div class="line">│   └── runner.html</div></pre></td></tr></table></figure>
-<p>在mainSpec.js里写入一个iframe到当前<code>document</code>下，路径为<code>iframes/hello.html</code>,<br><code>hello.html</code>里会引入<code>souce.js</code>，然后进行一些操作，<code>mainSpec.js</code><br>再对写入iframe进行检测，判断执行结果</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>有两个问题需要解决</p>
-<ul>
-<li>karma会把html文件当作js载入，也就是它会使用一个script标签把文件载入 </li>
-<li>karma对于html文件使用html-js预处理，页面中输出的是一个hello.html.js</li>
-</ul>
-<p>在karma.conf.js里配置一下files对象解决问题1, served默认是true,也可以不加的，详细可以<a href="http://karma-runner.github.io/0.10/config/files.html" target="_blank" rel="external">官方文档</a></p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="string">files:</span> [</div><div class="line">             <span class="string">'test/lib/**/*.js'</span>,</div><div class="line">             <span class="string">'src/source.js'</span>,</div><div class="line">             <span class="string">'test/mainSpec.js'</span>,</div><div class="line">             &#123; <span class="string">pattern:</span> <span class="string">'test/iframes/*'</span>, <span class="string">included:</span> <span class="literal">false</span>, <span class="string">served:</span> <span class="literal">true</span> &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
-<p>在karma.conf.js里覆盖掉默认的html-js预处理</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="string">preprocessors:</span> &#123;</div><div class="line">    <span class="string">'test/iframes/*'</span>: [<span class="string">''</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="路径的问题"><a href="#路径的问题" class="headerlink" title="路径的问题"></a>路径的问题</h2><p>看样子是正常了，运行一下<code>karma run</code>，还是报错，我们写入的路径是<code>./iframes/hello.html</code>，<br>这是由于karma默认的执行路径是<code>http://localhost:9876/debug.html</code>，写入的路径会变成<code>http://localhost:9876/iframes/hello.html</code>，而karma会把当前目录放在<code>/base/</code>下(<a href="/2013/08/21/karma%E4%B8%8B%E6%B5%8B%E8%AF%95%E5%BC%82%E6%AD%A5%E8%BD%BD%E5%85%A5%E7%9A%84js%E6%96%87%E4%BB%B6.html">这里介绍过</a>)，很明显会404。</p>
-<p>可以很直接的把写入的路径变成<code>/base/test/iframes/hello.html</code>，但是这样，这个测试就严重依赖karma了，你可能注意到test目录下还有一个runner.html，这个文件我们可以手工运行，如果写成了前面的这个路径，手工运行就完全不行。为了保证runner.html的正常工作,我们必须使用相对路径。</p>
-<p>改造一下mainSpec.js，区别对待karma环境和普通环境中载入的iframe的路径</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPath</span>(<span class="params">path</span>) </span>&#123;</div><div class="line">       <span class="keyword">if</span> (<span class="built_in">window</span>.__karma__) &#123;</div><div class="line">           <span class="keyword">return</span> path.replace(<span class="regexp">/\.\//</span>, <span class="string">'/base/test/'</span>)</div><div class="line">       &#125; <span class="keyword">else</span> &#123;</div><div class="line">           <span class="keyword">return</span> path</div><div class="line">       &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//写入文件的时候</span></div><div class="line">...</div><div class="line">iframe.src = getPath(<span class="string">'./iframes/hello.html'</span>)</div><div class="line">...</div></pre></td></tr></table></figure>
-<p>这样之后我们的代码就可以正常的在karma和普通环境中跑测试了。</p>
-
-	
-	</div>
-  <a type="button" href="/2017/02/01/2013-11-13-如何在karma里载入html文件进行测试/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/2013-08-20-javascript的几种使用多行字符串的方式/" >javascript的几种使用多行字符串的方式</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>JS里并没有标准的多行字符串的表示方法，但是在用模板的时候，为了保证模板的可阅读性，我们又不可避免的使用多行字符串，所以出现了各种搞法，这里以一段jade的模板作为示例，简单总结和对比一下。</p>
-<h2 id="字符串相加"><a href="#字符串相加" class="headerlink" title="字符串相加"></a>字符串相加</h2><p>这是最容易理解也很常用的一种形式，如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">''</span>+</div><div class="line">    <span class="string">'!!! 5'</span> +</div><div class="line">    <span class="string">'html'</span> +</div><div class="line">    <span class="string">'  include header'</span> +</div><div class="line">    <span class="string">'  body'</span> +</div><div class="line">    <span class="string">'    //if IE 6'</span> +</div><div class="line">    <span class="string">'        .alert.alert-error'</span> +</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> +</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> +</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> +</div><div class="line">    <span class="string">'    include head'</span> +</div><div class="line">    <span class="string">'    .container'</span> +</div><div class="line">    <span class="string">'        .row-fluid'</span> +</div><div class="line">    <span class="string">'            .span8'</span> +</div><div class="line">    <span class="string">'                block main'</span> +</div><div class="line">    <span class="string">'                include pagerbar'</span> +</div><div class="line">    <span class="string">'            .span4'</span> +</div><div class="line">    <span class="string">'                include sidebar'</span> +</div><div class="line">    <span class="string">'    include footer'</span> +</div><div class="line">    <span class="string">'    include script'</span></div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>易理解，简单，可靠 </li>
-<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
-<li>大量的<code>+</code>号看上去满天星,大量的<code>&#39;</code>和<code>&quot;</code>, 丑陋</li>
-</ul>
-<h2 id="反斜线"><a href="#反斜线" class="headerlink" title="反斜线"></a>反斜线</h2><p>这个叫续行符, 这个并非一种很常见的方式, 但是一旦用上了，还是很容易上瘾，只需要加一个字符</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl =<span class="string">'\</span></div><div class="line">    !!! 5\</div><div class="line">    html\</div><div class="line">      include header\</div><div class="line">      body\</div><div class="line">        //if IE 6\</div><div class="line">            .alert.alert-error\</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器\</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载\</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载\</div><div class="line">        include head\</div><div class="line">        .container\</div><div class="line">            .row-fluid\</div><div class="line">                .span8\</div><div class="line">                    block main\</div><div class="line">                    include pagerbar\</div><div class="line">                .span4\</div><div class="line">                    include sidebar\</div><div class="line">        include footer\</div><div class="line">        include script'</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>简单,每一行只需要有多一个<code>\</code></li>
-<li>高效！在大部分的浏览器上，这种方式都是最快的，看这个<a href="http://jsperf.com/zp-string-concatenation/6" target="_blank" rel="external">效率对比</a></li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>致命缺陷，每一行的<code>\</code>必须不可以有空格，否则直接脚本错误 </li>
-<li>并不是真正意义上的多行字符串, 如果想要真正的多行，需要自己加<code>\n</code> </li>
-<li>尽管绝大部分的js引擎都支持它，但是它并不是ECMAScript的一部分(我并没有研究规范，这句话是从<a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml?showone=Multiline_string_literals#Multiline_string_literals" target="_blank" rel="external">google的编码规范</a>翻译过来的)</li>
-</ul>
-<h2 id="字符串数组join"><a href="#字符串数组join" class="headerlink" title="字符串数组join"></a>字符串数组join</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = [</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>].join(<span class="string">'\n'</span>);</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>真正意义上的多行字符串 </li>
-<li>易理解，简单，可靠 </li>
-<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
-</ul>
-<h2 id="String-prototype-concat"><a href="#String-prototype-concat" class="headerlink" title="String.prototype.concat"></a>String.prototype.concat</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = <span class="built_in">String</span>.prototype.concat.call(</div><div class="line">    <span class="string">'!!! 5'</span> ,</div><div class="line">    <span class="string">'html'</span> ,</div><div class="line">    <span class="string">'  include header'</span> ,</div><div class="line">    <span class="string">'  body'</span> ,</div><div class="line">    <span class="string">'    //if IE 6'</span> ,</div><div class="line">    <span class="string">'        .alert.alert-error'</span> ,</div><div class="line">    <span class="string">'            center 对不起，我们不支持IE6，请升级你的浏览器'</span> ,</div><div class="line">    <span class="string">'                a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载'</span> ,</div><div class="line">    <span class="string">'                a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载'</span> ,</div><div class="line">    <span class="string">'    include head'</span> ,</div><div class="line">    <span class="string">'    .container'</span> ,</div><div class="line">    <span class="string">'        .row-fluid'</span> ,</div><div class="line">    <span class="string">'            .span8'</span> ,</div><div class="line">    <span class="string">'                block main'</span> ,</div><div class="line">    <span class="string">'                include pagerbar'</span> ,</div><div class="line">    <span class="string">'            .span4'</span> ,</div><div class="line">    <span class="string">'                include sidebar'</span> ,</div><div class="line">    <span class="string">'    include footer'</span> ,</div><div class="line">    <span class="string">'    include script'</span>);</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>不常用，事实上字符串的concat方法远没有<code>+</code>号常见</li>
-<li>易理解，简单，可靠 </li>
-<li>足够灵活，可以在单个字符串中添加js逻辑 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>并不是真正意义上的多行字符串 </li>
-<li>大量的<code>,</code>号和<code>&#39;</code>、<code>&quot;</code>, 丑陋</li>
-</ul>
-<h2 id="heredoc"><a href="#heredoc" class="headerlink" title="heredoc"></a>heredoc</h2><p>这是一种很有技巧的解决办法, 利用了function的toString方法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">heredoc</span>(<span class="params">fn</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> fn.toString().split(<span class="string">'\n'</span>).slice(<span class="number">1</span>,<span class="number">-1</span>).join(<span class="string">'\n'</span>) + <span class="string">'\n'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> tmpl = heredoc(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="comment">/*</span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line"> */&#125;);</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>模板字符串内不必写多余的任何字符，干净，简单 </li>
-<li>真正意义上的多行字符串, 有<code>\n</code>哦 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>不可以在单个字符串中添加js逻辑 </li>
-<li>容易被压缩器压缩掉，yui compressor可以通过<code>/*!</code>来避免被压缩掉，<a href="https://github.com/mishoo/UglifyJS2" target="_blank" rel="external">uglifyjs</a>和<a href="https://developers.google.com/closure/compiler/" target="_blank" rel="external">gcc</a>也可以通过选项配置不删除特定的注释，这个不是大问题</li>
-</ul>
-<h2 id="coffeescript"><a href="#coffeescript" class="headerlink" title="coffeescript"></a>coffeescript</h2><p>相当于换了一个语言，其实这种语言上缺少的功能，通过<a href="http://coffeescript.org/#strings" target="_blank" rel="external">coffeescript</a>这种以js为编译目标的语言来实现是一种非常棒的选择。    </p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var tmpl = <span class="string">""" </span></div><div class="line">    !!! 5</div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script</div><div class="line">    """</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>易理解，简单，可靠 </li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>需要了解coffeescript </li>
-<li>整个文件都需要用coffeescript来写</li>
-</ul>
-<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><p>ES6的有一个新的特性，<a href="http://wiki.ecmascript.org/doku.php?id=harmony:quasis" target="_blank" rel="external">Template Strings</a>, 这是语言层面上第一次实现了多行字符串, 在<a href="https://www.google.com/intl/en/chrome/browser/canary.html" target="_blank" rel="external">chrome canary</a>里打开<code>Enable Experimental JavaScript</code>就可以使用这个特性，另外<a href="http://www.typescriptlang.org/" target="_blank" rel="external">typescript</a>也会支持这种方式</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmpl = </div><div class="line">   <span class="string">`!!! 5</span></div><div class="line">    html</div><div class="line">      include header</div><div class="line">      body</div><div class="line">        //if IE 6</div><div class="line">            .alert.alert-error</div><div class="line">                center 对不起，我们不支持IE6，请升级你的浏览器</div><div class="line">                    a(href="http://windows.microsoft.com/zh-CN/internet-explorer/download-ie") | IE8官方下载</div><div class="line">                    a(href="https://www.google.com/intl/en/chrome/browser/") | Chrome下载</div><div class="line">        include head</div><div class="line">        .container</div><div class="line">            .row-fluid</div><div class="line">                .span8</div><div class="line">                    block main</div><div class="line">                    include pagerbar</div><div class="line">                .span4</div><div class="line">                    include sidebar</div><div class="line">        include footer</div><div class="line">        include script`</div></pre></td></tr></table></figure>
-<p>优点:</p>
-<ul>
-<li>易理解，原生支持 </li>
-<li>真正的多行字符串</li>
-</ul>
-<p>缺点 :</p>
-<ul>
-<li>JS引擎支持有限 </li>
-</ul>
-<p>##总结</p>
-<p>看了这么些写法，如何选择？如果你用的是coffeescript，放心大胆的使用它支持的多行字符串写法；如果是在客户端，同时你解决了你的压缩器去掉注释的问题，推荐使用heredoc；如果你无法解决压缩器的问题，使用反斜线连接吧，每行只需要加一个字符。</p>
-
-	
-	</div>
-  <a type="button" href="/2017/02/01/2013-08-20-javascript的几种使用多行字符串的方式/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/neat的使用/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#开发环境</p>
-<p>##一. neat</p>
-<p>###gulp 的使用</p>
-<ol>
-<li><p><strong>gulp </strong> 需要自己去安装, <code>npm install gulp</code>, 然后 gulpfile.js 文件放入根目录.</p>
-</li>
-<li><p>安装模板</p>
-<pre><code>sudo neat install @ali/generator-apm
-</code></pre></li>
-</ol>
-<p>###yo 的使用</p>
-<p>在 neat.fdm 的根目录 </p>
-<pre><code>sudo tnpm install generator-polymer
-</code></pre><p>##二. apm</p>
-<p>是1688开发的<strong>组件</strong>平台, 推荐 <strong>commonjs</strong> 语法来写组件</p>
-
-	
-	</div>
-  <a type="button" href="/2017/02/01/neat的使用/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
 
 		</div>
 
@@ -955,45 +958,45 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
 		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
 		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
-			<li><a href="/tags/test/">test<span>2</span></a></li>
-		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
-		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
-		
-			<li><a href="/tags/library/">library<span>3</span></a></li>
-		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
-		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
 		
 			<li><a href="/tags/html5/">html5<span>1</span></a></li>
 		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
-		
-			<li><a href="/tags/module/">module<span>2</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
-		
-			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
-		
-			<li><a href="/tags/css/">css<span>7</span></a></li>
-		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+			<li><a href="/tags/build/">build<span>2</span></a></li>
 		
 			<li><a href="/tags/hg/">hg<span>1</span></a></li>
 		
+			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+		
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+		
 			<li><a href="/tags/framework/">framework<span>1</span></a></li>
 		
-			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+			<li><a href="/tags/test/">test<span>2</span></a></li>
+		
+			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/default/">default<span>1</span></a></li>
+		
+			<li><a href="/tags/document/">document<span>1</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+		
+			<li><a href="/tags/http/">http<span>2</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -1009,7 +1012,7 @@
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/02/01/2012-08-03-XMLHttpRequest发送put,delete请求/" ><i class="fa fa-file-o"></i>XMLHttpRequest发送put,delete请求</a>
+        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
       </li>
     
       <li>
