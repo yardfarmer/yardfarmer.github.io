@@ -142,7 +142,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/消除函数的术语歧义/" ></a></div>						
+			<div class="article-title"><a href="/2017/02/01/设计模式简介/" ></a></div>						
 		</h3>
 	
 
@@ -151,11 +151,18 @@
   <div class="row">
 	
 	
-		<p>#消除函数的术语歧义<br><figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line"></div><div class="line"><span class="javascript">    <span class="comment">/**</span></span></div><div class="line">     * 命名函数表达式 (named function expression)</div><div class="line">     *</div><div class="line">     * 真正的函数名是: add</div><div class="line">     * 函数 add 赋给 变量 add2</div><div class="line">     *</div><div class="line">     * 用在 debug 调试, 或者递归调用时获取函数名</div><div class="line">     *</div><div class="line">     * @param a</div><div class="line">     * @param b</div><div class="line">     * @returns &#123;*&#125;</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> add2 = <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'function name:'</span>, <span class="built_in">arguments</span>.callee.name);</div><div class="line">        <span class="keyword">return</span> a + b;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(add2(<span class="number">1</span>,<span class="number">3</span>), add2.name);</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 未命名函数表达式, 简称函数表达式,</div><div class="line">     * 也称为 匿名函数 (anonymous function)</div><div class="line">     * @returns &#123;&#123;&#125;&#125;</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> unNameFunc = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'function name:'</span>, <span class="built_in">arguments</span>.callee.name);</div><div class="line">        <span class="keyword">return</span> &#123;&#125;;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(unNameFunc(), unNameFunc.name); <span class="comment">// ""</span></div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 函数声明, 与匿名函数表达式很相似</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 扩展</div><div class="line">     */</div><div class="line"></div><div class="line">    <span class="comment">// 函数表达式, 通过运算符 `!` 连接后面的函数声明,</span></div><div class="line">    <span class="comment">// 转换成了函数表达式, 而函数表达式是可以立即执行的</span></div><div class="line">    !<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello bar!'</span>);</div><div class="line">    &#125;();</div><div class="line"></div><div class="line">    <span class="comment">// 函数表达式, 通过运算符 `+` 连接后面的函数声明,</span></div><div class="line">    <span class="comment">// 转换成了函数表达式, 而函数表达式是可以立即执行的</span></div><div class="line">    +<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello bar+'</span>);</div><div class="line">    &#125;();</div><div class="line"></div><div class="line">    <span class="comment">// 函数表达式, 通过运算符 `()` 连接后面的函数声明,</span></div><div class="line">    <span class="comment">// 转换成了函数表达式, 而函数表达式是可以立即执行的</span></div><div class="line">    (<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello bar()'</span>);</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line"><span class="comment">//    函数声明,不是语句, 不能执行</span></div><div class="line"><span class="comment">//    function bar() &#123;</span></div><div class="line"><span class="comment">//        console.log('hello bar');</span></div><div class="line"><span class="comment">//    &#125;();</span></div></pre></td></tr></table></figure></p>
+		<p>#设计模式简介</p>
+<p>##工厂模式<br>生产具有相同父类接口的对象</p>
+<p>##模块模式<br>对象字面量的形式，内部实现分为 对象字面量 和 function， 对象字面量的特点是兄弟函数之间互相调用需要 this.sibingSomeMethod, 没有办法直接或得到， 都需要先找到根元素，然后查找； 如果采用 function 的形式就很方便了， 内部 function 可以直接互调， 而且可以通过 return 实现私有作用域， 只返回公共部分</p>
+<p>##单例模式</p>
+<p>各个模块之间要公用的一个对象， 保证是在使用同一个对象， 需要通过这个对象作为桥梁，或者使用这个对象作为公共资源</p>
+<p>##建造模式</p>
+<p>##观察者模式<br>模型可以建模成，人员管理。 领导看成观察者， 外界有事儿都直接找领导，需要通知员工的时候直接通知领导，领导根据名单去批量分发， 名单中的员工就都知道了，来新人了领导需把新人录入名单，员工离职了领导需要在名单中去除离职员工记录。</p>
+<p>主要用于统一管理信息，状态改变时的管理，状态分发， 信息分发。一个被称作被观察者的对象，维护一组被称为观察者的对象，这些对象依赖于被观察者，被观察者自动将自身的状态的任何变化通知给它们。 </p>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/消除函数的术语歧义/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/设计模式简介/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -214,76 +221,6 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/代码质量的分类/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#代码质量的分类</p>
-<p>##代码质量</p>
-<ol>
-<li>Coding style</li>
-<li>JSLint/JSHint</li>
-<li>CSSLint</li>
-<li>Markup Validation Service</li>
-</ol>
-<p>##单元测试</p>
-<ol>
-<li>QUnit/Jasmine</li>
-<li>Mocha/Should/Chai/Expect</li>
-</ol>
-<p>##自动化测试</p>
-<ol>
-<li>WebDriver/Karma Runner/Sahi</li>
-<li>phantomjs</li>
-<li><a href="https://github.com/laurentj/slimerjs" target="_blank" rel="external">https://github.com/laurentj/slimerjs</a></li>
-<li><a href="http://casperjs.org/" target="_blank" rel="external">http://casperjs.org/</a></li>
-</ol>
-
-	
-	</div>
-  <a type="button" href="/2017/02/01/代码质量的分类/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/设计模式简介/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#设计模式简介</p>
-<p>##工厂模式<br>生产具有相同父类接口的对象</p>
-<p>##模块模式<br>对象字面量的形式，内部实现分为 对象字面量 和 function， 对象字面量的特点是兄弟函数之间互相调用需要 this.sibingSomeMethod, 没有办法直接或得到， 都需要先找到根元素，然后查找； 如果采用 function 的形式就很方便了， 内部 function 可以直接互调， 而且可以通过 return 实现私有作用域， 只返回公共部分</p>
-<p>##单例模式</p>
-<p>各个模块之间要公用的一个对象， 保证是在使用同一个对象， 需要通过这个对象作为桥梁，或者使用这个对象作为公共资源</p>
-<p>##建造模式</p>
-<p>##观察者模式<br>模型可以建模成，人员管理。 领导看成观察者， 外界有事儿都直接找领导，需要通知员工的时候直接通知领导，领导根据名单去批量分发， 名单中的员工就都知道了，来新人了领导需把新人录入名单，员工离职了领导需要在名单中去除离职员工记录。</p>
-<p>主要用于统一管理信息，状态改变时的管理，状态分发， 信息分发。一个被称作被观察者的对象，维护一组被称为观察者的对象，这些对象依赖于被观察者，被观察者自动将自身的状态的任何变化通知给它们。 </p>
-
-	
-	</div>
-  <a type="button" href="/2017/02/01/设计模式简介/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
 			<div class="article-title"><a href="/2017/02/01/脚本的第一行/" ></a></div>						
 		</h3>
 	
@@ -313,6 +250,28 @@
 	
 	</div>
   <a type="button" href="/2017/02/01/脚本的第一行/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/消除函数的术语歧义/" ></a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>#消除函数的术语歧义<br><figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line"></div><div class="line"><span class="javascript">    <span class="comment">/**</span></span></div><div class="line">     * 命名函数表达式 (named function expression)</div><div class="line">     *</div><div class="line">     * 真正的函数名是: add</div><div class="line">     * 函数 add 赋给 变量 add2</div><div class="line">     *</div><div class="line">     * 用在 debug 调试, 或者递归调用时获取函数名</div><div class="line">     *</div><div class="line">     * @param a</div><div class="line">     * @param b</div><div class="line">     * @returns &#123;*&#125;</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> add2 = <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'function name:'</span>, <span class="built_in">arguments</span>.callee.name);</div><div class="line">        <span class="keyword">return</span> a + b;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(add2(<span class="number">1</span>,<span class="number">3</span>), add2.name);</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 未命名函数表达式, 简称函数表达式,</div><div class="line">     * 也称为 匿名函数 (anonymous function)</div><div class="line">     * @returns &#123;&#123;&#125;&#125;</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> unNameFunc = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'function name:'</span>, <span class="built_in">arguments</span>.callee.name);</div><div class="line">        <span class="keyword">return</span> &#123;&#125;;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(unNameFunc(), unNameFunc.name); <span class="comment">// ""</span></div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 函数声明, 与匿名函数表达式很相似</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 扩展</div><div class="line">     */</div><div class="line"></div><div class="line">    <span class="comment">// 函数表达式, 通过运算符 `!` 连接后面的函数声明,</span></div><div class="line">    <span class="comment">// 转换成了函数表达式, 而函数表达式是可以立即执行的</span></div><div class="line">    !<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello bar!'</span>);</div><div class="line">    &#125;();</div><div class="line"></div><div class="line">    <span class="comment">// 函数表达式, 通过运算符 `+` 连接后面的函数声明,</span></div><div class="line">    <span class="comment">// 转换成了函数表达式, 而函数表达式是可以立即执行的</span></div><div class="line">    +<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello bar+'</span>);</div><div class="line">    &#125;();</div><div class="line"></div><div class="line">    <span class="comment">// 函数表达式, 通过运算符 `()` 连接后面的函数声明,</span></div><div class="line">    <span class="comment">// 转换成了函数表达式, 而函数表达式是可以立即执行的</span></div><div class="line">    (<span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'hello bar()'</span>);</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line"><span class="comment">//    函数声明,不是语句, 不能执行</span></div><div class="line"><span class="comment">//    function bar() &#123;</span></div><div class="line"><span class="comment">//        console.log('hello bar');</span></div><div class="line"><span class="comment">//    &#125;();</span></div></pre></td></tr></table></figure></p>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/消除函数的术语歧义/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -397,7 +356,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/what_is_true/" >实际情况是什么样的</a></div>						
+			<div class="article-title"><a href="/2017/02/01/代码质量的分类/" ></a></div>						
 		</h3>
 	
 
@@ -406,11 +365,30 @@
   <div class="row">
 	
 	
-		<p>不去亲身体验，是感受不到身临其境的感受的。 考虑了很久的事，不踏出门槛，可能永远也体验不到真实的情况。 晚上出门走走，发现往日喧嚣杂乱的街道变得明亮，清净而又不时弥漫芳香。因为时机，环境变了，人心里『第一感受』 并不总是那么准确。</p>
+		<p>#代码质量的分类</p>
+<p>##代码质量</p>
+<ol>
+<li>Coding style</li>
+<li>JSLint/JSHint</li>
+<li>CSSLint</li>
+<li>Markup Validation Service</li>
+</ol>
+<p>##单元测试</p>
+<ol>
+<li>QUnit/Jasmine</li>
+<li>Mocha/Should/Chai/Expect</li>
+</ol>
+<p>##自动化测试</p>
+<ol>
+<li>WebDriver/Karma Runner/Sahi</li>
+<li>phantomjs</li>
+<li><a href="https://github.com/laurentj/slimerjs" target="_blank" rel="external">https://github.com/laurentj/slimerjs</a></li>
+<li><a href="http://casperjs.org/" target="_blank" rel="external">http://casperjs.org/</a></li>
+</ol>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/what_is_true/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/代码质量的分类/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -449,6 +427,31 @@
 	
 	</div>
   <a type="button" href="/2017/02/01/2013-03-30-介绍js-assessment/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-07-17-Git修改历史提交的信息/" >Git修改历史提交的信息</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>##起因<br>公司内部使用的gitlab分支上可以使用未注册的用户提交，但是在master分支上必须是注册用户，就算是提交分支成功了，再往master合并的时候也会出错，所以只能修改历史提交纪录</p>
+<p>##解决<br>本质上就是使用<code>git filter-branch</code>，<a href="https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html" target="_blank" rel="external">这里</a>是这个命令的详细文档，另外github上提供了一个脚本</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line"> </div><div class="line">git filter-branch --env-filter '</div><div class="line"> </div><div class="line">an="$GIT_AUTHOR_NAME"</div><div class="line">am="$GIT_AUTHOR_EMAIL"</div><div class="line">cn="$GIT_COMMITTER_NAME"</div><div class="line">cm="$GIT_COMMITTER_EMAIL"</div><div class="line"> </div><div class="line">if [ "$GIT_COMMITTER_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    cn="Your New Committer Name"</div><div class="line">    cm="Your New Committer Email"</div><div class="line">fi</div><div class="line">if [ "$GIT_AUTHOR_EMAIL" = "your@email.to.match" ]</div><div class="line">then</div><div class="line">    an="Your New Author Name"</div><div class="line">    am="Your New Author Email"</div><div class="line">fi</div><div class="line"> </div><div class="line">export GIT_AUTHOR_NAME="$an"</div><div class="line">export GIT_AUTHOR_EMAIL="$am"</div><div class="line">export GIT_COMMITTER_NAME="$cn"</div><div class="line">export GIT_COMMITTER_EMAIL="$cm"</div><div class="line">'</div></pre></td></tr></table></figure>
+<p><a href="https://help.github.com/articles/changing-author-info" target="_blank" rel="external">地址</a>，注意如果你把cm或者am换成中文的，一定要保证脚本文件是utf-8编码的，否则注释中容易出现乱码</p>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-07-17-Git修改历史提交的信息/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -528,45 +531,45 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
 		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
-		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
-		
-			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
-		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
-		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
-		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
-		
-			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
-		
-			<li><a href="/tags/framework/">framework<span>1</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
+			<li><a href="/tags/library/">library<span>3</span></a></li>
 		
 			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
 		
-			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
+			<li><a href="/tags/default/">default<span>1</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/linux/">linux<span>6</span></a></li>
+		
+			<li><a href="/tags/document/">document<span>1</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
 		
 			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
 		
-			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+		
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
 		
 			<li><a href="/tags/vim/">vim<span>3</span></a></li>
 		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
-		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -586,7 +589,7 @@
       </li>
     
       <li>
-        <a href="/2017/02/01/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
@@ -594,11 +597,11 @@
       </li>
     
       <li>
-        <a href="/2017/02/01/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/02/01/脚本的第一行/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/02/01/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
       </li>
     
   </ul>

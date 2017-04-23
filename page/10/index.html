@@ -315,6 +315,32 @@ completion     output completion bash script
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2014-08-02 </div>
+			<div class="article-title"><a href="/2014/08/02/2014-08-02-shell读取配置文件/" >shell读取配置文件</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最近鼓捣双机热备,写了些shell脚本</p>
+<h2 id="适用配置文件"><a href="#适用配置文件" class="headerlink" title="适用配置文件"></a>适用配置文件</h2><p>以 ifbeat 为例,linux的标准的配置文件中等号两遍不能存在括号, <em>空格</em> 或特殊符号可以用转衣服 ‘ \’</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">beat</span>=<span class="literal">true</span></div><div class="line"><span class="attr">primary</span>=<span class="literal">true</span></div><div class="line"><span class="attr">vip</span>=<span class="number">12.22</span>.<span class="number">192.146</span></div></pre></td></tr></table></figure>
+<h2 id="shell中读取配置文件"><a href="#shell中读取配置文件" class="headerlink" title="shell中读取配置文件"></a>shell中读取配置文件</h2><p>source 命令会读取配置文件,然后将配置文件中等号左面的key列作为变量读入内存中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> cofingfile</div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="variable">$beat</span>      // <span class="literal">true</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$primary</span>   // <span class="literal">true</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$vip</span>       // 12.22.192.146</div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2014/08/02/2014-08-02-shell读取配置文件/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-08-02 </div>
 			<div class="article-title"><a href="/2014/08/02/2014-08-02-linux安装oracle11g记录/" >Linux 安装 oracle11g 记录</a></div>						
 		</h3>
 	
@@ -376,32 +402,6 @@ completion     output completion bash script
 	
 	</div>
   <a type="button" href="/2014/08/02/2014-08-02-linux安装oracle11g记录/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-08-02 </div>
-			<div class="article-title"><a href="/2014/08/02/2014-08-02-shell读取配置文件/" >shell读取配置文件</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>最近鼓捣双机热备,写了些shell脚本</p>
-<h2 id="适用配置文件"><a href="#适用配置文件" class="headerlink" title="适用配置文件"></a>适用配置文件</h2><p>以 ifbeat 为例,linux的标准的配置文件中等号两遍不能存在括号, <em>空格</em> 或特殊符号可以用转衣服 ‘ \’</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">beat</span>=<span class="literal">true</span></div><div class="line"><span class="attr">primary</span>=<span class="literal">true</span></div><div class="line"><span class="attr">vip</span>=<span class="number">12.22</span>.<span class="number">192.146</span></div></pre></td></tr></table></figure>
-<h2 id="shell中读取配置文件"><a href="#shell中读取配置文件" class="headerlink" title="shell中读取配置文件"></a>shell中读取配置文件</h2><p>source 命令会读取配置文件,然后将配置文件中等号左面的key列作为变量读入内存中</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> cofingfile</div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="variable">$beat</span>      // <span class="literal">true</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$primary</span>   // <span class="literal">true</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$vip</span>       // 12.22.192.146</div></pre></td></tr></table></figure>
-
-	
-	</div>
-  <a type="button" href="/2014/08/02/2014-08-02-shell读取配置文件/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -954,45 +954,45 @@ completion     output completion bash script
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
+			<li><a href="/tags/module/">module<span>2</span></a></li>
 		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
-		
-			<li><a href="/tags/document/">document<span>1</span></a></li>
+			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
 		
 			<li><a href="/tags/think/">think<span>1</span></a></li>
 		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+			<li><a href="/tags/test/">test<span>2</span></a></li>
 		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
 		
 			<li><a href="/tags/git/">git<span>5</span></a></li>
 		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+			<li><a href="/tags/document/">document<span>1</span></a></li>
 		
-			<li><a href="/tags/module/">module<span>2</span></a></li>
-		
-			<li><a href="/tags/demo/">demo<span>1</span></a></li>
-		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
-		
-			<li><a href="/tags/library/">library<span>3</span></a></li>
+			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
 		
 			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
 		
-			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
 		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
-		
-			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
-		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
 		
 			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+		
+			<li><a href="/tags/http/">http<span>2</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
+		
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+		
+			<li><a href="/tags/library/">library<span>3</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -1012,7 +1012,7 @@ completion     output completion bash script
       </li>
     
       <li>
-        <a href="/2017/02/01/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
@@ -1020,11 +1020,11 @@ completion     output completion bash script
       </li>
     
       <li>
-        <a href="/2017/02/01/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/02/01/脚本的第一行/" ><i class="fa fa-file-o"></i></a>
       </li>
     
       <li>
-        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
+        <a href="/2017/02/01/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
       </li>
     
   </ul>
