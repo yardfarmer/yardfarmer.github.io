@@ -694,6 +694,43 @@ $.unique(array); // 去除array 中的重复元素，该方法只对DOM Element 
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2014-10-31 </div>
+			<div class="article-title"><a href="/2014/10/31/2014-10-31-mvc/" >mvc之投石问路</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h2><p>MVC 是一种设计模式，它将应用划分为3 个部分：数据（模型）、展现层（视图）和用户交互层（控制器）。换句话说，一个事件的发生是这样的过程：<br>1． 用户和应用产生交互。<br>2． 控制器的事件处理器被触发。<br>3． 控制器从模型中请求数据，并将其交给视图。<br>4． 视图将数据呈现给用户。</p>
+<p>现在来看一个真实的例子</p>
+<p>1． 用户提交一个新的聊天消息。<br>2． 控制器的事件处理器被触发。<br>3． 控制器创建了一个新的聊天模型（Chat Model）记录。<br>4． 然后控制器更新视图。<br>5． 用户在聊天窗口看到新的聊天消息。</p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>模型用来存放应用的所有数据对象。比如，可能有一个User 模型，用以存放用户列表、他们的属性及所有与模型有关的逻辑。<br>模型不必知晓视图和控制器的细节，模型只需包含数据及直接和这些数据相关的逻辑。任何事件处理代码、视图模板，以及那些和模型无关的逻辑都应当隔离在模型之外。</p>
+<blockquote>
+<p>将模型和视图的代码混在一起，是违反MVC 架构原则的。模型是最应该从你的应用中解<br>耦出来的部分。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> user = User.find(<span class="string">'foo'</span>);</div><div class="line">user.destroy();</div></pre></td></tr></table></figure>
+<p>当控制器从服务器抓取数据或创建新的记录时，它就将数据包装成模型实例。</p>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>视图层是呈现给用户的，用户与之产生交互。在JavaScript 应用中，视图大都是由HTML、CSS 和JavaScript 模板组成的。</p>
+<p>实际上，和模型类似，视图也应当从应用的其他部分中解耦出来。视图不必知晓模型和控制器中的细节，它们是相互独立的。</p>
+<blockquote>
+<p>将逻辑混入视图之中是编程的大忌。</p>
+</blockquote>
+<p>##控制器<br>控制器是模型和视图之间的纽带。控制器从视图获得事件和输入，对它们进行处理（很可能包含模型），并相应地更新视图。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Controller = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 使用匿名函数来封装一个作用域</span></div><div class="line">(Controller.users = <span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">var</span> nameClick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">/* ... */</span></div><div class="line">	&#125;;</div><div class="line"></div><div class="line">	<span class="comment">// 在页面加载时绑定事件监听</span></div><div class="line">	$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		$(<span class="string">"#view .name"</span>).click(nameClick);</div><div class="line">	&#125;);</div><div class="line"></div><div class="line">&#125;)(jQuery);</div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2014/10/31/2014-10-31-mvc/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-10-31 </div>
 			<div class="article-title"><a href="/2014/10/31/2013-11-15-尝试山寨Backbone/" >mvc-backbone</a></div>						
 		</h3>
 	
@@ -730,43 +767,6 @@ $.unique(array); // 去除array 中的重复元素，该方法只对DOM Element 
 	
 	</div>
   <a type="button" href="/2014/10/31/2014-11-03-mvc-backbone/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-10-31 </div>
-			<div class="article-title"><a href="/2014/10/31/2014-10-31-mvc/" >mvc之投石问路</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h2 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h2><p>MVC 是一种设计模式，它将应用划分为3 个部分：数据（模型）、展现层（视图）和用户交互层（控制器）。换句话说，一个事件的发生是这样的过程：<br>1． 用户和应用产生交互。<br>2． 控制器的事件处理器被触发。<br>3． 控制器从模型中请求数据，并将其交给视图。<br>4． 视图将数据呈现给用户。</p>
-<p>现在来看一个真实的例子</p>
-<p>1． 用户提交一个新的聊天消息。<br>2． 控制器的事件处理器被触发。<br>3． 控制器创建了一个新的聊天模型（Chat Model）记录。<br>4． 然后控制器更新视图。<br>5． 用户在聊天窗口看到新的聊天消息。</p>
-<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>模型用来存放应用的所有数据对象。比如，可能有一个User 模型，用以存放用户列表、他们的属性及所有与模型有关的逻辑。<br>模型不必知晓视图和控制器的细节，模型只需包含数据及直接和这些数据相关的逻辑。任何事件处理代码、视图模板，以及那些和模型无关的逻辑都应当隔离在模型之外。</p>
-<blockquote>
-<p>将模型和视图的代码混在一起，是违反MVC 架构原则的。模型是最应该从你的应用中解<br>耦出来的部分。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> user = User.find(<span class="string">'foo'</span>);</div><div class="line">user.destroy();</div></pre></td></tr></table></figure>
-<p>当控制器从服务器抓取数据或创建新的记录时，它就将数据包装成模型实例。</p>
-<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>视图层是呈现给用户的，用户与之产生交互。在JavaScript 应用中，视图大都是由HTML、CSS 和JavaScript 模板组成的。</p>
-<p>实际上，和模型类似，视图也应当从应用的其他部分中解耦出来。视图不必知晓模型和控制器中的细节，它们是相互独立的。</p>
-<blockquote>
-<p>将逻辑混入视图之中是编程的大忌。</p>
-</blockquote>
-<p>##控制器<br>控制器是模型和视图之间的纽带。控制器从视图获得事件和输入，对它们进行处理（很可能包含模型），并相应地更新视图。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Controller = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 使用匿名函数来封装一个作用域</span></div><div class="line">(Controller.users = <span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">var</span> nameClick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="comment">/* ... */</span></div><div class="line">	&#125;;</div><div class="line"></div><div class="line">	<span class="comment">// 在页面加载时绑定事件监听</span></div><div class="line">	$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		$(<span class="string">"#view .name"</span>).click(nameClick);</div><div class="line">	&#125;);</div><div class="line"></div><div class="line">&#125;)(jQuery);</div></pre></td></tr></table></figure>
-
-	
-	</div>
-  <a type="button" href="/2014/10/31/2014-10-31-mvc/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -913,45 +913,45 @@ var promise = $.get(&apos;/mydata&apos;);
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
-		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
-		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
-		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
 		
 			<li><a href="/tags/vim/">vim<span>3</span></a></li>
 		
-			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
 		
-			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+			<li><a href="/tags/linux/">linux<span>6</span></a></li>
 		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
+			<li><a href="/tags/think/">think<span>1</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
 		
 			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
 		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
 		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+			<li><a href="/tags/module/">module<span>2</span></a></li>
 		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
 		
 			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
 		
-			<li><a href="/tags/library/">library<span>3</span></a></li>
+			<li><a href="/tags/build/">build<span>2</span></a></li>
 		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
 		
 			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+		
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>2</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -975,7 +975,7 @@ var promise = $.get(&apos;/mydata&apos;);
       </li>
     
       <li>
-        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
+        <a href="/2017/02/01/2012-08-03-页面性能的几个评测点/" ><i class="fa fa-file-o"></i>页面性能的几个评测点</a>
       </li>
     
       <li>

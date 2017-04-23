@@ -107,234 +107,6 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/mongodb_概念/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#mongodb 概念</p>
-<p>mongodb 的基本概念是 <strong>文档,集合,数据库</strong></p>
-<p>##数据库<br>一个 mongodb 可以建立<strong>多个</strong>数据库, 默认的数据库是 <strong>db</strong>,该数据库存储在 <strong>data</strong> 目录中.</p>
-<p><em>show dbs</em> 可以显示所有数据的列表.</p>
-<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mongo</div><div class="line"></div><div class="line"><span class="keyword">show</span> dbs <span class="meta">#显示所有的数据库</span></div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="keyword">local</span> <span class="meta">#连接到指定的数据库</span></div><div class="line"></div><div class="line">mongod —config /usr/<span class="keyword">local</span>/etc/mongod.conf <span class="meta">#启动</span></div></pre></td></tr></table></figure>
-<p>##文档<br><strong>文档</strong>是 mongodb 最核心的概念, 是核心单元, 可以将<strong>文档类比成关系型数据库中的每一行数据</strong>.</p>
-<p><strong>多个键值对放在一起就是文档.</strong>, mongodb 使用的是类似 json 的 <strong>bson</strong>存储数据. bson 就是在 json 的基础上增加了一些数据类型.</p>
-<p>文档:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attribute">site</span>: <span class="string">'sjkljas.com'</span>&#125;</div></pre></td></tr></table></figure>
-<p>通常, “object(对象)” 术语指一个文件. 文件类似于 RDBMS 的记录, 集合( collection) 可以 crud.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">RDBMS</th>
-<th style="text-align:left">MongoDB</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Table</td>
-<td style="text-align:left">Collection</td>
-</tr>
-<tr>
-<td style="text-align:left">Column</td>
-<td style="text-align:left">key </td>
-</tr>
-<tr>
-<td style="text-align:left">Value</td>
-<td style="text-align:left">value</td>
-</tr>
-<tr>
-<td style="text-align:left">Records/Rows</td>
-<td style="text-align:left">Document/Object</td>
-</tr>
-</tbody>
-</table>
-<p>下面是 MongoDB 中的几种数据类型</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">数据类型</th>
-<th style="text-align:left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">string</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">integer</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">boolean</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">double</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">null</td>
-<td style="text-align:left">不是0,也不是空</td>
-</tr>
-<tr>
-<td style="text-align:left">array</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">object</td>
-<td style="text-align:left">对象型,,程序中被使用的实体. 可以是一个值,变量,函数,或者数据结构</td>
-</tr>
-<tr>
-<td style="text-align:left">timestamp</td>
-<td style="text-align:left">timestamp存储为64位的值，只运行一个mongod时可以确保是唯一的。前32位保存的是UTC时间，单位是秒，后32为是在这一秒内的计数值，从0开始，每新建一个MongoTimestamp对象就加一</td>
-</tr>
-<tr>
-<td style="text-align:left">Internationalized Strings</td>
-<td style="text-align:left">utf8 字符串</td>
-</tr>
-<tr>
-<td style="text-align:left">Object IDs</td>
-<td style="text-align:left">_id, _id值可以是任何类型,最常见的做法是使用ObjectId类型</td>
-</tr>
-</tbody>
-</table>
-<p>在mongodb中的集合是无模式的，也就是说集合中存储的,文档的结构可以是不同的，比如下面的两个文档可以同时存入到一个集合中：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attr">"name"</span>:<span class="string">"mengxiangyue"</span>&#125; &#123;<span class="attr">"Name"</span>:<span class="string">"mengxiangyue"</span>,<span class="attr">"sex"</span>:<span class="string">"nan"</span>&#125;</div></pre></td></tr></table></figure>
-<p>##MongoDB连接命令格式<br>使用用户名和密码连接到MongoDB服务器，你必须使用 <strong>‘username:password@hostname/dbname’ </strong>格式，’username’为用户名，’password’ 为密码。</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">mongodb:</span><span class="comment">//username:pass@localhost/</span></div></pre></td></tr></table></figure>
-<p>###参数选项说明<br>标准格式：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongodb://[<span class="string">username:password@</span>]host1[<span class="string">:port1</span>]   [<span class="string">,host2[:port2</span>],...[<span class="string">,hostN[:portN</span>]]][/[database]   [?options]]</div></pre></td></tr></table></figure>
-<p>标准的连接格式包含了多个选项(options)，如下所示：</p>
-<table>
-<thead>
-<tr>
-<th>First Header</th>
-<th>Second Header</th>
-<th>Third Header</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Content Cell</td>
-<td>Content Cell</td>
-<td>Content Cell</td>
-</tr>
-<tr>
-<td>Content Cell</td>
-<td>Content Cell</td>
-<td>Content Cell</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>replicaSet=name</td>
-<td>验证replica set的名称。 Impliesconnect=replicaSet.</td>
-</tr>
-<tr>
-<td>slaveOk=true,false</td>
-<td>true:在connect=direct模式下，驱动会连接第一台机器，即使这台服务器不是主。在connect=replicaSet模式下，驱动会发送所有的写请求到主并且把读取操作分布在其他从服务器。false: 在 connect=direct模式下，驱动会自动找寻主服务器. 在connect=replicaSet 模式下，驱动仅仅连接主服务器，并且所有的读写命令都连接到主服务器。</td>
-</tr>
-<tr>
-<td>safe=true,false</td>
-<td>true: 在执行更新操作之后，驱动都会发送getLastError命令来确保更新成功。(还要参考 wtimeoutMS). false: 在每次更新之后，驱动不会发送getLastError来确保更新成功。</td>
-</tr>
-<tr>
-<td>w=n</td>
-<td>驱动添加 { w : n } 到getLastError命令. 应用于safe=true。</td>
-</tr>
-<tr>
-<td>wtimeoutMS=ms</td>
-<td>驱动添加 { wtimeout : ms } 到 getlasterror 命令. 应用于safe=true.</td>
-</tr>
-<tr>
-<td>fsync=true,false</td>
-<td>true: 驱动添加 { fsync : true } 到 getlasterror 命令.应用于 safe=true. false: 驱动不会添加到getLastError命令中。</td>
-</tr>
-<tr>
-<td>journal=true,false</td>
-<td>如果设置wie true, 同步到 journal (在提交到数据库前写入到实体中). 应用于 safe=true</td>
-</tr>
-<tr>
-<td>connectTimeoutMS=ms</td>
-<td>可以打开连接的时间。</td>
-</tr>
-<tr>
-<td>socketTimeoutMS=ms</td>
-<td>发送和接受sockets的时间。</td>
-</tr>
-</tbody>
-</table>
-<p><a href="http://www.w3cschool.cc/mongodb/mongodb-insert.html" title="Title" target="_blank" rel="external">数据操作等更多内容</a></p>
-<p>###mongodb 类型操作符</p>
-<p>$type 根据类型值查找</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db<span class="selector-class">.testtable</span><span class="selector-class">.find</span>(&#123;<span class="string">"extra.friends"</span> : &#123;<span class="variable">$type</span> : <span class="number">3</span>&#125;&#125;)</div></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>$type 值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Double</td>
-<td>1</td>
-</tr>
-<tr>
-<td>String</td>
-<td>2</td>
-</tr>
-<tr>
-<td>Object</td>
-<td>3</td>
-</tr>
-<tr>
-<td>Array</td>
-<td>4</td>
-</tr>
-<tr>
-<td>Binary data</td>
-<td>5</td>
-</tr>
-<tr>
-<td>Object id</td>
-<td>7</td>
-</tr>
-<tr>
-<td>Boolean</td>
-<td>8</td>
-</tr>
-<tr>
-<td>Date</td>
-<td>9</td>
-</tr>
-</tbody>
-</table>
-
-	
-	</div>
-  <a type="button" href="/2017/02/01/mongodb_概念/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
 			<div class="article-title"><a href="/2017/02/01/koa_node/" ></a></div>						
 		</h3>
 	
@@ -455,6 +227,153 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-11-09-requirejs/" ></a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<hr>
+<p>layout: post<br>date: 2013-11-09  21:11:13 +0800</p>
+<h2 id="title-RequireJS小结"><a href="#title-RequireJS小结" class="headerlink" title="title: RequireJS小结"></a>title: RequireJS小结</h2><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>RequireJS是一个工具库，主要用于客户端的模块管理。它可以让客户端的代码分成一个个模块，实现异步或动态加载，从而提高代码的性能和可维护性。它的模块管理遵守<a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank" rel="external">AMD规范</a>（Asynchronous Module Definition）。</p>
+<p>RequireJS的基本思想是，通过define方法，将代码定义为模块；通过require方法，实现代码的模块加载。</p>
+<p>首先，将require.js嵌入网页，然后就能在网页中进行模块化编程了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script data-main=<span class="string">"scripts/main"</span> src=<span class="string">"scripts/require.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<p>上面代码的data-main属性不可省略，用于指定主代码所在的脚本文件，在上例中为scripts子目录下的main.js文件。用户自定义的代码就放在这个main.js文件中。</p>
+<h3 id="define方法：定义模块"><a href="#define方法：定义模块" class="headerlink" title="define方法：定义模块"></a>define方法：定义模块</h3><p>define方法用于定义模块，RequireJS要求每个模块放在一个单独的文件里。</p>
+<p>按照是否依赖其他模块，可以分成两种情况讨论。第一种情况是定义独立模块，即所定义的模块不依赖其他模块；第二种情况是定义非独立模块，即所定义的模块依赖于其他模块。</p>
+<p><strong>（1）独立模块</strong></p>
+<p>如果被定义的模块是一个独立模块，不需要依赖任何其他模块，可以直接用define方法生成。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(&#123;</div><div class="line">    <span class="attr">method1</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</div><div class="line">    <span class="attr">method2</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码生成了一个拥有method1、method2两个方法的模块。</p>
+<p>另一种等价的写法是，把对象写成一个函数，该函数的返回值就是输出的模块。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">return</span> &#123;</div><div class="line">	    <span class="attr">method1</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</div><div class="line">		<span class="attr">method2</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>后一种写法的自由度更高一点，可以在函数体内写一些模块初始化代码。</p>
+<p>值得指出的是，define定义的模块可以返回任何值，不限于对象。</p>
+<p><strong>（2）非独立模块</strong></p>
+<p>如果被定义的模块需要依赖其他模块，则define方法必须采用下面的格式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'module1'</span>, <span class="string">'module2'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">m1, m2</span>) </span>&#123;</div><div class="line">   ...</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>define方法的第一个参数是一个数组，它的成员是当前模块所依赖的模块。比如，[‘module1’, ‘module2’]表示我们定义的这个新模块依赖于module1模块和module2模块，只有先加载这两个模块，新模块才能正常运行。一般情况下，module1模块和module2模块指的是，当前目录下的module1.js文件和module2.js文件，等同于写成[‘./module1’, ‘./module2’]。</p>
+<p>define方法的第二个参数是一个函数，当前面数组的所有成员加载成功后，它将被调用。它的参数与数组的成员一一对应，比如function(m1, m2)就表示，这个函数的第一个参数m1对应module1模块，第二个参数m2对应module2模块。这个函数必须返回一个对象，供其他模块调用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'module1'</span>, <span class="string">'module2'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">m1, m2</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">method</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            m1.methodA();</div><div class="line">			m2.methodB();</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码表示新模块返回一个对象，该对象的method方法就是外部调用的接口，menthod方法内部调用了m1模块的methodA方法和m2模块的methodB方法。</p>
+<p>需要注意的是，回调函数必须返回一个对象，这个对象就是你定义的模块。</p>
+<p>如果依赖的模块很多，参数与模块一一对应的写法非常麻烦。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define(</div><div class="line">    [       <span class="string">'dep1'</span>, <span class="string">'dep2'</span>, <span class="string">'dep3'</span>, <span class="string">'dep4'</span>, <span class="string">'dep5'</span>, <span class="string">'dep6'</span>, <span class="string">'dep7'</span>, <span class="string">'dep8'</span>],</div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">dep1,   dep2,   dep3,   dep4,   dep5,   dep6,   dep7,   dep8</span>)</span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>为了避免像上面代码那样繁琐的写法，RequireJS提供一种更简单的写法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">define(</div><div class="line">    <span class="function"><span class="keyword">function</span> (<span class="params">require</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> dep1 = <span class="built_in">require</span>(<span class="string">'dep1'</span>),</div><div class="line">            dep2 = <span class="built_in">require</span>(<span class="string">'dep2'</span>),</div><div class="line">            dep3 = <span class="built_in">require</span>(<span class="string">'dep3'</span>),</div><div class="line">            dep4 = <span class="built_in">require</span>(<span class="string">'dep4'</span>),</div><div class="line">            dep5 = <span class="built_in">require</span>(<span class="string">'dep5'</span>),</div><div class="line">            dep6 = <span class="built_in">require</span>(<span class="string">'dep6'</span>),</div><div class="line">            dep7 = <span class="built_in">require</span>(<span class="string">'dep7'</span>),</div><div class="line">            dep8 = <span class="built_in">require</span>(<span class="string">'dep8'</span>);</div><div class="line">            ...</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>下面是一个define实际运用的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'math'</span>, <span class="string">'graph'</span>], </div><div class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"> math, graph </span>) </span>&#123;</div><div class="line">		<span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">plot</span>: <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>)</span>&#123;</div><div class="line">                <span class="keyword">return</span> graph.drawPie(math.randomGrid(x,y));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>上面代码定义的模块依赖math和graph两个库，然后返回一个具有plot接口的对象。</p>
+<blockquote>
+<p> RequireJS的模块语法允许它尽快地加载多个模块， 虽然加载的顺序不定，但依赖的顺序最终是正确的。</p>
+</blockquote>
+<p>另一个实际的例子是，通过判断浏览器是否为IE，而选择加载zepto或jQuery。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define((<span class="string">'__proto__'</span> <span class="keyword">in</span> &#123;&#125; ? [<span class="string">'zepto'</span>] : [<span class="string">'jquery'</span>]), <span class="function"><span class="keyword">function</span>(<span class="params">$</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> $;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码定义了一个中间模块，该模块先判断浏览器是否支持<strong>proto</strong>属性（除了IE，其他浏览器都支持），如果返回true，就加载zepto库，否则加载jQuery库。</p>
+<h3 id="require方法：调用模块"><a href="#require方法：调用模块" class="headerlink" title="require方法：调用模块"></a>require方法：调用模块</h3><p>require方法用于调用模块。它的参数与define方法类似。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>([<span class="string">'foo'</span>, <span class="string">'bar'</span>], <span class="function"><span class="keyword">function</span> (<span class="params"> foo, bar </span>) </span>&#123;</div><div class="line">        foo.doSomething();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面方法表示加载foo和bar两个模块，当这两个模块都加载成功后，执行一个回调函数。该回调函数就用来完成具体的任务。</p>
+<p>require方法的第一个参数，是一个表示依赖关系的数组。这个数组可以写得很灵活，请看下面的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>( [ <span class="built_in">window</span>.JSON ? <span class="literal">undefined</span> : <span class="string">'util/json2'</span> ], <span class="function"><span class="keyword">function</span> (<span class="params"> JSON </span>) </span>&#123;</div><div class="line">  <span class="built_in">JSON</span> = <span class="built_in">JSON</span> || <span class="built_in">window</span>.JSON;</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log( <span class="built_in">JSON</span>.parse( <span class="string">'&#123; "JSON" : "HERE" &#125;'</span> ) );</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码加载JSON模块时，首先判断浏览器是否原生支持JSON对象。如果是的，则将undefined传入回调函数，否则加载util目录下的json2模块。</p>
+<p>require方法也可以用在define方法内部。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">require</span>) </span>&#123;</div><div class="line">   <span class="keyword">var</span> otherModule = <span class="built_in">require</span>(<span class="string">'otherModule'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>下面的例子显示了如何动态加载模块。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"> require </span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> isReady = <span class="literal">false</span>, foobar;</div><div class="line"> </div><div class="line">    <span class="built_in">require</span>([<span class="string">'foo'</span>, <span class="string">'bar'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">foo, bar</span>) </span>&#123;</div><div class="line">        isReady = <span class="literal">true</span>;</div><div class="line">        foobar = foo() + bar();</div><div class="line">    &#125;);</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">isReady</span>: isReady,</div><div class="line">        <span class="attr">foobar</span>: foobar</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码所定义的模块，内部加载了foo和bar两个模块，在没有加载完成前，isReady属性值为false，加载完成后就变成了true。因此，可以根据isReady属性的值，决定下一步的动作。</p>
+<p>下面的例子是模块的输出结果是一个promise对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'lib/Deferred'</span>], <span class="function"><span class="keyword">function</span>(<span class="params"> Deferred </span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> defer = <span class="keyword">new</span> Deferred(); </div><div class="line">    <span class="built_in">require</span>([<span class="string">'lib/templates/?index.html'</span>,<span class="string">'lib/data/?stats'</span>],</div><div class="line">        <span class="function"><span class="keyword">function</span>(<span class="params"> template, data </span>)</span>&#123;</div><div class="line">            defer.resolve(&#123; <span class="attr">template</span>: template, <span class="attr">data</span>:data &#125;);</div><div class="line">        &#125;</div><div class="line">    );</div><div class="line">    <span class="keyword">return</span> defer.promise();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码的define方法返回一个promise对象，可以在该对象的then方法，指定下一步的动作。</p>
+<p>如果服务器端采用JSONP模式，则可以直接在require中调用，方法是指定JSONP的callback参数为define。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>( [ </div><div class="line">    <span class="string">"http://someapi.com/foo?callback=define"</span></div><div class="line">], <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>require方法允许添加第三个参数，即错误处理的回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>(</div><div class="line">    [ <span class="string">"backbone"</span> ], </div><div class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"> Backbone </span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> Backbone.View.extend(&#123; <span class="comment">/* ... */</span> &#125;);</div><div class="line">    &#125;, </div><div class="line">    <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">		<span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>require方法的第三个参数，即处理错误的回调函数，接受一个error对象作为参数。</p>
+<p>require对象还允许指定一个全局性的Error事件的监听函数。所有没有被上面的方法捕获的错误，都会被触发这个监听函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">requirejs.onError = <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="AMD模式小结"><a href="#AMD模式小结" class="headerlink" title="AMD模式小结"></a>AMD模式小结</h3><p>define和require这两个定义模块、调用模块的方法，合称为AMD模式。它的模块定义的方法非常清晰，不会污染全局环境，能够清楚地显示依赖关系。</p>
+<p>AMD模式可以用于浏览器环境，并且允许非同步加载模块，也可以根据需要动态加载模块。</p>
+<h2 id="配置require-js：config方法"><a href="#配置require-js：config方法" class="headerlink" title="配置require.js：config方法"></a>配置require.js：config方法</h2><p>require方法本身也是一个对象，它带有一个config方法，用来配置require.js运行参数。config方法接受一个对象作为参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span>: &#123;</div><div class="line">        <span class="attr">jquery</span>: [</div><div class="line">            <span class="string">'//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js'</span>,</div><div class="line">            <span class="string">'lib/jquery'</span></div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>config方法的参数对象有以下主要成员：</p>
+<p><strong>（1）paths</strong></p>
+<p>paths参数指定各个模块的位置。这个位置可以是同一个服务器上的相对位置，也可以是外部网址。可以为每个模块定义多个位置，如果第一个位置加载失败，则加载第二个位置，上面的示例就表示如果CDN加载失败，则加载服务器上的备用脚本。需要注意的是，指定本地文件路径时，可以省略文件最后的js后缀名。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>([<span class="string">"jquery"</span>], <span class="function"><span class="keyword">function</span>(<span class="params">$</span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码加载jquery模块，因为jquery的路径已经在paths参数中定义了，所以就会到事先设定的位置下载。</p>
+<p><strong>（2）baseUrl</strong></p>
+<p>baseUrl参数指定本地模块位置的基准目录，即本地模块的路径是相对于哪个目录的。该属性通常由require.js加载时的data-main属性指定。</p>
+<p><strong>（3）shim</strong></p>
+<p>有些库不是AMD兼容的，这时就需要指定shim属性的值。shim可以理解成“垫片”，用来帮助require.js加载非AMD规范的库。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>.config(&#123;</div><div class="line">    <span class="attr">paths</span>: &#123;</div><div class="line">        <span class="string">"backbone"</span>: <span class="string">"vendor/backbone"</span>,</div><div class="line">        <span class="string">"underscore"</span>: <span class="string">"vendor/underscore"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">shim</span>: &#123;</div><div class="line">        <span class="string">"backbone"</span>: &#123;</div><div class="line">            <span class="attr">deps</span>: [ <span class="string">"underscore"</span> ],</div><div class="line">            <span class="attr">exports</span>: <span class="string">"Backbone"</span></div><div class="line">        &#125;,</div><div class="line">        <span class="string">"underscore"</span>: &#123;</div><div class="line">            <span class="attr">exports</span>: <span class="string">"_"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码中的backbone和underscore就是非AMD规范的库。shim指定它们的依赖关系（backbone依赖于underscore），以及输出符号（backbone为“Backbone”，underscore为“_”）。</p>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><p>RequireJS允许使用插件，加载各种格式的数据。完整的插件清单可以查看<a href="https://github.com/jrburke/requirejs/wiki/Plugins" target="_blank" rel="external">官方网站</a>。</p>
+<p>下面是插入文本数据所使用的text插件的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define([</div><div class="line">    <span class="string">'backbone'</span>,</div><div class="line">    <span class="string">'text!templates.html'</span></div><div class="line">], <span class="function"><span class="keyword">function</span>(<span class="params"> Backbone, template </span>)</span>&#123;</div><div class="line">   <span class="comment">// ...</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码加载的第一个模块是backbone，第二个模块则是一个文本，用’text!’表示。该文本作为字符串，存放在回调函数的template变量中。</p>
+<h2 id="优化器r-js"><a href="#优化器r-js" class="headerlink" title="优化器r.js"></a>优化器r.js</h2><p>RequireJS提供一个基于node.js的命令行工具r.js，用来压缩多个js文件。它的主要作用是将多个模块文件压缩合并成一个脚本文件，以减少网页的HTTP请求数。</p>
+<p>第一步是安装r.js（假设已经安装了node.js）。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm <span class="keyword">install</span> -g requirejs</div></pre></td></tr></table></figure>
+<p>然后，使用的时候，直接在命令行键入以下格式的命令。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">node</span> <span class="title">r</span>.js -o <span class="tag">&lt;arguments&gt;</span></div></pre></td></tr></table></figure>
+<p>&lt;argument&gt;表示命令运行时，所需要的一系列参数，比如像下面这样：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">node</span> <span class="title">r</span>.js -o <span class="attr">baseUrl=</span>. <span class="attr">name=</span>main <span class="attr">out=</span>main-built.js</div></pre></td></tr></table></figure>
+<p>除了直接在命令行提供参数设置，也可以将参数写入一个文件，假定文件名为build.js。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(&#123;</div><div class="line">    <span class="attr">baseUrl</span>: <span class="string">"."</span>,</div><div class="line">    <span class="attr">name</span>: <span class="string">"main"</span>,</div><div class="line">    <span class="attr">out</span>: <span class="string">"main-built.js"</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>然后，在命令行下用r.js运行这个参数文件，就OK了，不需要其他步骤了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node r.js -o build.js</div></pre></td></tr></table></figure>
+<p>下面是一个参数文件的范例，假定位置就在根目录下，文件名为build.js。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(&#123;</div><div class="line">    <span class="attr">appDir</span>: <span class="string">'./'</span>,</div><div class="line">    <span class="attr">baseUrl</span>: <span class="string">'./js'</span>,</div><div class="line">    <span class="attr">dir</span>: <span class="string">'./dist'</span>,</div><div class="line">    <span class="attr">modules</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">'main'</span></div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    <span class="attr">fileExclusionRegExp</span>: <span class="regexp">/^(r|build)\.js$/</span>,</div><div class="line">    <span class="attr">optimizeCss</span>: <span class="string">'standard'</span>,</div><div class="line">    <span class="attr">removeCombined</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">paths</span>: &#123;</div><div class="line">        <span class="attr">jquery</span>: <span class="string">'lib/jquery'</span>,</div><div class="line">        <span class="attr">underscore</span>: <span class="string">'lib/underscore'</span>,</div><div class="line">        <span class="attr">backbone</span>: <span class="string">'lib/backbone/backbone'</span>,</div><div class="line">        <span class="attr">backboneLocalstorage</span>: <span class="string">'lib/backbone/backbone.localStorage'</span>,</div><div class="line">        <span class="attr">text</span>: <span class="string">'lib/require/text'</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">shim</span>: &#123;</div><div class="line">        <span class="attr">underscore</span>: &#123;</div><div class="line">            <span class="attr">exports</span>: <span class="string">'_'</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">backbone</span>: &#123;</div><div class="line">            <span class="attr">deps</span>: [</div><div class="line">                <span class="string">'underscore'</span>,</div><div class="line">                <span class="string">'jquery'</span></div><div class="line">            ],</div><div class="line">            <span class="attr">exports</span>: <span class="string">'Backbone'</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">backboneLocalstorage</span>: &#123;</div><div class="line">            <span class="attr">deps</span>: [<span class="string">'backbone'</span>],</div><div class="line">            <span class="attr">exports</span>: <span class="string">'Store'</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>上面代码将多个模块压缩合并成一个main.js。</p>
+<p>参数文件的主要成员解释如下：</p>
+<ul>
+<li><p><strong>appDir</strong>：项目目录，相对于参数文件的位置。</p>
+</li>
+<li><p><strong>baseUrl</strong>：js文件的位置。</p>
+</li>
+<li><p><strong>dir</strong>：输出目录。</p>
+</li>
+<li><p><strong>modules</strong>：一个包含对象的数组，每个对象就是一个要被优化的模块。</p>
+</li>
+<li><p><strong>fileExclusionRegExp</strong>：凡是匹配这个正则表达式的文件名，都不会被拷贝到输出目录。</p>
+</li>
+<li><p><strong>optimizeCss</strong>: 自动压缩CSS文件，可取的值包括“none”, “standard”, “standard.keepLines”, “standard.keepComments”, “standard.keepComments.keepLines”。</p>
+</li>
+<li><p><strong>removeCombined</strong>：如果为true，合并后的原文件将不保留在输出目录中。</p>
+</li>
+<li><p><strong>paths</strong>：各个模块的相对路径，可以省略js后缀名。</p>
+</li>
+<li><p><strong>shim</strong>：配置依赖性关系。如果某一个模块不是AMD模式定义的，就可以用shim属性指定模块的依赖性关系和输出值。</p>
+</li>
+<li><p><strong>generateSourceMaps</strong>：是否要生成source map文件。</p>
+</li>
+</ul>
+<p>更详细的解释可以参考<a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js" target="_blank" rel="external">官方文档</a>。</p>
+<p>运行优化命令后，可以前往dist目录查看优化后的文件。</p>
+<p>下面是另一个build.js的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(&#123;</div><div class="line">    <span class="attr">mainConfigFile</span> : <span class="string">"js/main.js"</span>,</div><div class="line">    <span class="attr">baseUrl</span>: <span class="string">"js"</span>,</div><div class="line">    <span class="attr">removeCombined</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">findNestedDependencies</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">dir</span>: <span class="string">"dist"</span>,</div><div class="line">    <span class="attr">modules</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">"main"</span>,</div><div class="line">            <span class="attr">exclude</span>: [</div><div class="line">                <span class="string">"infrastructure"</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">name</span>: <span class="string">"infrastructure"</span></div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>上面代码将模块文件压缩合并成两个文件，第一个是main.js（指定排除infrastructure.js），第二个则是infrastructure.js。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li>NaorYe, <a href="http://www.webdeveasy.com/optimize-requirejs-projects/" target="_blank" rel="external">Optimize (Concatenate and Minify) RequireJS Projects</a></li>
+<li>Jonathan Creamer, <a href="http://tech.pro/tutorial/1300/deep-dive-into-requirejs" target="_blank" rel="external">Deep dive into Require.js</a></li>
+<li>Addy Osmani, <a href="http://addyosmani.com/writing-modular-js/" target="_blank" rel="external">Writing Modular JavaScript With AMD, CommonJS &amp; ES Harmony</a> </li>
+<li>Jim Cowart, <a href="http://tech.pro/blog/1561/five-helpful-tips-when-using-requirejs" target="_blank" rel="external">Five Helpful Tips When Using RequireJS</a> </li>
+<li>Jim Cowart, <a href="http://tech.pro/blog/1639/using-rjs-to-optimize-your-requirejs-project" target="_blank" rel="external">Using r.js to Optimize Your RequireJS Project</a></li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-11-09-requirejs/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
 			<div class="article-title"><a href="/2017/02/01/event_performance（事件性能）/" ></a></div>						
 		</h3>
 	
@@ -471,40 +390,6 @@
 	
 	</div>
   <a type="button" href="/2017/02/01/event_performance（事件性能）/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/css编写规范/" ></a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>#css编写规范</p>
-<h2 id="css-书写顺序"><a href="#css-书写顺序" class="headerlink" title="css 书写顺序"></a>css 书写顺序</h2><p>尽量按照特定顺序编写规则，这将确保你充分发挥 CSS 中第一个 C 的意义：<strong>cascade</strong>，层叠。</p>
-<p>一份规划良好的 CSS 应当按照如下排列：</p>
-<ol>
-<li>Reset 万物之根源</li>
-<li>元素类型 没有 class 的 h1、ul 等</li>
-<li>对象以及抽象内容 最一般、最基础的设计模式</li>
-<li>子元素 由对象延伸出来的所有拓展及其子元素</li>
-<li>修补 针对异常状态</li>
-</ol>
-<blockquote>
-<p>显示 &gt; 盒模型 &gt; 文本</p>
-</blockquote>
-<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/*========================</div><div class="line">/*显示*/</div><div class="line">display |<span class="type">| visibility</span></div><div class="line">list-style : list-style-type |<span class="type">| list</span>-style-position |<span class="type">| list</span>-style-image</div><div class="line">position</div><div class="line"><span class="built_in">top</span> |<span class="type">| right</span> |<span class="type">| bottom</span> |<span class="type">| left</span></div><div class="line">z-index</div><div class="line"><span class="built_in">clear</span></div><div class="line">float</div><div class="line">/*盒模型*/</div><div class="line">width</div><div class="line">max-width |<span class="type">| min</span>-width</div><div class="line">height</div><div class="line">max-height |<span class="type">| min</span>-height</div><div class="line">overflow |<span class="type">| clip</span></div><div class="line">margin : margin-<span class="built_in">top</span> |<span class="type">| margin</span>-<span class="built_in">right</span> |<span class="type">| margin</span>-<span class="built_in">bottom</span> |<span class="type">| margin</span>-<span class="built_in">left</span></div><div class="line">padding : padding-<span class="built_in">top</span> |<span class="type">| padding</span>-<span class="built_in">right</span> |<span class="type">| padding</span>-<span class="built_in">bottom</span> |<span class="type">| padding</span>-<span class="built_in">left</span></div><div class="line">outline : outline-color |<span class="type">| outline</span>-style |<span class="type">| outline</span>-width</div><div class="line">border</div><div class="line">background : background-color |<span class="type">| background</span>-image |<span class="type">| background</span>-<span class="built_in">repeat</span> |<span class="type">| background</span>-attachment |<span class="type">| background</span>-position</div><div class="line">/*文本*/</div><div class="line">color</div><div class="line">font : font-style |<span class="type">| font</span>-variant |<span class="type">| font</span>-weight |<span class="type">| font</span>-size |<span class="type">|    line</span>-height |<span class="type">| font</span>-family</div><div class="line">font : caption | <span class="type">icon</span> | <span class="type">menu</span> | <span class="type">message</span>-box | <span class="type">small</span>-caption |    <span class="type">status</span>-bar</div><div class="line">text-overflow</div><div class="line">text-align</div><div class="line">text-indent</div><div class="line">line-height</div><div class="line">white-space</div><div class="line">vertical-align</div><div class="line">cursor</div><div class="line">========================*/</div></pre></td></tr></table></figure>
-	
-	</div>
-  <a type="button" href="/2017/02/01/css编写规范/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -656,6 +541,40 @@
 </div>
 
 		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/css编写规范/" ></a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>#css编写规范</p>
+<h2 id="css-书写顺序"><a href="#css-书写顺序" class="headerlink" title="css 书写顺序"></a>css 书写顺序</h2><p>尽量按照特定顺序编写规则，这将确保你充分发挥 CSS 中第一个 C 的意义：<strong>cascade</strong>，层叠。</p>
+<p>一份规划良好的 CSS 应当按照如下排列：</p>
+<ol>
+<li>Reset 万物之根源</li>
+<li>元素类型 没有 class 的 h1、ul 等</li>
+<li>对象以及抽象内容 最一般、最基础的设计模式</li>
+<li>子元素 由对象延伸出来的所有拓展及其子元素</li>
+<li>修补 针对异常状态</li>
+</ol>
+<blockquote>
+<p>显示 &gt; 盒模型 &gt; 文本</p>
+</blockquote>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/*========================</div><div class="line">/*显示*/</div><div class="line">display |<span class="type">| visibility</span></div><div class="line">list-style : list-style-type |<span class="type">| list</span>-style-position |<span class="type">| list</span>-style-image</div><div class="line">position</div><div class="line"><span class="built_in">top</span> |<span class="type">| right</span> |<span class="type">| bottom</span> |<span class="type">| left</span></div><div class="line">z-index</div><div class="line"><span class="built_in">clear</span></div><div class="line">float</div><div class="line">/*盒模型*/</div><div class="line">width</div><div class="line">max-width |<span class="type">| min</span>-width</div><div class="line">height</div><div class="line">max-height |<span class="type">| min</span>-height</div><div class="line">overflow |<span class="type">| clip</span></div><div class="line">margin : margin-<span class="built_in">top</span> |<span class="type">| margin</span>-<span class="built_in">right</span> |<span class="type">| margin</span>-<span class="built_in">bottom</span> |<span class="type">| margin</span>-<span class="built_in">left</span></div><div class="line">padding : padding-<span class="built_in">top</span> |<span class="type">| padding</span>-<span class="built_in">right</span> |<span class="type">| padding</span>-<span class="built_in">bottom</span> |<span class="type">| padding</span>-<span class="built_in">left</span></div><div class="line">outline : outline-color |<span class="type">| outline</span>-style |<span class="type">| outline</span>-width</div><div class="line">border</div><div class="line">background : background-color |<span class="type">| background</span>-image |<span class="type">| background</span>-<span class="built_in">repeat</span> |<span class="type">| background</span>-attachment |<span class="type">| background</span>-position</div><div class="line">/*文本*/</div><div class="line">color</div><div class="line">font : font-style |<span class="type">| font</span>-variant |<span class="type">| font</span>-weight |<span class="type">| font</span>-size |<span class="type">|    line</span>-height |<span class="type">| font</span>-family</div><div class="line">font : caption | <span class="type">icon</span> | <span class="type">menu</span> | <span class="type">message</span>-box | <span class="type">small</span>-caption |    <span class="type">status</span>-bar</div><div class="line">text-overflow</div><div class="line">text-align</div><div class="line">text-indent</div><div class="line">line-height</div><div class="line">white-space</div><div class="line">vertical-align</div><div class="line">cursor</div><div class="line">========================*/</div></pre></td></tr></table></figure>
+	
+	</div>
+  <a type="button" href="/2017/02/01/css编写规范/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
 
 		</div>
 
@@ -732,45 +651,45 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/linux/">linux<span>6</span></a></li>
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
 		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
-		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
 		
 			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
 		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
 		
 			<li><a href="/tags/css/">css<span>7</span></a></li>
 		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/build/">build<span>2</span></a></li>
+		
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+		
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+		
+			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+		
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+		
+			<li><a href="/tags/test/">test<span>2</span></a></li>
+		
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
 		
 			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
 		
 			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
 		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
 			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
-		
-			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
-		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
-		
-			<li><a href="/tags/browser/">browser<span>3</span></a></li>
-		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
-		
-			<li><a href="/tags/test/">test<span>2</span></a></li>
-		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
-		
-			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
-		
-			<li><a href="/tags/demo/">demo<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -794,7 +713,7 @@
       </li>
     
       <li>
-        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
+        <a href="/2017/02/01/2012-08-03-页面性能的几个评测点/" ><i class="fa fa-file-o"></i>页面性能的几个评测点</a>
       </li>
     
       <li>

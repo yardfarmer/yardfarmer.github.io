@@ -171,7 +171,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/2012-08-03-linux同步标准时间/" >linux同步标准时间</a></div>						
+			<div class="article-title"><a href="/2017/02/01/2012-08-03-页面性能的几个评测点/" >页面性能的几个评测点</a></div>						
 		</h3>
 	
 
@@ -180,12 +180,39 @@
   <div class="row">
 	
 	
-		<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ntpdate  ph.pool.ntp.org</div></pre></td></tr></table></figure>
-<p><a href="http://www.pool.ntp.org/zone/asia" title="地址" target="_blank" rel="external">亚洲ntp server</a></p>
+		<p>页面性能评测还是时间第一，细化了可以分为下面的几个</p>
+<ol>
+<li><p>加载时间</p>
+<ul>
+<li>从在浏览器里按下回车键到页面开始出现的时间，相同站点在不同浏览器下这个时间会有所不同</li>
+<li>触发浏览器onload事件的时间</li>
+<li>所有资源下载完毕的时间</li>
+</ul>
+</li>
+<li><p>资源</p>
+<ul>
+<li>所有的请求数</li>
+<li>图片/css/javascript的大小</li>
+<li>网页（html）的大小</li>
+<li>异步请求的数量</li>
+<li>坏请求的数量(重定向，服务器端错误等等)</li>
+</ul>
+</li>
+<li><p>网络</p>
+<ul>
+<li>DNS时间（查找域名对应的服务器IP耗费的时间）</li>
+<li>连接时间 （向服务器发起连接时间）</li>
+<li>服务器时间 （服务器端处理请求的耗费时间）</li>
+<li>传输时间 （由服务器向客户端传输资源耗费时间）</li>
+<li>等待时间 （同时向一个服务器请求的连接数量是有限制的，获取资源时的等待空闲连接的时间）</li>
+</ul>
+</li>
+</ol>
+<p>以上关键点互相之间相辅相成，二和三决定了一的时间，另外，交互复杂的网站，很多资源的请求是在用户操作的情况下发起的，这些单个的请求也同样可以用上样的关键点进行评测。</p>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/2012-08-03-linux同步标准时间/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2012-08-03-页面性能的几个评测点/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -501,45 +528,45 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/framework/">framework<span>1</span></a></li>
-		
-			<li><a href="/tags/css/">css<span>7</span></a></li>
-		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
-		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
-		
-			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
-		
-			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
-		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/webponent/">webponent<span>1</span></a></li>
-		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
-		
 			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
-		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
-		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
 		
 			<li><a href="/tags/browser/">browser<span>3</span></a></li>
 		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
 		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
 		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
+			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
 		
-			<li><a href="/tags/Shocking/">Shocking<span>2</span></a></li>
+			<li><a href="/tags/default/">default<span>1</span></a></li>
 		
-			<li><a href="/tags/hg/">hg<span>1</span></a></li>
+			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
+		
+			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+		
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+		
+			<li><a href="/tags/framework/">framework<span>1</span></a></li>
+		
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+		
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+		
+			<li><a href="/tags/linux/">linux<span>6</span></a></li>
+		
+			<li><a href="/tags/build/">build<span>2</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -563,7 +590,7 @@
       </li>
     
       <li>
-        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
+        <a href="/2017/02/01/2012-08-03-页面性能的几个评测点/" ><i class="fa fa-file-o"></i>页面性能的几个评测点</a>
       </li>
     
       <li>
