@@ -1,7 +1,11 @@
 title: Genymotion 使用 charles 代理
 date: 2015-10-23 00:24:30
 updated: 2015-10-23 00:24:30
-tags:
+tags: Genymotion
+categories:
+  - tools
+  - debug
+toc: true
 ---
 
 在 Genymotion 模拟器中：

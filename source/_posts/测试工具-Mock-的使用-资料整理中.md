@@ -1,7 +1,7 @@
 title: 测试工具 Mock 的使用(资料整理中)
 date: 2015-10-23 00:25:10
 updated: 2015-10-23 00:25:10
-tags:
+tags: test
 ---
 
 因为重构，所以需要测试。
@@ -18,3 +18,4 @@ Mocha支持BDD（行为驱动开发）和TDD（测试驱动开发）两种测试
 
 ###钩子函数
 BDD风格的钩子函数有：before, after, beforeEach, afterEach 典型BDD风格测试：
+

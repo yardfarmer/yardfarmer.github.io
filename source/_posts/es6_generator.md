@@ -1,3 +1,16 @@
+---
+layout: post
+date: 2016-04-23  15:12:36 +0800
+title: es6 generator
+tags:
+  - es6
+categories:
+  - js
+description: 
+toc: true
+feature: http://7i7gr4.com1.z0.glb.clouddn.com/2017-04-23-14929312889535.jpg
+---
+
 #es6 generator
 > 当调用 generator 函数的时候， 该函数并不会执行，而是返回一个遍历器(可以理解成暂停执行)
 

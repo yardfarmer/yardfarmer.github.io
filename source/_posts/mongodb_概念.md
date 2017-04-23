@@ -1,3 +1,15 @@
+---
+layout: post
+date: 2016-04-23  15:10:18 +0800
+title: MongoDB
+tags: default
+categories: default
+description: 
+toc: true
+feature: http://7i7gr4.com1.z0.glb.clouddn.com/2017-04-23-14929312889535.jpg
+---
+
+
 #mongodb 概念
 
 mongodb 的基本概念是 **文档,集合,数据库**

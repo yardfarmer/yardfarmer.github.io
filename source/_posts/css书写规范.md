@@ -1,4 +1,16 @@
-css 编写习惯
+---
+layout: post
+date: 2017-04-23  15:13:45 +0800
+title: css 编写习惯
+tags:
+  - css
+categories:
+  - css
+  - code
+description: 
+toc: true
+feature: http://7i7gr4.com1.z0.glb.clouddn.com/2017-04-23-14929312889535.jpg
+---
 
 1. 分区, 看过视觉稿之后，我们可以得出该视觉稿有9个独立区块，所以我们描写结构的css文件中的区块样式定义最多为9块
 
@@ -51,3 +63,4 @@ css 编写习惯
 	
 	
 	
+

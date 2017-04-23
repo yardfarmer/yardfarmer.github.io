@@ -1,11 +1,6 @@
 title: js中的编码转换
-tags:
-  - Injury
-  - Fight
-  - Shocking
+tags: js
 categories:
-  - Sports
-  - Baseball
 date: 2015-10-23 00:24:35
 updated: 2015-10-23 00:24:35
 ---
@@ -57,3 +52,4 @@ A better, more faithful and less expensive solution is to convert the DOMString 
 
 
 ##. encodeURIComponent
+

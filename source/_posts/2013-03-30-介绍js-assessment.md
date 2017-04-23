@@ -36,11 +36,6 @@ node bin/serve
 * mocha写测试用例很爽
 * 好的实现方式也更容易测试，比如异步的时候使用promise模式
 
-
-
-##答案
-是题就会有答案，当然也只是参考答案，没有绝对答案的，[项目自带的](https://github.com/rmurphey/js-assessment-answers)、[小哥我做的](https://github.com/jserme/js-assessment/tree/master/app)
-
 ##总结
 完成它和写这个文章相距的时间有点长，当时的有些感悟都忘记了。。。所以，以后还是想到了，直接就写，google reader要关闭了，多写了点文章吧。
 

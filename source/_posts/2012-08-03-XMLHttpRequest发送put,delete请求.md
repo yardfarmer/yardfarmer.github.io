@@ -18,12 +18,12 @@ tags : javascript
 大家都知道XMLHttpRequest对象的open方法第一个参数就是method,有多少人用过除了"GET"和"POST"之外的参数呢？试验了一个，发现了好玩的，哈哈，例子猛击[这里](/demos/1343967804284_httpmethod_test.html "点开看看呗")，请在不同的浏览器中测试，服务器返回的是请求的method。
 
 
-在IE6，7，8下，自己乱定义的method jser.me光荣牺牲，报错了，但是put,delete都很正常，并且请求过一次的post，居然也成get了，
+在IE6，7，8下，自己乱定义的method 光荣牺牲，报错了，但是put,delete都很正常，并且请求过一次的post，居然也成get了，
 
-在FF,chrome下不仅put,delete很正常，jser.me这个自定义的方法也给力的完成了
+在FF,chrome下不仅put,delete很正常，这个自定义的方法也给力的完成了
 
 小试验证明put和delete是完全可以用XMLHttpRequest来实现的~~~
 
-PS:在本机(apache)测试的时候jser.me是很完美的完成了，在服务器上到nginx时被拦了，看配置也没找到哪出问题了，囧
+PS:在本机(apache)测试的时候是很完美的完成了，在服务器上到nginx时被拦了，看配置也没找到哪出问题了，囧
 
 

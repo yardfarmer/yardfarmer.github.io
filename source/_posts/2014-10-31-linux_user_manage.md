@@ -112,3 +112,5 @@ userdel 选项 用户名
     # passwd sam
     New password:*******
     Re-enter new password:*******
+
+
