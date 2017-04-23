@@ -330,7 +330,7 @@ completion     output completion bash script
 <h2 id="准备oracle的安装目标目录"><a href="#准备oracle的安装目标目录" class="headerlink" title="准备oracle的安装目标目录"></a>准备oracle的安装目标目录</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost oracle]<span class="selector-id">#mkdir</span> –<span class="selector-tag">p</span> /opt/oracle</div></pre></td></tr></table></figure>
 <p>安装目标目录是用户想将oracle安装到哪个位置的目录，本次我们将oracle安装到/opt/oracle目录中，以下为目录创建命令。</p>
 <h2 id="创建oracle相关用户和用户组"><a href="#创建oracle相关用户和用户组" class="headerlink" title="创建oracle相关用户和用户组"></a>创建oracle相关用户和用户组</h2><p>oracle不能在root帐户下进行安装，所以需要为oracle的安装专门创建一个用户，同时需要创建dba和oinstall的用户组。</p>
-<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root<span class="symbol">@localhost</span> oracle]<span class="meta">#groupadd dba</span></div><div class="line">[root<span class="symbol">@localhost</span> oracle]<span class="meta">#groupadd oinstall</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-attr">[root@localhost oracle]</span><span class="selector-id">#groupadd</span> <span class="selector-tag">dba</span></div><div class="line"><span class="selector-attr">[root@localhost oracle]</span><span class="selector-id">#groupadd</span> <span class="selector-tag">oinstall</span></div></pre></td></tr></table></figure>
 <p>以下命令将创建dba和oinstall用户组：<br>以下命令将创建oracle用户，并设置密码</p>
 <figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[root@localhost oracle]<span class="comment">#useradd -g oinstall -G dba oracle</span></div><div class="line"></div><div class="line">[root@localhost oracle]<span class="comment">#passwd oracle</span></div><div class="line"></div><div class="line">Changing password <span class="keyword">for</span> user oracle.</div><div class="line"></div><div class="line">New UNIX password: [在此键入密码]</div><div class="line"></div><div class="line">BAD PASSWORD: <span class="literal">it</span> <span class="keyword">is</span> based <span class="literal">on</span> a dictionary word</div><div class="line"></div><div class="line">Retype <span class="keyword">new</span> UNIX password: [在此再次键入密码]</div><div class="line"></div><div class="line">passwd: all authentication tokens updated successfully.</div></pre></td></tr></table></figure>
 <p>以下命令将oracle安装目录（/opt/oracle）赋予oracle用户oinstall用户组</p>
@@ -410,29 +410,6 @@ completion     output completion bash script
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2014-08-01 </div>
-			<div class="article-title"><a href="/2014/08/01/2014-07-31-linux修改hostname/" >linux修改hostname</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>最近鼓捣Oracle，记录些技巧</p>
-<h2 id="修改hostname"><a href="#修改hostname" class="headerlink" title="修改hostname"></a>修改hostname</h2><figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="vala"><span class="meta"># vim /ect/hosts              </span></span></div><div class="line"><span class="meta"># vim /etc/sysconfig/network  修改hostname</span></div><div class="line"><span class="meta"># service network restart     重启网络服务</span></div></pre></td></tr></table></figure>
-
-	
-	</div>
-  <a type="button" href="/2014/08/01/2014-07-31-linux修改hostname/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2014-08-01 </div>
 			<div class="article-title"><a href="/2014/08/01/2014-08-04-linux-air-command/" >linux常用工具</a></div>						
 		</h3>
 	
@@ -460,6 +437,29 @@ completion     output completion bash script
 	
 	</div>
   <a type="button" href="/2014/08/01/2014-08-04-linux-air-command/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2014-08-01 </div>
+			<div class="article-title"><a href="/2014/08/01/2014-07-31-linux修改hostname/" >linux修改hostname</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>最近鼓捣Oracle，记录些技巧</p>
+<h2 id="修改hostname"><a href="#修改hostname" class="headerlink" title="修改hostname"></a>修改hostname</h2><figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="vala"><span class="meta"># vim /ect/hosts              </span></span></div><div class="line"><span class="meta"># vim /etc/sysconfig/network  修改hostname</span></div><div class="line"><span class="meta"># service network restart     重启网络服务</span></div></pre></td></tr></table></figure>
+
+	
+	</div>
+  <a type="button" href="/2014/08/01/2014-07-31-linux修改hostname/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -954,45 +954,45 @@ completion     output completion bash script
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/polymer/">polymer<span>3</span></a></li>
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+		
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
 		
 			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
 		
-			<li><a href="/tags/git/">git<span>5</span></a></li>
-		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
-		
-			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
-		
-			<li><a href="/tags/framework/">framework<span>1</span></a></li>
-		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
-		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
-		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
-		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
-		
-			<li><a href="/tags/html5/">html5<span>1</span></a></li>
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
 		
 			<li><a href="/tags/linux/">linux<span>6</span></a></li>
 		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
-		
-			<li><a href="/tags/html/">html<span>2</span></a></li>
-		
-			<li><a href="/tags/http/">http<span>2</span></a></li>
-		
-			<li><a href="/tags/Fight/">Fight<span>2</span></a></li>
-		
-			<li><a href="/tags/css/">css<span>7</span></a></li>
+			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
 		
 			<li><a href="/tags/test/">test<span>2</span></a></li>
 		
-			<li><a href="/tags/webcomponent-framework/">webcomponent,framework<span>1</span></a></li>
+			<li><a href="/tags/mobile/">mobile<span>1</span></a></li>
+		
+			<li><a href="/tags/html/">html<span>2</span></a></li>
+		
+			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+		
+			<li><a href="/tags/html-优化/">html 优化<span>1</span></a></li>
+		
+			<li><a href="/tags/demo/">demo<span>1</span></a></li>
+		
+			<li><a href="/tags/library/">library<span>3</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
+		
+			<li><a href="/tags/vim/">vim<span>3</span></a></li>
+		
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+		
+			<li><a href="/tags/document/">document<span>1</span></a></li>
+		
+			<li><a href="/tags/tools/">tools<span>2</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -1008,15 +1008,7 @@ completion     output completion bash script
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/02/01/2012-08-03-XMLHttpRequest发送put,delete请求/" ><i class="fa fa-file-o"></i>XMLHttpRequest发送put,delete请求</a>
-      </li>
-    
-      <li>
-        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
-      </li>
-    
-      <li>
-        <a href="/2017/02/01/2012-08-03-页面性能的几个评测点/" ><i class="fa fa-file-o"></i>页面性能的几个评测点</a>
+        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
       </li>
     
       <li>
@@ -1025,6 +1017,14 @@ completion     output completion bash script
     
       <li>
         <a href="/2017/02/01/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/01/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
       </li>
     
   </ul>

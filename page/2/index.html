@@ -107,7 +107,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/node_harmony/" ></a></div>						
+			<div class="article-title"><a href="/2017/02/01/2013-08-10-重布局和重绘/" >前端优化的小范围记录</a></div>						
 		</h3>
 	
 
@@ -116,24 +116,39 @@
   <div class="row">
 	
 	
-		<p>#node harmony<br>They have done away with the –harmony flag - which in Node 0.11+ you had to include if you wanted to use any ES6 features at all. In io.js, you get them right out of the box! The current list of ES6 features enabled by default are:</p>
-<p>iojs 已经可以默认支持这些了。</p>
+		<h2 id="HTML-方面"><a href="#HTML-方面" class="headerlink" title="HTML 方面"></a>HTML 方面</h2><h3 id="重布局和重绘"><a href="#重布局和重绘" class="headerlink" title="重布局和重绘"></a>重布局和重绘</h3><p>重布局和重绘，是 web 页面中最常见的重量级操作。当浏览器需要更新它的呈现模型时，就会发生重布局和重绘。只要加载页面就会发生一次重布局和重绘(浏览器在加载页面时必须至少绘制一次页面）, 但在动态页面的应用中，会发生很多次的重布局和重绘。</p>
 <ul>
-<li>let</li>
-<li>const</li>
-<li>Map</li>
-<li>WeakMap/WeakSet</li>
-<li>Generators</li>
-<li>Binary and Octal literals, 二进制和八进制的字面量</li>
-<li>Promises</li>
-<li>Pro string method</li>
-<li>Symbols</li>
-<li>Template strings</li>
+<li>当改变样式时候，而不该页面的几何布局，将发生重绘。隐藏一个元素，或者改变一个元素的背景色时，都将导致一次重绘</li>
+<li>当对页面的结构进行更新时，将导致重布局。从文档中移除元素，或者将元素添加到文档中、改变元素的大小或者改变元素的某些属性，都将导致页面重布局，重布局的代价比重绘大，它涉及到使用当前的 DOM、CSS 的定义，重新计算页面的几何结构。</li>
 </ul>
+<h3 id="优化措施"><a href="#优化措施" class="headerlink" title="优化措施"></a>优化措施</h3><p> 最少次数的更新 DOM</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">table</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'one append, one dom cost'</span>)</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">		$(<span class="string">"#main table"</span>).append(<span class="string">"&lt;tr&gt;&lt;td&gt;append to row: &lt;/td&gt;&lt;td&gt;"</span> + i + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'one append, one dom cost'</span>);</div><div class="line">	<span class="comment">// =&gt; one append, one dom cost: 4952.122ms </span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="keyword">var</span> tableRows = <span class="string">""</span>;</div><div class="line">	<span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ ) &#123;</div><div class="line">		tableRows += <span class="string">"&lt;tr&gt;&lt;td&gt;accumulate and append, now is at :&lt;/td&gt;&lt;td&gt;"</span>+ i +<span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">    $(<span class="string">"#main table"</span>).append(tableRows);</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="comment">// =&gt; accumulate and append cost: 117.491ms</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>采用一次想操作 dom 的方法比每次都操作 dom 快了 42 倍。<br><img src="./images/codesnip_20141229215927.png" alt="显著对比"></p>
+<h2 id="JS-方面"><a href="#JS-方面" class="headerlink" title="JS 方面"></a>JS 方面</h2><h3 id="缓存计算值"><a href="#缓存计算值" class="headerlink" title="缓存计算值"></a>缓存计算值</h3><h3 id="恰当的适用循环"><a href="#恰当的适用循环" class="headerlink" title="恰当的适用循环"></a>恰当的适用循环</h3><ul>
+<li>for (最快的)</li>
+<li>$.each(item)</li>
+<li><p>Array.forEach(item,index)</p>
+<p>  后两种采用回调的方式，涉及到准备执行上下文,进栈出栈的操作，并且由于所有的操作都在函数进行， 当引用了外部作用域的变量，循环体中的代码会反复的在作用链中向上查找。传统的 for 循环在包含它的上下文中执行，没有创建新的执行上下文的负担，同时循环外的变量依然保持在当前作用域中，省去了作用域的向上查找。 </p>
+</li>
+</ul>
+<h2 id="CSS-方面"><a href="#CSS-方面" class="headerlink" title="CSS 方面"></a>CSS 方面</h2><h3 id="高效的使用选择器"><a href="#高效的使用选择器" class="headerlink" title="高效的使用选择器"></a>高效的使用选择器</h3><ul>
+<li>解析引擎自右向左的计算每条规则</li>
+<li>尽可能的使用具体化的选择器，id 好于 tag</li>
+<li><p>避免不必要的冗余</p>
+<p>  无论哪种浏览器，适用 id 选择器或单个类选择器都是选择元素最快的方式。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#id"</span>)</div><div class="line">$(<span class="string">".class"</span>)</div><div class="line"></div><div class="line"><span class="comment">//  以下为反模式</span></div><div class="line">$(<span class="string">"section div div div &gt; div #id"</span>)</div><div class="line">$(<span class="string">"section div div div &gt; div .class"</span>)</div><div class="line">$(<span class="string">"section div div div p:not('.class')"</span>)</div></pre></td></tr></table></figure>
+<p>适当的使用选择器上下文，如果上下文就是费了九牛加二虎的力气选出来的，不如不加</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".classname"</span>)</div><div class="line"></div><div class="line">$(<span class="string">".classname"</span>,<span class="string">"#id"</span>)  <span class="comment">// 添加一个简单明确的上下文比搜索整个 dom 快些</span></div></pre></td></tr></table></figure>
+<h2 id="HTTP-方向"><a href="#HTTP-方向" class="headerlink" title="HTTP 方向"></a>HTTP 方向</h2><ol>
+<li>cookie</li>
+<li>多域名</li>
+</ol>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/node_harmony/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/2013-08-10-重布局和重绘/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -364,7 +379,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/2013-08-10-重布局和重绘/" >前端优化的小范围记录</a></div>						
+			<div class="article-title"><a href="/2017/02/01/neat的使用/" ></a></div>						
 		</h3>
 	
 
@@ -373,39 +388,25 @@
   <div class="row">
 	
 	
-		<h2 id="HTML-方面"><a href="#HTML-方面" class="headerlink" title="HTML 方面"></a>HTML 方面</h2><h3 id="重布局和重绘"><a href="#重布局和重绘" class="headerlink" title="重布局和重绘"></a>重布局和重绘</h3><p>重布局和重绘，是 web 页面中最常见的重量级操作。当浏览器需要更新它的呈现模型时，就会发生重布局和重绘。只要加载页面就会发生一次重布局和重绘(浏览器在加载页面时必须至少绘制一次页面）, 但在动态页面的应用中，会发生很多次的重布局和重绘。</p>
-<ul>
-<li>当改变样式时候，而不该页面的几何布局，将发生重绘。隐藏一个元素，或者改变一个元素的背景色时，都将导致一次重绘</li>
-<li>当对页面的结构进行更新时，将导致重布局。从文档中移除元素，或者将元素添加到文档中、改变元素的大小或者改变元素的某些属性，都将导致页面重布局，重布局的代价比重绘大，它涉及到使用当前的 DOM、CSS 的定义，重新计算页面的几何结构。</li>
-</ul>
-<h3 id="优化措施"><a href="#优化措施" class="headerlink" title="优化措施"></a>优化措施</h3><p> 最少次数的更新 DOM</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">table</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'one append, one dom cost'</span>)</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">		$(<span class="string">"#main table"</span>).append(<span class="string">"&lt;tr&gt;&lt;td&gt;append to row: &lt;/td&gt;&lt;td&gt;"</span> + i + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'one append, one dom cost'</span>);</div><div class="line">	<span class="comment">// =&gt; one append, one dom cost: 4952.122ms </span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">console</span>.time(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="keyword">var</span> tableRows = <span class="string">""</span>;</div><div class="line">	<span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ ) &#123;</div><div class="line">		tableRows += <span class="string">"&lt;tr&gt;&lt;td&gt;accumulate and append, now is at :&lt;/td&gt;&lt;td&gt;"</span>+ i +<span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span>;</div><div class="line">	&#125;</div><div class="line">    $(<span class="string">"#main table"</span>).append(tableRows);</div><div class="line">	<span class="built_in">console</span>.timeEnd(<span class="string">'accumulate and append cost'</span>);</div><div class="line">	<span class="comment">// =&gt; accumulate and append cost: 117.491ms</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>采用一次想操作 dom 的方法比每次都操作 dom 快了 42 倍。<br><img src="./images/codesnip_20141229215927.png" alt="显著对比"></p>
-<h2 id="JS-方面"><a href="#JS-方面" class="headerlink" title="JS 方面"></a>JS 方面</h2><h3 id="缓存计算值"><a href="#缓存计算值" class="headerlink" title="缓存计算值"></a>缓存计算值</h3><h3 id="恰当的适用循环"><a href="#恰当的适用循环" class="headerlink" title="恰当的适用循环"></a>恰当的适用循环</h3><ul>
-<li>for (最快的)</li>
-<li>$.each(item)</li>
-<li><p>Array.forEach(item,index)</p>
-<p>  后两种采用回调的方式，涉及到准备执行上下文,进栈出栈的操作，并且由于所有的操作都在函数进行， 当引用了外部作用域的变量，循环体中的代码会反复的在作用链中向上查找。传统的 for 循环在包含它的上下文中执行，没有创建新的执行上下文的负担，同时循环外的变量依然保持在当前作用域中，省去了作用域的向上查找。 </p>
+		<p>#开发环境</p>
+<p>##一. neat</p>
+<p>###gulp 的使用</p>
+<ol>
+<li><p><strong>gulp </strong> 需要自己去安装, <code>npm install gulp</code>, 然后 gulpfile.js 文件放入根目录.</p>
 </li>
-</ul>
-<h2 id="CSS-方面"><a href="#CSS-方面" class="headerlink" title="CSS 方面"></a>CSS 方面</h2><h3 id="高效的使用选择器"><a href="#高效的使用选择器" class="headerlink" title="高效的使用选择器"></a>高效的使用选择器</h3><ul>
-<li>解析引擎自右向左的计算每条规则</li>
-<li>尽可能的使用具体化的选择器，id 好于 tag</li>
-<li><p>避免不必要的冗余</p>
-<p>  无论哪种浏览器，适用 id 选择器或单个类选择器都是选择元素最快的方式。</p>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#id"</span>)</div><div class="line">$(<span class="string">".class"</span>)</div><div class="line"></div><div class="line"><span class="comment">//  以下为反模式</span></div><div class="line">$(<span class="string">"section div div div &gt; div #id"</span>)</div><div class="line">$(<span class="string">"section div div div &gt; div .class"</span>)</div><div class="line">$(<span class="string">"section div div div p:not('.class')"</span>)</div></pre></td></tr></table></figure>
-<p>适当的使用选择器上下文，如果上下文就是费了九牛加二虎的力气选出来的，不如不加</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".classname"</span>)</div><div class="line"></div><div class="line">$(<span class="string">".classname"</span>,<span class="string">"#id"</span>)  <span class="comment">// 添加一个简单明确的上下文比搜索整个 dom 快些</span></div></pre></td></tr></table></figure>
-<h2 id="HTTP-方向"><a href="#HTTP-方向" class="headerlink" title="HTTP 方向"></a>HTTP 方向</h2><ol>
-<li>cookie</li>
-<li>多域名</li>
+<li><p>安装模板</p>
+<pre><code>sudo neat install @ali/generator-apm
+</code></pre></li>
 </ol>
+<p>###yo 的使用</p>
+<p>在 neat.fdm 的根目录 </p>
+<pre><code>sudo tnpm install generator-polymer
+</code></pre><p>##二. apm</p>
+<p>是1688开发的<strong>组件</strong>平台, 推荐 <strong>commonjs</strong> 语法来写组件</p>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/2013-08-10-重布局和重绘/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/neat的使用/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -552,7 +553,7 @@
 	<!-- display as entry -->	
 		<h3 class="title">
 			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/neat的使用/" ></a></div>						
+			<div class="article-title"><a href="/2017/02/01/node_harmony/" ></a></div>						
 		</h3>
 	
 
@@ -561,25 +562,56 @@
   <div class="row">
 	
 	
-		<p>#开发环境</p>
-<p>##一. neat</p>
-<p>###gulp 的使用</p>
-<ol>
-<li><p><strong>gulp </strong> 需要自己去安装, <code>npm install gulp</code>, 然后 gulpfile.js 文件放入根目录.</p>
-</li>
-<li><p>安装模板</p>
-<pre><code>sudo neat install @ali/generator-apm
-</code></pre></li>
-</ol>
-<p>###yo 的使用</p>
-<p>在 neat.fdm 的根目录 </p>
-<pre><code>sudo tnpm install generator-polymer
-</code></pre><p>##二. apm</p>
-<p>是1688开发的<strong>组件</strong>平台, 推荐 <strong>commonjs</strong> 语法来写组件</p>
+		<p>#node harmony<br>They have done away with the –harmony flag - which in Node 0.11+ you had to include if you wanted to use any ES6 features at all. In io.js, you get them right out of the box! The current list of ES6 features enabled by default are:</p>
+<p>iojs 已经可以默认支持这些了。</p>
+<ul>
+<li>let</li>
+<li>const</li>
+<li>Map</li>
+<li>WeakMap/WeakSet</li>
+<li>Generators</li>
+<li>Binary and Octal literals, 二进制和八进制的字面量</li>
+<li>Promises</li>
+<li>Pro string method</li>
+<li>Symbols</li>
+<li>Template strings</li>
+</ul>
 
 	
 	</div>
-  <a type="button" href="/2017/02/01/neat的使用/#more" class="btn btn-default more">阅读此文</a>
+  <a type="button" href="/2017/02/01/node_harmony/#more" class="btn btn-default more">阅读此文</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-01 </div>
+			<div class="article-title"><a href="/2017/02/01/2013-10-06-利用github的api显示当前文章的历史记录/" >利用github的api显示当前文章的历史记录</a></div>						
+		</h3>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>利用github放blog也有一段时间了，一直想做一个小功能，就是展示某个文章的历史纪录，简单来说就是<code>git log 某个文章</code></p>
+<h2 id="两种思路"><a href="#两种思路" class="headerlink" title="两种思路"></a>两种思路</h2><ul>
+<li>写一个jekyll的插件</li>
+<li>js利用github的api</li>
+</ul>
+<h3 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h3><p>由于github上的jekyll生成网站时是不允许使用的自定义插件的，这个思路暂时忽略。事实上，可以在本地生成静态网站，然后上传到github上，直接使用<code>gh-pages</code>分支来展示，因为不太想重新建一个repo，这个思路暂时忽略吧。</p>
+<h3 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h3><p>利用github的<a href="http://developer.github.com/v3/repos/commits/" target="_blank" rel="external">commits api</a>，比如一个文章的commits可以用下面的请求获取, 指定<code>path</code>参数就可以获取特定文件的提交纪录。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$.getJSON(<span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path=_posts%2F2013-07-29-lion%E4%B8%8B%E7%9A%84safari6%E5%AF%B9%E7%BA%AF%E6%95%B0%E5%AD%97%E4%BD%BF%E7%94%A8toString%E6%8A%A5%E9%94%99.md'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;)</div></pre></td></tr></table></figure>
+<p>返回的数据格式是一个数组，在每个文章页面加上下面一个id为history的div，然后通过下面的js渲染出对应html，展示效果见每个文章的下方</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取脚本函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadJs</span>(<span class="params">src, callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> doc = <span class="built_in">document</span>;</div><div class="line">    <span class="keyword">var</span> head = doc.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>];</div><div class="line">    <span class="keyword">var</span> script = doc.createElement(<span class="string">'script'</span>);</div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line"></div><div class="line">    script.onreadystatechange = script.onload = script.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(script.readyState)) &#123;</div><div class="line">            callback();</div><div class="line">            script.onload = script.onerror = script.onreadystatechange = <span class="literal">null</span>;</div><div class="line">            script = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    script.src = src;</div><div class="line">    script.async = <span class="literal">true</span>;</div><div class="line"></div><div class="line">    head.insertBefore(script, head.firstChild);</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadJs(<span class="string">'/js/jquery-1.7.2.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    loadJs(<span class="string">'/js/md5.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//取到文章的路径，追加到请求地址上</span></div><div class="line">        <span class="comment">//可以通过&#123;&#123;page.path&#125;&#125;来取到</span></div><div class="line">        <span class="keyword">var</span> articlePath =<span class="string">'&#123;&#123;page.path&#125;&#125;'</span></div><div class="line">        <span class="keyword">var</span> api = <span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path='</span></div><div class="line">        <span class="keyword">var</span> tmpl = <span class="string">'&lt;div class="article"&gt;\</span></div><div class="line">                        &lt;span class="datetime"&gt;&#123;date&#125;&lt;/span&gt;\</div><div class="line">                        &lt;span&gt;\</div><div class="line">                            &lt;image src="&#123;src&#125;" title="&#123;author&#125;"&gt;\</div><div class="line">                            &#123;message&#125;\</div><div class="line">                        &lt;/span&gt;\</div><div class="line">                    &lt;/div&gt;'</div><div class="line">            <span class="keyword">var</span> gravstarurl = <span class="string">'https://1.gravatar.com/avatar/&#123;md5hash&#125;?s=16'</span>; </div><div class="line">            $.getJSON(api + articlePath,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">                <span class="keyword">if</span>( data.length == <span class="number">0</span> )&#123;</div><div class="line">                    $(<span class="string">'#history'</span>).html(<span class="string">'暂无历史纪录 :)'</span>);</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">var</span> history = <span class="string">''</span>;</div><div class="line">            $.each(data, <span class="function"><span class="keyword">function</span>(<span class="params">i, v</span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> avatar = gravstarurl.replace(<span class="string">'&#123;md5hash&#125;'</span>, md5(v.commit.author.email));</div><div class="line">                history += tmpl.replace(<span class="string">'&#123;src&#125;'</span>, avatar)</div><div class="line">                               .replace(<span class="string">'&#123;date&#125;'</span>, v.commit.author.date.replace(<span class="regexp">/T.*Z/</span>,<span class="string">''</span>))</div><div class="line">                               .replace(<span class="string">'&#123;message&#125;'</span>, v.commit.message);</div><div class="line">                &#125;);</div><div class="line"></div><div class="line">            $(<span class="string">'#history'</span>).html(history);</div><div class="line">        &#125;)</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>详细的文件可以查看<a href="https://github.com/jserme/jserme.github.io/blob/master/_layouts/post.html#L41" target="_blank" rel="external">这里</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/02/01/2013-10-06-利用github的api显示当前文章的历史记录/#more" class="btn btn-default more">阅读此文</a>
 </div>
 
 		
@@ -850,38 +882,6 @@
 </div>
 
 		
-			
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2017-02-01 </div>
-			<div class="article-title"><a href="/2017/02/01/2013-10-06-利用github的api显示当前文章的历史记录/" >利用github的api显示当前文章的历史记录</a></div>						
-		</h3>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>利用github放blog也有一段时间了，一直想做一个小功能，就是展示某个文章的历史纪录，简单来说就是<code>git log 某个文章</code></p>
-<h2 id="两种思路"><a href="#两种思路" class="headerlink" title="两种思路"></a>两种思路</h2><ul>
-<li>写一个jekyll的插件</li>
-<li>js利用github的api</li>
-</ul>
-<h3 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h3><p>由于github上的jekyll生成网站时是不允许使用的自定义插件的，这个思路暂时忽略。事实上，可以在本地生成静态网站，然后上传到github上，直接使用<code>gh-pages</code>分支来展示，因为不太想重新建一个repo，这个思路暂时忽略吧。</p>
-<h3 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h3><p>利用github的<a href="http://developer.github.com/v3/repos/commits/" target="_blank" rel="external">commits api</a>，比如一个文章的commits可以用下面的请求获取, 指定<code>path</code>参数就可以获取特定文件的提交纪录。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$.getJSON(<span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path=_posts%2F2013-07-29-lion%E4%B8%8B%E7%9A%84safari6%E5%AF%B9%E7%BA%AF%E6%95%B0%E5%AD%97%E4%BD%BF%E7%94%A8toString%E6%8A%A5%E9%94%99.md'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;)</div></pre></td></tr></table></figure>
-<p>返回的数据格式是一个数组，在每个文章页面加上下面一个id为history的div，然后通过下面的js渲染出对应html，展示效果见每个文章的下方</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取脚本函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadJs</span>(<span class="params">src, callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> doc = <span class="built_in">document</span>;</div><div class="line">    <span class="keyword">var</span> head = doc.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>];</div><div class="line">    <span class="keyword">var</span> script = doc.createElement(<span class="string">'script'</span>);</div><div class="line">    <span class="keyword">var</span> re = <span class="regexp">/^(?:loaded|complete|undefined)$/</span>;</div><div class="line"></div><div class="line">    script.onreadystatechange = script.onload = script.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (re.test(script.readyState)) &#123;</div><div class="line">            callback();</div><div class="line">            script.onload = script.onerror = script.onreadystatechange = <span class="literal">null</span>;</div><div class="line">            script = <span class="literal">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    script.src = src;</div><div class="line">    script.async = <span class="literal">true</span>;</div><div class="line"></div><div class="line">    head.insertBefore(script, head.firstChild);</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadJs(<span class="string">'/js/jquery-1.7.2.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    loadJs(<span class="string">'/js/md5.min.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//取到文章的路径，追加到请求地址上</span></div><div class="line">        <span class="comment">//可以通过&#123;&#123;page.path&#125;&#125;来取到</span></div><div class="line">        <span class="keyword">var</span> articlePath =<span class="string">'&#123;&#123;page.path&#125;&#125;'</span></div><div class="line">        <span class="keyword">var</span> api = <span class="string">'https://api.github.com/repos/jserme/jserme.github.io/commits?path='</span></div><div class="line">        <span class="keyword">var</span> tmpl = <span class="string">'&lt;div class="article"&gt;\</span></div><div class="line">                        &lt;span class="datetime"&gt;&#123;date&#125;&lt;/span&gt;\</div><div class="line">                        &lt;span&gt;\</div><div class="line">                            &lt;image src="&#123;src&#125;" title="&#123;author&#125;"&gt;\</div><div class="line">                            &#123;message&#125;\</div><div class="line">                        &lt;/span&gt;\</div><div class="line">                    &lt;/div&gt;'</div><div class="line">            <span class="keyword">var</span> gravstarurl = <span class="string">'https://1.gravatar.com/avatar/&#123;md5hash&#125;?s=16'</span>; </div><div class="line">            $.getJSON(api + articlePath,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">                <span class="keyword">if</span>( data.length == <span class="number">0</span> )&#123;</div><div class="line">                    $(<span class="string">'#history'</span>).html(<span class="string">'暂无历史纪录 :)'</span>);</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">var</span> history = <span class="string">''</span>;</div><div class="line">            $.each(data, <span class="function"><span class="keyword">function</span>(<span class="params">i, v</span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> avatar = gravstarurl.replace(<span class="string">'&#123;md5hash&#125;'</span>, md5(v.commit.author.email));</div><div class="line">                history += tmpl.replace(<span class="string">'&#123;src&#125;'</span>, avatar)</div><div class="line">                               .replace(<span class="string">'&#123;date&#125;'</span>, v.commit.author.date.replace(<span class="regexp">/T.*Z/</span>,<span class="string">''</span>))</div><div class="line">                               .replace(<span class="string">'&#123;message&#125;'</span>, v.commit.message);</div><div class="line">                &#125;);</div><div class="line"></div><div class="line">            $(<span class="string">'#history'</span>).html(history);</div><div class="line">        &#125;)</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>详细的文件可以查看<a href="https://github.com/jserme/jserme.github.io/blob/master/_layouts/post.html#L41" target="_blank" rel="external">这里</a></p>
-
-	
-	</div>
-  <a type="button" href="/2017/02/01/2013-10-06-利用github的api显示当前文章的历史记录/#more" class="btn btn-default more">阅读此文</a>
-</div>
-
-		
 
 		</div>
 
@@ -958,45 +958,45 @@
 		<h4>标签云</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/think/">think<span>1</span></a></li>
+			<li><a href="/tags/seajs/">seajs<span>1</span></a></li>
 		
 			<li><a href="/tags/http/">http<span>2</span></a></li>
 		
-			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
+			<li><a href="/tags/html/">html<span>2</span></a></li>
 		
-			<li><a href="/tags/vim/">vim<span>3</span></a></li>
-		
-			<li><a href="/tags/regexp/">regexp<span>6</span></a></li>
-		
-			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
-		
-			<li><a href="/tags/tools/">tools<span>2</span></a></li>
-		
-			<li><a href="/tags/hg/">hg<span>1</span></a></li>
-		
-			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
-		
-			<li><a href="/tags/css/">css<span>7</span></a></li>
-		
-			<li><a href="/tags/Injury/">Injury<span>2</span></a></li>
-		
-			<li><a href="/tags/dom-javascript/">dom,javascript<span>1</span></a></li>
+			<li><a href="/tags/mac/">mac<span>1</span></a></li>
 		
 			<li><a href="/tags/html5/">html5<span>1</span></a></li>
 		
-			<li><a href="/tags/test/">test<span>2</span></a></li>
+			<li><a href="/tags/think/">think<span>1</span></a></li>
 		
-			<li><a href="/tags/default/">default<span>1</span></a></li>
+			<li><a href="/tags/javascript/">javascript<span>9</span></a></li>
 		
-			<li><a href="/tags/framework/">framework<span>1</span></a></li>
-		
-			<li><a href="/tags/build/">build<span>2</span></a></li>
-		
-			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+			<li><a href="/tags/javascript-test/">javascript test<span>1</span></a></li>
 		
 			<li><a href="/tags/javascript-template/">javascript template<span>1</span></a></li>
 		
-			<li><a href="/tags/javascript-regexp/">javascript regexp<span>1</span></a></li>
+			<li><a href="/tags/css/">css<span>7</span></a></li>
+		
+			<li><a href="/tags/browser/">browser<span>3</span></a></li>
+		
+			<li><a href="/tags/webcomponent/">webcomponent<span>2</span></a></li>
+		
+			<li><a href="/tags/document/">document<span>1</span></a></li>
+		
+			<li><a href="/tags/build/">build<span>2</span></a></li>
+		
+			<li><a href="/tags/default/">default<span>1</span></a></li>
+		
+			<li><a href="/tags/jquery/">jquery<span>3</span></a></li>
+		
+			<li><a href="/tags/module/">module<span>2</span></a></li>
+		
+			<li><a href="/tags/database-linux/">database linux<span>1</span></a></li>
+		
+			<li><a href="/tags/w3c/">w3c<span>1</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>5</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>39</span></a></li>
@@ -1012,15 +1012,7 @@
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2017/02/01/2012-08-03-XMLHttpRequest发送put,delete请求/" ><i class="fa fa-file-o"></i>XMLHttpRequest发送put,delete请求</a>
-      </li>
-    
-      <li>
-        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
-      </li>
-    
-      <li>
-        <a href="/2017/02/01/2012-08-03-页面性能的几个评测点/" ><i class="fa fa-file-o"></i>页面性能的几个评测点</a>
+        <a href="/2017/02/01/2012-08-03-linux同步标准时间/" ><i class="fa fa-file-o"></i>linux同步标准时间</a>
       </li>
     
       <li>
@@ -1029,6 +1021,14 @@
     
       <li>
         <a href="/2017/02/01/消除函数的术语歧义/" ><i class="fa fa-file-o"></i></a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/01/设计模式简介/" ><i class="fa fa-file-o"></i></a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/01/代码质量的分类/" ><i class="fa fa-file-o"></i></a>
       </li>
     
   </ul>
